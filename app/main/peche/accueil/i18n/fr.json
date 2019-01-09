@@ -1,0 +1,10 @@
+{
+    "accueil": {
+      "parent": "Accueil",
+      "titre": "Bienvenue dans l'application web",
+      "mot_de_bienvenue":"",
+      "menu":{
+        "titre":"Acceuil"
+      }
+    }
+}

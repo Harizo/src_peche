@@ -1,0 +1,115 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Données de bases</span>
+                <span class="parent"> </span>
+                <span class="parent" href="javascript:;"> > District</span>
+            </div>
+
+            <div class="title">District</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <!-- LISTE TABLE -->
+    <div class="content"layout="column">
+      <div class="form-wrapper">
+          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
+              <md-tab label="{{vm.titrepage}}">
+                <div class="simple-table-container md-whiteframe-4dp">
+                  <md-tab-body>
+                    <form name="districtform" class="md-inline-form"  novalidate>
+                      <div layout="column" layout-gt-xs="row" flex>
+                        <input type="hidden" ng-model="vm.district.id"></input>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="code" ng-model="vm.district.code"
+                              placeholder="Code" ng-init="vm.district.code=''"
+                              required>
+                              <div ng-messages="districtform.code.$error"
+                                role="alert">
+                                <div ng-message="required">
+                                  <span>Code obligatoire.</span>
+                                </div>
+                              </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="nom" ng-model="vm.district.nom"
+                              placeholder="Nom " ng-init="vm.district.nom=''"
+                              required>
+                              <div ng-messages="districtform.nom.$error"
+                                role="alert">
+                                <div ng-message="required">
+                                  <span>Nom obligatoire.</span>
+                                </div>
+                              </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <label>Region</label>
+                            <md-select ng-model="vm.district.region_id" ng-change="vm.modifierregion(vm.district)">
+                              <md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
+                                {{region.nom}}
+                              </md-option>
+                            </md-select>
+                        </md-input-container>
+                      </div>
+                      <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                          ng-disabled="districtform.$invalid " ng-click="vm.ajout(vm.district,0)">
+                          Enregistrer
+                      </md-button>
+                      <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                        Annuler
+                      </md-button>
+                    </form>
+                  </md-tab-body>
+                </div>
+              </md-tab>
+            </md-tabs>
+      <div style="widht:100%;">    
+          <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+              Nouveau
+          </md-button>
+          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+              Modifier
+          </md-button>
+          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+              Supprimer
+          </md-button>
+        </div>  
+        <div style="clear:both;"></div>
+        <md-tabs md-dynamic-height>
+          <md-tab label="Liste District">
+              <table class="dataTable row-border hover" datatable="ng"
+                dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text" ng-repeat="di in ::vm.district_column">
+                      <div class="table-header">
+                          <span class="column-title">{{di.titre}}</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                  <tbody>
+                    <tr ng-repeat="district in vm.alldistrict"  ng-class="{selected: district.$selected}" ng-click="vm.selection(district)">
+                      <td>{{district.code}}</td>
+                      <td>{{district.nom}}</td>
+                      <td>{{district.region_nom}}</td>
+                    </tr>
+                  </tbody>
+              </table>
+            </md-tab>
+          </md-tabs>
+    <!-- / LISTE TABLE -->
+
+    <!-- BASIC FORM -->
+
+      <!-- / BASIC FORM -->
+      </div>
+    </div>
+<!-- / CONTENT -->
+
+  </div>

@@ -1,0 +1,10 @@
+{
+    "accueil": {
+      "parent": "Fandraisana",
+      "titre": "Tonga soa eto amin'ny rindrambaiko",
+      "mot_de_bienvenue":"",
+      "menu":{
+        "titre":"Fandraisana"
+      }
+    }
+}

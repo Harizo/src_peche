@@ -1,0 +1,17 @@
+{
+    "FORGOTPASSWORD": {
+        "TITLE": "Réinitialisation de mot de passe",
+        "EMAIL_ADRESS": "Votre courriel",
+        "SEND_RESET_LINK": "Envoyer",
+        "GO_BACK": "Se connecter",
+        "ERRORS": {
+            "EMAIL_REQUIRED": "Courriel obligatoire!",
+            "EMAIL_MUST_VALID": "Courriel invalide!",
+            "EMAIL_NOT_EXIST": "Courriel inexistant"
+        },
+        "loading":{
+          "titre": "Mot de passe oublié",
+          "msg": " <img src='assets/images/load/load.gif'> &nbsp; veuillez consulter votre courriel à la fin du chargement!  Merci."
+        }
+    }
+}

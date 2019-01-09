@@ -1,0 +1,10 @@
+{
+    "accueil": {
+      "parent": "Home",
+      "titre": "Welcome",
+      "mot_de_bienvenue":"Welcome",
+      "menu":{
+        "titre":"Home"
+      }
+    }
+}

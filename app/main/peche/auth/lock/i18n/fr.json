@@ -1,0 +1,18 @@
+{
+    "LOCK": {
+        "TITLE": "Votre compte n'est pas activé!",
+        "SUBTITLE": "ce compte n'est pas active ou a été fermé. Enter votre mot de passe pour continuer.",
+        "USERNAME": "Identifiant",
+        "PASSWORD": "Mot de passe",
+        "UNLOCK": "Activer",
+        "ARE_YOU_NOT": "vous n'êtes pas ",
+        "ERRORS": {
+            "PASSWORD_REQUIRED": "Mot de passe obligatoire",
+            "MDP_NOT_EXIST": "Mot de passe incorrect"
+        },
+        "loading":{
+          "titre": "Activation de compte",
+          "msg": " <img src='assets/images/load/load.gif'> &nbsp; Envoie mail d'activation en cours, Merci."
+        }
+    }
+}

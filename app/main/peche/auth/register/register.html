@@ -1,0 +1,102 @@
+<div id="register" class="flex-scrollable" layout="column" ms-scroll>
+    <div id="register-form-wrapper" layout="column" layout-align="center center">
+        <div id="register-form" class="md-whiteframe-8dp">
+            <div class="logo">
+                <span><img src="logo1.png"></span>
+            </div>
+
+            <div class="title" translate="REGISTER.TITLE">Create an account</div>
+
+            <form name="registerForm" novalidate>
+
+
+                <md-input-container class="md-block" md-no-float>
+                    <input type="text" name="firstname" ng-model="vm.registerForm.firstname"
+                           placeholder="Firstname" translate translate-attr-placeholder="REGISTER.firstname"
+                           required>
+                    <div ng-messages="registerForm.firstname.$error"
+                         role="alert">
+                        <div ng-message="required">
+                            <span translate="REGISTER.ERRORS.USERNAME_REQUIRED">Firstname field is required.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" md-no-float>
+                    <input type="text" name="lastname" ng-model="vm.registerForm.lastname"
+                           placeholder="Lastname"  translate translate-attr-placeholder="REGISTER.lastname"
+                           required>
+                    <div ng-messages="registerForm.lastname.$error"
+                         role="alert">
+                        <div ng-message="required">
+                            <span translate="REGISTER.ERRORS.USERNAME_REQUIRED">Lastname field is required.</span>
+                        </div>
+                    </div>
+                </md-input-container>
+
+
+                <md-input-container class="md-block" md-no-float>
+                    <input type="email" name="email" ng-model="vm.registerForm.email"
+                           placeholder="Email"  translate translate-attr-placeholder="REGISTER.email"
+                           ng-pattern="/^.+@.+\..+$/" required>
+                    <div ng-messages="registerForm.email.$error" role="alert" multiple>
+                        <div ng-message="required">
+                            <span translate="REGISTER.ERRORS.EMAIL_REQUIRED">Email field is required</span>
+                        </div>
+                        <div ng-message="pattern">
+                            <span translate="REGISTER.ERRORS.EMAIL_MUST_VALID">Email must be a valid e-mail address</span>
+                        </div>
+                    </div>
+                </md-input-container>
+
+
+                
+
+                <md-input-container class="md-block" md-no-float>
+                    <input type="password" name="password" ng-model="vm.registerForm.password" placeholder="Mot de passe"
+                           required>
+                    <div ng-messages="registerForm.password.$error" role="alert">
+                        <div ng-message="required">
+                            <span translate="REGISTER.ERRORS.PASSWORD_REQUIRED">Password field is required</span>
+                        </div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" md-no-float>
+                    <input type="password" name="password_verif" ng-model="vm.registerForm.password_verif" placeholder="Confirmation de mot de passe"
+                           required>
+                    <div ng-messages="registerForm.password_verif.$error" role="alert">
+                        <div ng-message="required">
+                            <span translate="REGISTER.ERRORS.PASSWORD_VERIF">Password field is required</span>
+                        </div>
+                        <div ng-if="vm.registerForm.password!=vm.registerForm.password_verif">
+                            <span>Vérifier votre saisie</span>
+                        </div>
+                    </div>
+                </md-input-container>
+
+
+                <div class="terms" layout="row" layout-align="center center">
+                    <md-checkbox name="terms" ng-model="data.cb1" aria-label="I read and accept" required></md-checkbox>
+                    <div layout="row" layout-sm="column" layout-align="start center">
+                        <span translate="REGISTER.READ_ACCEPT">I read and accept</span>
+                        <a href="#" class="md-accent-color" translate="REGISTER.TERMS_COND">terms and conditions</a>
+                    </div>
+                </div>
+
+                <md-button type="submit" class="md-raised md-accent submit-button" aria-label="CREATE MY ACCOUNT"
+                           ng-disabled="registerForm.$invalid || registerForm.$pristine || (vm.registerForm.password!=vm.registerForm.password_verif)"
+                           translate="REGISTER.CREATE_ACCOUNT"
+                           translate-attr-aria-label="REGISTER.CREATE_ACCOUNT"
+                           ng-click="vm.enregistrer(vm.registerForm)">
+                    CREATE MY ACCOUNT
+                </md-button>
+            </form>
+
+            <div class="registerForm" layout="row" layout-sm="column" layout-align="center center">
+                <span class="text" translate="REGISTER.ALREADY_HAVE">Already have an account?</span>
+                <a class="link" ui-sref="app.ifvm_auth_login" translate="REGISTER.LOGIN">Log in </a>
+            </div>
+        </div>
+    </div>
+</div>

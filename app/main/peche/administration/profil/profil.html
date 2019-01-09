@@ -1,0 +1,130 @@
+  <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Administration</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent"  > Utilisateurs</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" > Profil</span>
+            </div>
+
+            <div class="title">Mon compte</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+            <!-- LISTE TABLE -->
+    <div class="content"layout="column">
+        <div class="form-wrapper">
+            <!-- BASIC FORM -->
+       
+            <md-tabs md-dynamic-height >
+              <md-tab label="Information">
+                <md-tab-body>
+                  <form name="profil_user_form" class="md-inline-form"  novalidate>
+                    <div layout="column" layout-gt-xs="row" flex>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="nom" ng-model="vm.profil.nom"
+                            placeholder="Nom" ng-init="vm.profil.nom=''"
+                            required>
+                            <div ng-messages="profil_user_form.nom.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Nom obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="prenom" ng-model="vm.profil.prenom"
+                            placeholder="Prénom " ng-init="vm.profil.prenom=''"
+                            required>
+                            <div ng-messages="profil_user_form.prenom.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Prénom obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
+                      </div>
+
+                      <div layout="column" layout-gt-xs="row" flex>
+                        <!--md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="cin" ng-model="vm.profil.cin"
+                            placeholder="CIN" ng-init="vm.profil.cin=''"
+                            required>
+                            <div ng-messages="profil_user_form.cin.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>CIN obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container-->
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="email" name="email" ng-model="vm.profil.email"
+                            placeholder="Email " ng-init="vm.profil.email=''" ng-pattern="/^.+@.+\..+$/"
+                            required>
+                            <div ng-messages="profil_user_form.email.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Email obligatoire.</span>
+                              </div>
+
+                              <div ng-message="pattern">
+                                <span>Email invalide.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
+                      </div>
+
+                      <div layout="column" layout-gt-xs="row" flex>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="password" name="mdp" ng-model="vm.profil.mdp"
+                            placeholder="Mot de passe" ng-init="vm.profil.mdp=''"
+                            required>
+                            <div ng-messages="profil_user_form.mdp.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Mot de passe obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="password" name="mdp_confirmation" ng-model="vm.profil.mdp_confirmation"
+                            placeholder="Confirmation mot de passe " ng-init="vm.profil.mdp_confirmation=''"
+                            required>
+                            <div ng-messages="profil_user_form.mdp_confirmation.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Confirmation mot de passe obligatoire.</span>
+                              </div>
+                              <div ng-if="(vm.profil.mdp!=vm.profil.mdp_confirmation)&&(vm.profil.mdp_confirmation)">
+                                <span style="font-size: 12px;">Vérifier votre mot de passe!</span>
+                              </div>
+                            </div>
+                        </md-input-container>
+                      </div>
+
+                      <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                          ng-disabled="(profil_user_form.$invalid)||(vm.profil.mdp!=vm.profil.mdp_confirmation)" ng-click="vm.ajout(vm.profil,0)">
+                          Mettre à jour
+                      </md-button>
+                      <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="uploadFile()">
+                          Annuler
+                      </md-button>
+                  </form>
+                </md-tab-body>
+              </md-tab>
+            </md-tabs>
+            <!--  BASIC FORM -->
+
+        </div>
+    </div>
+
+    <!-- / CONTENT -->
+
+  </div>

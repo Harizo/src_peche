@@ -1,0 +1,144 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Données de bases</span>
+                <span class="parent"> </span>
+                <span class="parent" href="javascript:;">  Fokontany</span>
+            </div>
+
+            <div class="title">Fokontany</div>
+        </div>
+    </div>
+    <div class="content"layout="column">
+		<div class="form-wrapper">
+			<div style="widht:100%;">    
+				<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+					Nouveau
+				</md-button>
+				<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+					Modifier
+				</md-button>
+				<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+					Supprimer
+				</md-button>
+			</div>  
+			<div style="clear:both;"></div>
+			<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
+				<md-tab label="Ajout Fokontany">
+					<div class="simple-table-container md-whiteframe-4dp">
+					<md-tab-body>
+						<div layout="column" layout-gt-xs="row" flex>
+							<md-input-container flex="100" flex-gt-xs="20">
+								<label>Filtre fokontany par REGION et/ou DISTRICT</label>
+							</md-input-container>
+							<md-input-container flex="100" flex-gt-xs="20">
+								<label>Région</label>
+								<md-select  ng-model="vm.id_region" ng-change="vm.modifierFiltreCommune()">
+									<md-option value="">&nbsp;</md-option>
+									<md-option ng-repeat="reg in vm.allregion" value='{{reg.id}}'>
+										{{reg.nom}}
+									</md-option>
+								</md-select>
+							</md-input-container>
+							<md-input-container flex="100" flex-gt-xs="20">
+								<label>District</label>
+								<md-select ng-model="vm.id_district" ng-change="vm.modifierFiltreCommune()">
+									<md-option value="">&nbsp;</md-option>
+									<md-option ng-repeat="dis in vm.listedistrict" value='{{dis.id}}'>
+										{{dis.nom}} - {{dis.region.nom}}
+									</md-option>
+								</md-select>
+							</md-input-container>
+							<!--md-input-container flex="100" flex-gt-xs="20">
+								<label>Commune</label>
+								<md-select ng-model="vm.id_commune" ng-change="vm.modifierFiltreCommune()">
+									<md-option value="">&nbsp;</md-option>
+									<md-option ng-repeat="com in vm.listecommune" value='{{com.id}}'>
+										{{com.nom}} - {{com.district.nom}}
+									</md-option>
+								</md-select>
+							</md-input-container-->
+							
+						</div>
+						<form name="fokontanyform" class="md-inline-form"  novalidate>
+							<div layout="column" layout-gt-xs="row" flex>
+								<input type="hidden" ng-model="vm.fokontany.id"></input>
+								<md-input-container flex="100" flex-gt-xs="33">
+									<input readonly type="text" name="code" ng-model="vm.fokontany.code"
+										placeholder="Code" ng-init="vm.fokontany.code=''"
+									required>
+									<div ng-messages="fokontanyform.code.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Code obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33">
+									<input type="text" name="nom" ng-model="vm.fokontany.nom"
+									placeholder="Nom " ng-init="vm.fokontany.nom=''"
+									required>
+									<div ng-messages="fokontanyform.nom.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Nom obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="25">
+									<label>Commune</label>
+									<md-select name="id_commune" ng-model="vm.fokontany.id_commune" ng-init="vm.fokontany.id_commune=''" ng-change="vm.modifierCommune(vm.fokontany)" required>
+										<md-option ng-repeat="co in vm.listecommune" value='{{co.id}}'>
+											{{co.nom}} ({{co.nomdistrict}})
+										</md-option>
+									</md-select>
+									<div ng-messages="id_commune.$error" role="alert">
+										<div ng-message="required">
+											<span>Commune obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+							</div>
+							<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+								ng-disabled="fokontanyform.$invalid " ng-click="vm.ajout(vm.fokontany,0)">
+								Enregistrer
+							</md-button>
+							<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+								Annuler
+							</md-button>
+						</form>
+					</md-tab-body>
+					</div>
+				<!-- / BASIC FORM -->
+				</md-tab>
+			</md-tabs>
+			<div style="clear:both;"></div>
+			<md-tabs md-dynamic-height>
+				<md-tab label="Liste Fokontany">
+					<table class="dataTable row-border hover" datatable="ng"
+						dt-options="vm.dtOptions">
+						<thead>
+							<tr>
+								<th class="secondary-text" ng-repeat="fkt in ::vm.fokontany_column">
+									<div class="table-header">
+										<span class="column-title">{{fkt.titre}}</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="fokontany in vm.allfokontany"  ng-class="{selected: fokontany.$selected}" ng-click="vm.selection(fokontany)">
+								<td>{{fokontany.code}}</td>
+								<td>{{fokontany.nom}}</td>
+								<td>{{fokontany.commune[0].nom}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-tab>
+			</md-tabs>
+		</div>
+    </div>
+</div>

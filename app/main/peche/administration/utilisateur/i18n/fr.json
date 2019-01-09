@@ -1,0 +1,41 @@
+{
+    "REGISTER": {
+        "TITLE": "Création de compte",
+        "firstname": "Nom",
+        "lastname": "Prénom",
+        "telephone": "Téléphone",
+        "email": "Courriel",
+        "fonction": "Fonction",
+        "cin": "CIN",
+        "site": "Sites",
+        "NAME": "Nom",
+        "EMAIL": "Email",
+        "PASSWORD": "Mot de passe",
+        "PASSWORD_CONFIRM": "Mot de passe(confirmation)",
+        "EXACTITUDE_INFO": "Je certifie sur l’honneur l’exactitude et la sincérité de la présente ",
+        "SUR": "déclaration",
+        "READ_ACCEPT": "Je lis et je l'accepte",
+        "TERMS_COND": "termes et conditions",
+        "CREATE_ACCOUNT": "Créer mon compte",
+        "ALREADY_HAVE": "Vous avez déjà un compte?",
+        "LOGIN": "Se connecter",
+        "ERRORS": {
+            "USERNAME_REQUIRED": "Username field is required",
+            "EMAIL_REQUIRED": "Email field is required",
+            "EMAIL_MUST_VALID": "Email must be a valid e-mail address",
+            "PASSWORD_REQUIRED": "Password field is required",
+            "PASSWORD_CONFIRM_REQUIRED": "Password confirm field is required",
+            "TERMS_REQUIRED": "You must accept terms and conditions before submitting the form"
+        },
+        "error":{
+          "titre": "Création de compte Message",
+          "msg": "ce CIN existe déjà, veuillez le changer svp! Merci.",
+          "quitter": "Quitter"
+        },
+        "ok":{
+          "titre": "Création de compte Message",
+          "msg": "Votre compte à été créer avec success! Merci.",
+          "quitter": "Quitter"
+        }
+    }
+}
