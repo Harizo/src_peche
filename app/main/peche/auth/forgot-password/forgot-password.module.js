@@ -10,14 +10,14 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.population_auth_forgot-password', {
+        $stateProvider.state('app.peche_auth_forgot-password', {
             url      : '/auth/forgot-password',
             views    : {
                 'main@'                                 : {
                     templateUrl: 'app/core/layouts/content-only.html',
                     controller : 'MainController as vm'
                 },
-                'content@app.population_auth_forgot-password': {
+                'content@app.peche_auth_forgot-password': {
                     templateUrl: 'app/main/peche/auth/forgot-password/forgot-password.html',
                     controller : 'ForgotPasswordController as vm'
                 }

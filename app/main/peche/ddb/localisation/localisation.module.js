@@ -8,6 +8,7 @@
             'app.peche.ddb.localisation.commune',
             'app.peche.ddb.localisation.district',
             'app.peche.ddb.localisation.region'
+
         ])
         .config(config);
 

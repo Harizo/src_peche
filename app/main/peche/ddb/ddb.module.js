@@ -5,7 +5,8 @@
     angular
         .module('app.peche.ddb', [
 			
-            'app.peche.ddb.localisation'
+            'app.peche.ddb.localisation', 
+            'app.peche.ddb.type_engin'
             ])
         .run(testPermission)
         .config(config);

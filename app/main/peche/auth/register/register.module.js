@@ -10,14 +10,14 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.population_auth_register', {
+        $stateProvider.state('app.peche_auth_register', {
             url      : '/auth/register',
             views    : {
                 'main@'                          : {
                     templateUrl: 'app/core/layouts/content-only.html',
                     controller : 'MainController as vm'
                 },
-                'content@app.population_auth_register': {
+                'content@app.peche_auth_register': {
                     templateUrl: 'app/main/peche/auth/register/register.html',
                     controller : 'RegisterController as vm'
                 }

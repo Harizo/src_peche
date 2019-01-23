@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.population.auth.forgot-password')
+        .module('app.peche.auth.forgot-password')
         .controller('ForgotPasswordController', ForgotPasswordController);
 
     /** @ngInject */
