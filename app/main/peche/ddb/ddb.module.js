@@ -7,7 +7,8 @@
 			
             'app.peche.ddb.localisation', 
             'app.peche.ddb.type_engin',
-            'app.peche.ddb.data_collect'
+            'app.peche.ddb.data_collect',
+            'app.peche.ddb.type_canoe'
             ])
         .run(testPermission)
         .config(config);
