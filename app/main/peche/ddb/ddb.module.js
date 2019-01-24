@@ -6,7 +6,8 @@
         .module('app.peche.ddb', [
 			
             'app.peche.ddb.localisation', 
-            'app.peche.ddb.type_engin'
+            'app.peche.ddb.type_engin',
+            'app.peche.ddb.data_collect'
             ])
         .run(testPermission)
         .config(config);
@@ -25,6 +26,13 @@
             }*/
         });
 
+// Navigation
+        msNavigationServiceProvider.saveItem('peche.ddb.data_collect', {
+            title: 'data_collect',
+            icon  : 'icon-library-books',
+            state: 'app.population_ddb_data_collect',
+            weight: 1
+        });
 
     }
 
