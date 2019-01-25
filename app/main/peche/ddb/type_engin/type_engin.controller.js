@@ -8,7 +8,7 @@
     /** @ngInject */
     function Type_enginController($mdDialog, $scope, apiFactory, $state)  {
 		var vm = this;
-		/*vm.ajout = ajout ;
+		vm.ajout = ajout ;
 		var NouvelItem=false;
 		var currentItem;
 		vm.selectedItem = {} ;
@@ -25,7 +25,8 @@
 			responsive: true
 		};
 		//col table
-		vm.type_engin_column = [{titre:"Code"},{titre:"Nom"},{titre:"superficie(km2)"}];
+    vm.table=1;
+		vm.type_engin_column = [{titre:"Code"},{titre:"libelle"}];
 		apiFactory.getAll("type_engin/index").then(function(result) {
 			vm.alltype_engin = result.data.response;    
 		});
@@ -51,21 +52,21 @@
                 supprimer:suppression,
                 id:getId,      
                 code: type_engin.code,
-                nom: type_engin.nom,
-                surface:type_engin.surface,               
+                libelle: type_engin.libelle,
+                              
             });
             //factory
             apiFactory.add("type_engin/index",datas, config).success(function (data) {
 				if (NouvelItem == false) {
                     // Update or delete: id exclu                 
                     if(suppression==0) {
-						vm.selectedItem.nom = vm.type_engin.nom;
+						vm.selectedItem.libelle = vm.type_engin.libelle;
 						vm.selectedItem.code = vm.type_engin.code;
-						vm.selectedItem.surface = vm.type_engin.surface;
 						vm.afficherboutonModifSupr = 0 ;
 						vm.afficherboutonnouveau = 1 ;
 						vm.selectedItem.$selected = false;
 						vm.selectedItem ={};
+            vm.table=1;
                     } else {    
 						vm.alltype_engin = vm.alltype_engin.filter(function(obj) {
 							return obj.id !== currentItem.id;
@@ -73,10 +74,9 @@
                     }
 				}  else {
                     var item = {
-                        nom: type_engin.nom,
+                        libelle: type_engin.libelle,
                         code: type_engin.code,
                         id:String(data.response) ,
-                        surface:type_engin.surface 
                     };                
                     vm.alltype_engin.push(item);
                     vm.type_engin = {} ;                   
@@ -106,6 +106,7 @@
         vm.ajouter = function () {
 			vm.selectedItem.$selected = false;
 			vm.affichageMasque = 1 ;
+      vm.table=0;
 			vm.type_engin = {} ;
 			NouvelItem = true ;
         };
@@ -115,6 +116,7 @@
           vm.affichageMasque = 0 ;
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
+          vm.table=1;
           NouvelItem = false;
         };
         vm.modifier = function() {
@@ -122,12 +124,10 @@
           vm.affichageMasque = 1 ;
           vm.type_engin.id = vm.selectedItem.id ;
           vm.type_engin.code = vm.selectedItem.code ;
-          vm.type_engin.nom = vm.selectedItem.nom ;
-		  if(vm.selectedItem.surface) {
-			vm.type_engin.surface = parseInt(vm.selectedItem.surface) ;
-		  }
+          vm.type_engin.libelle = vm.selectedItem.libelle ;
           vm.afficherboutonModifSupr = 0;
-          vm.afficherboutonnouveau = 0;  
+          vm.afficherboutonnouveau = 0;
+          vm.table=0;  
         };
         vm.supprimer = function() {
           vm.affichageMasque = 0 ;
@@ -150,16 +150,15 @@
             if (suppression!=1) {
                 vm.alltype_engin.forEach(function(reg) {               
 					if (reg.id==item.id) {
-						// if((reg.nom!=item.nom) || (reg.code!=item.code) || (reg.surface!=item.surface)) {
 							insert_in_base(item,suppression);
 							vm.affichageMasque = 0 ;
-					/*	} else {
+						} else {
 							vm.affichageMasque = 0 ;
 						}
 					}
-                });
+                )
             }  else
               insert_in_base(item,suppression);
-        }*/
+        }
     }
 })();
