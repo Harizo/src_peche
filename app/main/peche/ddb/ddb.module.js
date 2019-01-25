@@ -7,7 +7,8 @@
 			
             'app.peche.ddb.localisation', 
             'app.peche.ddb.type_engin',
-            'app.peche.ddb.data_collect'
+            'app.peche.ddb.data_collect',
+            'app.peche.ddb.enqueteur'
             ])
         .run(testPermission)
         .config(config);
@@ -28,7 +29,7 @@
 
 // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.data_collect', {
-            title: 'data_collect',
+            title: 'Data collect',
             icon  : 'icon-library-books',
             state: 'app.population_ddb_data_collect',
             weight: 1
