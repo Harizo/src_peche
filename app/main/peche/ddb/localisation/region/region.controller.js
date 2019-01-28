@@ -25,10 +25,31 @@
 			responsive: true
 		};
 		//col table
-		vm.region_column = [{titre:"Code"},{titre:"Nom"},{titre:"superficie(km2)"}];
-		apiFactory.getAll("region/index").then(function(result) {
-			vm.allregion = result.data.response;    
-		});
+		vm.region_column = [{titre:"Code"},{titre:"Nom"},{titre:"Pays"}];		
+
+    apiFactory.getAll("pays/index").then(function(result)
+    {
+      vm.allpays = result.data.response;
+    });
+
+    apiFactory.getAll("region/index").then(function(result) {
+      vm.allregionss = result.data.response; 
+
+      for (var i = 0; i < vm.allregionss.length; i++) 
+          {
+            var item = {
+                    id: vm.allregionss[i].id,
+                    code: vm.allregionss[i].code,
+                    nom: vm.allregionss[i].nom,
+                    pays_id: vm.allregionss[i].pays_id,
+                    pays_nom: vm.allregionss[i].pays.nom                   
+                };
+                
+                vm.allregion.push(item);             
+          }
+
+
+    });
        function ajout(region,suppression) {
               if (NouvelItem==false) {
                 test_existance (region,suppression); 
@@ -52,8 +73,9 @@
                 id:getId,      
                 code: region.code,
                 nom: region.nom,
-                surface:region.surface,               
+                pays_id: region.pays_id               
             });
+            //console.log(region.pays_id);
             //factory
             apiFactory.add("region/index",datas, config).success(function (data) {
 				if (NouvelItem == false) {
@@ -61,7 +83,8 @@
                     if(suppression==0) {
 						vm.selectedItem.nom = vm.region.nom;
 						vm.selectedItem.code = vm.region.code;
-						vm.selectedItem.surface = vm.region.surface;
+						vm.selectedItem.pays_id = vm.region.pays_id;
+            vm.selectedItem.pays_nom = vm.region.pays_nom;
 						vm.afficherboutonModifSupr = 0 ;
 						vm.afficherboutonnouveau = 1 ;
 						vm.selectedItem.$selected = false;
@@ -76,10 +99,13 @@
                         nom: region.nom,
                         code: region.code,
                         id:String(data.response) ,
-                        surface:region.surface 
+                       pays_id: region.pays_id,
+                        pays_nom: region.pays_nom, 
                     };                
                     vm.allregion.push(item);
-                    vm.region = {} ;                   
+                    vm.region.code='';
+                    vm.region.nom='';
+                    vm.region.pays_id='';                
                     NouvelItem=false;
 				}
 					vm.affichageMasque = 0 ;
@@ -106,7 +132,9 @@
         vm.ajouter = function () {
 			vm.selectedItem.$selected = false;
 			vm.affichageMasque = 1 ;
-			vm.region = {} ;
+			vm.region.code='';
+      vm.region.nom='';
+      vm.region.pays_id='';
 			NouvelItem = true ;
         };
         vm.annuler = function() {
@@ -123,6 +151,14 @@
           vm.region.id = vm.selectedItem.id ;
           vm.region.code = vm.selectedItem.code ;
           vm.region.nom = vm.selectedItem.nom ;
+          vm.allpays.forEach(function(pay) {
+            if(pay.id==vm.selectedItem.pays_id) {
+              vm.region.pays_id = pay.id ;
+              vm.region.pays_nom = pay.nom ;
+            }
+          });
+
+
 		  if(vm.selectedItem.surface) {
 			vm.region.surface = parseInt(vm.selectedItem.surface) ;
 		  }
@@ -146,16 +182,27 @@
             //alert('rien');
           });
         };
+
+        vm.modifierpays = function (item) 
+        {
+          vm.allpays.forEach(function(pay) {
+              if(pay.id==item.pays_id) {
+                 item.pays_id = pay.id; 
+                 item.pays_nom = pay.nom;
+                 
+              }
+          });
+        }
         function test_existance (item,suppression) {          
             if (suppression!=1) {
                 vm.allregion.forEach(function(reg) {               
 					if (reg.id==item.id) {
-						// if((reg.nom!=item.nom) || (reg.code!=item.code) || (reg.surface!=item.surface)) {
+						 if((reg.nom!=item.nom) || (reg.code!=item.code) || (dist.pays_id!=item.pays_id)) {
 							insert_in_base(item,suppression);
 							vm.affichageMasque = 0 ;
-					/*	} else {
+						} else {
 							vm.affichageMasque = 0 ;
-						}*/
+						}
 					}
                 });
             }  else

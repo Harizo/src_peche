@@ -155,7 +155,7 @@
                         region_id:enqueteur.region_id ,
                         region_nom:enqueteur.region_nom 
                     };
-                  
+                  console.log(enqueteur.region_nom);
                     vm.allenqueteur.push(item);
                     vm.enqueteur.prenom='';
                     vm.enqueteur.nom='';
