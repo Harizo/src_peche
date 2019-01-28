@@ -1,0 +1,111 @@
+  <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Données de bases</span>
+                
+                
+
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> Type canoe</span>
+            </div>
+
+            <div class="title">Type canoe</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+            <!-- LISTE TABLE -->
+    <div class="content"layout="column">
+    <div class="form-wrapper">
+    <div style="widht:100%;">    
+        <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+              Nouveau
+        </md-button>
+        <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+              Modifier
+        </md-button>
+        <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+              Supprimer
+        </md-button>
+    </div> 
+     <div style="clear:both;"></div> 
+     <!-- BASIC FORM --> 
+     <md-tabs  md-dynamic-height ng-show="vm.affichageMasque==1" >
+        <md-tab label="Ajout Type canoe">
+            <md-tab-body>
+              <form name="type_canoeform" class="md-inline-form" novalidate >
+                <div layout="column" layout-gt-xs="row">
+                  <input type="hidden" ng-model="vm.type_canoe.id">
+                    <md-input-container flex="100" flex-gt-xs="33">
+                      <input type="text" name="code" ng-model="vm.type_canoe.code"
+                        placeholder="Code" ng-init="vm.type_canoe.code=''"
+                        required>
+                        <div ng-messages="type_canoeform.code.$error"
+                          role="alert">
+                          <div ng-message="required">
+                            <span>Code obligatoire.</span>
+                          </div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container flex="100" flex-gt-xs="33">
+                      <input type="text" name="nom" ng-model="vm.type_canoe.nom"
+                        placeholder="type_canoe " ng-init="vm.type_canoe.nom=''"
+                        required>
+                        <div ng-messages="type_canoeform.nom.$error"
+                          role="alert">
+                          <div ng-message="required">
+                            <span>Nom obligatoire.</span>
+                          </div>
+                        </div>
+                    </md-input-container>
+
+                </div>
+                <div>
+                 <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                      ng-disabled="type_canoeform.$invalid" ng-click="vm.ajout(vm.type_canoe,0)">
+                      Enregistrer
+                </md-button>
+                <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                  Annuler
+                </md-button>
+                </div>
+              </form>
+            </md-tab-body>
+        </md-tab>
+    </md-tabs>
+    <!-- / BASIC FORM -->
+
+    <md-tabs md-dynamic-height ng-show="vm.table==1">
+        <md-tab label="Listes des Type de canoe">
+         <table class="dataTable row-border hover" datatable="ng"
+              dt-options="vm.dtOptions">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>CODE</th>
+              <th>NOM</th>
+            </tr>
+          </thead>
+            <tbody>
+                <tr ng-repeat="type_canoe in vm.alltype_canoe" ng-class="{selected: type_canoe.$selected}" ng-click="vm.selection(type_canoe)">
+                  <td>{{type_canoe.id}}</td>
+                  <td>{{type_canoe.code}}</td>
+                  <td>{{type_canoe.nom}}</td>
+                </tr>
+            </tbody>
+           
+          </table>
+        </md-tab>
+    </md-tabs>
+
+
+    </div>
+    </div>
+    <!-- / CONTENT -->
+  </div>
