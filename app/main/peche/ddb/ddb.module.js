@@ -9,7 +9,8 @@
             'app.peche.ddb.type_engin',
             'app.peche.ddb.data_collect',
             'app.peche.ddb.enqueteur',
-            'app.peche.ddb.site_embarquement'
+            'app.peche.ddb.site_embarquement',
+            'app.peche.ddb.fiche_echantillonnage_capture'
 
             ])
         .run(testPermission)
