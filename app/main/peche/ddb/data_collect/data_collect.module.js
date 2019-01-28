@@ -28,7 +28,7 @@
 
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.data_collect', {
-            title: 'data_collect',
+            title: 'Data collect',
             icon  : 'icon-library-books',
             state: 'app.population_ddb_data_collect',
 			weight: 1

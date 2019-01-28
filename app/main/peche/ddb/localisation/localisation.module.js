@@ -7,7 +7,8 @@
             'app.peche.ddb.localisation.fokontany',     
             'app.peche.ddb.localisation.commune',
             'app.peche.ddb.localisation.district',
-            'app.peche.ddb.localisation.region'
+            'app.peche.ddb.localisation.region',
+            'app.peche.ddb.localisation.pays'
 
         ])
         .config(config);
