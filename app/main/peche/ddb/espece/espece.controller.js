@@ -26,7 +26,7 @@
 		};
 		//col table
     vm.table=1;
-		vm.espece_column = [{titre:"Code"},{titre:"Nom_locale"},{titre:"Nom_scientifique"}];
+		vm.espece_column = [{titre:"Code"},{titre:"Nom_local"},{titre:"Nom_scientifique"}];
 		apiFactory.getAll("espece/index").then(function(result) {
 			vm.allespece = result.data.response;    
 		});
@@ -52,7 +52,7 @@
                 supprimer:suppression,
                 id:getId,      
                 code: espece.code,
-                nom_locale: espece.nom_locale,
+                nom_local: espece.nom_local,
                 nom_scientifique: espece.nom_scientifique,
                               
             });
@@ -61,14 +61,14 @@
 				if (NouvelItem == false) {
                     // Update or delete: id exclu                 
                     if(suppression==0) {
-						vm.selectedItem.nom_locale = vm.espece.nom_locale;
+						vm.selectedItem.nom_local = vm.espece.nom_local;
             vm.selectedItem.nom_scientifique= vm.espece.nom_scientifique;
 						vm.selectedItem.code = vm.espece.code;
 						vm.afficherboutonModifSupr = 0 ;
 						vm.afficherboutonnouveau = 1 ;
 						vm.selectedItem.$selected = false;
 						vm.selectedItem ={};
-            vm.table=1;
+            
                     } else {    
 						vm.allespece = vm.allespece.filter(function(obj) {
 							return obj.id !== currentItem.id;
@@ -76,8 +76,8 @@
                     }
 				}  else {
                     var item = {
-                        nom_locale: espece.nom_locale,
-                         nom_scientifique: espece.nom_scientifique,
+                        nom_local: espece.nom_local,
+                        nom_scientifique: espece.nom_scientifique,
                         code: espece.code,
                         id:String(data.response) ,
                     };                
@@ -86,6 +86,7 @@
                     NouvelItem=false;
 				}
 					vm.affichageMasque = 0 ;
+          vm.table=1;
                 }).error(function (data) {
                     alert('Error');
                 });                
@@ -127,7 +128,7 @@
           vm.affichageMasque = 1 ;
           vm.espece.id = vm.selectedItem.id ;
           vm.espece.code = vm.selectedItem.code ;
-          vm.espece.nom_locale = vm.selectedItem.nom_locale ;
+          vm.espece.nom_local = vm.selectedItem.nom_local ;
           vm.espece.nom_scientifique = vm.selectedItem.nom_scientifique ;
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0;

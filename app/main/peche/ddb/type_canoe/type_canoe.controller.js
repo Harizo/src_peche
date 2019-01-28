@@ -66,7 +66,7 @@
 						vm.afficherboutonnouveau = 1 ;
 						vm.selectedItem.$selected = false;
 						vm.selectedItem ={};
-            vm.table=1;
+            
                     } else {    
 						vm.alltype_canoe = vm.alltype_canoe.filter(function(obj) {
 							return obj.id !== currentItem.id;
@@ -81,7 +81,7 @@
                     vm.alltype_canoe.push(item);
                     vm.type_canoe = {} ;                   
                     NouvelItem=false;
-				}
+				} vm.table=1;
 					vm.affichageMasque = 0 ;
                 }).error(function (data) {
                     alert('Error');

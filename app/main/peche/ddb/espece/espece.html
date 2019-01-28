@@ -54,13 +54,13 @@
                     </md-input-container>
 
                     <md-input-container flex="100" flex-gt-xs="33">
-                      <input type="text" name="nom_locale" ng-model="vm.espece.nom_locale"
-                        placeholder="nom_locale" ng-init="vm.espece.nom_locale=''"
+                      <input type="text" name="nom_local" ng-model="vm.espece.nom_local"
+                        placeholder="nom_local" ng-init="vm.espece.nom_local=''"
                         required>
-                        <div ng-messages="especeform.nom_locale.$error"
+                        <div ng-messages="especeform.nom_local.$error"
                           role="alert">
                           <div ng-message="required">
-                            <span>Nom locale obligatoire.</span>
+                            <span>Nom local obligatoire.</span>
                           </div>
                         </div>
                     </md-input-container>
@@ -94,14 +94,14 @@
     <!-- / BASIC FORM -->
 
     <md-tabs md-dynamic-height ng-show="vm.table==1">
-        <md-tab label="Listes des Espece">
+        <md-tab label="Listes des Especes">
          <table class="dataTable row-border hover" datatable="ng"
               dt-options="vm.dtOptions">
           <thead>
             <tr>
               <th>ID</th>
               <th>CODE</th>
-              <th>NOM LOCALE</th>
+              <th>NOM LOCAL</th>
               <th>NOM SCIENTIFIQUE</th>
             </tr>
           </thead>
@@ -109,7 +109,7 @@
                 <tr ng-repeat="espece in vm.allespece" ng-class="{selected: espece.$selected}" ng-click="vm.selection(espece)">
                   <td>{{espece.id}}</td>
                   <td>{{espece.code}}</td>
-                  <td>{{espece.nom_locale}}</td>
+                  <td>{{espece.nom_local}}</td>
                   <td>{{espece.nom_scientifique}}</td>
                 </tr>
             </tbody>
