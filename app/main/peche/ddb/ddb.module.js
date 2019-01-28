@@ -8,10 +8,8 @@
             'app.peche.ddb.localisation', 
             'app.peche.ddb.type_engin',
             'app.peche.ddb.data_collect',
-
             'app.peche.ddb.espece',
-            'app.peche.ddb.type_canoe'
-
+            'app.peche.ddb.type_canoe',
             'app.peche.ddb.enqueteur',
             'app.peche.ddb.site_embarquement'
 
