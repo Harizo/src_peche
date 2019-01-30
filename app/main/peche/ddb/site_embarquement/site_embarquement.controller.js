@@ -71,8 +71,8 @@
       });
 
     apiFactory.getAll("site_embarquement/index").then(function(result){
-      vm.allsite_embarquementss = result.data.response;
-          for (var i = 0; i < vm.allsite_embarquementss.length; i++) 
+      vm.allsite_embarquement = result.data.response;
+         /* for (var i = 0; i < vm.allsite_embarquementss.length; i++) 
           {
             var item = {
                     id: vm.allsite_embarquementss[i].id,
@@ -90,7 +90,7 @@
                 };
                 
                 vm.allsite_embarquement.push(item);             
-          } 
+          }*/ 
     });
     
      

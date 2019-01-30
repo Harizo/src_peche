@@ -51,8 +51,8 @@
     });
 
     apiFactory.getAll("commune/index").then(function(result){
-      vm.allcommuness = result.data.response;
-          for (var i = 0; i < vm.allcommuness.length; i++) 
+      vm.allcommune = result.data.response;
+         /* for (var i = 0; i < vm.allcommuness.length; i++) 
           {
             var item = {
                     id: vm.allcommuness[i].id,
@@ -64,7 +64,7 @@
                 };
                 
                 vm.allcommune.push(item);             
-          } 
+          } */
     });
     
      
@@ -105,7 +105,7 @@
                 id:getId,      
                 code: commune.code,
                 nom: commune.nom,
-                district_id:commune.district
+                district_id:commune.district_id
                 
             });
         
@@ -142,11 +142,13 @@
                         nom: commune.nom,
                         code: commune.code,
                         id:String(data.response) ,
-                        district_id:commune.district ,
+                        district_id:commune.district_id ,
                         district_nom:commune.district_nom 
                     };
-        
+                      console.log(commune );
+                      console.log(item );
                     vm.allcommune.push(item);
+
                     vm.commune.code='';
                     vm.commune.nom='';
                     vm.commune.district='';
@@ -194,7 +196,7 @@
           vm.affichageMasque = 1 ;
           vm.commune.code='';
           vm.commune.nom='';
-          vm.commune.district='';
+          vm.commune.district_id='';
           NouvelItem = true ;
 
         };
@@ -254,9 +256,10 @@
         
         vm.modifierdistrict = function (item) {
           vm.alldistrict.forEach(function(dist) {
-              if(dist.id==item.district) {
-                 item.district = dist.id; 
+              if(dist.id==item.district_id) {
+                 item.district_id = dist.id; 
                  item.district_nom = dist.nom;
+                 console.log(item);
               }
           });
         }

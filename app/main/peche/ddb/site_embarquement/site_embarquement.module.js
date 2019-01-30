@@ -28,7 +28,7 @@
         });
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.site_embarquement', {
-            title: 'Site_embarquement',
+            title: 'Site d\'embarquement',
             icon  : 'icon-tile-four',
             state: 'app.population_ddb_site_embarquement',
 			weight: 3

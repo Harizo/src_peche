@@ -52,9 +52,9 @@
       });
 
       apiFactory.getAll("district/index").then(function(result){
-        vm.alldistrictss = result.data.response;
+        vm.alldistrict = result.data.response;
 
-        for (var i = 0; i < vm.alldistrictss.length; i++) 
+       /* for (var i = 0; i < vm.alldistrictss.length; i++) 
         {
           var item = {
                   id: vm.alldistrictss[i].id,
@@ -66,7 +66,7 @@
               };
               
               vm.alldistrict.push(item);             
-        }
+        }*/
       });
 
 

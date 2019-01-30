@@ -55,9 +55,9 @@
       });
 
       apiFactory.getAll("enqueteur/index").then(function(result){
-        vm.allenqueteurss = result.data.response;
+        vm.allenqueteur = result.data.response;
 
-        for (var i = 0; i < vm.allenqueteurss.length; i++) 
+        /*for (var i = 0; i < vm.allenqueteurss.length; i++) 
         {
           var item = {
                   id: vm.allenqueteurss[i].id,
@@ -71,7 +71,7 @@
               
               vm.allenqueteur.push(item);
                           
-        }
+        }*/
       });
 
 

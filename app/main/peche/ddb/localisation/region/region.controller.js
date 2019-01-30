@@ -33,9 +33,9 @@
     });
 
     apiFactory.getAll("region/index").then(function(result) {
-      vm.allregionss = result.data.response; 
+      vm.allregion = result.data.response; 
 
-      for (var i = 0; i < vm.allregionss.length; i++) 
+      /*for (var i = 0; i < vm.allregionss.length; i++) 
           {
             var item = {
                     id: vm.allregionss[i].id,
@@ -46,7 +46,7 @@
                 };
                 
                 vm.allregion.push(item);             
-          }
+          }*/
 
 
     });
