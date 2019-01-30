@@ -12,7 +12,8 @@
             'app.peche.ddb.type_canoe',
             'app.peche.ddb.enqueteur',
             'app.peche.ddb.site_embarquement',
-            'app.peche.ddb.fiche_echantillonnage_capture'
+            'app.peche.ddb.fiche_echantillonnage_capture',
+            'app.peche.ddb.echantillon'
 
 
             ])
