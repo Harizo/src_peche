@@ -66,7 +66,7 @@
 						vm.afficherboutonnouveau = 1 ;
 						vm.selectedItem.$selected = false;
 						vm.selectedItem ={};
-            vm.table=1;
+           
                     } else {    
 						vm.alltype_engin = vm.alltype_engin.filter(function(obj) {
 							return obj.id !== currentItem.id;
@@ -81,7 +81,7 @@
                     vm.alltype_engin.push(item);
                     vm.type_engin = {} ;                   
                     NouvelItem=false;
-				}
+				}  vm.table=1;
 					vm.affichageMasque = 0 ;
                 }).error(function (data) {
                     alert('Error');
