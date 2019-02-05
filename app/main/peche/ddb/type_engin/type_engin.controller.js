@@ -27,6 +27,7 @@
 		//col table
     vm.table=1;
 		vm.type_engin_column = [{titre:"Code"},{titre:"libelle"}];
+    
 		apiFactory.getAll("type_engin/index").then(function(result) {
 			vm.alltype_engin = result.data.response;    
 		});

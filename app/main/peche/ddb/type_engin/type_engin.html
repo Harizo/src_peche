@@ -87,14 +87,15 @@
               dt-options="vm.dtOptions">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>CODE</th>
-              <th>LIBELLE</th>
+              <th class="secondary-text" ng-repeat="tg in ::vm.type_engin_column">
+                    <div class="table-header">
+                      <span class="column-title">{{tg.titre}}</span>
+                    </div>
+              </th>
             </tr>
           </thead>
             <tbody>
                 <tr ng-repeat="type_engin in vm.alltype_engin" ng-class="{selected: type_engin.$selected}" ng-click="vm.selection(type_engin)">
-                  <td>{{type_engin.id}}</td>
                   <td>{{type_engin.code}}</td>
                   <td>{{type_engin.libelle}}</td>
                 </tr>

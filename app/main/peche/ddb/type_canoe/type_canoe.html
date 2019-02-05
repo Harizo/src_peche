@@ -87,14 +87,15 @@
               dt-options="vm.dtOptions">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>CODE</th>
-              <th>NOM</th>
+              <th class="secondary-text" ng-repeat="tc in ::vm.type_canoe_column">
+                    <div class="table-header">
+                      <span class="column-title">{{tc.titre}}</span>
+                    </div>
+              </th>
             </tr>
           </thead>
             <tbody>
                 <tr ng-repeat="type_canoe in vm.alltype_canoe" ng-class="{selected: type_canoe.$selected}" ng-click="vm.selection(type_canoe)">
-                  <td>{{type_canoe.id}}</td>
                   <td>{{type_canoe.code}}</td>
                   <td>{{type_canoe.nom}}</td>
                 </tr>

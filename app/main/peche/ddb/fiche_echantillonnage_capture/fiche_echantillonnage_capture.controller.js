@@ -491,7 +491,7 @@
       };
 
       $scope.$watch('vm.selectedItemEchantillon', function() {
-        if (!vm.allfiche_echantillonnage_capture) return;
+        if (!vm.allechantillon) return;
         vm.allechantillon.forEach(function(item) {
             item.$selected = false;
         });
@@ -546,8 +546,8 @@
 
         vm.annuler = function() 
         {
-          vm.selectedItem = {} ;
-          vm.selectedItem.$selected = false;
+          //vm.selectedItem = {} ;          
+          //vm.selectedItem.$selected = false;
           vm.affichageMasque = 0 ;
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
@@ -562,7 +562,7 @@
           vm.affichageMasqueEchantillon = 0 ;
           vm.afficherboutonnouveauEchantillon = 1 ;
           vm.afficherboutonModifSuprEchantillon = 0 ;
-          NouvelItem = false;
+          NouvelItemEchantillon = false;
 
         };
 

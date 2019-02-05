@@ -26,7 +26,7 @@
 		};
 		//col table
     vm.table=1;
-		vm.type_canoe_column = [{titre:"Code"},{titre:"nom"}];
+		vm.type_canoe_column = [{titre:"Code"},{titre:"Nom"}];
 		apiFactory.getAll("type_canoe/index").then(function(result) {
 			vm.alltype_canoe = result.data.response;    
 		});
