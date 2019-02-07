@@ -25,139 +25,145 @@
 					Supprimer
 				</md-button>
 			</div>  
-			<div style="clear:both;"></div>
-			<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-				<md-tab label="Ajout Site d'embarquement">
-					<div class="simple-table-container md-whiteframe-4dp">
-					<md-tab-body>
-						<form name="site_embarquementform" class="md-inline-form"  novalidate>
-							<div layout="column" layout-gt-xs="row" flex>
-								<input type="hidden" ng-model="vm.site_embarquement.id"></input>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="code" ng-model="vm.site_embarquement.code"
-										placeholder="Code" ng-init="vm.site_embarquement.code=''"
-									required>
-									<div ng-messages="site_embarquementform.code.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Code obligatoire.</span>
+			
+			<div class="white-bg md-whiteframe-4dp">
+				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
+					<md-tab label="Ajout Site d'embarquement">
+						<div class="simple-table-container md-whiteframe-4dp">
+						<md-tab-body>
+							<br>
+							<form name="site_embarquementform" class="md-inline-form"  novalidate>
+								<div layout="column" layout-gt-xs="row" flex>
+									<input type="hidden" ng-model="vm.site_embarquement.id"></input>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="code" ng-model="vm.site_embarquement.code"
+											placeholder="Code" ng-init="vm.site_embarquement.code=''"
+										required>
+										<div ng-messages="site_embarquementform.code.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Code obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="libelle" ng-model="vm.site_embarquement.libelle"
-									placeholder="Libelle " ng-init="vm.site_embarquement.libelle=''"
-									required>
-									<div ng-messages="site_embarquementform.libelle.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Libelle obligatoire.</span>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="libelle" ng-model="vm.site_embarquement.libelle"
+										placeholder="Libelle " ng-init="vm.site_embarquement.libelle=''"
+										required>
+										<div ng-messages="site_embarquementform.libelle.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Libelle obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="code_unique" ng-model="vm.site_embarquement.code_unique"
-									placeholder="Code unique " ng-init="vm.site_embarquement.code_unique=''"
-									required>
-									<div ng-messages="site_embarquementform.code_unique.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Code unique obligatoire.</span>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="code_unique" ng-model="vm.site_embarquement.code_unique"
+										placeholder="Code unique " ng-init="vm.site_embarquement.code_unique=''"
+										required>
+										<div ng-messages="site_embarquementform.code_unique.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Code unique obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="latitude" ng-model="vm.site_embarquement.latitude"
-									placeholder="Latitude " ng-init="vm.site_embarquement.latitude=''"
-									required>
-									<div ng-messages="site_embarquementform.latitude.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Latitude obligatoire.</span>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="latitude" ng-model="vm.site_embarquement.latitude"
+										placeholder="Latitude " ng-init="vm.site_embarquement.latitude=''"
+										required>
+										<div ng-messages="site_embarquementform.latitude.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Latitude obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="longitude" ng-model="vm.site_embarquement.longitude"
-									placeholder="Longitude " ng-init="vm.site_embarquement.longitude=''"
-									required>
-									<div ng-messages="site_embarquementform.longitude.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Longitude obligatoire.</span>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="longitude" ng-model="vm.site_embarquement.longitude"
+										placeholder="Longitude " ng-init="vm.site_embarquement.longitude=''"
+										required>
+										<div ng-messages="site_embarquementform.longitude.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Longitude obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="altitude" ng-model="vm.site_embarquement.altitude"
-									placeholder="Altitude " ng-init="vm.site_embarquement.altitude=''"
-									required>
-									<div ng-messages="site_embarquementform.altitude.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Altitude obligatoire.</span>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="altitude" ng-model="vm.site_embarquement.altitude"
+										placeholder="Altitude " ng-init="vm.site_embarquement.altitude=''"
+										required>
+										<div ng-messages="site_embarquementform.altitude.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Altitude obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>Region</label>
-									<md-select ng-model="vm.site_embarquement.region_id"  ng-change="vm.modifierregion(vm.site_embarquement)">
-										<md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
-											{{region.nom}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>District</label>
-									<md-select ng-model="vm.site_embarquement.district_id"  ng-change="vm.modifierdistrict(vm.site_embarquement)">
-										<md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
-											{{district.nom}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-							</div>
-							<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-								ng-disabled="site_embarquementform.$invalid " ng-click="vm.ajout(vm.site_embarquement,0)">
-								Enregistrer
-							</md-button>
-							<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
-								Annuler
-							</md-button>
-						</form>
-					</md-tab-body>
-					</div>
-				<!-- / BASIC FORM -->
-				</md-tab>
-			</md-tabs>
-			<div style="clear:both;"></div>
-			<md-tabs md-dynamic-height>
-				<md-tab label="Liste Site d'embarqement">
-					<table class="dataTable row-border hover" datatable="ng"
-						dt-options="vm.dtOptions">
-						<thead>
-							<tr>
-								<th class="secondary-text" ng-repeat="co in ::vm.site_embarquement_column">
-									<div class="table-header">
-										<span class="column-title">{{co.titre}}</span>
-									</div>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="site_embarquement in vm.allsite_embarquement"  ng-class="{selected: site_embarquement.$selected}" ng-click="vm.selection(site_embarquement)">
-								<td>{{site_embarquement.code}}</td>
-								<td>{{site_embarquement.libelle}}</td>
-								<td>{{site_embarquement.code_unique}}</td>
-								<td>{{site_embarquement.latitude}}</td>
-								<td>{{site_embarquement.longitude}}</td>
-								<td>{{site_embarquement.altitude}}</td>
-								<td>{{site_embarquement.region_nom}}</td>
-								<td>{{site_embarquement.district_nom}}</td>
-							</tr>
-						</tbody>
-					</table>
-				</md-tab>
-			</md-tabs>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<label>Region</label>
+										<md-select ng-model="vm.site_embarquement.region_id"  ng-change="vm.modifierregion(vm.site_embarquement)">
+											<md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
+												{{region.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<label>District</label>
+										<md-select ng-model="vm.site_embarquement.district_id"  ng-change="vm.modifierdistrict(vm.site_embarquement)">
+											<md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
+												{{district.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+								</div>
+								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+									ng-disabled="site_embarquementform.$invalid " ng-click="vm.ajout(vm.site_embarquement,0)">
+									Enregistrer
+								</md-button>
+								<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+									Annuler
+								</md-button>
+							</form>
+						</md-tab-body>
+						</div>
+					<!-- / BASIC FORM -->
+					</md-tab>
+					
+				</md-tabs>
+			</div>
+			<div style=""> <p></p></div>
+			<div class="white-bg md-whiteframe-4dp">
+				<md-tabs md-dynamic-height>
+					<md-tab label="Liste Site d'embarqement">
+						<table class="dataTable row-border hover" datatable="ng"
+							dt-options="vm.dtOptions">
+							<thead>
+								<tr>
+									<th class="secondary-text" ng-repeat="co in ::vm.site_embarquement_column">
+										<div class="table-header">
+											<span class="column-title">{{co.titre}}</span>
+										</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="site_embarquement in vm.allsite_embarquement"  ng-class="{selected: site_embarquement.$selected}" ng-click="vm.selection(site_embarquement)">
+									<td>{{site_embarquement.code}}</td>
+									<td>{{site_embarquement.libelle}}</td>
+									<td>{{site_embarquement.code_unique}}</td>
+									<td>{{site_embarquement.latitude}}</td>
+									<td>{{site_embarquement.longitude}}</td>
+									<td>{{site_embarquement.altitude}}</td>
+									<td>{{site_embarquement.region_nom}}</td>
+									<td>{{site_embarquement.district_nom}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</md-tab>
+				</md-tabs>
+			</div>
 		</div>
     </div>
 </div>

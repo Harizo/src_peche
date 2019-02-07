@@ -33,78 +33,81 @@
               Supprimer
         </md-button>
     </div> 
-     <div style="clear:both;"></div> 
+     <div style="clear:both;"></div>
+     <div class="white-bg md-whiteframe-4dp"> 
      <!-- BASIC FORM --> 
-     <md-tabs  md-dynamic-height ng-show="vm.affichageMasque==1" >
-        <md-tab label="Ajout Type engin">
-            <md-tab-body>
-              <form name="type_enginform" class="md-inline-form" novalidate >
-                <div layout="column" layout-gt-xs="row">
-                  <input type="hidden" ng-model="vm.type_engin.id">
-                    <md-input-container flex="100" flex-gt-xs="33">
-                      <input type="text" name="code" ng-model="vm.type_engin.code"
-                        placeholder="Code" ng-init="vm.type_engin.code=''"
-                        required>
-                        <div ng-messages="type_enginform.code.$error"
-                          role="alert">
-                          <div ng-message="required">
-                            <span>Code obligatoire.</span>
-                          </div>
-                        </div>
-                    </md-input-container>
+         <md-tabs  md-dynamic-height ng-show="vm.affichageMasque==1" >
+            <md-tab label="Ajout Type engin">
+                <md-tab-body>
+                  <form name="type_enginform" class="md-inline-form" novalidate >
+                    <div layout="column" layout-gt-xs="row">
+                      <input type="hidden" ng-model="vm.type_engin.id">
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="code" ng-model="vm.type_engin.code"
+                            placeholder="Code" ng-init="vm.type_engin.code=''"
+                            required>
+                            <div ng-messages="type_enginform.code.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Code obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
 
-                    <md-input-container flex="100" flex-gt-xs="33">
-                      <input type="text" name="libelle" ng-model="vm.type_engin.libelle"
-                        placeholder="type_engin " ng-init="vm.type_engin.libelle=''"
-                        required>
-                        <div ng-messages="type_enginform.libelle.$error"
-                          role="alert">
-                          <div ng-message="required">
-                            <span>Libelle obligatoire.</span>
-                          </div>
-                        </div>
-                    </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="libelle" ng-model="vm.type_engin.libelle"
+                            placeholder="Libelle" ng-init="vm.type_engin.libelle=''"
+                            required>
+                            <div ng-messages="type_enginform.libelle.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Libelle obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
 
-                </div>
-                <div>
-                 <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                      ng-disabled="type_enginform.$invalid" ng-click="vm.ajout(vm.type_engin,0)">
-                      Enregistrer
-                </md-button>
-                <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
-                  Annuler
-                </md-button>
-                </div>
-              </form>
-            </md-tab-body>
-        </md-tab>
-    </md-tabs>
-    <!-- / BASIC FORM -->
-
-    <md-tabs md-dynamic-height ng-show="vm.table==1">
-        <md-tab label="Listes des Type engin">
-         <table class="dataTable row-border hover" datatable="ng"
-              dt-options="vm.dtOptions">
-          <thead>
-            <tr>
-              <th class="secondary-text" ng-repeat="tg in ::vm.type_engin_column">
-                    <div class="table-header">
-                      <span class="column-title">{{tg.titre}}</span>
                     </div>
-              </th>
-            </tr>
-          </thead>
-            <tbody>
-                <tr ng-repeat="type_engin in vm.alltype_engin" ng-class="{selected: type_engin.$selected}" ng-click="vm.selection(type_engin)">
-                  <td>{{type_engin.code}}</td>
-                  <td>{{type_engin.libelle}}</td>
+                    <div>
+                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                          ng-disabled="type_enginform.$invalid" ng-click="vm.ajout(vm.type_engin,0)">
+                          Enregistrer
+                    </md-button>
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                      Annuler
+                    </md-button>
+                    </div>
+                  </form>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </div>
+    <!-- / BASIC FORM -->
+    </br>
+    <div class="white-bg md-whiteframe-4dp">
+        <md-tabs md-dynamic-height>
+            <md-tab label="Listes des Type engin">
+             <table class="dataTable row-border hover" datatable="ng"
+                  dt-options="vm.dtOptions">
+              <thead>
+                <tr>
+                  <th class="secondary-text" ng-repeat="tg in ::vm.type_engin_column">
+                        <div class="table-header">
+                          <span class="column-title">{{tg.titre}}</span>
+                        </div>
+                  </th>
                 </tr>
-            </tbody>
-           
-          </table>
-        </md-tab>
-    </md-tabs>
-
+              </thead>
+                <tbody>
+                    <tr ng-repeat="type_engin in vm.alltype_engin" ng-class="{selected: type_engin.$selected}" ng-click="vm.selection(type_engin)">
+                      <td>{{type_engin.code}}</td>
+                      <td>{{type_engin.libelle}}</td>
+                    </tr>
+                </tbody>
+               
+              </table>
+            </md-tab>
+        </md-tabs>
+    </div>
 
     </div>
     </div>

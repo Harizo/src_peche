@@ -18,10 +18,12 @@
     <!-- LISTE TABLE -->
     <div class="content"layout="column">
       <div class="form-wrapper">
-          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
+        <div class="white-bg md-whiteframe-4dp">
+          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
               <md-tab label="{{vm.titrepage}}">
                 <div class="simple-table-container md-whiteframe-4dp">
                   <md-tab-body>
+                    <br>
                     <form name="enqueteurform" class="md-inline-form"  novalidate>
                       <div layout="column" layout-gt-xs="row" flex>
                         <input type="hidden" ng-model="vm.enqueteur.id"></input>
@@ -80,6 +82,7 @@
                 </div>
               </md-tab>
             </md-tabs>
+          </div>  
       <div style="widht:100%;">    
           <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
               Nouveau
@@ -91,31 +94,33 @@
               Supprimer
           </md-button>
         </div>  
-        <div style="clear:both;"></div>
-        <md-tabs md-dynamic-height>
-          <md-tab label="Liste Enqueteur">
-              <table class="dataTable row-border hover" datatable="ng"
-                dt-options="vm.dtOptions">
-                <thead>
-                  <tr>
-                    <th class="secondary-text" ng-repeat="di in ::vm.enqueteur_column">
-                      <div class="table-header">
-                          <span class="column-title">{{di.titre}}</span>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                  <tbody>
-                    <tr ng-repeat="enqueteur in vm.allenqueteur"  ng-class="{selected: enqueteur.$selected}" ng-click="vm.selection(enqueteur)">
-                      <td>{{enqueteur.nom}}</td>
-                      <td>{{enqueteur.prenom}}</td>
-                      <td>{{enqueteur.cin}}</td>
-                      <td>{{enqueteur.region_nom}}</td>
+        </br>
+        <div class="white-bg md-whiteframe-4dp">
+          <md-tabs md-dynamic-height>
+            <md-tab label="Liste Enqueteur">
+                <table class="dataTable row-border hover" datatable="ng"
+                  dt-options="vm.dtOptions">
+                  <thead>
+                    <tr>
+                      <th class="secondary-text" ng-repeat="di in ::vm.enqueteur_column">
+                        <div class="table-header">
+                            <span class="column-title">{{di.titre}}</span>
+                        </div>
+                      </th>
                     </tr>
-                  </tbody>
-              </table>
-            </md-tab>
+                  </thead>
+                    <tbody>
+                      <tr ng-repeat="enqueteur in vm.allenqueteur"  ng-class="{selected: enqueteur.$selected}" ng-click="vm.selection(enqueteur)">
+                        <td>{{enqueteur.nom}}</td>
+                        <td>{{enqueteur.prenom}}</td>
+                        <td>{{enqueteur.cin}}</td>
+                        <td>{{enqueteur.region_nom}}</td>
+                      </tr>
+                    </tbody>
+                </table>
+              </md-tab>
           </md-tabs>
+        </div>  
     <!-- / LISTE TABLE -->
 
     <!-- BASIC FORM -->

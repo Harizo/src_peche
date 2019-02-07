@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.enqueteur', {
             title: 'Enqueteur',
-            icon  : 'icon-tile-four',
+            icon  : 'icon-clipboard-account',
             state: 'app.population_ddb_enqueteur',
 			weight: 2
         });

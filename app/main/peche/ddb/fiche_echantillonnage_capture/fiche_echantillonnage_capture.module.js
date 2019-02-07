@@ -1,24 +1,25 @@
+
 (function ()
 {
     'use strict';
 
     angular
-        .module('app.peche.ddb.echantillon', [])
+        .module('app.peche.ddb.fiche_echantillonnage_capture', [])
         .config(config);
 
     /** @ngInject */
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.population_ddb_echantillon', {
-            url      : '/donnees-de-base/echantillon',
+        $stateProvider.state('app.population_ddb_fiche_echantillonnage_capture', {
+            url      : '/donnees-de-base/fiche_echantillonnage_capture',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/ddb/echantillon/echantillon.html',
-                    controller : 'EchantillonController as vm'
+                    templateUrl: 'app/main/peche/ddb/fiche_echantillonnage_capture/fiche_echantillonnage_capture.html',
+                    controller : 'Fiche_echantillonnage_captureController as vm'
                 }
             },
-            bodyClass: 'echantillon',
+            bodyClass: 'fiche_echantillonnage_capture',
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
@@ -27,11 +28,11 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.echantillon', {
-            title: 'Echantillon',
-            icon  : 'icon-tile-four',
-            state: 'app.population_ddb_echantillon',
-			weight: 3
+        msNavigationServiceProvider.saveItem('peche.ddb.fiche_echantillonnage_capture', {
+            title: 'Fiche d\'echantillonnage',
+            icon  : 'icon-clipboard-text',
+            state: 'app.population_ddb_fiche_echantillonnage_capture',
+            weight: 3
         });
     }
 

@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.site_embarquement', {
             title: 'Site d\'embarquement',
-            icon  : 'icon-tile-four',
+            icon  : 'icon-compass-outline',
             state: 'app.population_ddb_site_embarquement',
 			weight: 3
         });

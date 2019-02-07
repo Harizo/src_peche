@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.type_engin', {
             title: 'Type engin',
-            icon  : 'icon-tile-four',
+            icon  : 'icon-houzz-box',
             state: 'app.peche_ddb_type_engin',
 			weight: 1
         });

@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.localisation.commune', {
             title: 'Commune',
-            icon  : 'icon-tile-four',
+            icon  : 'icon-map-marker',
             state: 'app.population_ddb_localisation_commune',
 			weight: 3
         });

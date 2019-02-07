@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.localisation.pays', {
             title: 'Pays',
-            icon  : 'icon-tile-four',
+            icon  : 'icon-sitemap',
             state: 'app.population_ddb_localisation_pays',
 			weight: 2
         });

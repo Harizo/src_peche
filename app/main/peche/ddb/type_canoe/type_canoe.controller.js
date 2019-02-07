@@ -25,7 +25,7 @@
 			responsive: true
 		};
 		//col table
-    vm.table=1;
+    //vm.table=1;
 		vm.type_canoe_column = [{titre:"Code"},{titre:"Nom"}];
 		apiFactory.getAll("type_canoe/index").then(function(result) {
 			vm.alltype_canoe = result.data.response;    
@@ -81,7 +81,7 @@
                     vm.alltype_canoe.push(item);
                     vm.type_canoe = {} ;                   
                     NouvelItem=false;
-				} vm.table=1;
+				} //vm.table=1;
 					vm.affichageMasque = 0 ;
                 }).error(function (data) {
                     alert('Error');
@@ -106,7 +106,7 @@
         vm.ajouter = function () {
 			vm.selectedItem.$selected = false;
 			vm.affichageMasque = 1 ;
-      vm.table=0;
+      //vm.table=0;
 			vm.type_canoe = {} ;
 			NouvelItem = true ;
         };
@@ -116,7 +116,7 @@
           vm.affichageMasque = 0 ;
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
-          vm.table=1;
+          //vm.table=1;
           NouvelItem = false;
         };
         vm.modifier = function() {
@@ -127,7 +127,7 @@
           vm.type_canoe.nom = vm.selectedItem.nom ;
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0;
-          vm.table=0;  
+          //vm.table=0;  
         };
         vm.supprimer = function() {
           vm.affichageMasque = 0 ;

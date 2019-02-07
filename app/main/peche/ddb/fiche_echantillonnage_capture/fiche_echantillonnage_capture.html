@@ -15,119 +15,124 @@
     <div class="content"layout="column">
 		<div class="form-wrapper">			  
 			<div style="clear:both;"></div>
-			<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-				<md-tab label="Ajout fiche echantillonnage capture">
-					<div class="simple-table-container md-whiteframe-4dp">
-					<md-tab-body>
-						<form name="fiche_echantillonnage_captureform" class="md-inline-form"  novalidate>
-							<div layout="column" layout-gt-xs="row" flex>
-								<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id"></input>				
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="code_unique" ng-model="vm.fiche_echantillonnage_capture.code_unique"
-									placeholder="Code unique " ng-init="vm.fiche_echantillonnage_capture.code_unique=''"
-									required>
-									<div ng-messages="fiche_echantillonnage_captureform.code_unique.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Code unique obligatoire.</span>
+			<div class="white-bg md-whiteframe-4dp">
+				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
+					<md-tab label="Ajout fiche echantillonnage capture">
+						<div class="simple-table-container md-whiteframe-4dp">
+						<md-tab-body>
+							</br>
+							<form name="fiche_echantillonnage_captureform" class="md-inline-form"  novalidate>
+								<div layout="column" layout-gt-xs="row" flex>
+									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id"></input>				
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="code_unique" ng-model="vm.fiche_echantillonnage_capture.code_unique"
+										placeholder="Code unique " ng-init="vm.fiche_echantillonnage_capture.code_unique=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.code_unique.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Code unique obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>Site_embarquement</label>
-									<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.fiche_echantillonnage_capture)">
-										<md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
-											{{site_embarquement.libelle}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>Enqueteur</label>
-									<md-select ng-model="vm.fiche_echantillonnage_capture.enqueteur_id"  ng-change="vm.modifierenqueteur(vm.fiche_echantillonnage_capture)">
-										<md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
-											{{enqueteur.nom}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>Region</label>
-									<md-select ng-model="vm.fiche_echantillonnage_capture.region_id"  ng-change="vm.modifierregion(vm.fiche_echantillonnage_capture)">
-										<md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
-											{{region.nom}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>District</label>
-									<md-select ng-model="vm.fiche_echantillonnage_capture.district_id"  ng-change="vm.modifierdistrict(vm.fiche_echantillonnage_capture)">
-										<md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
-											{{district.nom}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="latitude" ng-model="vm.fiche_echantillonnage_capture.latitude"
-									placeholder="Latitude " ng-init="vm.fiche_echantillonnage_capture.latitude=''"
-									required>
-									<div ng-messages="fiche_echantillonnage_captureform.latitude.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Latitude obligatoire.</span>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<label>Site_embarquement</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.fiche_echantillonnage_capture)">
+											<md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
+												{{site_embarquement.libelle}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<label>Enqueteur</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.enqueteur_id"  ng-change="vm.modifierenqueteur(vm.fiche_echantillonnage_capture)">
+											<md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
+												{{enqueteur.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<label>Region</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.region_id"  ng-change="vm.modifierregion(vm.fiche_echantillonnage_capture)">
+											<md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
+												{{region.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<label>District</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.district_id"  ng-change="vm.modifierdistrict(vm.fiche_echantillonnage_capture)">
+											<md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
+												{{district.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="latitude" ng-model="vm.fiche_echantillonnage_capture.latitude"
+										placeholder="Latitude " ng-init="vm.fiche_echantillonnage_capture.latitude=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.latitude.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Latitude obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="longitude" ng-model="vm.fiche_echantillonnage_capture.longitude"
-									placeholder="Longitude " ng-init="vm.fiche_echantillonnage_capture.longitude=''"
-									required>
-									<div ng-messages="fiche_echantillonnage_captureform.longitude.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Longitude obligatoire.</span>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="longitude" ng-model="vm.fiche_echantillonnage_capture.longitude"
+										placeholder="Longitude " ng-init="vm.fiche_echantillonnage_capture.longitude=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.longitude.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Longitude obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="altitude" ng-model="vm.fiche_echantillonnage_capture.altitude"
-									placeholder="Altitude " ng-init="vm.fiche_echantillonnage_capture.altitude=''"
-									required>
-									<div ng-messages="fiche_echantillonnage_captureform.altitude.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Altitude obligatoire.</span>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="text" name="altitude" ng-model="vm.fiche_echantillonnage_capture.altitude"
+										placeholder="Altitude " ng-init="vm.fiche_echantillonnage_capture.altitude=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.altitude.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Altitude obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="datetime" name="date" ng-model="vm.fiche_echantillonnage_capture.date"
-									placeholder="Date: AAAA/MM/JJ " ng-init="vm.fiche_echantillonnage_capture.date=''"
-									required>
-									<div ng-messages="fiche_echantillonnage_captureform.date.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Date obligatoire.</span>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="datetime" name="date" ng-model="vm.fiche_echantillonnage_capture.date"
+										placeholder="Date: AAAA/MM/JJ " ng-init="vm.fiche_echantillonnage_capture.date=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.date.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Date obligatoire.</span>
+											</div>
 										</div>
-									</div>
-								</md-input-container>
-								
-							</div>
-							<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-								ng-disabled="fiche_echantillonnage_captureform.$invalid " ng-click="vm.ajout(vm.fiche_echantillonnage_capture,0)">
-								Enregistrer
-							</md-button>
-							<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
-								Annuler
-							</md-button>
-						</form>
-					</md-tab-body>
-					</div>
-				<!-- / BASIC FORM -->
-				</md-tab>
-				</md-tabs>
-				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1">
+									</md-input-container>
+									
+								</div>
+								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+									ng-disabled="fiche_echantillonnage_captureform.$invalid " ng-click="vm.ajout(vm.fiche_echantillonnage_capture,0)">
+									Enregistrer
+								</md-button>
+								<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+									Annuler
+								</md-button>
+							</form>
+						</md-tab-body>
+						</div>
+					<!-- / BASIC FORM -->
+					</md-tab>
+					</md-tabs>
+				</div>
+				<div class="white-bg md-whiteframe-4dp">	
+				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1" md-stretch-tabs="always">
 				<md-tab label="Ajout Echantillon">
 					<div class="simple-table-container md-whiteframe-4dp">
 					<md-tab-body>
+						<br>
 						<form name="echantillonform" class="md-inline-form"  novalidate>
 							<div layout="column" layout-gt-xs="row" flex>
 								<input type="hidden" ng-model="vm.echantillon.id"></input>		
@@ -255,31 +260,151 @@
 					</div>
 				<!-- / BASIC FORM -->
 				</md-tab>
-
-
-			</md-tabs>
+			</div>
+			
+			</md-tabs><br>
 			<div class="ongletdata">
-			<md-tabs md-dynamic-height md-stretch-tabs="always">
-				<md-tab md-on-select="removeBouton()">
-					<md-tab-label>
-						<md-icon md-font-icon="icon-numeric-1-box-outline" class="s30" style= "float:left;" ></md-icon> &nbsp Liste fiche echantillonnage
-					</md-tab-label>
-					<md-tab-body>
-						<div style="widht:100%;">    
-							<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-								Nouveau
-							</md-button>
-							<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-								Modifier
-							</md-button>
-							<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-								Supprimer
-							</md-button>
-						</div>
-						<table class="dataTable row-border hover" datatable="ng"
+			<div class="white-bg md-whiteframe-4dp">	
+				<md-tabs md-dynamic-height md-stretch-tabs="always" md-center-tabs>
+					<md-tab md-on-select="removeBouton()">
+						<md-tab-label>
+							<span  id="icon" style= "">1</span> &nbsp Liste fiche echantillonnage
+						</md-tab-label>
+						<md-tab-body>
+							<div style="widht:100%;">    
+								<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+									Nouveau
+								</md-button>
+								<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+									Modifier
+								</md-button>
+								<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+									Supprimer
+								</md-button>
+							</div>
+							<table class="dataTable row-border hover" datatable="ng"
+								dt-options="vm.dtOptions">
+								<thead>
+									<tr>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Code</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Date</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Date creation<br/>Date modification</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Site</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Enqueteur</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">User</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Region</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">District</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">latitude/Longitude/<br/>Altitude</span>
+											</div>
+										</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
+										<td>{{fiche_echantillonnage_capture.code_unique}}</td>
+										<td>{{fiche_echantillonnage_capture.date}}</td>
+										<td>{{fiche_echantillonnage_capture.date_creation}}<br/>{{fiche_echantillonnage_capture.date_modification}}</td>
+										<td>{{fiche_echantillonnage_capture.site_embarquement_nom}}</td>
+										<td>{{fiche_echantillonnage_capture.enqueteur_nom}}</td>
+										<td>{{fiche_echantillonnage_capture.user_nom}}</td>
+										<td>{{fiche_echantillonnage_capture.region_nom}}</td>
+										<td>{{fiche_echantillonnage_capture.district_nom}}</td>
+										<td>{{fiche_echantillonnage_capture.latitude}} / {{fiche_echantillonnage_capture.longitude}} / {{fiche_echantillonnage_capture.altitude}}</td>
+										
+										
+									</tr>
+								</tbody>
+							</table>
+						</md-tab-body>
+					</md-tab>
+
+					<md-tab >
+						<md-tab-label>
+							<span  id="icon" style= "">2</span> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Echantillon &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp   
+							  
+						</md-tab-label>
+						<md-tab-body>
+							<div style="clear:both;"></div>
+							<div style="widht:100%;">    
+								<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
+									Nouveau
+								</md-button>
+								<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEchantillon()" style="width:10%;">
+									Modifier
+								</md-button>
+								<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEchantillon()" style="width:10%;">
+									Supprimer
+								</md-button>
+							</div>
+							<table class="dataTable row-border hover" datatable="ng"
 							dt-options="vm.dtOptions">
 							<thead>
 								<tr>
+									<!--th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Fiche</span>
+										</div>
+									</th-->
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Canoe</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Engin</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Peche hier<br/>avant hier</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Nbr jrs/sem</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Total capture</span>
+										</div>
+									</th>
 									<th class="secondary-text">
 										<div class="table-header">
 											<span class="column-title">Code</span>
@@ -287,22 +412,17 @@
 									</th>
 									<th class="secondary-text">
 										<div class="table-header">
-											<span class="column-title">Date</span>
+											<span class="column-title">Data collect</span>
 										</div>
 									</th>
 									<th class="secondary-text">
 										<div class="table-header">
-											<span class="column-title">Date creation<br/>Date modification</span>
+											<span class="column-title">Bateau actif<br/>bateau ecn</span>
 										</div>
 									</th>
 									<th class="secondary-text">
 										<div class="table-header">
-											<span class="column-title">Site</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Enqueteur</span>
+											<span class="column-title">Date creation<br/>modification</span>
 										</div>
 									</th>
 									<th class="secondary-text">
@@ -310,150 +430,37 @@
 											<span class="column-title">User</span>
 										</div>
 									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Region</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">District</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">latitude/Longitude/<br/>Altitude</span>
-										</div>
-									</th>
 
 								</tr>
+							<!--tr>
+								 <th class="secondary-text" ng-repeat="ec in ::vm.echantillon_column">
+			                      <div class="table-header">
+			                          <span class="column-title">{{ec.titre}}</span>
+			                      </div>
+			                    </th>
+			                </tr-->
 							</thead>
 							<tbody>
-								<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
-									<td>{{fiche_echantillonnage_capture.code_unique}}</td>
-									<td>{{fiche_echantillonnage_capture.date}}</td>
-									<td>{{fiche_echantillonnage_capture.date_creation}}<br/>{{fiche_echantillonnage_capture.date_modification}}</td>
-									<td>{{fiche_echantillonnage_capture.site_embarquement_nom}}</td>
-									<td>{{fiche_echantillonnage_capture.enqueteur_nom}}</td>
-									<td>{{fiche_echantillonnage_capture.user_nom}}</td>
-									<td>{{fiche_echantillonnage_capture.region_nom}}</td>
-									<td>{{fiche_echantillonnage_capture.district_nom}}</td>
-									<td>{{fiche_echantillonnage_capture.latitude}} / {{fiche_echantillonnage_capture.longitude}} / {{fiche_echantillonnage_capture.altitude}}</td>
-									
-									
+								<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
+									<!--td>{{echantillon.fiche_echantillonnage_capture_nom}}</td-->
+									<td>{{echantillon.type_canoe_nom}}</td>
+									<td>{{echantillon.type_engin_nom}}</td>
+									<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
+									<td>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
+									<td>{{echantillon.total_capture}}</td>
+									<td>{{echantillon.unique_code}}</td>
+									<td>{{echantillon.data_collect_nom}}</td>
+									<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
+									<td>{{echantillon.date_creation}}<br/>{{echantillon.date_modification}}</td>
+									<td>{{echantillon.user_nom}}</td>						
 								</tr>
 							</tbody>
 						</table>
-					</md-tab-body>
-				</md-tab>
+						</md-tab-body>
+					</md-tab>
 
-				<md-tab >
-					<md-tab-label>
-						<md-icon md-font-icon="icon-numeric-2-box-outline" class="s30" style= "float:left"></md-icon> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Echantillon &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp   
-						  
-					</md-tab-label>
-					<md-tab-body>
-						<div style="clear:both;"></div>
-						<div style="widht:100%;">    
-							<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
-								Nouveau
-							</md-button>
-							<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEchantillon()" style="width:10%;">
-								Modifier
-							</md-button>
-							<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEchantillon()" style="width:10%;">
-								Supprimer
-							</md-button>
-						</div>
-						<table class="dataTable row-border hover" datatable="ng"
-						dt-options="vm.dtOptions">
-						<thead>
-							<tr>
-								<!--th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Fiche</span>
-									</div>
-								</th-->
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Canoe</span>
-									</div>
-								</th>
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Engin</span>
-									</div>
-								</th>
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Peche hier<br/>avant hier</span>
-									</div>
-								</th>
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Nbr jrs/sem</span>
-									</div>
-								</th>
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Total capture</span>
-									</div>
-								</th>
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Code</span>
-									</div>
-								</th>
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Data collect</span>
-									</div>
-								</th>
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Bateau actif<br/>bateau ecn</span>
-									</div>
-								</th>
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">Date creation<br/>modification</span>
-									</div>
-								</th>
-								<th class="secondary-text">
-									<div class="table-header">
-										<span class="column-title">User</span>
-									</div>
-								</th>
-
-							</tr>
-						<!--tr>
-							 <th class="secondary-text" ng-repeat="ec in ::vm.echantillon_column">
-		                      <div class="table-header">
-		                          <span class="column-title">{{ec.titre}}</span>
-		                      </div>
-		                    </th>
-		                </tr-->
-						</thead>
-						<tbody>
-							<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
-								<!--td>{{echantillon.fiche_echantillonnage_capture_nom}}</td-->
-								<td>{{echantillon.type_canoe_nom}}</td>
-								<td>{{echantillon.type_engin_nom}}</td>
-								<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
-								<td>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
-								<td>{{echantillon.total_capture}}</td>
-								<td>{{echantillon.unique_code}}</td>
-								<td>{{echantillon.data_collect_nom}}</td>
-								<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
-								<td>{{echantillon.date_creation}}<br/>{{echantillon.date_modification}}</td>
-								<td>{{echantillon.user_nom}}</td>						
-							</tr>
-						</tbody>
-					</table>
-					</md-tab-body>
-				</md-tab>
-
-			</md-tabs>
+				</md-tabs>
+			</div>
 			</div>
 		</div>
     </div>

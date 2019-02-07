@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.localisation.region', {
             title: 'Région',
-            icon  : 'icon-tile-four',
+            icon  : 'icon-map-marker-circle',
             state: 'app.population_ddb_localisation_region',
 			weight: 1
         });

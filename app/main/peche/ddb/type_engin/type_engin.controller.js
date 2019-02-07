@@ -25,7 +25,7 @@
 			responsive: true
 		};
 		//col table
-    vm.table=1;
+    //vm.table=1;
 		vm.type_engin_column = [{titre:"Code"},{titre:"libelle"}];
     
 		apiFactory.getAll("type_engin/index").then(function(result) {
@@ -82,7 +82,7 @@
                     vm.alltype_engin.push(item);
                     vm.type_engin = {} ;                   
                     NouvelItem=false;
-				}  vm.table=1;
+				}  //vm.table=1;
 					vm.affichageMasque = 0 ;
                 }).error(function (data) {
                     alert('Error');
@@ -107,7 +107,7 @@
         vm.ajouter = function () {
 			vm.selectedItem.$selected = false;
 			vm.affichageMasque = 1 ;
-      vm.table=0;
+      //vm.table=0;
 			vm.type_engin = {} ;
 			NouvelItem = true ;
         };
@@ -117,7 +117,7 @@
           vm.affichageMasque = 0 ;
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
-          vm.table=1;
+         // vm.table=1;
           NouvelItem = false;
         };
         vm.modifier = function() {
@@ -128,7 +128,7 @@
           vm.type_engin.libelle = vm.selectedItem.libelle ;
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0;
-          vm.table=0;  
+          //vm.table=0;  
         };
         vm.supprimer = function() {
           vm.affichageMasque = 0 ;

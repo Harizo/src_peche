@@ -280,6 +280,10 @@
         });
         vm.selectedItemEspece_capture.$selected = true;
       });
+
+      $scope.removeBouton = function() {
+        vm.afficherboutonModifSuprEspece_capture = 0 ;
+      }
       //function cache masque de saisie
         vm.ajouter = function () {
   			vm.selectedItem.$selected = false;

@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.type_canoe', {
             title: 'Type canoe',
-            icon  : 'icon-tile-four',
+            icon  : 'icon-cup-water',
             state: 'app.peche_ddb_type_canoe',
 			weight: 1
         });

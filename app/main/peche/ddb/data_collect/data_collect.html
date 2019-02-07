@@ -32,72 +32,80 @@
         </div>  
         <div style="clear:both;"></div>
                     <!-- BASIC FORM -->
-        <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-          <md-tab label="Ajout Data_collect">
-            <md-tab-body>
-              <form name="data_collectform" class="md-inline-form" novalidate>
-                <div layout="column" layout-gt-xs="row" flex>
-                  <input type="hidden" ng-model="vm.data_collect.id"></input>
-                    <md-input-container flex="100" flex-gt-xs="33">
-                      <input type="text" name="code" ng-model="vm.data_collect.code"
-                        placeholder="Code" ng-init="vm.data_collect.code=''"
-                        required>
-                        <div ng-messages="data_collectform.code.$error"
-                          role="alert">
-                          <div ng-message="required">
-                            <span>Code obligatoire.</span>
-                          </div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container flex="100" flex-gt-xs="33">
-                      <input type="text" name="libelle" ng-model="vm.data_collect.libelle"
-                        placeholder="Libelle " ng-init="vm.data_collect.libelle=''"
-                        required>
-                        <div ng-messages="data_collectform.libelle.$error"
-                          role="alert">
-                          <div ng-message="required">
-                            <span>Libelle obligatoire.</span>
-                          </div>
-                        </div>
-                    </md-input-container>
+        <div class="white-bg md-whiteframe-4dp">            
+            <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
+              <md-tab label="Ajout Data_collect">
+                <md-tab-body>
+                </br>
+                  <form name="data_collectform" class="md-inline-form" novalidate>
+                    <div layout="column" layout-gt-xs="row" flex>
+                      <input type="hidden" ng-model="vm.data_collect.id"></input>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="code" ng-model="vm.data_collect.code"
+                            placeholder="Code" ng-init="vm.data_collect.code=''"
+                            required>
+                            <div ng-messages="data_collectform.code.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Code obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="libelle" ng-model="vm.data_collect.libelle"
+                            placeholder="Libelle " ng-init="vm.data_collect.libelle=''"
+                            required>
+                            <div ng-messages="data_collectform.libelle.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Libelle obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
 
-                </div>
-                <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                      ng-disabled="data_collectform.$invalid" ng-click="vm.ajout(vm.data_collect,0)">
-                      Enregistrer
-                </md-button>
-                <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
-                  Annuler
-                </md-button>
-              </form>
-            </md-tab-body>
-       
-          </md-tab>
-        </md-tabs>
-         <!-- / BASIC FORM -->
-        <md-tabs md-dynamic-height>
-
-          <md-tab label="Liste">
-            <table class="dataTable row-border hover" datatable="ng"
-              dt-options="vm.dtOptions">
-              <thead>
-                <tr>
-                  <th class="secondary-text" ng-repeat="re in ::vm.data_collect_column">
-                    <div class="table-header">
-                      <span class="column-title">{{re.titre}}</span>
                     </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="data_collect in vm.alldata_collect"  ng-class="{selected: data_collect.$selected}" ng-click="vm.selection(data_collect)">
-                  <td>{{data_collect.code}}</td>
-                  <td>{{data_collect.libelle}}</td>                
-                </tr>
-              </tbody>
-            </table>
-          </md-tab>
-        </md-tabs>
+                    <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                          ng-disabled="data_collectform.$invalid" ng-click="vm.ajout(vm.data_collect,0)">
+                          Enregistrer
+                    </md-button>
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                      Annuler
+                    </md-button>
+                  </form>
+                </md-tab-body>
+           
+              </md-tab>
+            </md-tabs>
+        </div>
+         <!-- / BASIC FORM -->
+         <dir><p></p></dir>
+        <div class="white-bg md-whiteframe-4dp">
+            <md-tabs md-dynamic-height>
+
+              <md-tab label="Liste">
+                
+                <table class="dataTable row-border hover" datatable="ng"
+                  dt-options="vm.dtOptions">
+                  <thead>
+                    <tr>
+                      <th class="secondary-text" ng-repeat="re in ::vm.data_collect_column">
+                        <div class="table-header">
+                          <span class="column-title">{{re.titre}}</span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="data_collect in vm.alldata_collect"  ng-class="{selected: data_collect.$selected}" ng-click="vm.selection(data_collect)">
+                      <td>{{data_collect.code}}</td>
+                      <td>{{data_collect.libelle}}</td>                
+                    </tr>
+                  </tbody>
+                </table>
+                
+              </md-tab>
+            </md-tabs>
+        </div>
             <!-- / LISTE TABLE -->
 
 

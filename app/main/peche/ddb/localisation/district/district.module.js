@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.localisation.district', {
             title: 'District',
-            icon  : 'icon-tile-four',
+            icon  : 'icon-map-marker-radius',
             state: 'app.population_ddb_localisation_district',
 			weight: 2
         });

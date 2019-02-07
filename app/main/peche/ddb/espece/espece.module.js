@@ -29,7 +29,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.espece', {
             title: 'Espece',
-            icon  : 'icon-tile-four',
+            icon  : 'icon-blur',
             state: 'app.peche_ddb_espece',
 			weight: 1
         });
