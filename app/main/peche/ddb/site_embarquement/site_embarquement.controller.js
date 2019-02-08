@@ -16,6 +16,7 @@
 
       vm.selectedItem = {} ;
       vm.allsite_embarquement = [] ;
+      vm.allcurrentdistrict=[];
       
 
       //variale affichage bouton nouveau
@@ -63,6 +64,7 @@
     apiFactory.getAll("district/index").then(function(result)
     {
       vm.alldistrict = result.data.response;
+      vm.allcurrentdistrict=vm.alldistrict;
     });
 
     apiFactory.getAll("region/index").then(function(result)
@@ -142,7 +144,7 @@
             //factory
             apiFactory.add("site_embarquement/index",datas, config)
                 .success(function (data) {
-
+                  vm.allcurrentdistrict=vm.alldistrict;
                   if (NouvelItem == false) 
                   {
                     // Update or delete: id exclu
@@ -258,7 +260,7 @@
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
           NouvelItem = false;
-
+          vm.allcurrentdistrict=vm.alldistrict;
         };
 
         vm.modifier = function() 
@@ -314,19 +316,27 @@
             //alert('rien');
           });
         };
+        var currentItemregion;
+        
         vm.modifierregion = function (item) 
         {
           vm.allregion.forEach(function(reg) {
               if(reg.id==item.region_id) {
                  item.region_id = reg.id; 
                  item.region_nom = reg.nom;
-                 
+
+                 currentItemregion=reg.id;                 
+                  vm.allcurrentdistrict = vm.alldistrict.filter(function(obj) {                 
+                        return obj.region_id == currentItemregion;
+                      });
+                   
               }
           });
         }
 
         vm.modifierdistrict = function (item) {
-          vm.alldistrict.forEach(function(dist) {
+         
+          vm.allcurrentdistrict.forEach(function(dist) {
               if(dist.id==item.district_id) {
                  item.district_id = dist.id; 
                  item.district_nom = dist.nom;
