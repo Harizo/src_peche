@@ -60,15 +60,6 @@
                                 </div>
                               </div>
                         </md-input-container>
-                      
-                        <md-input-container flex="100" flex-gt-xs="33">
-                          <label>Region</label>
-                            <md-select ng-model="vm.enqueteur.region_id" ng-change="vm.modifierregion(vm.enqueteur)">
-                              <md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
-                                {{region.nom}}
-                              </md-option>
-                            </md-select>
-                        </md-input-container>
                       </div>
                       <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                           ng-disabled="enqueteurform.$invalid " ng-click="vm.ajout(vm.enqueteur,0)">
@@ -114,7 +105,6 @@
                         <td>{{enqueteur.nom}}</td>
                         <td>{{enqueteur.prenom}}</td>
                         <td>{{enqueteur.cin}}</td>
-                        <td>{{enqueteur.region_nom}}</td>
                       </tr>
                     </tbody>
                 </table>

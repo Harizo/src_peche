@@ -13,6 +13,7 @@
             'app.peche.ddb.enqueteur',
             'app.peche.ddb.site_embarquement',
             'app.peche.ddb.fiche_echantillonnage_capture',
+            'app.peche.ddb.site_enqueteur',
             //'app.peche.ddb.echantillon'
 
 
