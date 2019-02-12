@@ -107,7 +107,7 @@
 			vm.selectedItem = item;
 			vm.nouvelItem = item;
 			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
-			//vm.afficherboutonModifSupr = 1 ;
+			vm.afficherboutonModifSupr = 1 ;
 			vm.affichageMasque = 0 ;
 			vm.afficherboutonnouveau = 1 ;
 
@@ -134,7 +134,7 @@
           vm.afficherboutonModifSupr = 0 ;
           NouvelItem = false;
         };
-       /* vm.modifier = function() {
+        vm.modifier = function() {
           NouvelItem = false ;
           vm.affichageMasque = 1 ;
           
@@ -158,8 +158,8 @@
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0; 
           //console.log(vm.site_enqueteur); 
-        };*/
-       /* vm.supprimer = function() {
+        };
+        vm.supprimer = function() {
           vm.affichageMasque = 0 ;
           vm.afficherboutonModifSupr = 0 ;
          var confirm = $mdDialog.confirm()
@@ -175,7 +175,7 @@
           }, function() {
             //alert('rien');
           });
-        };*/
+        };
 
         vm.modifiersite_embarquement = function (item) 
         {
