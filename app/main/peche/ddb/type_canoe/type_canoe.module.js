@@ -31,7 +31,7 @@
             title: 'Type canoe',
             icon  : 'icon-cup-water',
             state: 'app.peche_ddb_type_canoe',
-			weight: 1
+			weight: 5
         });
     }
 

@@ -31,7 +31,7 @@
             title: 'Espece',
             icon  : 'icon-blur',
             state: 'app.peche_ddb_espece',
-			weight: 1
+			weight: 4
         });
     }
 

@@ -14,6 +14,8 @@
             'app.peche.ddb.site_embarquement',
             'app.peche.ddb.fiche_echantillonnage_capture',
             'app.peche.ddb.site_enqueteur',
+            'app.peche.ddb.unite_peche',
+            'app.peche.ddb.enquete_cadre',
             //'app.peche.ddb.echantillon'
 
 
@@ -35,13 +37,7 @@
             }*/
         });
 
-// Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.data_collect', {
-            title: 'Data collect',
-            icon  : 'icon-data',
-            state: 'app.population_ddb_data_collect',
-            weight: 1
-        });
+
 
     }
 

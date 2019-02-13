@@ -20,7 +20,7 @@
         msNavigationServiceProvider.saveItem('peche.ddb.localisation', {
             title : 'Localisation',
             icon  : 'icon-map-marker-multiple',
-            weight: 4 //6
+            weight: 9
         });
     }
 
