@@ -4,18 +4,18 @@
     'use strict';
 
     angular
-        .module('app.peche.ddb.fiche_echantillonnage_capture', [])
+        .module('app.peche.fiche_echantillonnage_capture', [])
         .config(config);
 
     /** @ngInject */
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.population_ddb_fiche_echantillonnage_capture', {
-            url      : '/donnees-de-base/fiche_echantillonnage_capture',
+        $stateProvider.state('app.population_fiche_echantillonnage_capture', {
+            url      : '/fiche_echantillonnage_capture',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/ddb/fiche_echantillonnage_capture/fiche_echantillonnage_capture.html',
+                    templateUrl: 'app/main/peche/fiche_echantillonnage_capture/fiche_echantillonnage_capture.html',
                     controller : 'Fiche_echantillonnage_captureController as vm'
                 }
             },
@@ -28,10 +28,10 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.fiche_echantillonnage_capture', {
+        msNavigationServiceProvider.saveItem('peche.fiche_echantillonnage_capture', {
             title: 'Fiche d\'echantillonnage',
             icon  : 'icon-clipboard-text',
-            state: 'app.population_ddb_fiche_echantillonnage_capture',
+            state: 'app.population_fiche_echantillonnage_capture',
             weight: 3
         });
     }
