@@ -18,74 +18,89 @@
   		vm.afficherboutonnouveau = 1 ;    //variale affichage bouton nouveau  		
   		vm.affichageMasque = 0 ;          //variable cache masque de saisie
   		
-      //style
-        		vm.dtOptions = {
-        			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-        			pagingType: 'simple',
-        			autoWidth: false,
-        			responsive: true
-        		};
+//style
+      vm.dtOptions =
+      {
+        dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+        pagingType: 'simple',
+        autoWidth: false,
+        responsive: true
+      };
 
-      //col table
-        		vm.data_collect_column = [{titre:"Code"},{titre:"Libelle"}];
-        		apiFactory.getAll("data_collect/index").then(function(result)
-            {
-        			vm.alldata_collect = result.data.response;    
-        		});
+//col table
+      vm.data_collect_column = [{titre:"Code"},{titre:"Libelle"}];
+
+      apiFactory.getAll("data_collect/index").then(function(result)
+      { vm.alldata_collect = result.data.response;    
+      });
 
       function ajout(data_collect,suppression)
       {
-        if (NouvelItem==false) {
-              test_existance (data_collect,suppression); 
-        } else{
-                insert_in_base(data_collect,suppression);
-              }
+        if (NouvelItem==false)
+        {
+          test_existance (data_collect,suppression); 
+        } 
+        else
+        {
+          insert_in_base(data_collect,suppression);
+        }
       }
  
  //add     
       function insert_in_base(data_collect,suppression) 
       {        
-          var config = {
-              headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
+          var config =
+          {
+            headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
           };
           var getId = 0;
           if (NouvelItem==false)
           {
-              getId = vm.selectedItem.id; 
+            getId = vm.selectedItem.id; 
           } 
-          var datas = $.param({
-              supprimer:suppression,
-              id:getId,      
-              code: data_collect.code,
-              libelle: data_collect.libelle,                              
+          var datas = $.param(
+          {
+            supprimer:suppression,
+            id:getId,      
+            code: data_collect.code,
+            libelle: data_collect.libelle,                              
           });
         
-        //factory
-                apiFactory.add("data_collect/index",datas, config).success(function (data) {
-          				if (NouvelItem == false) {
-                       // Update or delete: id exclu                 
-                      if(suppression==0) {
-            						vm.selectedItem.libelle = vm.data_collect.libelle;
-            						vm.selectedItem.code = vm.data_collect.code;					
-            						//vm.afficherboutonModifSupr = 0 ;
-            						vm.afficherboutonnouveau = 1 ;
-            						vm.selectedItem.$selected = false;
-            						vm.selectedItem ={};
-                      } else {    
-          						  vm.alldata_collect = vm.alldata_collect.filter(function(obj) {
-          							return obj.id !== currentItem.id;
-          						  });
-                      }
-          				} else {
-                          var item = {
-                              libelle: data_collect.libelle,
-                              code: data_collect.code,
-                              id:String(data.response)                       
-                          };              
-                          vm.alldata_collect.push(item);
-                          vm.data_collect = {} ;                   
-                          NouvelItem=false;
-          				}
+//factory
+      apiFactory.add("data_collect/index",datas, config).success(function (data)
+      {
+        if (NouvelItem == false)
+        {
+         // Update or delete: id exclu                 
+          if(suppression==0)
+          {
+            vm.selectedItem.libelle = vm.data_collect.libelle;
+            vm.selectedItem.code = vm.data_collect.code;					
+            vm.afficherboutonModifSupr = 0 ;
+            vm.afficherboutonnouveau = 1 ;
+            vm.selectedItem.$selected = false;
+            vm.selectedItem ={};
+          } 
+          else
+          {    
+          	vm.alldata_collect = vm.alldata_collect.filter(function(obj)
+            {
+          		return obj.id !== currentItem.id;
+          	});
+          }
+        } 
+        else 
+        {
+          var item =
+          {
+            libelle: data_collect.libelle,
+            code: data_collect.code,
+            id:String(data.response)                       
+          };              
+          vm.alldata_collect.push(item);
+          vm.data_collect = {} ;                   
+          NouvelItem=false;
+        }
         				  vm.affichageMasque = 0 ;
                 }).error(function (data) {
                             alert('Error');

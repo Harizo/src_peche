@@ -316,7 +316,7 @@
           vm.afficherboutonnouveauEspece_capture = 1 ;
           vm.afficherboutonModifSuprEspece_capture = 0 ;
           
-          NouvelItem = false;
+          NouvelItemEspece_capture = false;
         };
         vm.modifier = function() {
           NouvelItem = false ;

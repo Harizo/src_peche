@@ -11,6 +11,7 @@
             'app.peche.auth.reset-password',
             'app.peche.auth.lock',
             'app.peche.administration',
+            'app.peche.fiche_echantillonnage_capture',
             'app.peche.ddb'
         ])
         .config(config);
