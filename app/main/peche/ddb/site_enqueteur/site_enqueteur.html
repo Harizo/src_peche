@@ -45,10 +45,10 @@
                     <input type="hidden" ng-model="vm.site_enqueteur.id"></input>
 
                       <md-input-container flex="100" flex-gt-xs="33">
-                            <label>Site d'embarquement</label>
+                            <label>Site d'enquête</label>
                               <md-select ng-model="vm.site_enqueteur.site_embarquement_id" ng-change="vm.modifiersite_embarquement(vm.site_enqueteur)">
                                 <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
-                                  {{site_embarquement.libelle}}
+                                  ({{site_embarquement.code}}) {{site_embarquement.libelle}}
                                 </md-option>
                               </md-select>
                       </md-input-container>
@@ -56,7 +56,8 @@
                             <label>Enqueteur</label>
                               <md-select ng-model="vm.site_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.site_enqueteur)">
                                 <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
-                                  {{enqueteur.nom}}
+                                  {{enqueteur.nom}} {{enqueteur.prenom}}
+
                                 </md-option>
                               </md-select>
                       </md-input-container>
@@ -105,8 +106,8 @@
                 </thead>
                 <tbody>
                   <tr ng-repeat="site_enqueteur in vm.allsite_enqueteur"  ng-class="{selected: site_enqueteur.$selected}" ng-click="vm.selection(site_enqueteur)">
-                    <td>{{site_enqueteur.site_embarquement_nom}}</td>
-                    <td>{{site_enqueteur.enqueteur_nom}}</td>
+                    <td>({{site_enqueteur.site_embarquement.code}}) {{site_enqueteur.site_embarquement_nom}}</td>
+                    <td>{{site_enqueteur.enqueteur_nom}} {{site_enqueteur.enqueteur.prenom}}</td>
                   </tr>
                 </tbody>
               </table>
