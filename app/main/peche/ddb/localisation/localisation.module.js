@@ -5,8 +5,8 @@
     angular
         .module('app.peche.ddb.localisation', [   
             
-             'app.peche.ddb.localisation.pays',     
-            'app.peche.ddb.localisation.commune',
+           //  'app.peche.ddb.localisation.pays',     
+           // 'app.peche.ddb.localisation.commune',
             'app.peche.ddb.localisation.district',
             'app.peche.ddb.localisation.region',
            //'app.peche.ddb.localisation.fokontany',
