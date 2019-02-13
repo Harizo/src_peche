@@ -112,7 +112,7 @@
 									<md-input-container flex="100" flex-gt-xs="33">
 										<label>District</label>
 										<md-select ng-model="vm.site_embarquement.district_id"  ng-change="vm.modifierdistrict(vm.site_embarquement)">
-											<md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
+											<md-option ng-repeat="district in vm.allcurrentdistrict" value="{{district.id}}">
 												{{district.nom}}
 											</md-option>
 										</md-select>

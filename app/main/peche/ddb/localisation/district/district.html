@@ -18,6 +18,7 @@
     <!-- LISTE TABLE -->
     <div class="content"layout="column">
       <div class="form-wrapper">
+        <div class="white-bg md-whiteframe-4dp">
           <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
               <md-tab label="{{vm.titrepage}}">
                 <div class="simple-table-container md-whiteframe-4dp">
@@ -68,6 +69,7 @@
                 </div>
               </md-tab>
             </md-tabs>
+           <div> <br>
       <div style="widht:100%;">    
           <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
               Nouveau
@@ -80,29 +82,31 @@
           </md-button>
         </div>  
         <div style="clear:both;"></div>
-        <md-tabs md-dynamic-height>
-          <md-tab label="Liste District">
-              <table class="dataTable row-border hover" datatable="ng"
-                dt-options="vm.dtOptions">
-                <thead>
-                  <tr>
-                    <th class="secondary-text" ng-repeat="di in ::vm.district_column">
-                      <div class="table-header">
-                          <span class="column-title">{{di.titre}}</span>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                  <tbody>
-                    <tr ng-repeat="district in vm.alldistrict"  ng-class="{selected: district.$selected}" ng-click="vm.selection(district)">
-                      <td>{{district.code}}</td>
-                      <td>{{district.nom}}</td>
-                      <td>{{district.region_nom}}</td>
+        <div class="white-bg md-whiteframe-4dp">
+          <md-tabs md-dynamic-height>
+            <md-tab label="Liste District">
+                <table class="dataTable row-border hover" datatable="ng"
+                  dt-options="vm.dtOptions">
+                  <thead>
+                    <tr>
+                      <th class="secondary-text" ng-repeat="di in ::vm.district_column">
+                        <div class="table-header">
+                            <span class="column-title">{{di.titre}}</span>
+                        </div>
+                      </th>
                     </tr>
-                  </tbody>
-              </table>
-            </md-tab>
-          </md-tabs>
+                  </thead>
+                    <tbody>
+                      <tr ng-repeat="district in vm.alldistrict"  ng-class="{selected: district.$selected}" ng-click="vm.selection(district)">
+                        <td>{{district.code}}</td>
+                        <td>{{district.nom}}</td>
+                        <td>{{district.region_nom}}</td>
+                      </tr>
+                    </tbody>
+                </table>
+              </md-tab>
+            </md-tabs>
+        </div>
     <!-- / LISTE TABLE -->
 
     <!-- BASIC FORM -->

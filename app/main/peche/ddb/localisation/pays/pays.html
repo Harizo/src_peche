@@ -6,8 +6,12 @@
                 <md-icon md-font-icon="icon-home" class="s16"></md-icon>
                 <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
                 <span class="parent">Données de bases</span>
-                <span class="parent"> </span>
-                <span class="parent" href="javascript:;"> > Pays</span>
+
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> Localisation</span>
+                
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> Pays</span>
             </div>
 
             <div class="title">Pays</div>
@@ -18,6 +22,7 @@
     <!-- LISTE TABLE -->
     <div class="content"layout="column">
       <div class="form-wrapper">
+        <div class="white-bg md-whiteframe-4dp">
           <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
               <md-tab label="{{vm.titrepage}}">
                 <div class="simple-table-container md-whiteframe-4dp">
@@ -60,6 +65,7 @@
                 </div>
               </md-tab>
             </md-tabs>
+          </div> <br>
       <div style="widht:100%;">    
           <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
               Nouveau
@@ -72,6 +78,7 @@
           </md-button>
         </div>  
         <div style="clear:both;"></div>
+        <div class="white-bg md-whiteframe-4dp">
         <md-tabs md-dynamic-height>
           <md-tab label="Liste Pays">
               <table class="dataTable row-border hover" datatable="ng"
@@ -94,6 +101,7 @@
               </table>
             </md-tab>
           </md-tabs>
+        </div>
     <!-- / LISTE TABLE -->
 
     <!-- BASIC FORM -->

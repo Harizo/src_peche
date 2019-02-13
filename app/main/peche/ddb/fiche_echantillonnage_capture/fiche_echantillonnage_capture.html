@@ -62,7 +62,7 @@
 									<md-input-container flex="100" flex-gt-xs="33">
 										<label>District</label>
 										<md-select ng-model="vm.fiche_echantillonnage_capture.district_id"  ng-change="vm.modifierdistrict(vm.fiche_echantillonnage_capture)">
-											<md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
+											<md-option ng-repeat="district in vm.allcurrentdistrict" value="{{district.id}}">
 												{{district.nom}}
 											</md-option>
 										</md-select>
@@ -265,12 +265,13 @@
 			</md-tabs><br>
 			<div class="ongletdata">
 			<div class="white-bg md-whiteframe-4dp">	
-				<md-tabs md-dynamic-height md-stretch-tabs="always" md-center-tabs>
+				<md-tabs md-dynamic-height md-stretch-tabs="always">
 					<md-tab md-on-select="removeBouton()">
-						<md-tab-label>
-							<span  id="icon" style= "">1</span> &nbsp Liste fiche echantillonnage
+						<md-tab-label style= "">
+							<span  id="icon" style= "">1</span>&nbsp &nbsp Liste fiche echantillonnage
 						</md-tab-label>
 						<md-tab-body>
+							<br>
 							<div style="widht:100%;">    
 								<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
 									Nouveau
@@ -353,9 +354,9 @@
 						</md-tab-body>
 					</md-tab>
 
-					<md-tab >
-						<md-tab-label>
-							<span  id="icon" style= "">2</span> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Echantillon &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp   
+					<md-tab style= "">
+						<md-tab-label style= "">
+							<span id="icon" style= "">2</span> &nbsp &nbsp Echantillon &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp   
 							  
 						</md-tab-label>
 						<md-tab-body>

@@ -12,10 +12,10 @@
                 <span class="parent" href="javascript:;"> Localisation</span>
 
                 <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
-                <span class="parent" href="javascript:;"> Region</span>
+                <span class="parent" href="javascript:;"> site_enqueteur</span>
             </div>
 
-            <div class="title">Region</div>
+            <div class="title">site_enqueteur</div>
         </div>
     </div>
     <!-- / HEADER -->
@@ -38,48 +38,34 @@
                     <!-- BASIC FORM -->
         <div class="white-bg md-whiteframe-4dp">            
           <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-            <md-tab label="Ajout Region">
+            <md-tab label="Ajout site_enqueteur">
               <md-tab-body>
-                <form name="regionform" class="md-inline-form" novalidate>
+                <form name="site_enqueteurform" class="md-inline-form" novalidate>
                   <div layout="column" layout-gt-xs="row" flex>
-                    <input type="hidden" ng-model="vm.region.id"></input>
-                      <md-input-container flex="100" flex-gt-xs="33">
-                        <input type="text" name="code" ng-model="vm.region.code"
-                          placeholder="Code" ng-init="vm.region.code=''"
-                          required>
-                          <div ng-messages="regionform.code.$error"
-                            role="alert">
-                            <div ng-message="required">
-                              <span>Code obligatoire.</span>
-                            </div>
-                          </div>
-                      </md-input-container>
-                      <md-input-container flex="100" flex-gt-xs="33">
-                        <input type="text" name="nom" ng-model="vm.region.nom"
-                          placeholder="Nom " ng-init="vm.region.nom=''"
-                          required>
-                          <div ng-messages="regionform.nom.$error"
-                            role="alert">
-                            <div ng-message="required">
-                              <span>Nom obligatoire.</span>
-                            </div>
-                          </div>
-                      </md-input-container>
+                    <input type="hidden" ng-model="vm.site_enqueteur.id"></input>
 
                       <md-input-container flex="100" flex-gt-xs="33">
-                            <label>Pays</label>
-                              <md-select ng-model="vm.region.pays_id" ng-change="vm.modifierpays(vm.region)">
-                                <md-option ng-repeat="pays in vm.allpays" value="{{pays.id}}">
-                                  {{pays.nom}}
+                            <label>Site d'embarquement</label>
+                              <md-select ng-model="vm.site_enqueteur.site_embarquement_id" ng-change="vm.modifiersite_embarquement(vm.site_enqueteur)">
+                                <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
+                                  {{site_embarquement.libelle}}
                                 </md-option>
                               </md-select>
-                          </md-input-container>
+                      </md-input-container>
+                      <md-input-container flex="100" flex-gt-xs="33">
+                            <label>Enqueteur</label>
+                              <md-select ng-model="vm.site_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.site_enqueteur)">
+                                <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
+                                  {{enqueteur.nom}}
+                                </md-option>
+                              </md-select>
+                      </md-input-container>
 
                       <!--md-input-container flex="100" flex-gt-xs="33">
-                        <input type="number" name="surface" ng-model="vm.region.surface"
-                          placeholder="Superficie " ng-init="vm.region.surface=''"
+                        <input type="number" name="surface" ng-model="vm.site_enqueteur.surface"
+                          placeholder="Superficie " ng-init="vm.site_enqueteur.surface=''"
                           >
-                          <div ng-messages="regionform.surface.$error"
+                          <div ng-messages="site_enqueteurform.surface.$error"
                             role="alert">
                             <div ng-message="required">
                               <span>Superficie obligatoire.</span>
@@ -89,7 +75,7 @@
 
                   </div>
                   <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                        ng-disabled="regionform.$invalid" ng-click="vm.ajout(vm.region,0)">
+                        ng-disabled="site_enqueteurform.$invalid" ng-click="vm.ajout(vm.site_enqueteur,0)">
                         Enregistrer
                   </md-button>
                   <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -105,12 +91,12 @@
         <div class="white-bg md-whiteframe-4dp">
           <md-tabs md-dynamic-height>
 
-            <md-tab label="Liste Region">
+            <md-tab label="Liste site_enqueteur">
               <table class="dataTable row-border hover" datatable="ng"
                 dt-options="vm.dtOptions">
                 <thead>
                   <tr>
-                    <th class="secondary-text" ng-repeat="re in ::vm.region_column">
+                    <th class="secondary-text" ng-repeat="re in ::vm.site_enqueteur_column">
                       <div class="table-header">
                         <span class="column-title">{{re.titre}}</span>
                       </div>
@@ -118,10 +104,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="region in vm.allregion"  ng-class="{selected: region.$selected}" ng-click="vm.selection(region)">
-                    <td>{{region.code}}</td>
-                    <td>{{region.nom}}</td>
-                    <td>{{region.pays_nom}}</td>
+                  <tr ng-repeat="site_enqueteur in vm.allsite_enqueteur"  ng-class="{selected: site_enqueteur.$selected}" ng-click="vm.selection(site_enqueteur)">
+                    <td>{{site_enqueteur.site_embarquement_nom}}</td>
+                    <td>{{site_enqueteur.enqueteur_nom}}</td>
                   </tr>
                 </tbody>
               </table>

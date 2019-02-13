@@ -43,35 +43,11 @@
       },
        {
         titre:"Cin"
-      },
-      {
-        titre:"Region"
       }
     ];
 
-      apiFactory.getAll("region/index").then(function(result)
-      {
-        vm.allregion= result.data.response;
-      });
-
       apiFactory.getAll("enqueteur/index").then(function(result){
         vm.allenqueteur = result.data.response;
-
-        /*for (var i = 0; i < vm.allenqueteurss.length; i++) 
-        {
-          var item = {
-                  id: vm.allenqueteurss[i].id,
-                  nom: vm.allenqueteurss[i].nom,
-                  prenom: vm.allenqueteurss[i].prenom,
-                  cin: vm.allenqueteurss[i].cin,
-                  region_id: vm.allenqueteurss[i].region_id,
-                  region_nom: vm.allenqueteurss[i].region.nom
-                 
-              };
-              
-              vm.allenqueteur.push(item);
-                          
-        }*/
       });
 
 
@@ -112,8 +88,7 @@
                 id:getId,      
                 prenom: enqueteur.prenom,
                 nom: enqueteur.nom,
-                cin: enqueteur.cin,
-                region_id:enqueteur.region_id
+                cin: enqueteur.cin
                 
             });
        
@@ -130,8 +105,6 @@
                       vm.selectedItem.nom = vm.enqueteur.nom;
                       vm.selectedItem.prenom = vm.enqueteur.prenom;
                       vm.selectedItem.cin = vm.enqueteur.cin;
-                      vm.selectedItem.region_id = vm.enqueteur.region_id;
-                      vm.selectedItem.region_nom = vm.enqueteur.region_nom;
                       vm.afficherboutonModifSupr = 0 ;
                       vm.afficherboutonnouveau = 1 ;
                       vm.selectedItem.$selected = false;
@@ -151,16 +124,13 @@
                         nom: enqueteur.nom,
                         prenom: enqueteur.prenom,
                         cin: enqueteur.cin,
-                        id:String(data.response) ,
-                        region_id:enqueteur.region_id ,
-                        region_nom:enqueteur.region_nom 
+                        id:String(data.response) 
                     };
                   console.log(enqueteur.region_nom);
                     vm.allenqueteur.push(item);
                     vm.enqueteur.prenom='';
                     vm.enqueteur.nom='';
                     vm.enqueteur.cin='';
-                    vm.enqueteur.region_id='';
                     
                     NouvelItem=false;
                   }
@@ -229,16 +199,6 @@
           vm.enqueteur.prenom = vm.selectedItem.prenom ;
           vm.enqueteur.cin = vm.selectedItem.cin ;
           vm.enqueteur.nom = vm.selectedItem.nom ;
-         
-          vm.allregion.forEach(function(reg) {
-            if(reg.id==vm.selectedItem.region_id) {
-
-              vm.enqueteur.region_id = reg.id ;
-              vm.enqueteur.region_nom = reg.nom ;
-            }
-          });
-
-          
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0;  
 
@@ -264,17 +224,6 @@
             //alert('rien');
           });
         };
-        
-        vm.modifierregion = function (item) 
-        {
-          vm.allregion.forEach(function(reg) {
-              if(reg.id==item.region_id) {
-                 item.region_id = reg.id; 
-                 item.region_nom = reg.nom;
-                 
-              }
-          });
-        }
 
         function test_existance (item,suppression) 
         {
@@ -287,8 +236,7 @@
                   {
                     if((dist.nom!=item.nom)
                     ||(dist.prenom!=item.prenom)
-                    ||(dist.cin!=item.cin)
-                    ||(dist.region_id!=item.region_id))
+                    ||(dist.cin!=item.cin))
                     
                     {
                       insert_in_base(item,suppression);

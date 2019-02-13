@@ -76,6 +76,7 @@
     apiFactory.getAll("district/index").then(function(result)
     {
       vm.alldistrict = result.data.response;
+      vm.allcurrentdistrict=vm.alldistrict;
     });
 
     apiFactory.getAll("region/index").then(function(result)
@@ -205,7 +206,7 @@
             //factory
             apiFactory.add("fiche_echantillonnage_capture/index",datas, config)
                 .success(function (data) {
-
+                  vm.allcurrentdistrict=vm.alldistrict;
                   if (NouvelItem == false) 
                   {
                     // Update or delete: id exclu
@@ -552,6 +553,7 @@
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
           NouvelItem = false;
+          vm.allcurrentdistrict=vm.alldistrict;
 
         };
 
@@ -719,13 +721,18 @@
             //alert('rien');
           });
         };
-
+        var currentItemregion;
         vm.modifierregion = function (item) 
         {
           vm.allregion.forEach(function(reg) {
               if(reg.id==item.region_id) {
                  item.region_id = reg.id; 
                  item.region_nom = reg.nom;
+
+                 currentItemregion=reg.id;                 
+                  vm.allcurrentdistrict = vm.alldistrict.filter(function(obj) {                 
+                        return obj.region_id == currentItemregion;
+                      });
                  
               }
           });
