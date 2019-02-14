@@ -12,7 +12,7 @@
             <div class="title">Fiche de capture d'echantillonnage</div>
         </div>
     </div>
-    <div class="content"layout="column">
+    <!--div class="content"layout="column">
 		<div class="form-wrapper">			  
 			<div style="clear:both;"></div>
 			<div class="white-bg md-whiteframe-4dp">
@@ -123,11 +123,11 @@
 							</form>
 						</md-tab-body>
 						</div>
-					<!-- / BASIC FORM -->
+					
 					</md-tab>
 					</md-tabs>
-				</div>
-				<div class="white-bg md-whiteframe-4dp">	
+				</div-->
+				<!--div class="white-bg md-whiteframe-4dp">	
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1" md-stretch-tabs="always">
 				<md-tab label="Ajout Echantillon">
 					<div class="simple-table-container md-whiteframe-4dp">
@@ -137,14 +137,7 @@
 							<div layout="column" layout-gt-xs="row" flex>
 								<input type="hidden" ng-model="vm.echantillon.id"></input>		
 								
-								<!--md-input-container flex="100" flex-gt-xs="33">
-									<label>Fiche</label>
-									<md-select ng-model="vm.echantillon.fiche_echantillonnage_capture_id"  ng-change="vm.modifierfiche_echantillonnage_capture(vm.echantillon)">
-										<md-option ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture" value="{{fiche_echantillonnage_capture.id}}">
-											{{fiche_echantillonnage_capture.code_unique}}
-										</md-option>
-									</md-select>
-								</md-input-container-->
+								
 								<md-input-container flex="100" flex-gt-xs="33">
 									<label>Type canoe</label>
 									<md-select ng-model="vm.echantillon.type_canoe_id"  ng-change="vm.modifiertype_canoe(vm.echantillon)">
@@ -258,11 +251,11 @@
 						</form>
 					</md-tab-body>
 					</div>
-				<!-- / BASIC FORM -->
+				
 				</md-tab>
-			</div>
+			</div-->
 			<!-- BASIC FORM --> 
-		    <div class="white-bg md-whiteframe-4dp"> 
+		    <!--div class="white-bg md-whiteframe-4dp"> 
 		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueEspece_capture==1" md-stretch-tabs="always">
 		            <md-tab label="Ajout Espece capture">
 		                <md-tab-body>
@@ -314,11 +307,11 @@
 		                </md-tab-body>
 		            </md-tab>
 		        </md-tabs>
-		    </div> 
+		    </div--> 
 		    <!-- / BASIC FORM -->
 			
-			</md-tabs><br>
-			<div class="ongletdata">
+			
+			<!--div class="ongletdata">
 			<div class="white-bg md-whiteframe-4dp">	
 				<md-tabs md-dynamic-height md-stretch-tabs="always">
 					<md-tab md-on-select="removeBouton()">
@@ -431,11 +424,7 @@
 							dt-options="vm.dtOptions">
 							<thead>
 								<tr>
-									<!--th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Fiche</span>
-										</div>
-									</th-->
+									
 									<th class="secondary-text">
 										<div class="table-header">
 											<span class="column-title">Canoe</span>
@@ -488,17 +477,11 @@
 									</th>
 
 								</tr>
-							<!--tr>
-								 <th class="secondary-text" ng-repeat="ec in ::vm.echantillon_column">
-			                      <div class="table-header">
-			                          <span class="column-title">{{ec.titre}}</span>
-			                      </div>
-			                    </th>
-			                </tr-->
+							
 							</thead>
 							<tbody>
 								<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
-									<!--td>{{echantillon.fiche_echantillonnage_capture_nom}}</td-->
+									
 									<td>{{echantillon.type_canoe_nom}}</td>
 									<td>{{echantillon.type_engin_nom}}</td>
 									<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
@@ -560,7 +543,7 @@
 		            </md-tab>
 				</md-tabs>
 			</div>
-			</div>
+			</div-->
 			<div layout="row">
 
             <!-- FORM WIZARD -->
@@ -574,7 +557,7 @@
                                 <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step1==true">
                                     <i class="icon-check s16"></i>
                                 </span>
-                                <span class="ms-form-wizard-step-text">Personal Information</span>
+                                <span class="ms-form-wizard-step-text">Fiche echntillonnage capture</span>
                             </span>
                         </md-tab-label>
 
@@ -667,137 +650,186 @@
                         <md-tab-label>
                             <span class="ms-form-wizard-step-label">
                                 <span class="ms-form-wizard-step-number md-accent-bg"
-                                      ng-if="wizardStep2.$invalid">2</span>
-                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="wizardStep2.$valid">
+                                      ng-if="vm.step2==false">2</span>
+                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step2==true">
                                     <i class="icon-check s16"></i>
                                 </span>
-                                <span class="ms-form-wizard-step-text">Address</span>
+                                <span class="ms-form-wizard-step-text">Echantillon</span>
                             </span>
                         </md-tab-label>
+						<md-tab-body>
+							<div style="clear:both;"></div>
+							<div style="widht:100%;">    
+								<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
+									Nouveau
+								</md-button>
+								<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEchantillon()" style="width:10%;">
+									Modifier
+								</md-button>
+								<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEchantillon()" style="width:10%;">
+									Supprimer
+								</md-button>
+							</div>
+							<table class="dataTable row-border hover" datatable="ng"
+							dt-options="vm.dtOptions">
+							<thead>
+								<tr>
+									<!--th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Fiche</span>
+										</div>
+									</th-->
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Canoe</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Engin</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Peche hier<br/>avant hier</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Nbr jrs/sem</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Total capture</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Code</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Data collect</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Bateau actif<br/>bateau ecn</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Date creation<br/>modification</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">User</span>
+										</div>
+									</th>
 
-                        <md-tab-body>
-                            <form name="wizardStep2" ms-form-wizard-form novalidate>
-                                <div layout="column" layout-gt-xs="row">
-                                    <md-input-container flex>
-                                        <label>City</label>
-                                        <input type="text" name="city" ng-model="vm.formWizard.city">
-                                    </md-input-container>
-
-                                    <md-input-container flex>
-                                        <label>State</label>
-                                        <md-select ng-model="vm.formWizard.state">
-                                            <md-option ng-repeat="state in vm.states" value="{{state.abbrev}}">
-                                                {{state.abbrev}}
-                                            </md-option>
-                                        </md-select>
-                                    </md-input-container>
-                                </div>
-
-                                <md-input-container class="md-block">
-                                    <label>Address</label>
-                                    <textarea ng-model="vm.formWizard.address" columns="1" md-maxlength="150"
-                                              rows="5" required></textarea>
-                                    <div ng-messages="wizardStep2.address.$error"
-                                         role="alert" multiple>
-                                        <div ng-message="required"><span>Address field is required.</span></div>
-                                        <div ng-message="md-maxlength">
-                                            <span>Address can't be longer than 150 characters.</span>
-                                        </div>
-                                    </div>
-                                </md-input-container>
-                            </form>
-                        </md-tab-body>
+								</tr>
+							<!--tr>
+								 <th class="secondary-text" ng-repeat="ec in ::vm.echantillon_column">
+			                      <div class="table-header">
+			                          <span class="column-title">{{ec.titre}}</span>
+			                      </div>
+			                    </th>
+			                </tr-->
+							</thead>
+							<tbody>
+								<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
+									<!--td>{{echantillon.fiche_echantillonnage_capture_nom}}</td-->
+									<td>{{echantillon.type_canoe_nom}}</td>
+									<td>{{echantillon.type_engin_nom}}</td>
+									<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
+									<td>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
+									<td>{{echantillon.total_capture}}</td>
+									<td>{{echantillon.unique_code}}</td>
+									<td>{{echantillon.data_collect_nom}}</td>
+									<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
+									<td>{{echantillon.date_creation}}<br/>{{echantillon.date_modification}}</td>
+									<td>{{echantillon.user_nom}}</td>						
+								</tr>
+							</tbody>
+						</table>
+						</md-tab-body>
                     </md-tab>
 
-                    <md-tab ng-disabled="wizardStep1.$invalid || wizardStep2.$invalid">
+                    <md-tab ng-disabled="vm.step1==false || vm.step2==false">
                         <md-tab-label>
                             <span class="ms-form-wizard-step-label">
                                 <span class="ms-form-wizard-step-number md-accent-bg"
-                                      ng-if="wizardStep3.$invalid">3</span>
-                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="wizardStep3.$valid">
+                                      ng-if="vm.step3==false">3</span>
+                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step3==true">
                                     <i class="icon-check s16"></i>
                                 </span>
-                                <span class="ms-form-wizard-step-text">Payment Method</span>
+                                <span class="ms-form-wizard-step-text">Espece capture</span>
                             </span>
                         </md-tab-label>
-                        <md-tab-body ms-form-wizard-form>
-                            <form name="wizardStep3" ms-form-wizard-form novalidate>
-                                <md-input-container class="md-block">
-                                    <input type="text" name="cardholder" ng-model="vm.formWizard.cardholder"
-                                           placeholder="Card Holder"
-                                           required>
-                                    <div ng-messages="wizardStep3.cardholder.$error"
-                                         role="alert">
-                                        <div ng-message="required">
-                                            <span>Card holder field is required.</span>
-                                        </div>
-                                    </div>
-                                </md-input-container>
+                        <md-tab-body>
 
-                                <div layout="column" layout-gt-xs="row">
-                                    <md-input-container flex="100" flex-gt-xs="33">
-                                        <input type="text" name="cardnumber" ng-model="vm.formWizard.cardnumber"
-                                               placeholder="Card Number"
-                                               required>
-                                        <div ng-messages="wizardStep3.cardnumber.$error"
-                                             role="alert">
-                                            <div ng-message="required">
-                                                <span>Card number field is required.</span>
-                                            </div>
-                                        </div>
-                                    </md-input-container>
+		                <div style="widht:100%;">    
+		                    <md-button type="submit" ng-show="vm.afficherboutonnouveauEspece_capture==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEspece_capture()" style="width:10%;">
+		                          Nouveau
+		                    </md-button>
+		                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEspece_capture()" style="width:10%;">
+		                          Modifier
+		                    </md-button>
+		                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEspece_capture()" style="width:10%;">
+		                          Supprimer
+		                    </md-button>
+		                </div> 
 
-                                    <md-input-container flex="100" flex-gt-xs="33">
-                                        <input type="text" name="CC2" ng-model="vm.formWizard.cc2"
-                                               placeholder="CC2" md-maxlength="3"
-                                               required>
-                                        <div ng-messages="wizardStep3.cc2.$error"
-                                             role="alert" multipl>
-                                            <div ng-message="required">
-                                                <span>CC2 field is required.</span>
-                                            </div>
-                                            <div ng-message="md-maxlength">
-                                                <span>CC2 can't be longer than 3 characters.</span>
-                                            </div>
-                                        </div>
-                                    </md-input-container>
-
-                                    <md-input-container flex="100" flex-gt-xs="33">
-                                        <input type="text" name="expirationDate" ng-model="vm.formWizard.expirationDate"
-                                               placeholder="Expiration Date"
-                                               required>
-                                        <div ng-messages="wizardStep3.expirationDate.$error"
-                                             role="alert">
-                                            <div ng-message="required">
-                                                <span>Expiration date field is required.</span>
-                                            </div>
-                                        </div>
-                                    </md-input-container>
-                                </div>
-                            </form>
-                        </md-tab-body>
+		                 <table class="dataTable row-border hover" datatable="ng"
+		                      dt-options="vm.dtOptions">
+		                  <thead>
+		                    <tr>
+		                      <th class="secondary-text" ng-repeat="esc in ::vm.espece_capture_column">
+		                            <div class="table-header">
+		                              <span class="column-title">{{esc.titre}}</span>
+		                            </div>
+		                      </th>
+		                    </tr>
+		                  </thead>
+		                    <tbody>
+		                        <tr ng-repeat="espece_capture in vm.allespece_capture" ng-class="{selected: espece_capture.$selected}" ng-click="vm.selectionEspece_capture(espece_capture)">
+		                          <td>{{espece_capture.espece_nom}}</td>
+		                          <td>{{espece_capture.capture}}</td>
+		                          <td>{{espece_capture.prix}}</td>
+		                          <td>{{espece_capture.user_nom}}</td>
+		                          <td>{{espece_capture.date_creation}}</td>
+		                          <td>{{espece_capture.date_modification}}</td>
+		                        </tr>
+		                    </tbody>
+		                   
+		                  </table>
+		              </md-tab-body>
                     </md-tab>
                 </md-tabs>
 
                 <div class="navigation" flex layout="row" layout-align="center center">
                     <md-button class="md-raised md-accent" ng-click="msWizard.previousStep()"
                                ng-disabled="msWizard.isFirstStep()">
-                        Previous
+                        Précédent
                     </md-button>
                     <div class="steps">
-                        <span ng-repeat="form in msWizard.forms"
+                        <span ng-repeat="form in vm.step"
                               ng-class="{'selected md-accent-bg':msWizard.selectedIndex === $index}"></span>
                     </div>
                     <md-button class="md-raised md-accent" ng-click="msWizard.nextStep()"
                                ng-hide="msWizard.isLastStep()"
-                               ng-disabled="vm.step1==false">
-                        Next
+                               ng-disabled="msWizard.selectedIndex==2 ||vm.step1==false" >
+
+                        Suivant
                     </md-button>
-                    <md-button class="md-raised md-warn" ng-click="vm.sendForm(); msWizard.resetForm();"
+                    <!--md-button class="md-raised md-warn" ng-click="vm.sendForm(); msWizard.resetForm();"
                                ng-show="msWizard.isLastStep()"
                                ng-disabled="msWizard.formsIncomplete()">
                         Send
-                    </md-button>
+                    </md-button-->
                 </div>
 
             </ms-form-wizard>

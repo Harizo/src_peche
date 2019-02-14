@@ -39,7 +39,8 @@
       vm.affichageMasque = 0 ;
       vm.affichageMasqueEchantillon = 0 ;
       vm.step1=false;
-
+      vm.step2=false;
+      vm.step3=false;
       //style
     vm.dtOptions = {
       dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -47,7 +48,7 @@
       autoWidth: false,
       responsive: true
     };
-
+    vm.step=[{step:1},{step:2},{step:3}];
     //col table
     vm.fiche_echantillonnage_capture_column = [
       {
@@ -611,6 +612,11 @@
         
           vm.selectedItem = item;
           vm.nouvelItem = item;
+          if(currentItem != vm.selectedItem){
+            vm.step1=false;
+            vm.step2=false;
+            vm.step3=false;
+          }
           currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
           vm.afficherboutonModifSupr = 1 ;
           vm.affichageMasque = 0 ;
@@ -622,8 +628,7 @@
             vm.allechantillon = result.data.response;
             //console.log(vm.echatillon);
           });
-          vm.step1=true; 
-          WizardHandler.wizard().next();   
+          vm.step1=true;  
       };
       $scope.$watch('vm.selectedItem', function() {
         if (!vm.allfiche_echantillonnage_capture) return;
@@ -646,7 +651,9 @@
           apiFactory.getFils("espece_capture/index",item.id).then(function(result)
             {
               vm.allespece_capture = result.data.response;            
-            });           
+            });
+            vm.step2=true;
+            vm.step3=false;         
         };
 
       $scope.$watch('vm.selectedItemEchantillon', function() {
@@ -665,7 +672,8 @@
           currentItemEspece_capture = JSON.parse(JSON.stringify(vm.selectedItemEspece_capture));
           vm.afficherboutonModifSuprEspece_capture = 1 ;
           vm.affichageMasqueEspece_capture = 0 ;
-         //console.log(item);           
+         //console.log(item); 
+         vm.step3=true;           
       };
 
       $scope.$watch('vm.selectedItemEspece_capture', function() {
