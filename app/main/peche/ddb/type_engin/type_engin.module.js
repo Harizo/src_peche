@@ -31,7 +31,7 @@
             title: 'Type engin',
             icon  : 'icon-houzz-box',
             state: 'app.peche_ddb_type_engin',
-			weight: 1
+			weight: 6
         });
     }
 

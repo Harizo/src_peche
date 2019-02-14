@@ -42,7 +42,7 @@
         titre:"Prenom"
       },
        {
-        titre:"Cin"
+        titre:"Téléphone"
       }
     ];
 

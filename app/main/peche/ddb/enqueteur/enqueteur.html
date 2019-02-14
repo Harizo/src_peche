@@ -7,10 +7,10 @@
                 <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
                 <span class="parent">Données de bases</span>
                 <span class="parent"> </span>
-                <span class="parent" href="javascript:;"> > Enqueteur</span>
+                <span class="parent" href="javascript:;"> > Enquêteur</span>
             </div>
 
-            <div class="title">Enqueteur</div>
+            <div class="title">Enquêteur</div>
         </div>
     </div>
     <!-- / HEADER -->
@@ -51,13 +51,14 @@
                         </md-input-container>
                         <md-input-container flex="100" flex-gt-xs="33">
                           <input type="text" name="cin" ng-model="vm.enqueteur.cin"
-                              placeholder="Cin " ng-init="vm.enqueteur.cin=''"
-                              required>
+                              placeholder="Téléphone " ng-init="vm.enqueteur.cin=''"
+                              required ng-pattern="/^[0-9]{10}$/">
                               <div ng-messages="enqueteurform.cin.$error"
                                 role="alert">
                                 <div ng-message="required">
-                                  <span>Cin obligatoire.</span>
+                                  <span>Téléphone obligatoire.</span>
                                 </div>
+                                <div ng-message="pattern"><span>Saisie invalide,Le numero doit être 10 chiffres</span></div>
                               </div>
                         </md-input-container>
                       </div>
@@ -88,7 +89,7 @@
         </br>
         <div class="white-bg md-whiteframe-4dp">
           <md-tabs md-dynamic-height>
-            <md-tab label="Liste Enqueteur">
+            <md-tab label="Liste Enquêteur">
                 <table class="dataTable row-border hover" datatable="ng"
                   dt-options="vm.dtOptions">
                   <thead>

@@ -6,10 +6,10 @@
                 <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
                 <span class="parent">Données de bases</span>
                 <span class="parent"> </span>
-                <span class="parent" href="javascript:;"> > Site d'embarquement</span>
+                <span class="parent" href="javascript:;"> > Site d'enquête</span>
             </div>
 
-            <div class="title">Site d'embarquement</div>
+            <div class="title">Site d'enquête</div>
         </div>
     </div>
     <div class="content"layout="column">
@@ -57,7 +57,7 @@
 											</div>
 										</div>
 									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
+									<!--md-input-container flex="100" flex-gt-xs="33">
 										<input type="text" name="code_unique" ng-model="vm.site_embarquement.code_unique"
 										placeholder="Code unique " ng-init="vm.site_embarquement.code_unique=''"
 										required>
@@ -67,7 +67,7 @@
 												<span>Code unique obligatoire.</span>
 											</div>
 										</div>
-									</md-input-container>
+									</md-input-container-->
 									<md-input-container flex="100" flex-gt-xs="33">
 										<input type="text" name="latitude" ng-model="vm.site_embarquement.latitude"
 										placeholder="Latitude " ng-init="vm.site_embarquement.latitude=''"
@@ -152,7 +152,7 @@
 								<tr ng-repeat="site_embarquement in vm.allsite_embarquement"  ng-class="{selected: site_embarquement.$selected}" ng-click="vm.selection(site_embarquement)">
 									<td>{{site_embarquement.code}}</td>
 									<td>{{site_embarquement.libelle}}</td>
-									<td>{{site_embarquement.code_unique}}</td>
+									<!--td>{{site_embarquement.code_unique}}</td-->
 									<td>{{site_embarquement.latitude}}</td>
 									<td>{{site_embarquement.longitude}}</td>
 									<td>{{site_embarquement.altitude}}</td>

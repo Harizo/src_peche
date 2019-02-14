@@ -27,11 +27,11 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.site_embarquement', {
-            title: 'Site d\'embarquement',
+        msNavigationServiceProvider.saveItem('peche.ddb.localisation.site_embarquement', {
+            title: 'Site d\'enquête',
             icon  : 'icon-compass-outline',
             state: 'app.population_ddb_site_embarquement',
-			weight: 3
+			weight: 10
         });
     }
 

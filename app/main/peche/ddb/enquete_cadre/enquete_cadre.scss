@@ -1,0 +1,31 @@
+#forms {
+
+    .content {
+
+        .form-wrapper {
+            md-tabs{
+                > md-tabs-wrapper {
+                        
+                        box-shadow: $whiteframe-shadow-2dp;
+                        
+                    }
+                    md-ink-bar{
+                        height:1px;
+                    }
+                }
+
+        }
+		
+        .form-data-wrapper {
+            margin-left: 16px;
+
+            .json-data-wrapper {
+                overflow: hidden;
+
+                pre {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

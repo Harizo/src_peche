@@ -28,10 +28,10 @@
         });
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.enqueteur', {
-            title: 'Enqueteur',
+            title: 'Enquêteur',
             icon  : 'icon-clipboard-account',
             state: 'app.population_ddb_enqueteur',
-			weight: 2
+			weight: 3
         });
     }
 

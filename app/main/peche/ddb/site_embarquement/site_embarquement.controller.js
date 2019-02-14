@@ -40,10 +40,10 @@
       },
       {
         titre:"Libelle"
-      },
+      }/*,
       {
         titre:"Code unique"
-      },
+      }*/,
       {
         titre:"Latitude"
       },

@@ -12,10 +12,10 @@
                 <span class="parent" href="javascript:;"> Localisation</span>
 
                 <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
-                <span class="parent" href="javascript:;"> site_enqueteur</span>
+                <span class="parent" href="javascript:;"> Sites des enquêteurs</span>
             </div>
 
-            <div class="title">site_enqueteur</div>
+            <div class="title">Sites des enquêteurs</div>
         </div>
     </div>
     <!-- / HEADER -->
@@ -45,10 +45,10 @@
                     <input type="hidden" ng-model="vm.site_enqueteur.id"></input>
 
                       <md-input-container flex="100" flex-gt-xs="33">
-                            <label>Site d'embarquement</label>
+                            <label>Site d'enquête</label>
                               <md-select ng-model="vm.site_enqueteur.site_embarquement_id" ng-change="vm.modifiersite_embarquement(vm.site_enqueteur)">
                                 <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
-                                  {{site_embarquement.libelle}}
+                                  ({{site_embarquement.code}}) {{site_embarquement.libelle}}
                                 </md-option>
                               </md-select>
                       </md-input-container>
@@ -56,7 +56,8 @@
                             <label>Enqueteur</label>
                               <md-select ng-model="vm.site_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.site_enqueteur)">
                                 <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
-                                  {{enqueteur.nom}}
+                                  {{enqueteur.nom}} {{enqueteur.prenom}}
+
                                 </md-option>
                               </md-select>
                       </md-input-container>
@@ -91,7 +92,7 @@
         <div class="white-bg md-whiteframe-4dp">
           <md-tabs md-dynamic-height>
 
-            <md-tab label="Liste site_enqueteur">
+            <md-tab label="Listes">
               <table class="dataTable row-border hover" datatable="ng"
                 dt-options="vm.dtOptions">
                 <thead>
@@ -105,8 +106,8 @@
                 </thead>
                 <tbody>
                   <tr ng-repeat="site_enqueteur in vm.allsite_enqueteur"  ng-class="{selected: site_enqueteur.$selected}" ng-click="vm.selection(site_enqueteur)">
-                    <td>{{site_enqueteur.site_embarquement_nom}}</td>
-                    <td>{{site_enqueteur.enqueteur_nom}}</td>
+                    <td>({{site_enqueteur.site_embarquement.code}}) {{site_enqueteur.site_embarquement_nom}}</td>
+                    <td>{{site_enqueteur.enqueteur_nom}} {{site_enqueteur.enqueteur.prenom}}</td>
                   </tr>
                 </tbody>
               </table>
