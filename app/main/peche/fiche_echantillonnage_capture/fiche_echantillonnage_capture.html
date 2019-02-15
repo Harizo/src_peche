@@ -12,7 +12,7 @@
             <div class="title">Fiche de capture d'echantillonnage</div>
         </div>
     </div>
-    <!--div class="content"layout="column">
+    <div class="content"layout="column">
 		<div class="form-wrapper">			  
 			<div style="clear:both;"></div>
 			<div class="white-bg md-whiteframe-4dp">
@@ -21,6 +21,14 @@
 						<div class="simple-table-container md-whiteframe-4dp">
 						<md-tab-body>
 							</br>
+							<div>
+							<form class="md-inline-form">
+								<md-radio-group ng-model="data.group1" style="display:inline-block;">
+							      <md-radio-button value="PAB">PAB</md-radio-button>
+							      <md-radio-button value="CAB"> CAB </md-radio-button>
+							    </md-radio-group>
+						    </form>
+						</div>
 							<form name="fiche_echantillonnage_captureform" class="md-inline-form"  novalidate>
 								<div layout="column" layout-gt-xs="row" flex>
 									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id"></input>				
@@ -36,14 +44,6 @@
 										</div>
 									</md-input-container>
 									<md-input-container flex="100" flex-gt-xs="33">
-										<label>Site_embarquement</label>
-										<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.fiche_echantillonnage_capture)">
-											<md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
-												{{site_embarquement.libelle}}
-											</md-option>
-										</md-select>
-									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
 										<label>Enqueteur</label>
 										<md-select ng-model="vm.fiche_echantillonnage_capture.enqueteur_id"  ng-change="vm.modifierenqueteur(vm.fiche_echantillonnage_capture)">
 											<md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
@@ -52,8 +52,16 @@
 										</md-select>
 									</md-input-container>
 									<md-input-container flex="100" flex-gt-xs="33">
+										<label>Site_embarquement</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.modifiersite_debarquement(vm.fiche_echantillonnage_capture)" ng-disabled="vm.enqueteur==false">
+											<md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
+												{{site_embarquement.libelle}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
 										<label>Region</label>
-										<md-select ng-model="vm.fiche_echantillonnage_capture.region_id"  ng-change="vm.modifierregion(vm.fiche_echantillonnage_capture)">
+										<md-select ng-model="vm.fiche_echantillonnage_capture.region_id"  ng-change="vm.modifierregion(vm.fiche_echantillonnage_capture)" disabled>
 											<md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
 												{{region.nom}}
 											</md-option>
@@ -61,7 +69,7 @@
 									</md-input-container>
 									<md-input-container flex="100" flex-gt-xs="33">
 										<label>District</label>
-										<md-select ng-model="vm.fiche_echantillonnage_capture.district_id"  ng-change="vm.modifierdistrict(vm.fiche_echantillonnage_capture)">
+										<md-select ng-model="vm.fiche_echantillonnage_capture.district_id"  ng-change="vm.modifierdistrict(vm.fiche_echantillonnage_capture)" disabled>
 											<md-option ng-repeat="district in vm.allcurrentdistrict" value="{{district.id}}">
 												{{district.nom}}
 											</md-option>
@@ -102,7 +110,7 @@
 									</md-input-container>
 									<md-input-container flex="100" flex-gt-xs="33">
 										<input type="datetime" name="date" ng-model="vm.fiche_echantillonnage_capture.date"
-										placeholder="Date: AAAA/MM/JJ " ng-init="vm.fiche_echantillonnage_capture.date=''"
+										placeholder="Date: AAAA-MM-JJ " ng-init="vm.fiche_echantillonnage_capture.date=''"
 										required>
 										<div ng-messages="fiche_echantillonnage_captureform.date.$error"
 											role="alert">
@@ -126,8 +134,8 @@
 					
 					</md-tab>
 					</md-tabs>
-				</div-->
-				<!--div class="white-bg md-whiteframe-4dp">	
+				</div>
+				<div class="white-bg md-whiteframe-4dp">	
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1" md-stretch-tabs="always">
 				<md-tab label="Ajout Echantillon">
 					<div class="simple-table-container md-whiteframe-4dp">
@@ -188,17 +196,6 @@
 									</div>
 								</md-input-container>
 								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="total_capture" ng-model="vm.echantillon.total_capture"
-									placeholder="Total_capture " ng-init="vm.echantillon.total_capture=''"
-									required>
-									<div ng-messages="echantillonform.total_capture.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Total capture obligatoire.</span>
-										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
 									<input type="text" name="unique_code" ng-model="vm.echantillon.unique_code"
 									placeholder="Code unique" ng-init="vm.echantillon.unique_code=''"
 									required>
@@ -253,9 +250,9 @@
 					</div>
 				
 				</md-tab>
-			</div-->
+			</div>
 			<!-- BASIC FORM --> 
-		    <!--div class="white-bg md-whiteframe-4dp"> 
+		    <div class="white-bg md-whiteframe-4dp"> 
 		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueEspece_capture==1" md-stretch-tabs="always">
 		            <md-tab label="Ajout Espece capture">
 		                <md-tab-body>
@@ -307,244 +304,11 @@
 		                </md-tab-body>
 		            </md-tab>
 		        </md-tabs>
-		    </div--> 
+		    </div> 
 		    <!-- / BASIC FORM -->
-			
-			
-			<!--div class="ongletdata">
-			<div class="white-bg md-whiteframe-4dp">	
-				<md-tabs md-dynamic-height md-stretch-tabs="always">
-					<md-tab md-on-select="removeBouton()">
-						<md-tab-label style= "">
-							<span  id="icon" style= "">1</span>&nbsp &nbsp Liste fiche echantillonnage
-						</md-tab-label>
-						<md-tab-body>
-							<br>
-							<div style="widht:100%;">    
-								<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-									Nouveau
-								</md-button>
-								<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-									Modifier
-								</md-button>
-								<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-									Supprimer
-								</md-button>
-							</div>
-							<table class="dataTable row-border hover" datatable="ng"
-								dt-options="vm.dtOptions">
-								<thead>
-									<tr>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Code</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Date</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Date creation<br/>Date modification</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Site</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Enqueteur</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">User</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Region</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">District</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">latitude/Longitude/<br/>Altitude</span>
-											</div>
-										</th>
-
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
-										<td>{{fiche_echantillonnage_capture.code_unique}}</td>
-										<td>{{fiche_echantillonnage_capture.date}}</td>
-										<td>{{fiche_echantillonnage_capture.date_creation}}<br/>{{fiche_echantillonnage_capture.date_modification}}</td>
-										<td>{{fiche_echantillonnage_capture.site_embarquement_nom}}</td>
-										<td>{{fiche_echantillonnage_capture.enqueteur_nom}}</td>
-										<td>{{fiche_echantillonnage_capture.user_nom}}</td>
-										<td>{{fiche_echantillonnage_capture.region_nom}}</td>
-										<td>{{fiche_echantillonnage_capture.district_nom}}</td>
-										<td>{{fiche_echantillonnage_capture.latitude}} / {{fiche_echantillonnage_capture.longitude}} / {{fiche_echantillonnage_capture.altitude}}</td>
-										
-										
-									</tr>
-								</tbody>
-							</table>
-						</md-tab-body>
-					</md-tab>
-
-					<md-tab md-on-select="removeBoutonEspece_capture()">
-						<md-tab-label style= "">
-							<span id="icon" style= "">2</span> &nbsp &nbsp Echantillon &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp   
-							  
-						</md-tab-label>
-						<md-tab-body>
-							<div style="clear:both;"></div>
-							<div style="widht:100%;">    
-								<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
-									Nouveau
-								</md-button>
-								<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEchantillon()" style="width:10%;">
-									Modifier
-								</md-button>
-								<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEchantillon()" style="width:10%;">
-									Supprimer
-								</md-button>
-							</div>
-							<table class="dataTable row-border hover" datatable="ng"
-							dt-options="vm.dtOptions">
-							<thead>
-								<tr>
-									
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Canoe</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Engin</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Peche hier<br/>avant hier</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Nbr jrs/sem</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Total capture</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Code</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Data collect</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Bateau actif<br/>bateau ecn</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Date creation<br/>modification</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">User</span>
-										</div>
-									</th>
-
-								</tr>
-							
-							</thead>
-							<tbody>
-								<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
-									
-									<td>{{echantillon.type_canoe_nom}}</td>
-									<td>{{echantillon.type_engin_nom}}</td>
-									<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
-									<td>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
-									<td>{{echantillon.total_capture}}</td>
-									<td>{{echantillon.unique_code}}</td>
-									<td>{{echantillon.data_collect_nom}}</td>
-									<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
-									<td>{{echantillon.date_creation}}<br/>{{echantillon.date_modification}}</td>
-									<td>{{echantillon.user_nom}}</td>						
-								</tr>
-							</tbody>
-						</table>
-						</md-tab-body>
-					</md-tab>
-					<md-tab>
-		              <md-tab-label>
-		                <span  id="icon" style= "">2</span> &nbsp &nbsp Espece capture    
-		                  
-		              </md-tab-label>
-		              <md-tab-body>
-
-		                <div style="widht:100%;">    
-		                    <md-button type="submit" ng-show="vm.afficherboutonnouveauEspece_capture==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEspece_capture()" style="width:10%;">
-		                          Nouveau
-		                    </md-button>
-		                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEspece_capture()" style="width:10%;">
-		                          Modifier
-		                    </md-button>
-		                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEspece_capture()" style="width:10%;">
-		                          Supprimer
-		                    </md-button>
-		                </div> 
-
-		                 <table class="dataTable row-border hover" datatable="ng"
-		                      dt-options="vm.dtOptions">
-		                  <thead>
-		                    <tr>
-		                      <th class="secondary-text" ng-repeat="esc in ::vm.espece_capture_column">
-		                            <div class="table-header">
-		                              <span class="column-title">{{esc.titre}}</span>
-		                            </div>
-		                      </th>
-		                    </tr>
-		                  </thead>
-		                    <tbody>
-		                        <tr ng-repeat="espece_capture in vm.allespece_capture" ng-class="{selected: espece_capture.$selected}" ng-click="vm.selectionEspece_capture(espece_capture)">
-		                          <td>{{espece_capture.espece_nom}}</td>
-		                          <td>{{espece_capture.capture}}</td>
-		                          <td>{{espece_capture.prix}}</td>
-		                          <td>{{espece_capture.user_nom}}</td>
-		                          <td>{{espece_capture.date_creation}}</td>
-		                          <td>{{espece_capture.date_modification}}</td>
-		                        </tr>
-		                    </tbody>
-		                   
-		                  </table>
-		              </md-tab-body>
-		            </md-tab>
-				</md-tabs>
-			</div>
-			</div-->
-			<div layout="row">
+		</div>
+	</div>
+	<div layout="row">
 
             <!-- FORM WIZARD -->
             <ms-form-wizard flex>
@@ -562,7 +326,7 @@
                         </md-tab-label>
 
                        <md-tab-body ms-form-wizard-form>
-                       	
+                       		<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 1</md-button >
 							<div style="widht:100%;">    
 								<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
 									Nouveau
@@ -595,17 +359,12 @@
 										</th>
 										<th class="secondary-text">
 											<div class="table-header">
-												<span class="column-title">Site</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
 												<span class="column-title">Enqueteur</span>
 											</div>
 										</th>
 										<th class="secondary-text">
 											<div class="table-header">
-												<span class="column-title">User</span>
+												<span class="column-title">Site</span>
 											</div>
 										</th>
 										<th class="secondary-text">
@@ -623,6 +382,11 @@
 												<span class="column-title">latitude/Longitude/<br/>Altitude</span>
 											</div>
 										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">User</span>
+											</div>
+										</th>
 
 									</tr>
 								</thead>
@@ -631,12 +395,12 @@
 										<td>{{fiche_echantillonnage_capture.code_unique}}</td>
 										<td>{{fiche_echantillonnage_capture.date}}</td>
 										<td>{{fiche_echantillonnage_capture.date_creation}}<br/>{{fiche_echantillonnage_capture.date_modification}}</td>
-										<td>{{fiche_echantillonnage_capture.site_embarquement_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.enqueteur_nom}}</td>
-										<td>{{fiche_echantillonnage_capture.user_nom}}</td>
+										<td>{{fiche_echantillonnage_capture.site_embarquement_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.region_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.district_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.latitude}} / {{fiche_echantillonnage_capture.longitude}} / {{fiche_echantillonnage_capture.altitude}}</td>
+										<td>{{fiche_echantillonnage_capture.user_nom}}</td>
 										
 										
 									</tr>
@@ -659,6 +423,7 @@
                         </md-tab-label>
 						<md-tab-body>
 							<div style="clear:both;"></div>
+							<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 2</md-button >
 							<div style="widht:100%;">    
 								<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
 									Nouveau
@@ -711,7 +476,7 @@
 									</th>
 									<th class="secondary-text">
 										<div class="table-header">
-											<span class="column-title">Data collect</span>
+											<span class="column-title">Effort de pêche</span>
 										</div>
 									</th>
 									<th class="secondary-text">
@@ -770,7 +535,7 @@
                             </span>
                         </md-tab-label>
                         <md-tab-body>
-
+                        <md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 3</md-button >
 		                <div style="widht:100%;">    
 		                    <md-button type="submit" ng-show="vm.afficherboutonnouveauEspece_capture==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEspece_capture()" style="width:10%;">
 		                          Nouveau
@@ -825,11 +590,6 @@
 
                         Suivant
                     </md-button>
-                    <!--md-button class="md-raised md-warn" ng-click="vm.sendForm(); msWizard.resetForm();"
-                               ng-show="msWizard.isLastStep()"
-                               ng-disabled="msWizard.formsIncomplete()">
-                        Send
-                    </md-button-->
                 </div>
 
             </ms-form-wizard>
