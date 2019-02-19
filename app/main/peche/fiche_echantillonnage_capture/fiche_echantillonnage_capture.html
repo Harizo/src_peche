@@ -16,19 +16,11 @@
 		<div class="form-wrapper">			  
 			<div style="clear:both;"></div>
 			<div class="white-bg md-whiteframe-4dp">
-				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
+				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
 					<md-tab label="Ajout fiche echantillonnage capture">
 						<div class="simple-table-container md-whiteframe-4dp">
 						<md-tab-body>
 							</br>
-							<div>
-							<form class="md-inline-form">
-								<md-radio-group ng-model="data.group1" style="display:inline-block;">
-							      <md-radio-button value="PAB">PAB</md-radio-button>
-							      <md-radio-button value="CAB"> CAB </md-radio-button>
-							    </md-radio-group>
-						    </form>
-						</div>
 							<form name="fiche_echantillonnage_captureform" class="md-inline-form"  novalidate>
 								<div layout="column" layout-gt-xs="row" flex>
 									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id"></input>				
@@ -134,17 +126,24 @@
 					
 					</md-tab>
 					</md-tabs>
-				</div>
-				<div class="white-bg md-whiteframe-4dp">	
-				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1" md-stretch-tabs="always">
+			</div>
+			<div class="white-bg md-whiteframe-4dp">	
+				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1">
 				<md-tab label="Ajout Echantillon">
 					<div class="simple-table-container md-whiteframe-4dp">
 					<md-tab-body>
-						<br>
 						<form name="echantillonform" class="md-inline-form"  novalidate>
 							<div layout="column" layout-gt-xs="row" flex>
 								<input type="hidden" ng-model="vm.echantillon.id"></input>		
 								
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.input_data_collect==true">
+									<label>Effort de pêche</label>
+									<md-select ng-model="vm.echantillon.data_collect_id"  ng-change="vm.modifierdata_collect(vm.echantillon)">
+										<md-option ng-repeat="data_collect in vm.alldata_collect" value="{{data_collect.id}}">
+											{{data_collect.code}}
+										</md-option>
+									</md-select>
+								</md-input-container>
 								
 								<md-input-container flex="100" flex-gt-xs="33">
 									<label>Type canoe</label>
@@ -162,7 +161,7 @@
 										</md-option>
 									</md-select>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==true">
 									<input type="text" name="peche_hier" ng-model="vm.echantillon.peche_hier"
 									placeholder="Peche hier " ng-init="vm.echantillon.peche_hier=''"
 									required>
@@ -173,7 +172,7 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==true">
 									<input type="text" name="peche_avant_hier" ng-model="vm.echantillon.peche_avant_hier"
 									placeholder="Peche avant hier " ng-init="vm.echantillon.peche_avant_hier=''"
 									required>
@@ -184,9 +183,9 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==true">
 									<input type="text" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
-									placeholder="nbr jrs" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''"
+									placeholder="nbr jrs dernier sem" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''"
 									required>
 									<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
 										role="alert">
@@ -206,15 +205,7 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>Data collect</label>
-									<md-select ng-model="vm.echantillon.data_collect_id"  ng-change="vm.modifierdata_collect(vm.echantillon)">
-										<md-option ng-repeat="data_collect in vm.alldata_collect" value="{{data_collect.id}}">
-											{{data_collect.libelle}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==false">
 									<input type="text" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
 									placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''"
 									required>
@@ -225,7 +216,7 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==false">
 									<input type="text" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
 									placeholder="Total bateau " ng-init="vm.echantillon.total_bateau_ecn=''"
 									required>
@@ -253,7 +244,7 @@
 			</div>
 			<!-- BASIC FORM --> 
 		    <div class="white-bg md-whiteframe-4dp"> 
-		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueEspece_capture==1" md-stretch-tabs="always">
+		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueEspece_capture==1">
 		            <md-tab label="Ajout Espece capture">
 		                <md-tab-body>
 		                  <form name="espece_captureform" class="md-inline-form" novalidate >
@@ -349,16 +340,6 @@
 										</th>
 										<th class="secondary-text">
 											<div class="table-header">
-												<span class="column-title">Date</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Date creation<br/>Date modification</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
 												<span class="column-title">Enqueteur</span>
 											</div>
 										</th>
@@ -384,6 +365,16 @@
 										</th>
 										<th class="secondary-text">
 											<div class="table-header">
+												<span class="column-title">Date</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Date creation<br/>Date modification</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
 												<span class="column-title">User</span>
 											</div>
 										</th>
@@ -393,13 +384,13 @@
 								<tbody>
 									<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
 										<td>{{fiche_echantillonnage_capture.code_unique}}</td>
-										<td>{{fiche_echantillonnage_capture.date}}</td>
-										<td>{{fiche_echantillonnage_capture.date_creation}}<br/>{{fiche_echantillonnage_capture.date_modification}}</td>
 										<td>{{fiche_echantillonnage_capture.enqueteur_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.site_embarquement_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.region_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.district_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.latitude}} / {{fiche_echantillonnage_capture.longitude}} / {{fiche_echantillonnage_capture.altitude}}</td>
+										<td>{{fiche_echantillonnage_capture.date}}</td>
+										<td>{{fiche_echantillonnage_capture.date_creation}}<br/>{{fiche_echantillonnage_capture.date_modification}}</td>
 										<td>{{fiche_echantillonnage_capture.user_nom}}</td>
 										
 										
@@ -446,6 +437,11 @@
 									</th-->
 									<th class="secondary-text">
 										<div class="table-header">
+											<span class="column-title">Effort de pêche</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
 											<span class="column-title">Canoe</span>
 										</div>
 									</th>
@@ -456,12 +452,17 @@
 									</th>
 									<th class="secondary-text">
 										<div class="table-header">
-											<span class="column-title">Peche hier<br/>avant hier</span>
+											<span class="column-title">Peche hier<br/>/avant hier</span>
 										</div>
 									</th>
 									<th class="secondary-text">
 										<div class="table-header">
 											<span class="column-title">Nbr jrs/sem</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Bateau actif<br/>/bateau ecn</span>
 										</div>
 									</th>
 									<th class="secondary-text">
@@ -472,16 +473,6 @@
 									<th class="secondary-text">
 										<div class="table-header">
 											<span class="column-title">Code</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Effort de pêche</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Bateau actif<br/>bateau ecn</span>
 										</div>
 									</th>
 									<th class="secondary-text">
@@ -507,14 +498,14 @@
 							<tbody>
 								<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
 									<!--td>{{echantillon.fiche_echantillonnage_capture_nom}}</td-->
+									<td>{{echantillon.data_collect_nom}}</td>
 									<td>{{echantillon.type_canoe_nom}}</td>
 									<td>{{echantillon.type_engin_nom}}</td>
 									<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
 									<td>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
-									<td>{{echantillon.total_capture}}</td>
-									<td>{{echantillon.unique_code}}</td>
-									<td>{{echantillon.data_collect_nom}}</td>
 									<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
+									<td>{{echantillon.total_capture}} (kg)</td>
+									<td>{{echantillon.unique_code}}</td>
 									<td>{{echantillon.date_creation}}<br/>{{echantillon.date_modification}}</td>
 									<td>{{echantillon.user_nom}}</td>						
 								</tr>
@@ -562,8 +553,8 @@
 		                    <tbody>
 		                        <tr ng-repeat="espece_capture in vm.allespece_capture" ng-class="{selected: espece_capture.$selected}" ng-click="vm.selectionEspece_capture(espece_capture)">
 		                          <td>{{espece_capture.espece_nom}}</td>
-		                          <td>{{espece_capture.capture}}</td>
-		                          <td>{{espece_capture.prix}}</td>
+		                          <td>{{espece_capture.capture}} (kg)</td>
+		                          <td>{{espece_capture.prix}} (Ar/kg)</td>
 		                          <td>{{espece_capture.user_nom}}</td>
 		                          <td>{{espece_capture.date_creation}}</td>
 		                          <td>{{espece_capture.date_modification}}</td>

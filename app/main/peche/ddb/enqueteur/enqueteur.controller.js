@@ -88,7 +88,7 @@
                 id:getId,      
                 prenom: enqueteur.prenom,
                 nom: enqueteur.nom,
-                cin: enqueteur.cin
+                telephone: enqueteur.telephone
                 
             });
        
@@ -104,7 +104,7 @@
                     {
                       vm.selectedItem.nom = vm.enqueteur.nom;
                       vm.selectedItem.prenom = vm.enqueteur.prenom;
-                      vm.selectedItem.cin = vm.enqueteur.cin;
+                      vm.selectedItem.telephone = vm.enqueteur.telephone;
                       vm.afficherboutonModifSupr = 0 ;
                       vm.afficherboutonnouveau = 1 ;
                       vm.selectedItem.$selected = false;
@@ -123,14 +123,14 @@
                     var item = {
                         nom: enqueteur.nom,
                         prenom: enqueteur.prenom,
-                        cin: enqueteur.cin,
+                        telephone: enqueteur.telephone,
                         id:String(data.response) 
                     };
                   console.log(enqueteur.region_nom);
                     vm.allenqueteur.push(item);
                     vm.enqueteur.prenom='';
                     vm.enqueteur.nom='';
-                    vm.enqueteur.cin='';
+                    vm.enqueteur.telephone='';
                     
                     NouvelItem=false;
                   }
@@ -171,7 +171,7 @@
       vm.titrepage="Ajout enqueteur";
           vm.selectedItem.$selected = false;
           vm.affichageMasque = 1 ;
-          vm.enqueteur.cin='';
+          vm.enqueteur.telephone='';
           vm.enqueteur.nom='';
           vm.enqueteur.prenom='';
           vm.enqueteur.enqueteur_id='';
@@ -197,7 +197,7 @@
           vm.affichageMasque = 1 ;
           vm.enqueteur.id = vm.selectedItem.id ;
           vm.enqueteur.prenom = vm.selectedItem.prenom ;
-          vm.enqueteur.cin = vm.selectedItem.cin ;
+          vm.enqueteur.telephone = vm.selectedItem.telephone ;
           vm.enqueteur.nom = vm.selectedItem.nom ;
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0;  
@@ -236,7 +236,7 @@
                   {
                     if((dist.nom!=item.nom)
                     ||(dist.prenom!=item.prenom)
-                    ||(dist.cin!=item.cin))
+                    ||(dist.telephone!=item.telephone))
                     
                     {
                       insert_in_base(item,suppression);

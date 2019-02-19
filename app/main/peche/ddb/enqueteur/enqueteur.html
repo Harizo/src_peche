@@ -50,10 +50,10 @@
                               </div>
                         </md-input-container>
                         <md-input-container flex="100" flex-gt-xs="33">
-                          <input type="text" name="cin" ng-model="vm.enqueteur.cin"
-                              placeholder="Téléphone " ng-init="vm.enqueteur.cin=''"
+                          <input type="text" name="telephone" ng-model="vm.enqueteur.telephone"
+                              placeholder="Téléphone " ng-init="vm.enqueteur.telephone=''"
                               required ng-pattern="/^[0-9]{10}$/">
-                              <div ng-messages="enqueteurform.cin.$error"
+                              <div ng-messages="enqueteurform.telephone.$error"
                                 role="alert">
                                 <div ng-message="required">
                                   <span>Téléphone obligatoire.</span>
@@ -105,7 +105,7 @@
                       <tr ng-repeat="enqueteur in vm.allenqueteur"  ng-class="{selected: enqueteur.$selected}" ng-click="vm.selection(enqueteur)">
                         <td>{{enqueteur.nom}}</td>
                         <td>{{enqueteur.prenom}}</td>
-                        <td>{{enqueteur.cin}}</td>
+                        <td>{{enqueteur.telephone}}</td>
                       </tr>
                     </tbody>
                 </table>

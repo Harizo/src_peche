@@ -44,6 +44,8 @@
       vm.step3                               = false;
 
       vm.enqueteur                           = false;
+      vm.pab                                 = false;
+      vm.input_data_collect                  =false;
       //style
     vm.dtOptions =
     {
@@ -324,13 +326,49 @@
 
             var getIdEchantillon = 0;
             var total_captur=0;
+            var getIdData_collect=0;
+            var typeeffort='';
             if (NouvelItemEchantillon==false) 
             {
-               getIdEchantillon = vm.selectedItemEchantillon.id; 
-            } 
+              getIdEchantillon = vm.selectedItemEchantillon.id;                
+
+            }
+            if(vm.pab)
+            {
+              vm.alldata_collect.forEach(function(data_c)
+                {
+                  if(data_c.code=='PAB')
+                  {
+                    getIdData_collect  = data_c.id;
+                    
+                    typeeffort='PAB';                    
+                    vm.echantillon.data_collect_nom = data_c.code;
+                    vm.echantillon.nbr_bateau_actif = 0;
+                    vm.echantillon.total_bateau_ecn = 0; 
+                  }
+                });
+            }else
+            {
+              vm.alldata_collect.forEach(function(data_c)
+                {
+                  if(data_c.code=='CAB')
+                  {
+                    getIdData_collect  = data_c.id;
+                    
+                    typeeffort='CAB';
+                    vm.echantillon.data_collect_nom = data_c.code;
+                    vm.echantillon.peche_hier = 0;
+                    vm.echantillon.peche_avant_hier = 0;
+                    vm.echantillon.nbr_jrs_peche_dernier_sem = 0;  
+                  }
+                });
+            }
+
+
             var datas = $.param(
             {
                 supprimer:                        suppression,
+                typeeffort:                       typeeffort,      
                 id:getIdEchantillon,
                 fiche_echantillonnage_capture_id: vm.selectedItem.id,
                 type_canoe_id:                    echantillon.type_canoe_id,
@@ -340,7 +378,7 @@
                 nbr_jrs_peche_dernier_sem:        echantillon.nbr_jrs_peche_dernier_sem,
                 total_capture:                    echantillon.total_capture,
                 unique_code:                      echantillon.unique_code,
-                data_collect_id:                  echantillon.data_collect_id,
+                data_collect_id:                  getIdData_collect,
                 nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
                 total_bateau_ecn:                 echantillon.total_bateau_ecn,
                 user_id:                          cookieService.get("id")
@@ -380,8 +418,8 @@
                   vm.selectedItemEchantillon.date_creation = vm.echantillon.date_creation;
                   vm.selectedItemEchantillon.date_modification = current_date;
                       
-                  vm.afficherboutonModifSupr = 0 ;
-                  vm.afficherboutonnouveau   = 1 ;
+                  vm.afficherboutonModifSuprEchantillon = 0 ;
+                  vm.afficherboutonnouveauEchantillon   = 1 ;
                   vm.selectedItemEchantillon.$selected = false;
                   // console.log(vm.selectedItemEchantillon);
                   vm.selectedItemEchantillon ={};
@@ -581,57 +619,54 @@
         {
           supprimer:                        0,
           id:vm.selectedItemEchantillon.id,
-                        fiche_echantillonnage_capture_id: vm.selectedItem.id,
-                        type_canoe_id:                    vm.selectedItemEchantillon.type_canoe_id,
-                        type_engin_id:                    vm.selectedItemEchantillon.type_engin_id,
-                        peche_hier:                       vm.selectedItemEchantillon.peche_hier,
-                        peche_avant_hier:                 vm.selectedItemEchantillon.peche_avant_hier,
-                        nbr_jrs_peche_dernier_sem:        vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem,
-                        total_capture:                    tot_cap,
-                        unique_code:                      vm.selectedItemEchantillon.unique_code,
-                        data_collect_id:                  vm.selectedItemEchantillon.data_collect_id,
-                        nbr_bateau_actif:                 vm.selectedItemEchantillon.nbr_bateau_actif,
-                        total_bateau_ecn:                 vm.selectedItemEchantillon.total_bateau_ecn,
-                        user_id:                          cookieService.get("id")
+          fiche_echantillonnage_capture_id: vm.selectedItem.id,
+          type_canoe_id:                    vm.selectedItemEchantillon.type_canoe_id,
+          type_engin_id:                    vm.selectedItemEchantillon.type_engin_id,
+          peche_hier:                       vm.selectedItemEchantillon.peche_hier,
+          peche_avant_hier:                 vm.selectedItemEchantillon.peche_avant_hier,
+          nbr_jrs_peche_dernier_sem:        vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem,
+          total_capture:                    tot_cap,
+          unique_code:                      vm.selectedItemEchantillon.unique_code,
+          data_collect_id:                  vm.selectedItemEchantillon.data_collect_id,
+          nbr_bateau_actif:                 vm.selectedItemEchantillon.nbr_bateau_actif,
+          total_bateau_ecn:                 vm.selectedItemEchantillon.total_bateau_ecn,
+          user_id:                          cookieService.get("id")
                         
-                    });
+        });
 
-                     //factory
-                    apiFactory.add("echantillon/index",datasmaj, config).success(function (data)
-                    {
-                        // Update or delete: id exclu
-                        var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");                                     
-                        vm.selectedItemEchantillon.fiche_echantillonnage_capture_id = vm.selectedItem.id;
-                        vm.selectedItemEchantillon.type_canoe_id              = vm.selectedItemEchantillon.type_canoe_id;
-                        vm.selectedItemEchantillon.type_canoe_nom             = vm.selectedItemEchantillon.type_canoe_nom;
-                        vm.selectedItemEchantillon.type_engin_id              = vm.selectedItemEchantillon.type_engin_id;
-                        vm.selectedItemEchantillon.type_engin_nom             = vm.selectedItemEchantillon.type_engin_nom;
+//factory
+        apiFactory.add("echantillon/index",datasmaj, config).success(function (data)
+        {
+          // Update or delete: id exclu
+          var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");                                     
+          vm.selectedItemEchantillon.fiche_echantillonnage_capture_id = vm.selectedItem.id;
+          vm.selectedItemEchantillon.type_canoe_id              = vm.selectedItemEchantillon.type_canoe_id;
+          vm.selectedItemEchantillon.type_canoe_nom             = vm.selectedItemEchantillon.type_canoe_nom;
+          vm.selectedItemEchantillon.type_engin_id              = vm.selectedItemEchantillon.type_engin_id;
+          vm.selectedItemEchantillon.type_engin_nom             = vm.selectedItemEchantillon.type_engin_nom;
 
-                        vm.selectedItemEchantillon.peche_hier                 = vm.selectedItemEchantillon.peche_hier;
-                        vm.selectedItemEchantillon.peche_avant_hier           = vm.selectedItemEchantillon.peche_avant_hier;
-                        vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem  = vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem; 
-                        vm.selectedItemEchantillon.total_capture              = tot_cap;
-                        vm.selectedItemEchantillon.unique_code                = vm.selectedItemEchantillon.unique_code;
+          vm.selectedItemEchantillon.peche_hier                 = vm.selectedItemEchantillon.peche_hier;
+          vm.selectedItemEchantillon.peche_avant_hier           = vm.selectedItemEchantillon.peche_avant_hier;
+          vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem  = vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem; 
+          vm.selectedItemEchantillon.total_capture              = tot_cap;
+          vm.selectedItemEchantillon.unique_code                = vm.selectedItemEchantillon.unique_code;
                         
-                        vm.selectedItemEchantillon.data_collect_id            = vm.selectedItemEchantillon.data_collect_id;
-                        vm.selectedItemEchantillon.data_collect_nom           = vm.selectedItemEchantillon.data_collect_nom;
+          vm.selectedItemEchantillon.data_collect_id            = vm.selectedItemEchantillon.data_collect_id;
+          vm.selectedItemEchantillon.data_collect_nom           = vm.selectedItemEchantillon.data_collect_nom;
                         
-                        vm.selectedItemEchantillon.nbr_bateau_actif           = vm.selectedItemEchantillon.nbr_bateau_actif;
-                        vm.selectedItemEchantillon.total_bateau_ecn           = vm.selectedItemEchantillon.total_bateau_ecn;
+          vm.selectedItemEchantillon.nbr_bateau_actif           = vm.selectedItemEchantillon.nbr_bateau_actif;
+          vm.selectedItemEchantillon.total_bateau_ecn           = vm.selectedItemEchantillon.total_bateau_ecn;
                         
-                        vm.selectedItemEchantillon.user_id                    = cookieService.get("id");
-                        vm.selectedItemEchantillon.user_nom                   = cookieService.get("nom");
+          vm.selectedItemEchantillon.user_id                    = cookieService.get("id");
+          vm.selectedItemEchantillon.user_nom                   = cookieService.get("nom");
                         
-                        vm.selectedItemEchantillon.date_creation              = vm.selectedItemEchantillon.date_creation;
-                        vm.selectedItemEchantillon.date_modification          = current_date;
-                        
-                        //console.log(vm.selectedItemEchantillon);
-                       // vm.selectedItemEchantillon ={};                  
-
-                    }).error(function (data)
-                        {
-                          alert('Error');
-                        });          
+          vm.selectedItemEchantillon.date_creation              = vm.selectedItemEchantillon.date_creation;
+          vm.selectedItemEchantillon.date_modification          = current_date;
+          
+        }).error(function (data)
+            {
+              alert('Error');
+            });          
       }
 
       //selection sur la liste
@@ -724,7 +759,7 @@
 
       //function cache masque de saisie
         vm.ajouter = function () 
-        {
+        {           
           vm.selectedItem.$selected = false;
           vm.step1=false;
           vm.step2=false;
@@ -749,7 +784,7 @@
         //function cache masque de saisie
         vm.ajouterEchantillon = function () 
         {
-          vm.selectedItemEchantillon.$selected = false;
+         /* vm.selectedItemEchantillon.$selected = false;
           vm.step2=false;
           vm.step3=false;
           vm.affichageMasqueEchantillon = 1 ;
@@ -769,7 +804,20 @@
           vm.echantillon.date_creation='';
           vm.echantillon.date_modification='';
 
-          NouvelItemEchantillon = true ;
+          NouvelItemEchantillon = true ;*/
+          
+          var confirm = $mdDialog.confirm({
+              controller: DialogController,
+              templateUrl: 'app/main/peche/fiche_echantillonnage_capture/dialog.html',
+              parent: angular.element(document.body),
+              
+              })
+                $mdDialog.show(confirm).then(function(data)
+                  { 
+                  }, 
+                  function()
+                  {//alert('rien');
+                  });
 
         };
 
@@ -876,7 +924,8 @@
 
 
         vm.modifierEchantillon = function() 
-        {
+        { 
+          vm.input_data_collect = true;
           NouvelItemEchantillon = false ;
           vm.affichageMasqueEchantillon = 1 ;
           vm.affichageMasque= 0 ;
@@ -923,12 +972,19 @@
             if(data_c.id==vm.selectedItemEchantillon.data_collect_id)
             {
               vm.echantillon.data_collect_id = data_c.id ;
-              vm.echantillon.data_collect_nom = data_c.libelle ;
+              vm.echantillon.data_collect_nom = data_c.code ;
             }
           });
-
-
-
+          
+        
+          if(vm.echantillon.data_collect_nom=='PAB')
+          {
+              vm.pab=true;
+          }
+          else
+          {
+            vm.pab=false;
+          }
           
           vm.afficherboutonModifSuprEchantillon = 0;
           vm.afficherboutonnouveauEchantillon = 0;  
@@ -1121,13 +1177,22 @@
         {
           vm.alldata_collect.forEach(function(data_c)
           {
-            if(dta_c.id==item.data_collect_id)
+            if(data_c.id==item.data_collect_id)
             {
               item.data_collect_id  = data_c.id; 
-              item.data_collect_nom = data_c.libelle;
+              item.data_collect_nom = data_c.code;
                
             }
           });
+          
+          if(item.data_collect_nom=='PAB')
+          {
+            vm.pab=true;
+          }
+          else
+          {
+            vm.pab=false;
+          }
         }
 
         vm.modifierespece = function (item)
@@ -1238,5 +1303,72 @@
           else
             insert_in_baseEspece_capture(item,suppression);
         }
+
+function DialogController($mdDialog, $scope)
+{ 
+  var dg=$scope;
+  dg.typeajout= {type : 'PAB'};
+
+  dg.cancel = function()
+  {
+    $mdDialog.cancel();
+  };
+
+  dg.dialognouveauajout = function(typeajout)
+  {
+    if(typeajout=='PAB')
+    {
+      vm.pab=true;
+      vm.selectedItemEchantillon.$selected = false;
+      vm.step2=false;
+      vm.step3=false;
+      vm.affichageMasqueEchantillon = 1 ;
+      vm.affichageMasque = 0 ;
+      vm.affichageMasqueEspece_capture = 0 ;
+      vm.echantillon.fiche_echantillonnage_capture_id='';
+      vm.echantillon.type_canoe_id='';
+      vm.echantillon.type_engin_id='';
+      vm.echantillon.peche_hier='';
+      vm.echantillon.peche_avant_hier='';
+      vm.echantillon.nbr_jrs_peche_dernier_sem='';
+      vm.echantillon.total_capture='';
+      vm.echantillon.unique_code='';
+      vm.echantillon.data_collect_id='';
+      vm.echantillon.date_creation='';
+      vm.echantillon.date_modification='';
+
+      NouvelItemEchantillon = true ;          
+
+
+    }
+    else
+    {
+      vm.pab=false;
+      vm.selectedItemEchantillon.$selected = false;
+      vm.step2=false;
+      vm.step3=false;
+      vm.affichageMasqueEchantillon = 1 ;
+      vm.affichageMasque = 0 ;
+      vm.affichageMasqueEspece_capture = 0 ;
+      vm.echantillon.fiche_echantillonnage_capture_id='';
+      vm.echantillon.type_canoe_id='';
+      vm.echantillon.type_engin_id='';
+      vm.echantillon.total_capture='';
+      vm.echantillon.unique_code='';
+      vm.echantillon.data_collect_id='';
+      vm.echantillon.nbr_bateau_actif='';
+      vm.echantillon.total_bateau_ecn='';
+      vm.echantillon.date_creation='';
+      vm.echantillon.date_modification='';
+      NouvelItemEchantillon = true ; 
+    }
+    $mdDialog.cancel();
+    vm.input_data_collect     = false;
+  }
+
+
+}
+
+
     }
 })();
