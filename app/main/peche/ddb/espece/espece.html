@@ -85,90 +85,25 @@
         </md-tabs>
     </div> 
     <!-- / BASIC FORM -->
-    <!-- BASIC FORM --> 
-    <div class="white-bg md-whiteframe-4dp"> 
-         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueEspece_capture==1" md-stretch-tabs="always">
-            <md-tab label="Ajout Espece capture">
-                <md-tab-body>
-                  <form name="espece_captureform" class="md-inline-form" novalidate >
-                    </br>
-                    <div layout="column" layout-gt-xs="row">
-                      <input type="hidden" ng-model="vm.espece_capture.id">
-                       <md-input-container flex="100" flex-gt-xs="33">
-                          <label>Fiche echantillonnage</label>
-                          <md-select ng-model="vm.espece_capture.fiche_echantillonnage_capture_id"  ng-change="vm.modifierfiche_echantillonnage_capture(vm.espece_capture)">
-                            <md-option ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture" value="{{fiche_echantillonnage_capture.id}}">
-                              {{fiche_echantillonnage_capture.code_unique}}
-                            </md-option>
-                          </md-select>
-                        </md-input-container>
-                      <md-input-container flex="100" flex-gt-xs="33">
-                        <label>Echantillon</label>
-                        <md-select ng-model="vm.espece_capture.echantillon_id"  ng-change="vm.modifierechantillon(vm.espece_capture)">
-                          <md-option ng-repeat="echantillon in vm.allechantillon" value="{{echantillon.id}}">
-                            {{echantillon.unique_code}}
-                          </md-option>
-                        </md-select>
-                      </md-input-container>
-                        <md-input-container flex="100" flex-gt-xs="33">
-                          <input type="text" name="capture" ng-model="vm.espece_capture.capture"
-                            placeholder="capture " ng-init="vm.espece_capture.capture=''"
-                            required>
-                            <div ng-messages="espece_captureform.capture.$error"
-                              role="alert">
-                              <div ng-message="required">
-                                <span>Capture obligatoire.</span>
-                              </div>
-                            </div>
-                        </md-input-container>
-                        <md-input-container flex="100" flex-gt-xs="33">
-                          <input type="text" name="prix" ng-model="vm.espece_capture.prix"
-                            placeholder="prix " ng-init="vm.espece_capture.prix=''"
-                            required>
-                            <div ng-messages="espece_captureform.prix.$error"
-                              role="alert">
-                              <div ng-message="required">
-                                <span>Prix obligatoire.</span>
-                              </div>
-                            </div>
-                        </md-input-container>
-                    </div>
-                    <div>
-                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                          ng-disabled="espece_captureform.$invalid" ng-click="vm.ajoutEspece_capture(vm.espece_capture,0)">
-                          Enregistrer
-                    </md-button>
-                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerEspece_capture()">
-                      Annuler
-                    </md-button>
-                    </div>
-                  </form>
-                </md-tab-body>
-            </md-tab>
-        </md-tabs>
-    </div> 
-    <!-- / BASIC FORM -->
-    <div style=""> <p></p></div>
-    <div class="ongletdata white-bg md-whiteframe-4dp">
-        <md-tabs md-dynamic-height md-stretch-tabs="always">
+    <div style="widht:100%;">    
+      <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+        Nouveau
+      </md-button>
+      <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+        Modifier
+      </md-button>
+      <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+        Supprimer
+      </md-button>
+    </div>
+   <br>
+    <div class="white-bg md-whiteframe-4dp">
+        <md-tabs md-dynamic-height >
             <md-tab md-on-select="removeBouton()">
               <md-tab-label>
-                <span  id="icon" style= "">1</span> &nbsp &nbsp Listes des Especes    
-                  
+              Liste Espece 
               </md-tab-label>
               <md-tab-body>
-                <br>
-                  <div style="widht:100%;">    
-                    <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-                      Nouveau
-                    </md-button>
-                    <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-                      Modifier
-                    </md-button>
-                    <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-                      Supprimer
-                    </md-button>
-                  </div>
 
                  <table class="dataTable row-border hover" datatable="ng"
                       dt-options="vm.dtOptions">
@@ -191,56 +126,8 @@
                    
                   </table>
               </md-tab-body>
-            </md-tab>
-            <md-tab>
-              <md-tab-label>
-                <span  id="icon" style= "">2</span> &nbsp &nbsp Espece capture    
-                  
-              </md-tab-label>
-              <md-tab-body>
-
-                <div style="widht:100%;">    
-                    <md-button type="submit" ng-show="vm.afficherboutonnouveauEspece_capture==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEspece_capture()" style="width:10%;">
-                          Nouveau
-                    </md-button>
-                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEspece_capture()" style="width:10%;">
-                          Modifier
-                    </md-button>
-                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEspece_capture()" style="width:10%;">
-                          Supprimer
-                    </md-button>
-                </div> 
-
-                 <table class="dataTable row-border hover" datatable="ng"
-                      dt-options="vm.dtOptions">
-                  <thead>
-                    <tr>
-                      <th class="secondary-text" ng-repeat="esc in ::vm.espece_capture_column">
-                            <div class="table-header">
-                              <span class="column-title">{{esc.titre}}</span>
-                            </div>
-                      </th>
-                    </tr>
-                  </thead>
-                    <tbody>
-                        <tr ng-repeat="espece_capture in vm.allespece_capture" ng-class="{selected: espece_capture.$selected}" ng-click="vm.selectionEspece_capture(espece_capture)">
-                          <td>{{espece_capture.fiche_echantillonnage_capture_nom}}</td>
-                          <td>{{espece_capture.echantillon_nom}}</td>
-                          <td>{{espece_capture.capture}}</td>
-                          <td>{{espece_capture.prix}}</td>
-                          <td>{{espece_capture.user_nom}}</td>
-                          <td>{{espece_capture.date_creation}}</td>
-                          <td>{{espece_capture.date_modification}}</td>
-                        </tr>
-                    </tbody>
-                   
-                  </table>
-              </md-tab-body>
-            </md-tab>
+            </md-tab>            
         </md-tabs>
-    <div class="ongletdata">
-
-    </div>
     </div>
     <!-- / CONTENT -->
   </div>

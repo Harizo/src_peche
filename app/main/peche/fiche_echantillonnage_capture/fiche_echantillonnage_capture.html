@@ -13,17 +13,20 @@
         </div>
     </div>
     <div class="content"layout="column">
+<!--FORM-->		
 		<div class="form-wrapper">			  
 			<div style="clear:both;"></div>
+	
+	<!--FORM FICHE ECHANTILLONNAGE CAPTURE -->
 			<div class="white-bg md-whiteframe-4dp">
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-					<md-tab label="Ajout fiche echantillonnage capture">
+					<md-tab label="Ajout fiche echantillonnage capture" >
 						<div class="simple-table-container md-whiteframe-4dp">
 						<md-tab-body>
-							</br>
+							<br>
 							<form name="fiche_echantillonnage_captureform" class="md-inline-form"  novalidate>
 								<div layout="column" layout-gt-xs="row" flex>
-									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id"></input>				
+									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id">				
 									<md-input-container flex="100" flex-gt-xs="33">
 										<input type="text" name="code_unique" ng-model="vm.fiche_echantillonnage_capture.code_unique"
 										placeholder="Code unique " ng-init="vm.fiche_echantillonnage_capture.code_unique=''"
@@ -44,7 +47,7 @@
 										</md-select>
 									</md-input-container>
 									<md-input-container flex="100" flex-gt-xs="33">
-										<label>Site_embarquement</label>
+										<label>Site de débarquement</label>
 										<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.modifiersite_debarquement(vm.fiche_echantillonnage_capture)" ng-disabled="vm.enqueteur==false">
 											<md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
 												{{site_embarquement.libelle}}
@@ -127,6 +130,9 @@
 					</md-tab>
 					</md-tabs>
 			</div>
+	<!--/FORM FICHE ECHANTILLONNAGE CAPTURE -->
+
+	<!--FORM ECHANTILLON-->
 			<div class="white-bg md-whiteframe-4dp">	
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1">
 				<md-tab label="Ajout Echantillon">
@@ -134,7 +140,7 @@
 					<md-tab-body>
 						<form name="echantillonform" class="md-inline-form"  novalidate>
 							<div layout="column" layout-gt-xs="row" flex>
-								<input type="hidden" ng-model="vm.echantillon.id"></input>		
+								<input type="hidden" ng-model="vm.echantillon.id">		
 								
 								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.input_data_collect==true">
 									<label>Effort de pêche</label>
@@ -145,26 +151,10 @@
 									</md-select>
 								</md-input-container>
 								
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>Type canoe</label>
-									<md-select ng-model="vm.echantillon.type_canoe_id"  ng-change="vm.modifiertype_canoe(vm.echantillon)">
-										<md-option ng-repeat="type_canoe in vm.alltype_canoe" value="{{type_canoe.id}}">
-											{{type_canoe.nom}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>Type engin</label>
-									<md-select ng-model="vm.echantillon.type_engin_id"  ng-change="vm.modifiertype_engin(vm.echantillon)">
-										<md-option ng-repeat="type_engin in vm.alltype_engin" value="{{type_engin.id}}">
-											{{type_engin.libelle}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==true">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
 									<input type="text" name="peche_hier" ng-model="vm.echantillon.peche_hier"
 									placeholder="Peche hier " ng-init="vm.echantillon.peche_hier=''"
-									required>
+									>
 									<div ng-messages="echantillonform.peche_hier.$error"
 										role="alert">
 										<div ng-message="required">
@@ -172,10 +162,10 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==true">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
 									<input type="text" name="peche_avant_hier" ng-model="vm.echantillon.peche_avant_hier"
 									placeholder="Peche avant hier " ng-init="vm.echantillon.peche_avant_hier=''"
-									required>
+									>
 									<div ng-messages="echantillonform.peche_avant_hier.$error"
 										role="alert">
 										<div ng-message="required">
@@ -183,16 +173,61 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==true">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
 									<input type="text" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
-									placeholder="nbr jrs dernier sem" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''"
-									required>
+									placeholder="nbr jrs dernier sem" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''">
 									<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
 										role="alert">
 										<div ng-message="required">
 											<span>Nbr du jours obligatoire.</span>
 										</div>
 									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.pab">
+									<input type="text" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
+									placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''"
+									>
+									<div ng-messages="echantillonform.nbr_bateau_actif.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Nbr bateau actif obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.pab">
+									<input type="text" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
+									placeholder="Total bateau " ng-init="vm.echantillon.total_bateau_ecn=''"
+									>
+									<div ng-messages="echantillonform.total_bateau_ecn.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Total bateau ecn obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33">
+									<label>Unite peche</label>
+									<md-select ng-model="vm.echantillon.unite_peche_id"  ng-change="vm.modifierunite_peche(vm.echantillon)">
+										<md-option ng-repeat="unite_peche in vm.allunite_peche" value="{{unite_peche.id}}">
+											{{unite_peche.libelle}}
+										</md-option>
+									</md-select>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33">
+									<label>Type canoe</label>
+									<md-select ng-model="vm.echantillon.type_canoe_id"  ng-change="vm.modifiertype_canoe(vm.echantillon)" disabled>
+										<md-option ng-repeat="type_canoe in vm.alltype_canoe" value="{{type_canoe.id}}">
+											{{type_canoe.nom}}
+										</md-option>
+									</md-select>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33">
+									<label>Type engin</label>
+									<md-select ng-model="vm.echantillon.type_engin_id"  ng-change="vm.modifiertype_engin(vm.echantillon)" disabled>
+										<md-option ng-repeat="type_engin in vm.alltype_engin" value="{{type_engin.id}}">
+											{{type_engin.libelle}}
+										</md-option>
+									</md-select>
 								</md-input-container>
 								<md-input-container flex="100" flex-gt-xs="33">
 									<input type="text" name="unique_code" ng-model="vm.echantillon.unique_code"
@@ -202,28 +237,6 @@
 										role="alert">
 										<div ng-message="required">
 											<span>Code unique obligatoire.</span>
-										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==false">
-									<input type="text" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
-									placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''"
-									required>
-									<div ng-messages="echantillonform.nbr_bateau_actif.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Nbr bateau actif obligatoire.</span>
-										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab==false">
-									<input type="text" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
-									placeholder="Total bateau " ng-init="vm.echantillon.total_bateau_ecn=''"
-									required>
-									<div ng-messages="echantillonform.total_bateau_ecn.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Total bateau ecn obligatoire.</span>
 										</div>
 									</div>
 								</md-input-container>							
@@ -242,13 +255,15 @@
 				
 				</md-tab>
 			</div>
-			<!-- BASIC FORM --> 
+	<!--/FORM FICHE ECHANTILLONNAGE CAPTURE -->
+
+	<!--FORM FICHE ESPACE CAPTURE --> 
 		    <div class="white-bg md-whiteframe-4dp"> 
 		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueEspece_capture==1">
 		            <md-tab label="Ajout Espece capture">
 		                <md-tab-body>
 		                  <form name="espece_captureform" class="md-inline-form" novalidate >
-		                    </br>
+		                    <br>
 		                    <div layout="column" layout-gt-xs="row">
 		                      <input type="hidden" ng-model="vm.espece_capture.id">
 		                      <md-input-container flex="100" flex-gt-xs="33">
@@ -296,15 +311,62 @@
 		            </md-tab>
 		        </md-tabs>
 		    </div> 
-		    <!-- / BASIC FORM -->
-		</div>
-	</div>
-	<div layout="row">
+	<!--/FORM FICHE ESPACE CAPTURE --> 
+	<!--FORM FILTRE PAR DATE --> 
+		    <div class="white-bg md-whiteframe-4dp"> 
+		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueFiltrepardate==1">
+		            <md-tab label="Filtre par date">
+		                <md-tab-body>
+		                  <form name="filtrepardateform" class="md-inline-form" novalidate >
+		                    <br>
+		                    <div layout="column" layout-gt-xs="row">
+		                        <md-input-container flex="100" flex-gt-xs="33">
+		                          <input type="text" name="date_debut" ng-model="vm.filtrepardate.date_debut"
+		                            placeholder="AAAA-MM-JJ " ng-init="vm.filtrepardate.date_debut=''"
+		                            required>
+		                            <div ng-messages="filtrepardateform.date_debut.$error"
+		                              role="alert">
+		                              <div ng-message="required">
+		                                <span>Date debut obligatoire.</span>
+		                              </div>
+		                            </div>
+		                        </md-input-container>
+		                        <md-input-container flex="100" flex-gt-xs="33">
+		                          <input type="text" name="date_fin" ng-model="vm.filtrepardate.date_fin"
+		                            placeholder="AAAA-MM-JJ " ng-init="vm.filtrepardate.date_fin=''"
+		                            required>
+		                            <div ng-messages="filtrepardateform.date_fin.$error"
+		                              role="alert">
+		                              <div ng-message="required">
+		                                <span>Date final obligatoire.</span>
+		                              </div>
+		                            </div>
+		                        </md-input-container>
+		                    </div>
+		                    <div>
+		                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+		                          ng-disabled="filtrepardateform.$invalid" ng-click="vm.recherchefiltrepardate(vm.filtrepardate)">
+		                          Recherche
+		                    </md-button>
+		                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+		                      Annuler
+		                    </md-button>
+		                    </div>
+		                  </form>
+		                </md-tab-body>
+		            </md-tab>
+		        </md-tabs>
+		    </div> 
+	<!--/FORM FORM FILTRE PAR DATE -->
+<!--/FORM-->
 
-            <!-- FORM WIZARD -->
-            <ms-form-wizard flex>
+<!--STEP-->	
+		<div layout="row">
+        	<ms-form-wizard flex>
                 <md-tabs md-dynamic-height md-selected="msWizard.selectedIndex" md-center-tabs="true">
-                    <md-tab>
+     
+     <!--STEP1 FICHE ECHANTILLONNAGE CAPTURE-->               
+                    <md-tab >
                         <md-tab-label>
                             <span class="ms-form-wizard-step-label">
                                 <span class="ms-form-wizard-step-number md-accent-bg"
@@ -312,13 +374,16 @@
                                 <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step1==true">
                                     <i class="icon-check s16"></i>
                                 </span>
-                                <span class="ms-form-wizard-step-text">Fiche echntillonnage capture</span>
+                                <span class="ms-form-wizard-step-text">Fiche echantillonnage capture</span>
                             </span>
                         </md-tab-label>
 
                        <md-tab-body ms-form-wizard-form>
                        		<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 1</md-button >
-							<div style="widht:100%;">    
+							<div style="widht:100%;"> 
+								<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Filtre" ng-click="vm.formfiltrepardate()" style="width:10%;">
+									Filtre
+								</md-button>   
 								<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
 									Nouveau
 								</md-button>
@@ -329,6 +394,7 @@
 									Supprimer
 								</md-button>
 							</div>
+							
 							<table class="dataTable row-border hover" datatable="ng"
 								dt-options="vm.dtOptions">
 								<thead>
@@ -360,7 +426,7 @@
 										</th>
 										<th class="secondary-text">
 											<div class="table-header">
-												<span class="column-title">latitude/Longitude/<br/>Altitude</span>
+												<span class="column-title">latitude\Longitude\<br/>Altitude</span>
 											</div>
 										</th>
 										<th class="secondary-text">
@@ -388,7 +454,7 @@
 										<td>{{fiche_echantillonnage_capture.site_embarquement_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.region_nom}}</td>
 										<td>{{fiche_echantillonnage_capture.district_nom}}</td>
-										<td>{{fiche_echantillonnage_capture.latitude}} / {{fiche_echantillonnage_capture.longitude}} / {{fiche_echantillonnage_capture.altitude}}</td>
+										<td>{{fiche_echantillonnage_capture.latitude}} \ {{fiche_echantillonnage_capture.longitude}} \ {{fiche_echantillonnage_capture.altitude}}</td>
 										<td>{{fiche_echantillonnage_capture.date}}</td>
 										<td>{{fiche_echantillonnage_capture.date_creation}}<br/>{{fiche_echantillonnage_capture.date_modification}}</td>
 										<td>{{fiche_echantillonnage_capture.user_nom}}</td>
@@ -400,8 +466,10 @@
 							
 						</md-tab-body>
                     </md-tab>
-
-                    <md-tab ng-disabled="vm.step1==false">
+    <!--/STEP1 FICHE ECHANTILLONNAGE CAPTURE-->
+                   	
+    <!--STEP2 ECHANTILLON-->
+                   	<md-tab ng-disabled="vm.step1==false">
                         <md-tab-label>
                             <span class="ms-form-wizard-step-label">
                                 <span class="ms-form-wizard-step-number md-accent-bg"
@@ -442,6 +510,31 @@
 									</th>
 									<th class="secondary-text">
 										<div class="table-header">
+											<span class="column-title">Pêche: hier<br/>\ avant hier</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Nbr jrs/sem</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Total capture</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Bateau actif<br/>\ Bateau ecn</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
+											<span class="column-title">Unite peche</span>
+										</div>
+									</th>
+									<th class="secondary-text">
+										<div class="table-header">
 											<span class="column-title">Canoe</span>
 										</div>
 									</th>
@@ -452,32 +545,12 @@
 									</th>
 									<th class="secondary-text">
 										<div class="table-header">
-											<span class="column-title">Peche hier<br/>/avant hier</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Nbr jrs/sem</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Bateau actif<br/>/bateau ecn</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
-											<span class="column-title">Total capture</span>
-										</div>
-									</th>
-									<th class="secondary-text">
-										<div class="table-header">
 											<span class="column-title">Code</span>
 										</div>
 									</th>
 									<th class="secondary-text">
 										<div class="table-header">
-											<span class="column-title">Date creation<br/>modification</span>
+											<span class="column-title">Date: creation<br/>\ modification</span>
 										</div>
 									</th>
 									<th class="secondary-text">
@@ -499,12 +572,13 @@
 								<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
 									<!--td>{{echantillon.fiche_echantillonnage_capture_nom}}</td-->
 									<td>{{echantillon.data_collect_nom}}</td>
-									<td>{{echantillon.type_canoe_nom}}</td>
-									<td>{{echantillon.type_engin_nom}}</td>
 									<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
 									<td>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
-									<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
 									<td>{{echantillon.total_capture}} (kg)</td>
+									<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
+									<td>{{echantillon.unite_peche_nom}}</td>
+									<td>{{echantillon.type_canoe_nom}}</td>
+									<td>{{echantillon.type_engin_nom}}</td>
 									<td>{{echantillon.unique_code}}</td>
 									<td>{{echantillon.date_creation}}<br/>{{echantillon.date_modification}}</td>
 									<td>{{echantillon.user_nom}}</td>						
@@ -513,7 +587,9 @@
 						</table>
 						</md-tab-body>
                     </md-tab>
+    <!--/STEP2 ECHANTILLON-->
 
+    <!--STEP3 ESPACE CAPTURE-->
                     <md-tab ng-disabled="vm.step1==false || vm.step2==false">
                         <md-tab-label>
                             <span class="ms-form-wizard-step-label">
@@ -564,8 +640,8 @@
 		                  </table>
 		              </md-tab-body>
                     </md-tab>
-                </md-tabs>
-
+    <!--STEP3 ESPACE CAPTURE-->                    
+                </md-tabs>         
                 <div class="navigation" flex layout="row" layout-align="center center">
                     <md-button class="md-raised md-accent" ng-click="msWizard.previousStep()"
                                ng-disabled="msWizard.isFirstStep()">
@@ -582,12 +658,8 @@
                         Suivant
                     </md-button>
                 </div>
-
             </ms-form-wizard>
-            <!-- / FORM WIZARD -->
-
         </div>
-
-		</div>
-    </div>
+<!--/STEP-->        
+    </div>    
 </div>

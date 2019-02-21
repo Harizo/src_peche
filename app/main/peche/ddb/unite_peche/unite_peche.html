@@ -17,5 +17,105 @@
     <!-- / HEADER -->
     <!-- CONTENT -->
 
+    <div class="content"layout="column">
+        <div class="form-wrapper">
+            <div style="widht:100%;">    
+                <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                    Nouveau
+                </md-button>
+                <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                    Modifier
+                </md-button>
+                <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                    Supprimer
+                </md-button>
+            </div>  
+            <div style="clear:both;"></div>
+            <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
+                <md-tab label="Ajout unité de pêche">
+                    <div class="simple-table-container md-whiteframe-4dp">
+                    <md-tab-body>                       
+                        <form name="unite_pecheform" class="md-inline-form"  novalidate>
+                            <div layout="column" layout-gt-xs="row" flex>
+                                <input type="hidden" ng-model="vm.unite_peche.id">      
+                                
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <label>Site d'enquête</label>
+                                    <md-select ng-model="vm.unite_peche.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.unite_peche)">
+                                        <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
+                                            {{site_embarquement.libelle}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <label>Type canoe</label>
+                                    <md-select ng-model="vm.unite_peche.type_canoe_id"  ng-change="vm.modifiertype_canoe(vm.unite_peche)">
+                                        <md-option ng-repeat="type_canoe in vm.alltype_canoe" value="{{type_canoe.id}}">
+                                            {{type_canoe.nom}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <label>Type engin</label>
+                                    <md-select ng-model="vm.unite_peche.type_engin_id"  ng-change="vm.modifiertype_engin(vm.unite_peche)">
+                                        <md-option ng-repeat="type_engin in vm.alltype_engin" value="{{type_engin.id}}">
+                                            {{type_engin.libelle}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <input type="text" name="libelle" ng-model="vm.unite_peche.libelle"
+                                    placeholder="Libelle " ng-init="vm.unite_peche.libelle=''"
+                                    required>
+                                    <div ng-messages="unite_pecheform.libelle.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>Libelle obligatoire.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>                                                       
+                               
+                            </div>
+                            <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                ng-disabled="unite_pecheform.$invalid " ng-click="vm.ajout(vm.unite_peche,0)">
+                                Enregistrer
+                            </md-button>
+                            <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                                Annuler
+                            </md-button>
+                        </form>
+                    </md-tab-body>
+                    </div>
+                <!-- / BASIC FORM -->
+                </md-tab>
+            </md-tabs>
+            <div style="clear:both;"></div>
+            <md-tabs md-dynamic-height>
+                <md-tab label="Liste unité de pêche">
+                    <table class="dataTable row-border hover" datatable="ng"
+                        dt-options="vm.dtOptions">
+                        <thead>                          
+                        <tr>
+                             <th class="secondary-text" ng-repeat="up in ::vm.unite_peche_column">
+                              <div class="table-header">
+                                  <span class="column-title">{{up.titre}}</span>
+                              </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="unite_peche in vm.allunite_peche"  ng-class="{selected: unite_peche.$selected}" ng-click="vm.selection(unite_peche)">
+                                <td>{{unite_peche.site_embarquement_nom}}</td>
+                                <td>{{unite_peche.type_canoe_nom}}</td>
+                                <td>{{unite_peche.type_engin_nom}}</td>
+                                <td>{{unite_peche.libelle}}</td>                        
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-tab>
+            </md-tabs>
+        </div>
+    </div>
+
     <!-- / CONTENT -->
   </div>
