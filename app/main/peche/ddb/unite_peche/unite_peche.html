@@ -40,32 +40,61 @@
                                 <input type="hidden" ng-model="vm.unite_peche.id">      
                                 
                                 <md-input-container flex="100" flex-gt-xs="33">
-                                    <label>Site d'enquête</label>
-                                    <md-select ng-model="vm.unite_peche.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.unite_peche)">
+                                    <label>Site de débarquement</label>
+                                    <md-select ng-model="vm.unite_peche.site_embarquement_id" name="site_embarquement_id" required>
                                         <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
-                                            {{site_embarquement.libelle}}
+                                            ({{site_embarquement.code}}) {{site_embarquement.libelle}}
                                         </md-option>
                                     </md-select>
+
+                                    <div ng-messages="unite_pecheform.site_embarquement_id.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>Site de débarquementobligatoire.</span>
+                                        </div>
+                                    </div>
+
+
                                 </md-input-container>
+
                                 <md-input-container flex="100" flex-gt-xs="33">
-                                    <label>Type canoe</label>
-                                    <md-select ng-model="vm.unite_peche.type_canoe_id"  ng-change="vm.modifiertype_canoe(vm.unite_peche)">
+                                    <label>Type d''embarquation</label>
+                                    <md-select ng-model="vm.unite_peche.type_canoe_id" name="type_canoe_id"  ng-change="vm.set_libelle()" required>
                                         <md-option ng-repeat="type_canoe in vm.alltype_canoe" value="{{type_canoe.id}}">
                                             {{type_canoe.nom}}
                                         </md-option>
                                     </md-select>
+
+                                    <div ng-messages="unite_pecheform.type_canoe_id.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>Type D'embarquation obligatoire.</span>
+                                        </div>
+                                    </div>
                                 </md-input-container>
+
                                 <md-input-container flex="100" flex-gt-xs="33">
                                     <label>Type engin</label>
-                                    <md-select ng-model="vm.unite_peche.type_engin_id"  ng-change="vm.modifiertype_engin(vm.unite_peche)">
+                                    <md-select ng-model="vm.unite_peche.type_engin_id" name="type_engin_id"  ng-change="vm.set_libelle()" required>
                                         <md-option ng-repeat="type_engin in vm.alltype_engin" value="{{type_engin.id}}">
-                                            {{type_engin.libelle}}
+                                            {{type_engin.libelle}} 
                                         </md-option>
+
+
                                     </md-select>
+
+                                    <div ng-messages="unite_pecheform.type_engin_id.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>Type engin obligatoire.</span>
+                                        </div>
+                                    </div>
+
                                 </md-input-container>
+
                                 <md-input-container flex="100" flex-gt-xs="33">
                                     <input type="text" name="libelle" ng-model="vm.unite_peche.libelle"
-                                    placeholder="Libelle " ng-init="vm.unite_peche.libelle=''"
+                                    placeholder="Libelle " ng-readonly="true" ng-init="vm.unite_peche.libelle=''"
                                     required>
                                     <div ng-messages="unite_pecheform.libelle.$error"
                                         role="alert">
@@ -105,10 +134,11 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="unite_peche in vm.allunite_peche"  ng-class="{selected: unite_peche.$selected}" ng-click="vm.selection(unite_peche)">
-                                <td>{{unite_peche.site_embarquement_nom}}</td>
-                                <td>{{unite_peche.type_canoe_nom}}</td>
-                                <td>{{unite_peche.type_engin_nom}}</td>
-                                <td>{{unite_peche.libelle}}</td>                        
+                                <td>{{unite_peche.libelle}}</td>    
+                                <td>{{unite_peche.site_embarquement.libelle}}</td>
+                                <td>{{unite_peche.type_canoe.nom}}</td>
+                                <td>{{unite_peche.type_engin.libelle}}</td>
+                                                    
                             </tr>
                         </tbody>
                     </table>

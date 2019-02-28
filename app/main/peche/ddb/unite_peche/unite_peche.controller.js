@@ -24,19 +24,20 @@
          responsive : true
       };
 
-      vm.unite_peche_column = [          
+      vm.unite_peche_column = [    
+         {
+           titre:"Libelle"
+         },      
          {
            titre:"Site d'enquête"
-         },
-         {
-           titre:"Type canoe"
          },
          {
            titre:'Type engin'
          },
          {
-           titre:"Libelle"
+           titre:"Type canoe"
          }
+         
       ];
 
       apiFactory.getAll("type_canoe/index").then(function(result)
@@ -71,7 +72,7 @@
       }
 
       function insert_in_base(unite_peche,suppression)
-        {
+      {
            
             //add
             var config = 
@@ -99,14 +100,30 @@
             {  if (NouvelItem == false) 
                {  //Update or delete: id exclu
                   if(suppression == 0) 
-                  { // vm.selectedItem ={};
-                     vm.selectedItem.type_canoe_id          = vm.unite_peche.type_canoe_id;
-                     vm.selectedItem.type_canoe_nom         = vm.unite_peche.type_canoe_nom;
-                     vm.selectedItem.type_engin_id          = vm.unite_peche.type_engin_id;
-                     vm.selectedItem.type_engin_nom         = vm.unite_peche.type_engin_nom;
-                     vm.selectedItem.site_embarquement_id   = vm.unite_peche.site_embarquement_id;
-                     vm.selectedItem.site_embarquement_nom  = vm.unite_peche.site_embarquement_nom;
-                     vm.selectedItem.libelle                = vm.unite_peche.libelle;                      
+                  { // vm.selectedItem ={};   ***************************** OVANA ANITO ********************************
+
+                     var tpc = vm.alltype_canoe.filter(function(obj)
+                     {
+                        return obj.id == vm.unite_peche.type_canoe_id;
+                     });
+
+                     var tpe = vm.alltype_engin.filter(function(obj)
+                     {
+                        return obj.id == vm.unite_peche.type_engin_id;
+                     });
+
+                     var ste = vm.allsite_embarquement.filter(function(obj)
+                     {
+                        return obj.id == vm.unite_peche.site_embarquement_id;
+                     });
+
+                     vm.selectedItem.type_canoe          = tpc[0];
+                     vm.selectedItem.type_engin          = tpe[0];
+                     vm.selectedItem.site_embarquement   = ste[0];
+                     vm.selectedItem.libelle                = vm.unite_peche.libelle;       
+
+//*****************************fin  OVANA ANITO ********************************
+
                      vm.afficherboutonModifSupr             = 0 ;
                      vm.afficherboutonnouveau               = 1 ;
                      vm.selectedItem.$selected              = false;                    
@@ -120,7 +137,9 @@
                   }
                }
                else
-               {  var item = {
+               { 
+
+                  var item = {
                      type_canoe_id:           unite_peche.type_canoe_id,
                      type_canoe_nom:          unite_peche.type_canoe_nom,
                      type_engin_id:           unite_peche.type_engin_id,
@@ -132,10 +151,10 @@
                   };
         
                   vm.allunite_peche.push(item);                   
-                  vm.unite_peche.type_canoe_id        ='';
+                 /* vm.unite_peche.type_canoe_id        =''; ************* TSY ILAINA *****************************
                   vm.unite_peche.type_engin_id        ='';
                   vm.unite_peche.site_embarquement_id ='';
-                  vm.unite_peche.libelle              ='';                
+                  vm.unite_peche.libelle              =''; */               
                     
                   NouvelItem                          = false;
                }
@@ -144,7 +163,7 @@
             }).error(function (data)
                { alert('Error');
                });                
-        }
+      }
 
       //*****************************************************************
 
@@ -155,7 +174,9 @@
          currentItem                = JSON.parse(JSON.stringify(vm.selectedItem));
          vm.afficherboutonModifSupr = 1 ;
          vm.affichageMasque         = 0 ;
-         vm.afficherboutonnouveau   = 1 ;          
+         vm.afficherboutonnouveau   = 1 ;   
+
+         console.log(item);       
       };
 
       $scope.$watch('vm.selectedItem', function()
@@ -170,10 +191,11 @@
       vm.ajouter = function () 
       {  vm.selectedItem.$selected           = false;
          vm.affichageMasque                  = 1 ;
-         vm.unite_peche.type_canoe_id        ='';
+         vm.unite_peche = {} ;
+         /*vm.unite_peche.type_canoe_id        =''; ********* IO AMBONY IO NO SOLONY  ************
          vm.unite_peche.type_engin_id        ='';
          vm.unite_peche.site_embarquement_id ='';
-         vm.unite_peche.libelle              ='';
+         vm.unite_peche.libelle              ='';*/
          NouvelItem                          = true ;
       };
 
@@ -192,7 +214,11 @@
          vm.unite_peche.id      = vm.selectedItem.id;       
          vm.unite_peche.libelle = vm.selectedItem.libelle;
 
-         vm.alltype_canoe.forEach(function(typec)
+         vm.unite_peche.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
+         vm.unite_peche.type_engin_id = vm.selectedItem.type_engin.id ;
+         vm.unite_peche.type_canoe_id = vm.selectedItem.type_canoe.id ;
+
+      /*   vm.alltype_canoe.forEach(function(typec)   ******************TSY ILAINA ***********************
          {  if(typec.id==vm.selectedItem.type_canoe_id)
             { vm.unite_peche.type_canoe_id  = typec.id;
               vm.unite_peche.type_canoe_nom = typec.nom;
@@ -209,7 +235,7 @@
             { vm.unite_peche.site_embarquement_id  = site.id;
               vm.unite_peche.site_embarquement_nom = site.libelle;
             }
-         });          
+         });  */        
          vm.afficherboutonModifSupr = 0;
          vm.afficherboutonnouveau   = 0; 
       };
@@ -234,7 +260,7 @@
           });
       };
 
-      vm.modifiertype_canoe = function (item)
+/*      vm.modifiertype_canoe = function (item) ******************TSY ILAINA ***********************
       {  vm.alltype_canoe.forEach(function(type_c)
          {  if(type_c.id==item.type_canoe_id)
             {  item.type_canoe_id  = type_c.id; 
@@ -258,6 +284,26 @@
                item.site_embarquement_nom = site.libelle;               
             }
          });
+      }*/
+
+      vm.set_libelle = function()
+      {
+         if ((vm.unite_peche.type_canoe_id)&&(vm.unite_peche.type_engin_id)) 
+         {
+            var tpc = vm.alltype_canoe.filter(function(obj)
+            {
+               return obj.id == vm.unite_peche.type_canoe_id;
+            });
+
+            var tpe = vm.alltype_engin.filter(function(obj)
+            {
+               return obj.id == vm.unite_peche.type_engin_id;
+            });
+
+            
+
+            vm.unite_peche.libelle = tpc[0].nom+" "+tpe[0].libelle ;
+         }
       }
 
       function test_existance (item,suppression) 
