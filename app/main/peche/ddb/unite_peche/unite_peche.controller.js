@@ -27,9 +27,6 @@
       vm.unite_peche_column = [    
          {
            titre:"Libelle"
-         },      
-         {
-           titre:"Site d'enquête"
          },
          {
            titre:'Type engin'
@@ -49,11 +46,7 @@
       {
          vm.alltype_engin= result.data.response;
       });
-      apiFactory.getAll("site_embarquement/index").then(function(result)
-      {
-         vm.allsite_embarquement = result.data.response;
     
-      });
       apiFactory.getAll("unite_peche/index").then(function(result)
       {
          vm.allunite_peche = result.data.response;
@@ -91,43 +84,41 @@
                id:                    getId,
                type_canoe_id:         unite_peche.type_canoe_id,
                type_engin_id:         unite_peche.type_engin_id,
-               site_embarquement_id:  unite_peche.site_embarquement_id,
                libelle:               unite_peche.libelle                
             });
           
             //factory
             apiFactory.add("unite_peche/index",datas, config).success(function (data)
-            {  if (NouvelItem == false) 
+            {  
+
+               var tpc = vm.alltype_canoe.filter(function(obj)
+               {
+                  return obj.id == vm.unite_peche.type_canoe_id;
+               });
+
+               var tpe = vm.alltype_engin.filter(function(obj)
+               {
+                  return obj.id == vm.unite_peche.type_engin_id;
+               });
+
+             
+
+               if (NouvelItem == false) 
                {  //Update or delete: id exclu
                   if(suppression == 0) 
-                  { // vm.selectedItem ={};   ***************************** OVANA ANITO ********************************
+                  { 
 
-                     var tpc = vm.alltype_canoe.filter(function(obj)
-                     {
-                        return obj.id == vm.unite_peche.type_canoe_id;
-                     });
+                     
+                     vm.selectedItem.type_canoe = tpc[0];
+                     vm.selectedItem.type_engin = tpe[0];
+                     vm.selectedItem.libelle = vm.unite_peche.libelle;       
 
-                     var tpe = vm.alltype_engin.filter(function(obj)
-                     {
-                        return obj.id == vm.unite_peche.type_engin_id;
-                     });
 
-                     var ste = vm.allsite_embarquement.filter(function(obj)
-                     {
-                        return obj.id == vm.unite_peche.site_embarquement_id;
-                     });
 
-                     vm.selectedItem.type_canoe          = tpc[0];
-                     vm.selectedItem.type_engin          = tpe[0];
-                     vm.selectedItem.site_embarquement   = ste[0];
-                     vm.selectedItem.libelle                = vm.unite_peche.libelle;       
-
-//*****************************fin  OVANA ANITO ********************************
-
-                     vm.afficherboutonModifSupr             = 0 ;
-                     vm.afficherboutonnouveau               = 1 ;
-                     vm.selectedItem.$selected              = false;                    
-                     vm.selectedItem                        ={};                     
+                     vm.afficherboutonModifSupr = 0 ;
+                     vm.afficherboutonnouveau = 1 ;
+                     vm.selectedItem.$selected = false;                    
+                     vm.selectedItem ={};                     
                   } 
                   else 
                   {  vm.allunite_peche = vm.allunite_peche.filter(function(obj)
@@ -140,14 +131,11 @@
                { 
 
                   var item = {
-                     type_canoe_id:           unite_peche.type_canoe_id,
-                     type_canoe_nom:          unite_peche.type_canoe_nom,
-                     type_engin_id:           unite_peche.type_engin_id,
-                     type_engin_nom:          unite_peche.type_engin_nom,
-                     site_embarquement_id:    unite_peche.site_embarquement_id,
-                     site_embarquement_nom:   unite_peche.site_embarquement_nom,
-                     libelle:                 unite_peche.libelle,
-                     id:                      String(data.response) 
+                     type_canoe : tpc[0],
+                     type_engin : tpe[0],
+                    
+                     libelle : unite_peche.libelle,
+                     id : String(data.response) 
                   };
         
                   vm.allunite_peche.push(item);                   
@@ -176,7 +164,7 @@
          vm.affichageMasque         = 0 ;
          vm.afficherboutonnouveau   = 1 ;   
 
-         console.log(item);       
+            
       };
 
       $scope.$watch('vm.selectedItem', function()
@@ -214,7 +202,6 @@
          vm.unite_peche.id      = vm.selectedItem.id;       
          vm.unite_peche.libelle = vm.selectedItem.libelle;
 
-         vm.unite_peche.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
          vm.unite_peche.type_engin_id = vm.selectedItem.type_engin.id ;
          vm.unite_peche.type_canoe_id = vm.selectedItem.type_canoe.id ;
 
@@ -308,7 +295,7 @@
 
       function test_existance (item,suppression) 
       {  if (suppression!=1) 
-         {  vm.allunite_peche.forEach(function(unite_p)
+         {  vm.allunite_peche.forEach(function(unite_p) // ITY FONCTION ITY OVAO HOATRAN'ILAY FILTRE ANATY vm.set_libelle IO AMBONY IO REHEFA MALALAKA
             {  if (unite_p.id==item.id) 
                {  if((unite_p.site_embarquement_id!=item.site_embarquement_id)
                     ||(unite_p.type_canoe_id!=item.type_canoe_id)

@@ -37,26 +37,7 @@
                     <md-tab-body>                       
                         <form name="unite_pecheform" class="md-inline-form"  novalidate>
                             <div layout="column" layout-gt-xs="row" flex>
-                                <input type="hidden" ng-model="vm.unite_peche.id">      
-                                
-                                <md-input-container flex="100" flex-gt-xs="33">
-                                    <label>Site de débarquement</label>
-                                    <md-select ng-model="vm.unite_peche.site_embarquement_id" name="site_embarquement_id" required>
-                                        <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
-                                            ({{site_embarquement.code}}) {{site_embarquement.libelle}}
-                                        </md-option>
-                                    </md-select>
-
-                                    <div ng-messages="unite_pecheform.site_embarquement_id.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                            <span>Site de débarquementobligatoire.</span>
-                                        </div>
-                                    </div>
-
-
-                                </md-input-container>
-
+                                  
                                 <md-input-container flex="100" flex-gt-xs="33">
                                     <label>Type d''embarquation</label>
                                     <md-select ng-model="vm.unite_peche.type_canoe_id" name="type_canoe_id"  ng-change="vm.set_libelle()" required>
@@ -135,7 +116,6 @@
                         <tbody>
                             <tr ng-repeat="unite_peche in vm.allunite_peche"  ng-class="{selected: unite_peche.$selected}" ng-click="vm.selection(unite_peche)">
                                 <td>{{unite_peche.libelle}}</td>    
-                                <td>{{unite_peche.site_embarquement.libelle}}</td>
                                 <td>{{unite_peche.type_canoe.nom}}</td>
                                 <td>{{unite_peche.type_engin.libelle}}</td>
                                                     
