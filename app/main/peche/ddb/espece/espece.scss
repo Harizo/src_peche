@@ -3,7 +3,7 @@
     .content {
 
         .form-wrapper {
-        .ongletdata{
+        
 
          .md-tab.md-active{
                // background-color: rgb(70,181,214) !important;
@@ -14,8 +14,15 @@
         .md-tab{
                 //background-color: rgb(83,215,255) !important;
                 //color: white;
+
                 }
-            }
+        .price-table:hover{
+            background-color: rgb(245,245,245) !important;
+
+        }
+        .price-table.selected{
+            background-color: rgb(176,190,217) !important;           
+        }   
 
         }
 		

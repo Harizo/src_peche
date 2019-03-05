@@ -25,7 +25,7 @@
      <div style="clear:both;"></div> 
      <!-- BASIC FORM --> 
      <div class="white-bg md-whiteframe-4dp"> 
-         <md-tabs  md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
+         <md-tabs  md-dynamic-height ng-show="vm.affichageMasque==1">
             <md-tab label="Ajout Espece">
                 <md-tab-body>
                   <form name="especeform" class="md-inline-form" novalidate >
@@ -67,12 +67,19 @@
                               </div>
                             </div>
                         </md-input-container>
-
-
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="file" file-upload name="myFile" aria-label="upload" accept="image/*" custom-on-change="uploadFile"  accept="image/*" ng-model="vm.espece.url_image">
+                            <div ng-messages="especeform.upload.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>File obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
                     </div>
                     <div>
                      <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                          ng-disabled="especeform.$invalid" ng-click="vm.ajout(vm.espece,0)">
+                          ng-disabled="especeform.$invalid" ng-click="vm.ajout(vm.espece,0,'')">
                           Enregistrer
                     </md-button>
                     <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -85,7 +92,42 @@
         </md-tabs>
     </div> 
     <!-- / BASIC FORM -->
-    <div style="widht:100%;">    
+
+    <!-- BASIC FORM IMAGE--> 
+     <!--div class="white-bg md-whiteframe-4dp"> 
+         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueImage==1" >
+            <md-tab label="Ajout File">
+                <md-tab-body>
+                  <form name="imageform" class="md-inline-form" novalidate >
+                    <div layout="column" layout-gt-xs="row">
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="file" file-upload name="myFile" aria-label="upload" accept="image/*" custom-on-change="uploadFile"  accept="image/*" >
+                            <div ng-messages="imageform.upload.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>File obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
+
+                    </div>
+                    <div>
+                     <md-button type="submit" class="md-raised md-accent"
+                          ng-disabled="imageform.$invalid" ng-click="vm.uploadFile()">
+                          Upload
+                    </md-button>
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                      Annuler
+                    </md-button>
+                    </div>
+                  </form>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </div--> 
+    <!-- / BASIC FORM  IMAGE-->
+
+    <div style="widht:100%;" style="position: fixed;right: 0px;top: 0px;">    
       <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
         Nouveau
       </md-button>
@@ -97,8 +139,40 @@
       </md-button>
     </div>
    <br>
-    <div class="white-bg md-whiteframe-4dp">
-        <md-tabs md-dynamic-height >
+    <div class="white-bg md-whiteframe-4dp" >
+        <md-tabs md-dynamic-height > 
+            <md-tab>              
+              <md-tab-label>
+              Liste Espece prince 
+              </md-tab-label>
+              <md-tab-body>
+                <div style="height: 500px; overflow-y: scroll;" id="">
+                  <div class="price-tables" flex layout="row" layout-wrap style="padding:20px">
+                    <div class="price-table style-1 md-whiteframe-1dp item" layout="column" ng-repeat="espece in vm.allespece" ng-class="{selected: espece.$selected}" ng-click="vm.selection(espece)">
+                        <div class="package-type md-primary-bg">
+                            <span>ESPECE </span>
+                        </div>
+
+                        <div class="price" layout="row" layout-align="center start">
+                            <div class="currency"><img src="{{espece.url_image}}" onError="this.src = 'http://localhost/assets/ddb/espece/espece'" height="100" width="100" id="image"></div>
+                            
+                        </div>
+
+                        <md-divider></md-divider>
+
+                        <div class="terms" layout="column">
+                            <div class="term"><span class="text-bold">Code :</span> {{espece.code}}</div>
+                            <div class="term"><span class="text-bold">Nom local :</span> {{espece.nom_local}}</div>
+                            <div class="term"><span class="text-bold">Nom scientifique :</span> {{espece.nom_scientifique}}</div>
+                        </div>
+
+                        <!--md-button class="cta-button md-raised md-accent">BUY NOW</md-button-->
+                    </div>
+                  
+                </div>
+                </div>
+              </md-tab-body>               
+            </md-tab>             
             <md-tab md-on-select="removeBouton()">
               <md-tab-label>
               Liste Espece 
@@ -121,13 +195,16 @@
                           <td>{{espece.code}}</td>
                           <td>{{espece.nom_local}}</td>
                           <td>{{espece.nom_scientifique}}</td>
+                          <td><img ng-src="{{espece.url_image}}" onError="this.src = 'http://localhost/assets/ddb/espece/espece'" height="20" width="20" ></td>
                         </tr>
                     </tbody>
                    
                   </table>
               </md-tab-body>
-            </md-tab>            
+            </md-tab>         
         </md-tabs>
+    </div>
+    </div>
     </div>
     <!-- / CONTENT -->
   </div>

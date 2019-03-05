@@ -177,7 +177,7 @@
           });
         };
 
-        vm.modifiersite_embarquement = function (item) 
+      /*  vm.modifiersite_embarquement = function (item) 
         {
           vm.allsite_embarquement.forEach(function(site) {
               if(site.id==item.site_embarquement_id) {
@@ -196,7 +196,7 @@
                  
               }
           });
-        }
+        }*/
         function test_existance (item,suppression) {          
             if (suppression!=1) {
                 vm.allsite_enqueteur.forEach(function(site) {               

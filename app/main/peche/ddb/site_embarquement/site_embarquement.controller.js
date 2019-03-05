@@ -73,26 +73,7 @@
       });
 
     apiFactory.getAll("site_embarquement/index").then(function(result){
-      vm.allsite_embarquement = result.data.response;
-         /* for (var i = 0; i < vm.allsite_embarquementss.length; i++) 
-          {
-            var item = {
-                    id: vm.allsite_embarquementss[i].id,
-                    code: vm.allsite_embarquementss[i].code,
-                    libelle: vm.allsite_embarquementss[i].libelle,
-                    code_unique: vm.allsite_embarquementss[i].code_unique,
-                    longitude: vm.allsite_embarquementss[i].longitude,
-                    latitude: vm.allsite_embarquementss[i].latitude,
-                    altitude: vm.allsite_embarquementss[i].altitude,
-                    district_id: vm.allsite_embarquementss[i].district_id,
-                    district_nom: vm.allsite_embarquementss[i].district.nom,
-                    region_id: vm.allsite_embarquementss[i].region_id,
-                    region_nom: vm.allsite_embarquementss[i].region.nom
-                   
-                };
-                
-                vm.allsite_embarquement.push(item);             
-          }*/ 
+      vm.allsite_embarquement = result.data.response; 
     });
     
      
@@ -142,8 +123,18 @@
                 
             });
             //factory
-            apiFactory.add("site_embarquement/index",datas, config)
-                .success(function (data) {
+            apiFactory.add("site_embarquement/index",datas, config).success(function (data)
+            {
+              var reg = vm.allregion.filter(function(obj)
+               {
+                  return obj.id == vm.site_embarquement.region_id;
+               });
+
+               var dist = vm.alldistrict.filter(function(obj)
+               {
+                  return obj.id == vm.site_embarquement.district_id;
+               });
+                  
                   vm.allcurrentdistrict=vm.alldistrict;
                   if (NouvelItem == false) 
                   {
@@ -157,10 +148,8 @@
                       vm.selectedItem.latitude = vm.site_embarquement.latitude;
                       vm.selectedItem.longitude = vm.site_embarquement.longitude;
                       vm.selectedItem.altitude = vm.site_embarquement.altitude;
-                      vm.selectedItem.region_id = vm.site_embarquement.region_id;
-                      vm.selectedItem.region_nom = vm.site_embarquement.region_nom;
-                      vm.selectedItem.district_id = vm.site_embarquement.district_id;
-                      vm.selectedItem.district_nom = vm.site_embarquement.district_nom;
+                      vm.selectedItem.region = reg[0];
+                      vm.selectedItem.district = dist[0];
                       vm.afficherboutonModifSupr = 0 ;
                       vm.afficherboutonnouveau = 1 ;
                       vm.selectedItem.$selected = false;
@@ -183,21 +172,13 @@
                         latitude: site_embarquement.latitude,
                         longitude: site_embarquement.longitude,
                         altitude: site_embarquement.altitude,
-                        region_id: site_embarquement.region_id,
-                        region_nom: site_embarquement.region_nom,
+                        region: reg[0],
                         id:String(data.response) ,
-                        district_id:site_embarquement.district_id ,
-                        district_nom:site_embarquement.district_nom 
+                        district:dist[0]
                     };
         console.log(item);
                     vm.allsite_embarquement.push(item);
-                    vm.site_embarquement.code='';
-                    vm.site_embarquement.libelle='';
-                    vm.site_embarquement.latitude='';
-                    vm.site_embarquement.longitude='';
-                    vm.site_embarquement.altitude='';
-                    vm.site_embarquement.region_id='';
-                    vm.site_embarquement.district_id='';
+                    vm.site_embarquement={};
                     
                     NouvelItem=false;
                   }
@@ -240,14 +221,7 @@
         {
           vm.selectedItem.$selected = false;
           vm.affichageMasque = 1 ;
-          vm.site_embarquement.code='';
-          vm.site_embarquement.libelle='';
-          vm.site_embarquement.code_unique='';
-          vm.site_embarquement.latitude='';
-          vm.site_embarquement.longitude='';
-          vm.site_embarquement.altitude='';
-          vm.site_embarquement.region='';
-          vm.site_embarquement.district='';
+          vm.site_embarquement={};
           NouvelItem = true ;
 
         };
@@ -275,22 +249,8 @@
           vm.site_embarquement.latitude = vm.selectedItem.latitude;
           vm.site_embarquement.longitude = vm.selectedItem.longitude;
           vm.site_embarquement.altitude = vm.selectedItem.altitude;
-          
-          vm.allregion.forEach(function(reg) {
-            if(reg.id==vm.selectedItem.region_id) {
-              vm.site_embarquement.region_id = reg.id ;
-              vm.site_embarquement.region_nom = reg.nom ;
-            }
-          });
-
-          vm.alldistrict.forEach(function(dist) {
-            if(dist.id==vm.selectedItem.district_id) {
-              vm.site_embarquement.district_id = dist.id ;
-              vm.site_embarquement.district_nom = dist.nom ;
-            }
-          });
-
-          
+          vm.site_embarquement.region_id = vm.selectedItem.region.id ;
+          vm.site_embarquement.district_id = vm.selectedItem.district.id;
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0;  
 
@@ -316,33 +276,17 @@
             //alert('rien');
           });
         };
-        var currentItemregion;
-        
+                
         vm.modifierregion = function (item) 
-        {
-          vm.allregion.forEach(function(reg) {
-              if(reg.id==item.region_id) {
-                 item.region_id = reg.id; 
-                 item.region_nom = reg.nom;
-
-                 currentItemregion=reg.id;                 
-                  vm.allcurrentdistrict = vm.alldistrict.filter(function(obj) {                 
-                        return obj.region_id == currentItemregion;
-                      });
-                   
-              }
-          });
+        {            
+            vm.allcurrentdistrict = vm.alldistrict.filter(function(obj)
+            {                 
+                return obj.region.id == item.region_id;
+            });
+             
+        
         }
 
-        vm.modifierdistrict = function (item) {
-         
-          vm.allcurrentdistrict.forEach(function(dist) {
-              if(dist.id==item.district_id) {
-                 item.district_id = dist.id; 
-                 item.district_nom = dist.nom;
-              }
-          });
-        }
 
         function test_existance (item,suppression) 
         {
@@ -359,8 +303,8 @@
                     ||(comm.longitude!=item.longitude)
                     ||(comm.altitude!=item.altitude)
                     ||(comm.libelle!=item.libelle)
-                    ||(comm.region_id!=item.region_id)
-                    ||(comm.district_id!=item.district_id))
+                    ||(comm.region.id!=item.region_id)
+                    ||(comm.district.id!=item.district_id))
                     
                     {
                       insert_in_base(item,suppression);
