@@ -57,7 +57,7 @@
 											</div>
 										</div>
 									</md-input-container>
-									<!--md-input-container flex="100" flex-gt-xs="33">
+									<md-input-container flex="100" flex-gt-xs="33">
 										<input type="text" name="code_unique" ng-model="vm.site_embarquement.code_unique"
 										placeholder="Code unique " ng-init="vm.site_embarquement.code_unique=''"
 										required>
@@ -67,7 +67,7 @@
 												<span>Code unique obligatoire.</span>
 											</div>
 										</div>
-									</md-input-container-->
+									</md-input-container>
 									<md-input-container flex="100" flex-gt-xs="33">
 										<input type="text" name="latitude" ng-model="vm.site_embarquement.latitude"
 										placeholder="Latitude " ng-init="vm.site_embarquement.latitude=''"
@@ -111,7 +111,7 @@
 									</md-input-container>
 									<md-input-container flex="100" flex-gt-xs="33">
 										<label>District</label>
-										<md-select ng-model="vm.site_embarquement.district_id"  ng-change="vm.modifierdistrict(vm.site_embarquement)">
+										<md-select ng-model="vm.site_embarquement.district_id" required>
 											<md-option ng-repeat="district in vm.allcurrentdistrict" value="{{district.id}}">
 												{{district.nom}}
 											</md-option>
@@ -156,8 +156,8 @@
 									<td>{{site_embarquement.latitude}}</td>
 									<td>{{site_embarquement.longitude}}</td>
 									<td>{{site_embarquement.altitude}}</td>
-									<td>{{site_embarquement.region_nom}}</td>
-									<td>{{site_embarquement.district_nom}}</td>
+									<td>{{site_embarquement.region.nom}}</td>
+									<td>{{site_embarquement.district.nom}}</td>
 								</tr>
 							</tbody>
 						</table>

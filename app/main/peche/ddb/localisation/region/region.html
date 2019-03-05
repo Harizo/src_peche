@@ -68,25 +68,12 @@
 
                       <md-input-container flex="100" flex-gt-xs="33">
                             <label>Pays</label>
-                              <md-select ng-model="vm.region.pays_id" ng-change="vm.modifierpays(vm.region)">
+                              <md-select ng-model="vm.region.pays_id" required>
                                 <md-option ng-repeat="pays in vm.allpays" value="{{pays.id}}">
                                   {{pays.nom}}
                                 </md-option>
                               </md-select>
                           </md-input-container>
-
-                      <!--md-input-container flex="100" flex-gt-xs="33">
-                        <input type="number" name="surface" ng-model="vm.region.surface"
-                          placeholder="Superficie " ng-init="vm.region.surface=''"
-                          >
-                          <div ng-messages="regionform.surface.$error"
-                            role="alert">
-                            <div ng-message="required">
-                              <span>Superficie obligatoire.</span>
-                            </div>
-                          </div>
-                      </md-input-container-->
-
                   </div>
                   <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                         ng-disabled="regionform.$invalid" ng-click="vm.ajout(vm.region,0)">
@@ -121,7 +108,7 @@
                   <tr ng-repeat="region in vm.allregion"  ng-class="{selected: region.$selected}" ng-click="vm.selection(region)">
                     <td>{{region.code}}</td>
                     <td>{{region.nom}}</td>
-                    <td>{{region.pays_nom}}</td>
+                    <td>{{region.pays.nom}}</td>
                   </tr>
                 </tbody>
               </table>

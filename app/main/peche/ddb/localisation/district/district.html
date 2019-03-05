@@ -50,7 +50,7 @@
                         </md-input-container>
                         <md-input-container flex="100" flex-gt-xs="33">
                           <label>Region</label>
-                            <md-select ng-model="vm.district.region_id" ng-change="vm.modifierregion(vm.district)">
+                            <md-select ng-model="vm.district.region_id" required>
                               <md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
                                 {{region.nom}}
                               </md-option>
@@ -100,7 +100,7 @@
                       <tr ng-repeat="district in vm.alldistrict"  ng-class="{selected: district.$selected}" ng-click="vm.selection(district)">
                         <td>{{district.code}}</td>
                         <td>{{district.nom}}</td>
-                        <td>{{district.region_nom}}</td>
+                        <td>{{district.region.nom}}</td>
                       </tr>
                     </tbody>
                 </table>
