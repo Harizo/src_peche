@@ -562,6 +562,42 @@
         NouvelItemEchantillon = false;
     };
 
+    vm.ajouterEchantillon = function () 
+    {        
+        var confirm = $mdDialog.confirm({
+          controller: DialogController,
+          templateUrl: 'app/main/peche/fiche_echantillonnage_capture/dialog.html',
+          parent: angular.element(document.body),              
+        })
+        
+        $mdDialog.show(confirm).then(function(data)
+        { 
+        },function()
+          {//alert('rien');
+            });
+    };
+
+    vm.supprimerEchantillon = function() 
+    {
+        vm.afficherboutonModifSuprEchantillon = 0 ;
+        vm.affichageMasqueEchantillon = 0 ;
+        var confirm = $mdDialog.confirm().title('Etes-vous sûr de supprimer cet enregistrement ?')
+                                  .textContent('')
+                                  .ariaLabel('Lucky day')
+                                  .clickOutsideToClose(true)
+                                  .parent(angular.element(document.body))
+                                  .ok('ok')
+                                  .cancel('annuler');
+
+        $mdDialog.show(confirm).then(function()
+        {
+            ajoutEchantillon(vm.selectedItemEchantillon,1);
+        }, function()
+        {
+              //alert('rien');
+        });
+    };
+
   function ajoutEchantillon(echantillon,suppression)   
   {
       if (NouvelItemEchantillon==false) 
@@ -609,94 +645,94 @@
   }
 
   function insert_in_baseEchantillon(echantillon,suppression)
-        {          
-            //add
-            var config = {
-                headers : {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-                }
-            };
+  {          
+      //add
+      var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
+      var getIdEchantillon = 0;
+      var total_captur=0;
+      var getIdData_collect=0;
+      var typeeffort='';
+      if (NouvelItemEchantillon==false) 
+      {
+          getIdEchantillon = vm.selectedItemEchantillon.id;                
 
-            var getIdEchantillon = 0;
-            var total_captur=0;
-            var getIdData_collect=0;
-            var typeeffort='';
-            if (NouvelItemEchantillon==false) 
-            {
-              getIdEchantillon = vm.selectedItemEchantillon.id;                
-
-            }else{
-              echantillon.total_capture=total_captur;
-            }
-            if(vm.pab)
-            {
-              vm.alldata_collect.forEach(function(data_c)
+      }
+      else
+      {
+          echantillon.total_capture=total_captur;
+      }
+      
+      if(vm.pab)
+      {
+          vm.alldata_collect.forEach(function(data_c)
+          {
+               if(data_c.code=='PAB')
                 {
-                  if(data_c.code=='PAB')
-                  {
                     getIdData_collect  = data_c.id;
                     
                     typeeffort='PAB';                    
                     vm.echantillon.data_collect_nom = data_c.code;
                     vm.echantillon.nbr_bateau_actif = '- -';
                     vm.echantillon.total_bateau_ecn = '- -'; 
-                  }
-                });
-            }else
-            {
-              vm.alldata_collect.forEach(function(data_c)
-                {
-                  if(data_c.code=='CAB')
-                  {
-                    getIdData_collect  = data_c.id;
-                    
-                    typeeffort='CAB';
-                    vm.echantillon.data_collect_nom = data_c.code;
-                    vm.echantillon.peche_hier = '- -';
-                    vm.echantillon.peche_avant_hier = '- -';
-                    vm.echantillon.nbr_jrs_peche_dernier_sem = '- -';  
-                  }
-                });
-            }
-
-
-            var datas = $.param(
-            {
-                supprimer:                        suppression,
-                typeeffort:                       typeeffort,      
-                id:getIdEchantillon,
-                fiche_echantillonnage_capture_id: vm.selectedItem.id,
-                type_canoe_id:                    echantillon.type_canoe_id,
-                type_engin_id:                    echantillon.type_engin_id,
-                peche_hier:                       echantillon.peche_hier,
-                peche_avant_hier:                 echantillon.peche_avant_hier,
-                nbr_jrs_peche_dernier_sem:        echantillon.nbr_jrs_peche_dernier_sem,
-                total_capture:                    echantillon.total_capture,
-                unique_code:                      echantillon.unique_code,
-                data_collect_id:                  getIdData_collect,
-                nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
-                total_bateau_ecn:                 echantillon.total_bateau_ecn,
-                unite_peche_id:                   echantillon.unite_peche_id,
-                user_id:                          cookieService.get("id")
-                
-            });
-           
-            //factory
-            apiFactory.add("echantillon/index",datas, config).success(function (data)
-            {  var effort_p= vm.alldata_collect.filter(function(obj)
-                {
-                  return obj.id == vm.echantillon.data_collect_id;
-                });
-                var unite_p= vm.allunite_peche.filter(function(obj)
-                {
-                  return obj.id == vm.echantillon.unite_peche_id;
-                });
-              if (NouvelItemEchantillon == false) 
+                }
+          });
+      }
+      else
+      {
+          vm.alldata_collect.forEach(function(data_c)
+          {
+              if(data_c.code=='CAB')
               {
-                // Update or delete: id exclu
-                var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
-                if(suppression==0) 
-                { // vm.selectedItem ={};                    
+                  getIdData_collect  = data_c.id;
+                    
+                  typeeffort='CAB';
+                  vm.echantillon.data_collect_nom = data_c.code;
+                  vm.echantillon.peche_hier = '- -';
+                  vm.echantillon.peche_avant_hier = '- -';
+                  vm.echantillon.nbr_jrs_peche_dernier_sem = '- -';  
+              }
+            });
+      }
+
+
+      var datas = $.param(
+      {
+          supprimer:                        suppression,
+          typeeffort:                       typeeffort,      
+          id:getIdEchantillon,
+          fiche_echantillonnage_capture_id: vm.selectedItem.id,
+          peche_hier:                       echantillon.peche_hier,
+          peche_avant_hier:                 echantillon.peche_avant_hier,
+          nbr_jrs_peche_dernier_sem:        echantillon.nbr_jrs_peche_dernier_sem,
+          total_capture:                    echantillon.total_capture,
+          unique_code:                      echantillon.unique_code,
+          data_collect_id:                  getIdData_collect,
+          nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
+          total_bateau_ecn:                 echantillon.total_bateau_ecn,
+          unite_peche_id:                   echantillon.unite_peche_id,
+          user_id:                          cookieService.get("id")                
+      });
+           
+      //factory
+      apiFactory.add("echantillon/index",datas, config).success(function (data)
+      {  
+        //***modif
+        var effort_p= vm.alldata_collect.filter(function(obj)
+          {
+              return obj.id == vm.echantillon.data_collect_id;
+          });
+        //**nouveau
+        var data_c={id:getIdData_collect,code:typeeffort}
+          var unite_p= vm.allunite_peche.filter(function(obj)
+          {
+              return obj.id == vm.echantillon.unite_peche_id;
+          });
+          if (NouvelItemEchantillon == false) 
+          {
+              // Update or delete: id exclu
+              var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
+              if(suppression==0) 
+              { // vm.selectedItem ={};                    
                   vm.selectedItemEchantillon.fiche_echantillonnage_capture_id = vm.selectedItem.id;
                   vm.selectedItemEchantillon.type_canoe_id   = vm.echantillon.type_canoe_id;
                   vm.selectedItemEchantillon.type_canoe_nom  = vm.echantillon.type_canoe_nom;
@@ -726,28 +762,28 @@
                   vm.selectedItemEchantillon.$selected = false;
                   // console.log(vm.selectedItemEchantillon);
                   vm.selectedItemEchantillon ={};
-                } 
-                else 
-                {    
+              } 
+              else 
+              {    
                   vm.allechantillon = vm.allechantillon.filter(function(obj)
                   {
-                    return obj.id !== currentItemEchantillon.id;
+                      return obj.id !== currentItemEchantillon.id;
                   });
-                }
               }
-              else
+          }
+          else
+          {
+              var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
+              var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
+              var item =
               {
-                var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
-                var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
-                var item =
-                {
                   fiche_echantillonnage_capture_id: vm.selectedItem.id,
                   peche_hier:                       echantillon.peche_hier,
                   peche_avant_hier:                 echantillon.peche_avant_hier,
                   nbr_jrs_peche_dernier_sem:        echantillon.nbr_jrs_peche_dernier_sem,
                   total_capture:                    total_captur,
                   unique_code:                      echantillon.unique_code,
-                  data_collect:                     effort_p[0],
+                  data_collect:                     data_c,
                   nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
                   total_bateau_ecn:                 echantillon.total_bateau_ecn,
                   unite_peche:                      unite_p[0],
@@ -755,29 +791,143 @@
                   date_creation:                    current_date,
                   date_modification:                current_date,
                   id:                               String(data.response) 
-                };
-        
-                    vm.allechantillon.push(item);
-                    
-                    vm.echantillon  ={};                  
-                    
-                    NouvelItemEchantillon=false;
-              }
-
-                  vm.affichageMasqueEchantillon = 0 ;
-
-            })
-              .error(function (data)
-              {
-                alert('Error');
-              });
+              };
+               vm.allechantillon.push(item);
+               vm.echantillon  ={};                  
+               NouvelItemEchantillon=false;
+          }
+          vm.affichageMasqueEchantillon = 0 ;
+      }).error(function (data)
+          {
+              alert('Error');
+          });
                 
+  }
+
+  function DialogController($mdDialog, $scope)
+  { 
+      var dg=$scope;
+      //***selection par defaut
+      dg.typeajout= {type : 'PAB'};
+
+      dg.cancel = function()
+      {$mdDialog.cancel();};
+
+      dg.dialognouveauajout = function(typeajout)
+      {
+        if(typeajout=='PAB')
+        {
+            vm.pab=true;
+            vm.selectedItemEchantillon.$selected = false;
+            vm.step2=false;
+            vm.step3=false;
+            vm.affichageMasqueEchantillon = 1 ;
+            vm.affichageMasque = 0 ;
+            vm.affichageMasqueEspece_capture = 0 ;
+            vm.echantillon={};
+            NouvelItemEchantillon = true ;
         }
+        else
+        {
+          vm.pab=false;
+          vm.selectedItemEchantillon.$selected = false;
+          vm.step2=false;
+          vm.step3=false;
+          vm.affichageMasqueEchantillon = 1 ;
+          vm.affichageMasque = 0 ;
+          vm.affichageMasqueEspece_capture = 0 ;
+          vm.echantillon={};
+          NouvelItemEchantillon = true ; 
+        }
+        $mdDialog.cancel();
+        vm.input_data_collect     = false;
+      }
+
+
+}
 
 /******************************************** Fin echantillon  ******************************************************/
 
 /******************************************** Debut espece  ******************************************************/
-    function ajoutEspece_capture(espece_capture,suppression) {
+  vm.selectionEspece_capture= function (item)
+  {        
+      vm.selectedItemEspece_capture = item;
+      vm.nouvelItemEspece_capture = item;
+      currentItemEspece_capture = JSON.parse(JSON.stringify(vm.selectedItemEspece_capture));
+      vm.afficherboutonModifSuprEspece_capture = 1 ;
+      vm.affichageMasqueEspece_capture = 0 ; 
+      vm.step3=true;
+  };
+
+  $scope.$watch('vm.selectedItemEspece_capture', function()
+  {
+      if (!vm.allespece_capture) return;
+      vm.allespece_capture.forEach(function(item)
+      {
+          item.$selected = false;
+      });
+        vm.selectedItemEspece_capture.$selected = true;
+  });
+
+  vm.modifierEspece_capture = function()
+  {
+      NouvelItemEspece_capture                 = false ;
+      vm.affichageMasqueEspece_capture         = 1 ;
+      vm.affichageMasqueEchantillon            = 0 ;
+      vm.affichageMasque                       = 0 ;
+      vm.espece_capture.id                     = vm.selectedItemEspece_capture.id ;
+      vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
+      vm.espece_capture.capture                =vm.selectedItemEspece_capture.capture;
+      vm.espece_capture.prix                   =vm.selectedItemEspece_capture.prix;
+      vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
+      vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
+      vm.afficherboutonModifSuprEspece_capture = 0;
+      vm.afficherboutonnouveauEspece_capture   = 0;
+  };
+
+  vm.annulerEspece_capture = function()
+  {
+      vm.selectedItemEspece_capture = {} ;
+      vm.selectedItemEspece_capture.$selected = false;
+      vm.affichageMasqueEspece_capture = 0 ;
+      vm.afficherboutonnouveauEspece_capture = 1 ;
+      vm.afficherboutonModifSuprEspece_capture = 0 ;          
+      NouvelItemEspece_capture = false;
+  };
+
+  vm.ajouterEspece_capture = function ()
+  {
+      vm.selectedItemEspece_capture.$selected = false;
+      vm.step3=false;
+      vm.affichageMasqueEspece_capture = 1 ;
+      vm.affichageMasque = 0 ;
+      vm.affichageMasqueEchantillon = 0 ;
+      vm.espece_capture = {} ;
+      NouvelItemEspece_capture = true ;
+  };
+
+  vm.supprimerEspece_capture = function()
+  {
+      vm.affichageMasqueEspece_capture = 0 ;
+      vm.afficherboutonModifSuprEspece_capture = 0 ;
+      var confirm = $mdDialog.confirm().title('Etes-vous sûr de supprimer cet enregistrement ?')
+                                      .textContent('')
+                                      .ariaLabel('Lucky day')
+                                      .clickOutsideToClose(true)
+                                      .parent(angular.element(document.body))
+                                      .ok('ok')
+                                      .cancel('annuler');
+            $mdDialog.show(confirm).then(function()
+            {
+                vm.ajoutEspece_capture(vm.selectedItemEspece_capture,1);
+            }, function()
+              {
+                //alert('rien');
+              });
+  };
+
+  function ajoutEspece_capture(espece_capture,suppression)
+  {
       if (NouvelItemEspece_capture==false)
       {
         test_existanceEspece_capture (espece_capture,suppression); 
@@ -791,564 +941,213 @@
 
     function insert_in_baseEspece_capture(espece_capture,suppression)
     {           
-      //add
-      var config =
-      {
-        headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
-      };
+        //add
+        var config ={headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
+        var getIdEspece_capture = 0;
 
-      var getIdEspece_capture = 0;
+        if (NouvelItemEspece_capture==false) 
+        {
+            getIdEspece_capture = vm.selectedItemEspece_capture.id;                
+        }
 
-      if (NouvelItemEspece_capture==false) 
-      {
-        getIdEspece_capture = vm.selectedItemEspece_capture.id; 
-               
-      } 
-      var datas = $.param(
-      {
-        supprimer:                        suppression,
-        id:                               getIdEspece_capture,
-        espece_id:                        espece_capture.espece_id,
-        fiche_echantillonnage_capture_id:  vm.selectedItem.id,
-        echantillon_id:                    vm.selectedItemEchantillon.id,
-        capture:                           espece_capture.capture,
-        prix:                              espece_capture.prix,
-        user_id:                           cookieService.get("id")
-                
-      });
+        var datas = $.param(
+        {
+            supprimer:                        suppression,
+            id:                               getIdEspece_capture,
+            espece_id:                        espece_capture.espece_id,
+            fiche_echantillonnage_capture_id:  vm.selectedItem.id,
+            echantillon_id:                    vm.selectedItemEchantillon.id,
+            capture:                           espece_capture.capture,
+            prix:                              espece_capture.prix,
+            user_id:                           cookieService.get("id")                  
+        });
           
       //factory
-      apiFactory.add("espece_capture/index",datas, config).success(function (data)
-      {var espece= vm.allespece.filter(function(obj)
+        apiFactory.add("espece_capture/index",datas, config).success(function (data)
         {
-            return obj.id == vm.espece_capture.espece_id;
-        });
-        if (NouvelItemEspece_capture == false) 
-        {
-          // Update or delete: id exclu
-          var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
-          if(suppression==0) 
-          { // vm.selectedItem ={};
-            var total_capture_selected= vm.selectedItemEspece_capture.capture;                   
-            
-            vm.selectedItemEspece_capture.fiche_echantillonnage_capture_id = vm.selectedItem.id;
-            vm.selectedItemEspece_capture.echantillon_id      = vm.selectedItemEchantillon.id;
-            vm.selectedItemEspece_capture.espece              = espece[0];
-
-            vm.selectedItemEspece_capture.capture             = vm.espece_capture.capture;
-            vm.selectedItemEspece_capture.prix                = vm.espece_capture.prix;
-                      
-            vm.selectedItemEspece_capture.user_id             = cookieService.get("id");
-                      
-            vm.selectedItemEspece_capture.date_creation       = vm.espece_capture.date_creation;
-            vm.selectedItemEspece_capture.date_modification   = current_date;
-                      
-            vm.afficherboutonModifSuprEspece_capture          = 0 ;
-            vm.afficherboutonnouveauEspece_capture            = 1 ;
-            vm.selectedItemEspece_capture.$selected           = false;                   
-                     
-            var tot_cap1=parseInt(vm.selectedItemEchantillon.total_capture)- parseInt(total_capture_selected) ;
-            var tot_cap=parseInt(tot_cap1)+parseInt(vm.espece_capture.capture);
-            
-            majtotal_captureEchantillon(tot_cap,config);
-            vm.selectedItemEspece_capture ={};
-          } 
-          else 
-          {    
-            vm.allespece_capture = vm.allespece_capture.filter(function(obj)              
+            var espece= vm.allespece.filter(function(obj)
             {
-              return obj.id !== currentItemEspece_capture.id;
+                return obj.id == vm.espece_capture.espece_id;
             });
-            var tot_cap=parseInt(vm.selectedItemEchantillon.total_capture)- parseInt(currentItemEspece_capture.capture) ;
-            
-            
-            majtotal_captureEchantillon(tot_cap,config);
-          }
-        }
-        else
-        { 
-          var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
-          var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
-          var item =
+            if (NouvelItemEspece_capture == false) 
+            {
+                // Update or delete: id exclu
+                var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
+                if(suppression==0) 
+                { // vm.selectedItem ={};
+                    var total_capture_selected= vm.selectedItemEspece_capture.capture;                   
+                    
+                    vm.selectedItemEspece_capture.fiche_echantillonnage_capture_id = vm.selectedItem.id;
+                    vm.selectedItemEspece_capture.echantillon_id      = vm.selectedItemEchantillon.id;
+                    vm.selectedItemEspece_capture.espece              = espece[0];
+
+                    vm.selectedItemEspece_capture.capture             = vm.espece_capture.capture;
+                    vm.selectedItemEspece_capture.prix                = vm.espece_capture.prix;
+                              
+                    vm.selectedItemEspece_capture.user_id             = cookieService.get("id");
+                              
+                    vm.selectedItemEspece_capture.date_creation       = vm.espece_capture.date_creation;
+                    vm.selectedItemEspece_capture.date_modification   = current_date;
+                              
+                    vm.afficherboutonModifSuprEspece_capture          = 0 ;
+                    vm.afficherboutonnouveauEspece_capture            = 1 ;
+                    vm.selectedItemEspece_capture.$selected           = false;                   
+                             
+                    var tot_cap1=parseInt(vm.selectedItemEchantillon.total_capture)- parseInt(total_capture_selected) ;
+                    var tot_cap=parseInt(tot_cap1)+parseInt(vm.espece_capture.capture);
+                    
+                    majtotal_captureEchantillon(tot_cap,config);
+                    vm.selectedItemEspece_capture ={};
+                } 
+                else 
+                {    
+                  vm.allespece_capture = vm.allespece_capture.filter(function(obj)              
+                  {
+                    return obj.id !== currentItemEspece_capture.id;
+                  });
+                  var tot_cap=parseInt(vm.selectedItemEchantillon.total_capture)- parseInt(currentItemEspece_capture.capture) ;                 
+                  majtotal_captureEchantillon(tot_cap,config);
+                }
+            }
+            else
+            { 
+                var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
+                var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
+                var item =
+                {
+                  espece:                           espece[0],
+                  capture:                          espece_capture.capture,
+                  prix:                             espece_capture.prix,                        
+                  user:                             user,
+                  date_creation:                    current_date,
+                  date_modification:                current_date,
+                  id:                   String(data.response) 
+                };
+              
+                vm.allespece_capture.push(item);                          
+                var tot_cap=parseInt(vm.selectedItemEchantillon.total_capture)+ parseInt(espece_capture.capture);
+                majtotal_captureEchantillon(tot_cap,config);
+                vm.espece_capture={};                         
+                NouvelItemEspece_capture=false;
+            }
+            vm.affichageMasqueEspece_capture = 0 ;
+        }).error(function (data)
           {
-            espece:                           espece[0],
-            capture:                          espece_capture.capture,
-            prix:                             espece_capture.prix,                        
-            user:                             user,
-            date_creation:                    current_date,
-            date_modification:                current_date,
-            id:                   String(data.response) 
-          };
-        
-          vm.allespece_capture.push(item);
-                    
-          var tot_cap=parseInt(vm.selectedItemEchantillon.total_capture)+ parseInt(espece_capture.capture);
-          majtotal_captureEchantillon(tot_cap,config);
-
-          vm.espece_capture={};                  
-                    
-          NouvelItemEspece_capture=false;
-        }
-
-        vm.affichageMasqueEspece_capture = 0 ;
-
-      })
-        .error(function (data)
-        {
-          alert('Error');
-        });
+            alert('Error');
+          });
                 
     }
-//*****************************************************************
 
-// Debut Mise à jour total-capture lors nouvelle insertion espece_capture      
-      function majtotal_captureEchantillon(tot_cap,config)
-      { var typeeffort='';
-        if(vm.selectedItemEchantillon.unite_peche_nom=='PAB'){
-        typeeffort='PAB';
-        }else{
-          typeeffort='CAB';
+
+//Mise à jour echantillon (total-capture) lors nouvelle insertion espece_capture      
+    function majtotal_captureEchantillon(tot_cap,config)
+    { 
+        var typeeffort='';
+        if(vm.selectedItemEchantillon.unite_peche_nom=='PAB')
+        {
+            typeeffort='PAB';
         }
+        else
+        {
+            typeeffort='CAB';
+        }
+        
         var datasmaj = $.param(
         {
-          supprimer:                        0,
-          typeeffort:                       typeeffort,
-          id:vm.selectedItemEchantillon.id,
-          fiche_echantillonnage_capture_id: vm.selectedItem.id,
-          peche_hier:                       vm.selectedItemEchantillon.peche_hier,
-          peche_avant_hier:                 vm.selectedItemEchantillon.peche_avant_hier,
-          nbr_jrs_peche_dernier_sem:        vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem,
-          total_capture:                    tot_cap,
-          unique_code:                      vm.selectedItemEchantillon.unique_code,
-          data_collect_id:                  vm.selectedItemEchantillon.data_collect.id,
-          nbr_bateau_actif:                 vm.selectedItemEchantillon.nbr_bateau_actif,
-          total_bateau_ecn:                 vm.selectedItemEchantillon.total_bateau_ecn,
-          unite_peche_id:                   vm.selectedItemEchantillon.unite_peche.id,
-          user_id:                          cookieService.get("id")                        
+            supprimer:                        0,
+            typeeffort:                       typeeffort,
+            id:vm.selectedItemEchantillon.id,
+            fiche_echantillonnage_capture_id: vm.selectedItem.id,
+            peche_hier:                       vm.selectedItemEchantillon.peche_hier,
+            peche_avant_hier:                 vm.selectedItemEchantillon.peche_avant_hier,
+            nbr_jrs_peche_dernier_sem:        vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem,
+            total_capture:                    tot_cap,
+            unique_code:                      vm.selectedItemEchantillon.unique_code,
+            data_collect_id:                  vm.selectedItemEchantillon.data_collect.id,
+            nbr_bateau_actif:                 vm.selectedItemEchantillon.nbr_bateau_actif,
+            total_bateau_ecn:                 vm.selectedItemEchantillon.total_bateau_ecn,
+            unite_peche_id:                   vm.selectedItemEchantillon.unite_peche.id,
+            user_id:                          cookieService.get("id")                        
         });
 
 //factory
         apiFactory.add("echantillon/index",datasmaj, config).success(function (data)
         {
-          // Update or delete: id exclu
-          var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");                                     
-          vm.selectedItemEchantillon.fiche_echantillonnage_capture_id = vm.selectedItem.id;
-          vm.selectedItemEchantillon.type_canoe_id              = vm.selectedItemEchantillon.type_canoe_id;
-          vm.selectedItemEchantillon.type_canoe_nom             = vm.selectedItemEchantillon.type_canoe_nom;
-          vm.selectedItemEchantillon.type_engin_id              = vm.selectedItemEchantillon.type_engin_id;
-          vm.selectedItemEchantillon.type_engin_nom             = vm.selectedItemEchantillon.type_engin_nom;
+            // Update or delete: id exclu
+            var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");                                     
+            vm.selectedItemEchantillon.fiche_echantillonnage_capture_id = vm.selectedItem.id;
 
-          vm.selectedItemEchantillon.peche_hier                 = vm.selectedItemEchantillon.peche_hier;
-          vm.selectedItemEchantillon.peche_avant_hier           = vm.selectedItemEchantillon.peche_avant_hier;
-          vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem  = vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem; 
-          vm.selectedItemEchantillon.total_capture              = tot_cap;
-          vm.selectedItemEchantillon.unique_code                = vm.selectedItemEchantillon.unique_code;
-                        
-          vm.selectedItemEchantillon.data_collect_id            = vm.selectedItemEchantillon.data_collect_id;
-          vm.selectedItemEchantillon.data_collect_nom           = vm.selectedItemEchantillon.data_collect_nom;
-                        
-          vm.selectedItemEchantillon.nbr_bateau_actif           = vm.selectedItemEchantillon.nbr_bateau_actif;
-          vm.selectedItemEchantillon.total_bateau_ecn           = vm.selectedItemEchantillon.total_bateau_ecn;
-                        
-          vm.selectedItemEchantillon.user_id                    = cookieService.get("id");
-          vm.selectedItemEchantillon.user_nom                   = cookieService.get("nom");
-                        
-          vm.selectedItemEchantillon.date_creation              = vm.selectedItemEchantillon.date_creation;
-          vm.selectedItemEchantillon.date_modification          = current_date;
+            vm.selectedItemEchantillon.peche_hier                 = vm.selectedItemEchantillon.peche_hier;
+            vm.selectedItemEchantillon.peche_avant_hier           = vm.selectedItemEchantillon.peche_avant_hier;
+            vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem  = vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem; 
+            vm.selectedItemEchantillon.total_capture              = tot_cap;
+            vm.selectedItemEchantillon.unique_code                = vm.selectedItemEchantillon.unique_code;
+                          
+            vm.selectedItemEchantillon.data_collect.id            = vm.selectedItemEchantillon.data_collect.id;
+                          
+            vm.selectedItemEchantillon.nbr_bateau_actif           = vm.selectedItemEchantillon.nbr_bateau_actif;
+            vm.selectedItemEchantillon.total_bateau_ecn           = vm.selectedItemEchantillon.total_bateau_ecn;
+                          
+            vm.selectedItemEchantillon.user_id                    = cookieService.get("id");
+                          
+            vm.selectedItemEchantillon.date_creation              = vm.selectedItemEchantillon.date_creation;
+            vm.selectedItemEchantillon.date_modification          = current_date;
           
         }).error(function (data)
             {
               alert('Error');
             });          
-      }
+    }
 
-
-
-
-      vm.selectionEspece_capture= function (item) {
-  //      vm.modifiercategorie(item);
-        
-          vm.selectedItemEspece_capture = item;
-          vm.nouvelItemEspece_capture = item;
-          currentItemEspece_capture = JSON.parse(JSON.stringify(vm.selectedItemEspece_capture));
-          vm.afficherboutonModifSuprEspece_capture = 1 ;
-          vm.affichageMasqueEspece_capture = 0 ;
-         //console.log(item); 
-         vm.step3=true;
-
-      };
-
-      $scope.$watch('vm.selectedItemEspece_capture', function() {
-        if (!vm.allespece_capture) return;
-        vm.allespece_capture.forEach(function(item) {
-            item.$selected = false;
-        });
-        vm.selectedItemEspece_capture.$selected = true;
-      });
-      
-
-      $scope.removeBoutonEspece_capture = function() {
-        vm.afficherboutonModifSuprEspece_capture = 0 ;
-      }
-
-
-
-
-
-        //function cache masque de saisie
-        vm.ajouterEchantillon = function () 
-        {        
-          var confirm = $mdDialog.confirm({
-              controller: DialogController,
-              templateUrl: 'app/main/peche/fiche_echantillonnage_capture/dialog.html',
-              parent: angular.element(document.body),
-              
-              })
-                $mdDialog.show(confirm).then(function(data)
-                  { 
-                  }, 
-                  function()
-                  {//alert('rien');
-                  });
-        };
-
-        vm.ajouterEspece_capture = function () {
-        vm.selectedItemEspece_capture.$selected = false;
-        vm.step3=false;
-        vm.affichageMasqueEspece_capture = 1 ;
-        vm.affichageMasque = 0 ;
-        vm.affichageMasqueEchantillon = 0 ;
-        vm.espece_capture = {} ;
-        NouvelItemEspece_capture = true ;
-        };
-
-
-
-        vm.annulerEspece_capture = function() {
-          vm.selectedItemEspece_capture = {} ;
-          vm.selectedItemEspece_capture.$selected = false;
-          vm.affichageMasqueEspece_capture = 0 ;
-          vm.afficherboutonnouveauEspece_capture = 1 ;
-          vm.afficherboutonModifSuprEspece_capture = 0 ;
-          
-          NouvelItemEspece_capture = false;
-        };
-
-
-
-
-
-        vm.modifierEspece_capture = function()
+    function test_existanceEspece_capture (item,suppression) 
+    {
+        if (suppression!=1) 
         {
-          NouvelItemEspece_capture                 = false ;
-          vm.affichageMasqueEspece_capture         = 1 ;
-          vm.affichageMasqueEchantillon            = 0 ;
-          vm.affichageMasque                       = 0 ;
-          vm.espece_capture.id                     = vm.selectedItemEspece_capture.id ;
-          vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
-          vm.espece_capture.capture                =vm.selectedItemEspece_capture.capture;
-          vm.espece_capture.prix                   =vm.selectedItemEspece_capture.prix;
-          vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
-          vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
-          vm.afficherboutonModifSuprEspece_capture = 0;
-          vm.afficherboutonnouveauEspece_capture   = 0;
-          
-         /* vm.allespece.forEach(function(esp)
-          {
-            if(esp.id==vm.selectedItemEspece_capture.espece_id)
+            vm.allespece_capture.forEach(function(esp)
             {
-              vm.espece_capture.espece_id = esp.id ;
-              vm.espece_capture.espece_nom = esp.nom_local ;
-            }
-          });*/
-
-        };
-
-
-
-        vm.supprimerEchantillon = function() 
-        {
-          vm.afficherboutonModifSuprEchantillon = 0 ;
-          vm.affichageMasqueEchantillon = 0 ;
-          var confirm = $mdDialog.confirm().title('Etes-vous sûr de supprimer cet enregistrement ?')
-                                  .textContent('')
-                                  .ariaLabel('Lucky day')
-                                  .clickOutsideToClose(true)
-                                  .parent(angular.element(document.body))
-                                  .ok('ok')
-                                  .cancel('annuler');
-
-          $mdDialog.show(confirm).then(function()
-          {
-            ajoutEchantillon(vm.selectedItemEchantillon,1);
-          }, function()
-            {
-              //alert('rien');
-            });
-        };
-
-         vm.supprimerEspece_capture = function()
-         {
-            vm.affichageMasqueEspece_capture = 0 ;
-            vm.afficherboutonModifSuprEspece_capture = 0 ;
-            var confirm = $mdDialog.confirm().title('Etes-vous sûr de supprimer cet enregistrement ?')
-                                    .textContent('')
-                                    .ariaLabel('Lucky day')
-                                    .clickOutsideToClose(true)
-                                    .parent(angular.element(document.body))
-                                    .ok('ok')
-                                    .cancel('annuler');
-            $mdDialog.show(confirm).then(function()
-            {
-              vm.ajoutEspece_capture(vm.selectedItemEspece_capture,1);
-            }, function()
-              {
-                //alert('rien');
-              });
-        };
-
-        /*var currentItemregion;
-        vm.modifierregion = function (item) 
-        {
-          vm.allregion.forEach(function(reg)
-          {
-            if(reg.id==item.region_id)
-            {
-              item.region_id        = reg.id; 
-              item.region_nom       = reg.nom;
-              currentItemregion     =reg.id;                 
-              
-              vm.allcurrentdistrict = vm.alldistrict.filter(function(obj)
-              {                 
-                return obj.region_id == currentItemregion;
-              });
-                 
-            }
-          });
-        }*/
-
-       /* vm.modifierdistrict = function (item)
-        {
-          vm.alldistrict.forEach(function(dist)
-          {
-            if(dist.id==item.district_id)
-            {
-              item.district_id  = dist.id; 
-              item.district_nom = dist.nom;
-            }
-          });
-        }*/
-       
-      /*  vm.modifierunite_peche = function (item)
-        {
-          vm.allunite_peche.forEach(function(unite_p)
-          {
-            if(unite_p.id==item.unite_peche_id)
-            {
-              item.unite_peche_id  = unite_p.id; 
-              item.unite_peche_nom = unite_p.libelle;
-              item.type_canoe_id   =unite_p.type_canoe_id;
-              item.type_canoe_nom  =unite_p.type_canoe_nom;
-              item.type_engin_id =unite_p.type_engin_id;
-              item.type_engin_nom=unite_p.type_engin_nom;         
-            }
-          });
- 
-
-        }*/
-
-
-
-
-      /*  vm.modifiertype_canoe = function (item)
-        {
-          vm.alltype_canoe.forEach(function(type_c)
-          {
-            if(type_c.id==item.type_canoe_id)
-            {
-              item.type_canoe_id  = type_c.id; 
-              item.type_canoe_nom = type_c.nom;
-            }
-          });
-        }*/
-      /*  vm.modifiertype_engin = function (item)
-        {
-          vm.alltype_engin.forEach(function(type_e)
-          {
-            if(type_e.id==item.type_engin_id)
-            {
-              item.type_engin_id  = type_e.id; 
-              item.type_engin_nom = type_e.libelle;                 
-            }
-          });
-        }*/
-        vm.modifierdata_collect = function (item)
-        {
-          vm.alldata_collect.forEach(function(data_c)
-          {
-            if(data_c.id==item.data_collect_id)
-            {
-              item.data_collect_id  = data_c.id; 
-              item.data_collect_nom = data_c.code;
-               
-            }
-          });
-          
-          if(item.data_collect_nom=='PAB')
-          {
-            vm.pab=true;
-          }
-          else
-          {
-            vm.pab=false;
-          }
-        }
-
-      /*  vm.modifierespece = function (item)
-        {          
-          vm.allespece.forEach(function(esp)
-          {
-            if(esp.id==item.espece_id)
-            {
-              item.espece_id  = esp.id; 
-              item.espece_nom = esp.nom_local;
-            }
-          });
-
-        }*/
-
-
-        function test_existance (item,suppression) 
-        {
-           
-            if (suppression!=1) 
-            {
-              vm.allfiche_echantillonnage_capture.forEach(function(fiche)
-              {
-                
-                if (fiche.id==item.id) 
+                if (esp.id==item.id) 
                 {
-                  if((fiche.code_unique!=item.code_unique)
-                    ||(fiche.site_embarquement_id!=item.site_embarquement_id)
-                    ||(fiche.enqueteur_id!=item.enqueteur_id)
-                    ||(fiche.latitude!=item.latitude)
-                    ||(fiche.longitude!=item.longitude)
-                    ||(fiche.altitude!=item.altitude)
-                    ||(fiche.date!=item.date)
-                    ||(fiche.region_id!=item.region_id)
-                    ||(fiche.district_id!=item.district_id))                    
+                  if((esp.fiche_echantillonnage_capture_id!=item.fiche_echantillonnage_capture_id)
+                    ||(esp.echantillon_id!=item.echantillon_id)
+                    ||(esp.espece_id!=item.espece_id)
+                    ||(esp.capture!=item.capture)
+                    ||(esp.prix!=item.prix))
                   {
-                    insert_in_base(item,suppression);
-                    vm.affichageMasque = 0 ;
+                      insert_in_baseEspece_capture(item,suppression);
+                      vm.affichageMasqueEspece_capture = 0 ;
                   }
                   else
                   {
-                    vm.affichageMasque = 0 ;
+                      vm.affichageMasqueEspece_capture = 1 ;
                   }
                 }
-              });
-            }
-            else
-              insert_in_base(item,suppression);
-        }
-
-
-
-        function test_existanceEspece_capture (item,suppression) 
-        {
-          if (suppression!=1) 
-          {
-            vm.allespece_capture.forEach(function(esp)
-            {
-              if (esp.id==item.id) 
-              {
-                if((esp.fiche_echantillonnage_capture_id!=item.fiche_echantillonnage_capture_id)
-                  ||(esp.echantillon_id!=item.echantillon_id)
-                  ||(esp.espece_id!=item.espece_id)
-                  ||(esp.capture!=item.capture)
-                  ||(esp.prix!=item.prix))
-                {
-                  insert_in_baseEspece_capture(item,suppression);
-                  vm.affichageMasqueEspece_capture = 0 ;
-                }
-                else
-                {
-                  vm.affichageMasqueEspece_capture = 1 ;
-                }
-              }
             });
-          }
-          else
-            insert_in_baseEspece_capture(item,suppression);
         }
+        else
+            insert_in_baseEspece_capture(item,suppression);
+    }      
 
-function DialogController($mdDialog, $scope)
-{ 
-  var dg=$scope;
-  dg.typeajout= {type : 'PAB'};
-
-  dg.cancel = function()
-  {
-    $mdDialog.cancel();
-  };
-
-  dg.dialognouveauajout = function(typeajout)
-  {
-    if(typeajout=='PAB')
+    $scope.removeBoutonEspece_capture = function()
     {
-      vm.pab=true;
-      vm.selectedItemEchantillon.$selected = false;
-      vm.step2=false;
-      vm.step3=false;
-      vm.affichageMasqueEchantillon = 1 ;
-      vm.affichageMasque = 0 ;
-      vm.affichageMasqueEspece_capture = 0 ;
-      vm.echantillon.fiche_echantillonnage_capture_id='';
-      vm.echantillon.type_canoe_id='';
-      vm.echantillon.type_engin_id='';
-      vm.echantillon.peche_hier='';
-      vm.echantillon.peche_avant_hier='';
-      vm.echantillon.nbr_jrs_peche_dernier_sem='';
-      vm.echantillon.total_capture='';
-      vm.echantillon.unique_code='';
-      vm.echantillon.data_collect_id='';
-      vm.echantillon.unite_peche_id='';
-      vm.echantillon.date_creation='';
-      vm.echantillon.date_modification='';
-
-      NouvelItemEchantillon = true ;          
-
-
+        vm.afficherboutonModifSuprEspece_capture = 0 ;
     }
-    else
+
+    //function cache masque de saisie        
+    vm.modifierdata_collect = function (item)
     {
-      vm.pab=false;
-      vm.selectedItemEchantillon.$selected = false;
-      vm.step2=false;
-      vm.step3=false;
-      vm.affichageMasqueEchantillon = 1 ;
-      vm.affichageMasque = 0 ;
-      vm.affichageMasqueEspece_capture = 0 ;
-      vm.echantillon.fiche_echantillonnage_capture_id='';
-      vm.echantillon.type_canoe_id='';
-      vm.echantillon.type_engin_id='';
-      vm.echantillon.total_capture='';
-      vm.echantillon.unique_code='';
-      vm.echantillon.data_collect_id='';
-      vm.echantillon.nbr_bateau_actif='';
-      vm.echantillon.total_bateau_ecn='';
-      vm.echantillon.unite_peche_id='';
-      vm.echantillon.date_creation='';
-      vm.echantillon.date_modification='';
-      NouvelItemEchantillon = true ; 
+        var effort_p= vm.alldata_collect.filter(function(obj)
+        {
+            return obj.id == item.data_collect_id;
+        });
+        if(effort_p[0].code=='PAB')
+        {
+            vm.pab=true;
+        }
+        else
+        {
+            vm.pab=false;
+        }
     }
-    $mdDialog.cancel();
-    vm.input_data_collect     = false;
-  }
-
-
-}
-
 
     }
 })();

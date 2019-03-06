@@ -143,22 +143,22 @@
         <md-tabs md-dynamic-height > 
             <md-tab>              
               <md-tab-label>
-              Liste Espece prince 
+              Liste Espece 
               </md-tab-label>
               <md-tab-body>
                 <div style="height: 500px; overflow-y: scroll;" id="">
-                  <div class="price-tables" flex layout="row" layout-wrap style="padding:20px">
-                    <div class="price-table style-1 md-whiteframe-1dp item" layout="column" ng-repeat="espece in vm.allespece" ng-class="{selected: espece.$selected}" ng-click="vm.selection(espece)">
+                  <div class="price-tables" flex layout="row" layout-wrap style="padding:20px;">
+                    <div class="price-table style-1 md-whiteframe-1dp item" layout="column" ng-repeat="espece in vm.allespece" ng-class="{selected: espece.$selected}" ng-click="vm.selection(espece)" style="width:200px;" >
                         <div class="package-type md-primary-bg">
                             <span>ESPECE </span>
                         </div>
 
-                        <div class="price" layout="row" layout-align="center start">
-                            <div class="currency"><img src="{{espece.url_image}}" onError="this.src = 'http://localhost/assets/ddb/espece/espece'" height="100" width="100" id="image"></div>
+                        <div class="price" layout="row" layout-align="center start" style="padding:0">
+                            <div class="currency" style="padding: 0"><img src="{{espece.url_image}}" onError="this.src = 'http://localhost/assets/ddb/espece/espece'" height="100" width="100" id="image"></div>
                             
                         </div>
 
-                        <md-divider></md-divider>
+                        <md-divider style="padding:0"></md-divider>
 
                         <div class="terms" layout="column">
                             <div class="term"><span class="text-bold">Code :</span> {{espece.code}}</div>
@@ -173,7 +173,7 @@
                 </div>
               </md-tab-body>               
             </md-tab>             
-            <md-tab md-on-select="removeBouton()">
+            <!--md-tab md-on-select="removeBouton()">
               <md-tab-label>
               Liste Espece 
               </md-tab-label>
@@ -201,7 +201,7 @@
                    
                   </table>
               </md-tab-body>
-            </md-tab>         
+            </md-tab-->         
         </md-tabs>
     </div>
     </div>
