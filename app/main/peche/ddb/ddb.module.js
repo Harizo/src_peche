@@ -15,6 +15,7 @@
             'app.peche.ddb.site_enqueteur',
             'app.peche.ddb.unite_peche',
             'app.peche.ddb.enquete_cadre',
+            'app.peche.ddb.unite_peche_site',
             //'app.peche.ddb.echantillon'
 
 

@@ -203,8 +203,8 @@
             {               
                 if (site.id==item.id)
                 {
-                    if((site.site_embarquement_id!=item.site_embarquement_id) 
-                      || (site.enqueteur_id!=item.enqueteur_id))
+                    if((site.site_embarquement.id!=item.site_embarquement_id) 
+                      || (site.enqueteur.id!=item.enqueteur_id))
                     {
                         insert_in_base(item,suppression);
                         vm.affichageMasque = 0 ;

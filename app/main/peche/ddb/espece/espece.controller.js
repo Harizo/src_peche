@@ -398,7 +398,6 @@
         vm.allespece.forEach(function(esp)
           { if (esp.id==item.id)
             { if((esp.code!=item.code)
-                ||(esp.echantillon_id!=item.echantillon_id)
                 ||(esp.nom_local!=item.nom_local)
                 ||(esp.nom_scientifique!=item.nom_scientifique)
                 ||(esp.url_image!=vm.myFile[0]))

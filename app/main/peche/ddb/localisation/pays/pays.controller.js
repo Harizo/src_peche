@@ -252,7 +252,7 @@
                   {
                     if((dist.nom!=item.nom)
                     ||(dist.code!=item.code)
-                    ||(dist.region_id!=item.region_id))
+                    ||(dist.region.id!=item.region_id))
                     
                     {
                       insert_in_base(item,suppression);

@@ -247,14 +247,14 @@
                 if (fiche.id==item.id) 
                 {
                   if((fiche.code_unique!=item.code_unique)
-                    ||(fiche.site_embarquement_id!=item.site_embarquement_id)
-                    ||(fiche.enqueteur_id!=item.enqueteur_id)
+                    ||(fiche.site_embarquement.id!=item.site_embarquement_id)
+                    ||(fiche.enqueteur.id!=item.enqueteur_id)
                     ||(fiche.latitude!=item.latitude)
                     ||(fiche.longitude!=item.longitude)
                     ||(fiche.altitude!=item.altitude)
                     ||(fiche.date!=item.date)
-                    ||(fiche.region_id!=item.region_id)
-                    ||(fiche.district_id!=item.district_id))                    
+                    ||(fiche.region.id!=item.region_id)
+                    ||(fiche.district.id!=item.district_id))                    
                   {
                     insert_in_base(item,suppression);
                     vm.affichageMasque = 0 ;
@@ -619,14 +619,12 @@
               if (echan.id==item.id) 
               {
                 if((echan.fiche_echantillonnage_capture_id!=item.fiche_echantillonnage_capture_id)
-                    ||(echan.type_canoe_id!=item.type_canoe_id)
-                    ||(echan.type_engin_id!=item.type_engin_id)
                     ||(echan.peche_hier!=item.peche_hier)
                     ||(echan.peche_avant_hier!=item.peche_avant_hier)
                     ||(echan.nbr_jrs_peche_dernier_sem!=item.nbr_jrs_peche_dernier_sem)
                     ||(echan.total_capture!=item.total_capture)
                     ||(echan.unique_code!=item.unique_code)
-                    ||(echan.data_collect_id!=item.data_collect_id)
+                    ||(echan.data_collect.id!=item.data_collect_id)
                     ||(echan.nbr_bateau_actif!=item.nbr_bateau_actif)
                     ||(echan.total_bateau_ecn!=item.total_bateau_ecn))
                 {
@@ -1107,9 +1105,9 @@
             {
                 if (esp.id==item.id) 
                 {
-                  if((esp.fiche_echantillonnage_capture_id!=item.fiche_echantillonnage_capture_id)
-                    ||(esp.echantillon_id!=item.echantillon_id)
-                    ||(esp.espece_id!=item.espece_id)
+                  if((esp.fiche_echantillonnage_capture.id!=item.fiche_echantillonnage_capture_id)
+                    ||(esp.echantillon.id!=item.echantillon_id)
+                    ||(esp.espece.id!=item.espece_id)
                     ||(esp.capture!=item.capture)
                     ||(esp.prix!=item.prix))
                   {
