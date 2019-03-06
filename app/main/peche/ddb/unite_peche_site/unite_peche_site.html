@@ -1,0 +1,123 @@
+  <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Données de bases</span>
+                
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> Localisation</span>
+
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> Sites des enquêteurs</span>
+            </div>
+
+            <div class="title">Sites des enquêteurs</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+            <!-- LISTE TABLE -->
+    <div class="content"layout="column">
+      <div class="form-wrapper">
+      <div style="widht:100%;">    
+          <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+              Nouveau
+          </md-button>
+          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+              Modifier
+          </md-button>
+          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+              Supprimer
+          </md-button>
+        </div>  
+        <div style="clear:both;"></div>
+                    <!-- BASIC FORM -->
+        <div class="white-bg md-whiteframe-4dp">            
+          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
+            <md-tab label="Ajout unite_peche_site">
+              <md-tab-body>
+                <form name="unite_peche_siteform" class="md-inline-form" novalidate>
+                  <div layout="column" layout-gt-xs="row" flex>
+                    <input type="hidden" ng-model="vm.unite_peche_site.id"></input>
+
+                      <md-input-container flex="100" flex-gt-xs="33">
+                            <label>Site d'enquête</label>
+                              <md-select ng-model="vm.unite_peche_site.site_embarquement_id" ng-change="vm.modifiersite_embarquement(vm.unite_peche_site)">
+                                <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
+                                  ({{site_embarquement.code}}) {{site_embarquement.libelle}}
+                                </md-option>
+                              </md-select>
+                      </md-input-container>
+                      <md-input-container flex="100" flex-gt-xs="33">
+                            <label>unite_peche</label>
+                              <md-select ng-model="vm.unite_peche_site.unite_peche_id" ng-change="vm.modifierunite_peche(vm.unite_peche_site)">
+                                <md-option ng-repeat="unite_peche in vm.allunite_peche" value="{{unite_peche.id}}">
+                                  {{unite_peche.libelle}}
+
+                                </md-option>
+                              </md-select>
+                      </md-input-container>
+
+                      <!--md-input-container flex="100" flex-gt-xs="33">
+                        <input type="number" name="surface" ng-model="vm.unite_peche_site.surface"
+                          placeholder="Superficie " ng-init="vm.unite_peche_site.surface=''"
+                          >
+                          <div ng-messages="unite_peche_siteform.surface.$error"
+                            role="alert">
+                            <div ng-message="required">
+                              <span>Superficie obligatoire.</span>
+                            </div>
+                          </div>
+                      </md-input-container-->
+
+                  </div>
+                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                        ng-disabled="unite_peche_siteform.$invalid" ng-click="vm.ajout(vm.unite_peche_site,0)">
+                        Enregistrer
+                  </md-button>
+                  <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                    Annuler
+                  </md-button>
+                </form>
+              </md-tab-body>
+         
+            </md-tab>
+          </md-tabs>
+        </div><br>
+         <!-- / BASIC FORM -->
+        <div class="white-bg md-whiteframe-4dp">
+          <md-tabs md-dynamic-height>
+
+            <md-tab label="Listes">
+              <table class="dataTable row-border hover" datatable="ng"
+                dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text" ng-repeat="re in ::vm.unite_peche_site_column">
+                      <div class="table-header">
+                        <span class="column-title">{{re.titre}}</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="unite_peche_site in vm.allunite_peche_site"  ng-class="{selected: unite_peche_site.$selected}" ng-click="vm.selection(unite_peche_site)">
+                    <td>{{unite_peche_site.site_embarquement.libelle}}</td>
+                    <td>{{unite_peche_site.unite_peche.libelle}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </md-tab>
+          </md-tabs>
+        </div>
+            <!-- / LISTE TABLE -->
+
+
+      </div>
+    </div>
+    <!-- / CONTENT -->
+  </div>
