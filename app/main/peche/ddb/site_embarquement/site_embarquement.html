@@ -117,6 +117,17 @@
 											</md-option>
 										</md-select>
 									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<input type="number" name="limite" ng-model="vm.site_embarquement.limite"
+										placeholder="00 " ng-init="vm.site_embarquement.limite=''"
+										required>
+										<div ng-messages="site_embarquementform.limite.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Limite obligatoire.</span>
+											</div>
+										</div>
+									</md-input-container>
 								</div>
 								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
 									ng-disabled="site_embarquementform.$invalid " ng-click="vm.ajout(vm.site_embarquement,0)">
@@ -158,6 +169,7 @@
 									<td>{{site_embarquement.altitude}}</td>
 									<td>{{site_embarquement.region.nom}}</td>
 									<td>{{site_embarquement.district.nom}}</td>
+									<td>{{site_embarquement.limite}}</td>
 								</tr>
 							</tbody>
 						</table>

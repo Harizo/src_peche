@@ -26,7 +26,7 @@
 			responsive: true
 		};
 		//col table
-		vm.unite_peche_site_column = [{titre:"Site d'embarquement"},{titre:"unite de peche"}];		
+		vm.unite_peche_site_column = [{titre:"Site d'embarquement"},{titre:"unite de peche"},{titre:"nombre d'echantillon"}];		
 
     apiFactory.getAll("site_embarquement/index").then(function(result)
     {
@@ -71,7 +71,8 @@
                 supprimer:suppression,
                 id:getId,      
                 site_embarquement_id: unite_peche_site.site_embarquement_id,
-                unite_peche_id: unite_peche_site.unite_peche_id             
+                unite_peche_id: unite_peche_site.unite_peche_id,
+                nbr_echantillon: unite_peche_site.nbr_echantillon              
         });
         
         //factory
@@ -92,6 +93,7 @@
               {
       						vm.selectedItem.site_embarquement = site[0];
                   vm.selectedItem.unite_peche= up[0];
+                  vm.selectedItem.nbr_echantillon=vm.unite_peche_site.nbr_echantillon;
       						vm.afficherboutonModifSupr = 0 ;
       						vm.afficherboutonnouveau = 1 ;
       						vm.selectedItem.$selected = false;
@@ -112,7 +114,8 @@
               {
                   id:String(data.response) ,
                   site_embarquement: site[0],
-                  unite_peche: up[0], 
+                  unite_peche: up[0],
+                  nbr_echantillon:vm.unite_peche_site.nbr_echantillon 
               };                
                   vm.allunite_peche_site.push(item);
                   vm.unite_peche_site={};                 
@@ -170,7 +173,7 @@
         vm.unite_peche_site.id = vm.selectedItem.id ;
         vm.unite_peche_site.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
         vm.unite_peche_site.unite_peche_id = vm.selectedItem.unite_peche.id ; 
-
+        vm.unite_peche_site.nbr_echantillon = parseInt(vm.selectedItem.nbr_echantillon) ;
         vm.afficherboutonModifSupr = 0;
         vm.afficherboutonnouveau = 0;
     };
@@ -204,7 +207,8 @@
                 if (site.id==item.id)
                 {
                     if((site.site_embarquement.id!=item.site_embarquement_id) 
-                      || (site.unite_peche.id!=item.unite_peche_id))
+                      || (site.unite_peche.id!=item.unite_peche_id)
+                      || (site.nbr_echantillon!=item.nbr_echantillon))
                     {
                         insert_in_base(item,suppression);
                         vm.affichageMasque = 0 ;

@@ -58,6 +58,9 @@
       },
       {
         titre:"District"
+      },
+      {
+        titre:"Limite"
       }
     ];
     
@@ -119,7 +122,8 @@
                 longitude: site_embarquement.longitude,
                 altitude: site_embarquement.altitude,
                 region_id: site_embarquement.region_id,
-                district_id:site_embarquement.district_id
+                district_id:site_embarquement.district_id,
+                limite: site_embarquement.limite
                 
             });
             //factory
@@ -148,6 +152,7 @@
                       vm.selectedItem.latitude = vm.site_embarquement.latitude;
                       vm.selectedItem.longitude = vm.site_embarquement.longitude;
                       vm.selectedItem.altitude = vm.site_embarquement.altitude;
+                      vm.selectedItem.limite = vm.site_embarquement.limite;
                       vm.selectedItem.region = reg[0];
                       vm.selectedItem.district = dist[0];
                       vm.afficherboutonModifSupr = 0 ;
@@ -172,11 +177,12 @@
                         latitude: site_embarquement.latitude,
                         longitude: site_embarquement.longitude,
                         altitude: site_embarquement.altitude,
+                        limite: site_embarquement.limite,
                         region: reg[0],
                         id:String(data.response) ,
                         district:dist[0]
                     };
-        console.log(item);
+        //console.log(item);
                     vm.allsite_embarquement.push(item);
                     vm.site_embarquement={};
                     
@@ -242,15 +248,16 @@
 
           NouvelItem = false ;
           vm.affichageMasque = 1 ;
-          vm.site_embarquement.id = vm.selectedItem.id ;
-          vm.site_embarquement.code = vm.selectedItem.code ;        
-          vm.site_embarquement.libelle = vm.selectedItem.libelle;
+          vm.site_embarquement.id          = vm.selectedItem.id ;
+          vm.site_embarquement.code        = vm.selectedItem.code ;        
+          vm.site_embarquement.libelle     = vm.selectedItem.libelle;
           vm.site_embarquement.code_unique = vm.selectedItem.code_unique;
-          vm.site_embarquement.latitude = vm.selectedItem.latitude;
-          vm.site_embarquement.longitude = vm.selectedItem.longitude;
-          vm.site_embarquement.altitude = vm.selectedItem.altitude;
-          vm.site_embarquement.region_id = vm.selectedItem.region.id ;
+          vm.site_embarquement.latitude    = vm.selectedItem.latitude;
+          vm.site_embarquement.longitude   = vm.selectedItem.longitude;
+          vm.site_embarquement.altitude    = vm.selectedItem.altitude;
+          vm.site_embarquement.region_id   = vm.selectedItem.region.id;
           vm.site_embarquement.district_id = vm.selectedItem.district.id;
+          vm.site_embarquement.limite      = parseInt(vm.selectedItem.limite);
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau = 0;  
 
@@ -304,7 +311,8 @@
                     ||(comm.altitude!=item.altitude)
                     ||(comm.libelle!=item.libelle)
                     ||(comm.region.id!=item.region_id)
-                    ||(comm.district.id!=item.district_id))
+                    ||(comm.district.id!=item.district_id)
+                    ||(comm.limite!=item.limite))
                     
                     {
                       insert_in_base(item,suppression);

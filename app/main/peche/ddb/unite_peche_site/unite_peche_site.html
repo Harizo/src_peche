@@ -62,17 +62,17 @@
                               </md-select>
                       </md-input-container>
 
-                      <!--md-input-container flex="100" flex-gt-xs="33">
-                        <input type="number" name="surface" ng-model="vm.unite_peche_site.surface"
-                          placeholder="Superficie " ng-init="vm.unite_peche_site.surface=''"
+                      <md-input-container flex="100" flex-gt-xs="33">
+                        <input type="number" name="nbr_echantillon" ng-model="vm.unite_peche_site.nbr_echantillon"
+                          placeholder="Nombre " ng-init="vm.unite_peche_site.nbr_echantillon=''"
                           >
-                          <div ng-messages="unite_peche_siteform.surface.$error"
+                          <div ng-messages="unite_peche_siteform.nbr_echantillon.$error"
                             role="alert">
                             <div ng-message="required">
-                              <span>Superficie obligatoire.</span>
+                              <span>nombre echantillon obligatoire.</span>
                             </div>
                           </div>
-                      </md-input-container-->
+                      </md-input-container>
 
                   </div>
                   <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
@@ -108,6 +108,7 @@
                   <tr ng-repeat="unite_peche_site in vm.allunite_peche_site"  ng-class="{selected: unite_peche_site.$selected}" ng-click="vm.selection(unite_peche_site)">
                     <td>{{unite_peche_site.site_embarquement.libelle}}</td>
                     <td>{{unite_peche_site.unite_peche.libelle}}</td>
+                    <td>{{unite_peche_site.nbr_echantillon}}</td>
                   </tr>
                 </tbody>
               </table>
