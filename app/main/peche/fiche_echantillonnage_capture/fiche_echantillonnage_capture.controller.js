@@ -49,6 +49,7 @@
       vm.enqueteur                           = false;
       vm.pab                                 = false;
       vm.input_data_collect                  = false;
+      vm.date_begin                          = false;
       
 //style
       vm.dtOptions =
@@ -182,9 +183,20 @@
           NouvelItem = false ;
           vm.enqueteur=true;
           vm.affichageMasque = 1 ;
+          var date = new Date(vm.selectedItem.date);
+          console.log(date);
+         /* var date_jour = date.getDate();
+          var date_mois = date.getMonth()+1;
+          var date_annee = date.getFullYear();
+          if(date_mois <10)
+          {
+              date_mois = '0'+date_mois;
+          }
+          var date_debut= date_jour+"/"+date_mois+"/"+date_annee;
+          var dat = new Date(date_debut);*/
           vm.fiche_echantillonnage_capture.id              = vm.selectedItem.id ;
           vm.fiche_echantillonnage_capture.code_unique     = vm.selectedItem.code_unique ;        
-          vm.fiche_echantillonnage_capture.date            = vm.selectedItem.date;
+          vm.fiche_echantillonnage_capture.date            = date;
           vm.fiche_echantillonnage_capture.date_creation   = vm.selectedItem.date_creation;
           vm.fiche_echantillonnage_capture.latitude        = vm.selectedItem.latitude;
           vm.fiche_echantillonnage_capture.longitude       = vm.selectedItem.longitude;
@@ -288,12 +300,22 @@
         {
           getId = vm.selectedItem.id; 
         } 
+          var date = new Date(fiche_echantillonnage_capture.date);       
+          var date_jour = date.getDate();
+          var date_mois = date.getMonth()+1;
+          var date_annee = date.getFullYear();
+          if(date_mois <10)
+          {
+              date_mois = '0'+date_mois;
+          }
+          var date_fiche= date_annee+"-"+date_mois+"-"+date_jour;
+
         var datas = $.param(
         {
           supprimer:            suppression,
           id:getId,
           code_unique:          fiche_echantillonnage_capture.code_unique,
-          date:                 fiche_echantillonnage_capture.date,
+          date:                 date,
           longitude:            fiche_echantillonnage_capture.longitude,
           latitude:             fiche_echantillonnage_capture.latitude,
           altitude:             fiche_echantillonnage_capture.altitude,
@@ -304,7 +326,7 @@
           user_id:              cookieService.get("id")
                     
         });
-               
+             
     //factory
         apiFactory.add("fiche_echantillonnage_capture/index",datas, config).success(function (data)
         {
@@ -337,9 +359,9 @@
                 if(suppression==0) 
                   { // vm.selectedItem ={};                    
                     vm.selectedItem.code_unique       = vm.fiche_echantillonnage_capture.code_unique;
-                    vm.selectedItem.date              = vm.fiche_echantillonnage_capture.date;
+                    vm.selectedItem.date              = date_fiche;
                     vm.selectedItem.date_creation     = vm.fiche_echantillonnage_capture.date_creation;
-                    vm.selectedItem.date_modification = current_date;
+                    vm.selectedItem.date_modification = date_dujour;
                     vm.selectedItem.latitude          = vm.fiche_echantillonnage_capture.latitude;
                     vm.selectedItem.longitude         = vm.fiche_echantillonnage_capture.longitude;
                     vm.selectedItem.altitude          = vm.fiche_echantillonnage_capture.altitude;
@@ -367,14 +389,13 @@
               }
               else
               { 
-                var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
                 var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
                 var item = 
                 {
                   code_unique:          fiche_echantillonnage_capture.code_unique,
-                  date:                 fiche_echantillonnage_capture.date,
-                  date_creation:        current_date,
-                  date_modification:    current_date,
+                  date:                 date_fiche,
+                  date_creation:        date_dujour,
+                  date_modification:    date_dujour,
                   longitude:            fiche_echantillonnage_capture.longitude,
                   latitude:             fiche_echantillonnage_capture.latitude,
                   altitude:             fiche_echantillonnage_capture.altitude,
@@ -421,9 +442,7 @@
             return obj.id == item.site_embarquement_id;
         });
         item.region_id= site[0].region.id;
-        item.district_id= site[0].district.id; 
-
-        console.log(item)       
+        item.district_id= site[0].district.id;       
     }
 
     vm.supprimer = function() 
@@ -452,6 +471,12 @@
         vm.affichageMasqueFiltrepardate = 1 ;
         vm.filtrepardate={};
     }
+    vm.change_date_debut=function(dateDebut)
+    { var date_now= new Date();
+      vm.date_begin=true;
+      vm.min_date=dateDebut;
+      vm.max_date= date_now;
+    }
 
     vm.recherchefiltrepardate= function (filtrepardate)
     {
@@ -465,7 +490,6 @@
             date1_mois = '0' + date1_mois;
         }
         var date_debut= date1_annee+"-"+date1_mois+"-"+date1_jour;
-
         var date2_jour = date2.getDate();
         var date2_mois = date2.getMonth()+1;
         var date2_annee = date2.getFullYear();
@@ -474,7 +498,7 @@
             date2_mois = '0' + date2_mois;
         }
         var date_fin= date2_annee+"-"+date2_mois+"-"+date2_jour;
-
+      
         apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin).then(function(result)
         {
             vm.allfiche_echantillonnage_capture  = result.data.response;
@@ -543,15 +567,15 @@
         vm.echantillon.altitude   = vm.selectedItemEchantillon.altitude;
 
         vm.echantillon.unite_peche_id   = vm.selectedItemEchantillon.unite_peche.id;
-        vm.echantillon.peche_hier       = vm.selectedItemEchantillon.peche_hier ;
-        vm.echantillon.peche_avant_hier = vm.selectedItemEchantillon.peche_avant_hier ; 
+        vm.echantillon.peche_hier       = parseInt(vm.selectedItemEchantillon.peche_hier) ;
+        vm.echantillon.peche_avant_hier = parseInt(vm.selectedItemEchantillon.peche_avant_hier) ; 
         vm.echantillon.total_capture    = vm.selectedItemEchantillon.total_capture;
         vm.echantillon.unique_code      = vm.selectedItemEchantillon.unique_code  ;
         vm.echantillon.nbr_bateau_actif = vm.selectedItemEchantillon.nbr_bateau_actif ;
         vm.echantillon.total_bateau_ecn = vm.selectedItemEchantillon.total_bateau_ecn ;
         vm.echantillon.data_collect_id  = vm.selectedItemEchantillon.data_collect.id;
 
-        vm.echantillon.nbr_jrs_peche_dernier_sem = vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem;          
+        vm.echantillon.nbr_jrs_peche_dernier_sem = parseInt(vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem);          
         
 
           vm.afficherboutonModifSuprEchantillon = 0;
@@ -634,7 +658,8 @@
                     ||(echan.unique_code!=item.unique_code)
                     ||(echan.data_collect.id!=item.data_collect_id)
                     ||(echan.nbr_bateau_actif!=item.nbr_bateau_actif)
-                    ||(echan.total_bateau_ecn!=item.total_bateau_ecn))
+                    ||(echan.total_bateau_ecn!=item.total_bateau_ecn)
+                    ||(echan.unite_peche.id!=item.unite_peche_id))
                 {
                   insert_in_baseEchantillon(item,suppression);
                    vm.affichageMasqueEchantillon = 0 ;
@@ -712,7 +737,6 @@
           if (NouvelItemEchantillon == false) 
           {
               // Update or delete: id exclu
-              var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
               if(suppression==0) 
               { // vm.selectedItem ={};                    
                   vm.selectedItemEchantillon.fiche_echantillonnage_capture_id = vm.selectedItem.id;
@@ -737,7 +761,7 @@
                   vm.selectedItemEchantillon.user_id  = cookieService.get("id");
                       
                   vm.selectedItemEchantillon.date_creation = vm.echantillon.date_creation;
-                  vm.selectedItemEchantillon.date_modification = current_date;
+                  vm.selectedItemEchantillon.date_modification = date_dujour;
                       
                   vm.afficherboutonModifSuprEchantillon = 0 ;
                   vm.afficherboutonnouveauEchantillon   = 1 ;
@@ -755,7 +779,6 @@
           }
           else
           {
-              var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
               var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
               var item =
               {
@@ -770,8 +793,8 @@
                   total_bateau_ecn:                 echantillon.total_bateau_ecn,
                   unite_peche:                      unite_p[0],
                   user_id:                          user,
-                  date_creation:                    current_date,
-                  date_modification:                current_date,
+                  date_creation:                    date_dujour,
+                  date_modification:                date_dujour,
                   id:                               String(data.response) 
               };
                vm.allechantillon.push(item);
@@ -860,7 +883,7 @@
       vm.espece_capture.id                     = vm.selectedItemEspece_capture.id ;
       vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
       vm.espece_capture.capture                =vm.selectedItemEspece_capture.capture;
-      vm.espece_capture.prix                   =vm.selectedItemEspece_capture.prix;
+      vm.espece_capture.prix                   =parseInt(vm.selectedItemEspece_capture.prix);
       vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
       vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
       vm.afficherboutonModifSuprEspece_capture = 0;
@@ -954,7 +977,6 @@
             if (NouvelItemEspece_capture == false) 
             {
                 // Update or delete: id exclu
-                var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
                 if(suppression==0) 
                 { // vm.selectedItem ={};
                     var total_capture_selected= vm.selectedItemEspece_capture.capture;                   
@@ -969,7 +991,7 @@
                     vm.selectedItemEspece_capture.user_id             = cookieService.get("id");
                               
                     vm.selectedItemEspece_capture.date_creation       = vm.espece_capture.date_creation;
-                    vm.selectedItemEspece_capture.date_modification   = current_date;
+                    vm.selectedItemEspece_capture.date_modification   = date_dujour;
                               
                     vm.afficherboutonModifSuprEspece_capture          = 0 ;
                     vm.afficherboutonnouveauEspece_capture            = 1 ;
@@ -993,7 +1015,6 @@
             }
             else
             { 
-                var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
                 var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
                 var item =
                 {
@@ -1001,8 +1022,8 @@
                   capture:                          espece_capture.capture,
                   prix:                             espece_capture.prix,                        
                   user:                             user,
-                  date_creation:                    current_date,
-                  date_modification:                current_date,
+                  date_creation:                    date_dujour,
+                  date_modification:                date_dujour,
                   id:                   String(data.response) 
                 };
               
@@ -1055,8 +1076,7 @@
 //factory
         apiFactory.add("echantillon/index",datasmaj, config).success(function (data)
         {
-            // Update or delete: id exclu
-            var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");                                     
+            // Update or delete: id exclu                                    
             vm.selectedItemEchantillon.fiche_echantillonnage_capture_id = vm.selectedItem.id;
 
             vm.selectedItemEchantillon.peche_hier                 = vm.selectedItemEchantillon.peche_hier;
@@ -1073,7 +1093,7 @@
             vm.selectedItemEchantillon.user_id                    = cookieService.get("id");
                           
             vm.selectedItemEchantillon.date_creation              = vm.selectedItemEchantillon.date_creation;
-            vm.selectedItemEchantillon.date_modification          = current_date;
+            vm.selectedItemEchantillon.date_modification          = date_dujour;
           
         }).error(function (data)
             {

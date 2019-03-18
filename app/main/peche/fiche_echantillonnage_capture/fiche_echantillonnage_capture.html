@@ -26,9 +26,9 @@
 						<md-tab-body>
 							<br>
 							<form name="fiche_echantillonnage_captureform" class="md-inline-form "  novalidate>
-								<div layout="column" layout-gt-xs="row" flex >
+								<div layout="column" layout-gt-sm="row">
 									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id">				
-									<md-input-container flex="100" flex-gt-xs="33">
+									<md-input-container flex-gt-sm>
 										<input type="text" name="code_unique" ng-model="vm.fiche_echantillonnage_capture.code_unique"
 										placeholder="Code unique " ng-init="vm.fiche_echantillonnage_capture.code_unique=''"
 										required>
@@ -39,7 +39,7 @@
 											</div>
 										</div>
 									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
+									<md-input-container flex-gt-sm>
 										<label>Enqueteur</label>
 										<md-select ng-model="vm.fiche_echantillonnage_capture.enqueteur_id"  ng-change="vm.modifierenqueteur(vm.fiche_echantillonnage_capture)"  md-container-class="my">
 											<md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}" >
@@ -47,7 +47,7 @@
 											</md-option>
 										</md-select>
 									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
+									<md-input-container flex-gt-sm>
 										<label>Site de débarquement</label>
 										<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.fiche_echantillonnage_capture)" ng-disabled="vm.enqueteur==false">
 											<md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
@@ -55,7 +55,7 @@
 											</md-option>
 										</md-select>
 									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
+									<md-input-container flex-gt-sm>
 										<label>Region</label>
 										<md-select ng-model="vm.fiche_echantillonnage_capture.region_id"  ng-change="vm.modifierregion(vm.fiche_echantillonnage_capture)" disabled>
 											<md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
@@ -63,7 +63,7 @@
 											</md-option>
 										</md-select>
 									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
+									<md-input-container flex-gt-sm>
 										<label>District</label>
 										<md-select ng-model="vm.fiche_echantillonnage_capture.district_id"  ng-change="vm.modifierdistrict(vm.fiche_echantillonnage_capture)" disabled>
 											<md-option ng-repeat="district in vm.allcurrentdistrict" value="{{district.id}}">
@@ -71,7 +71,7 @@
 											</md-option>
 										</md-select>
 									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
+									<md-input-container flex-gt-sm>
 										<input type="text" name="latitude" ng-model="vm.fiche_echantillonnage_capture.latitude"
 										placeholder="Latitude " ng-init="vm.fiche_echantillonnage_capture.latitude=''"
 										required>
@@ -82,7 +82,7 @@
 											</div>
 										</div>
 									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
+									<md-input-container flex-gt-sm>
 										<input type="text" name="longitude" ng-model="vm.fiche_echantillonnage_capture.longitude"
 										placeholder="Longitude " ng-init="vm.fiche_echantillonnage_capture.longitude=''"
 										required>
@@ -93,7 +93,7 @@
 											</div>
 										</div>
 									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
+									<md-input-container flex-gt-sm>
 										<input type="text" name="altitude" ng-model="vm.fiche_echantillonnage_capture.altitude"
 										placeholder="Altitude " ng-init="vm.fiche_echantillonnage_capture.altitude=''"
 										required>
@@ -104,7 +104,10 @@
 											</div>
 										</div>
 									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33">
+																		
+									<md-datepicker name="date" ng-model="vm.fiche_echantillonnage_capture.date" md-placeholder="Enter date" required>										
+									</md-datepicker>
+									<!--md-input-container flex="100" flex-gt-xs="33">
 										<input type="datetime" name="date" ng-model="vm.fiche_echantillonnage_capture.date"
 										placeholder="Date: AAAA-MM-JJ " ng-init="vm.fiche_echantillonnage_capture.date=''"
 										required>
@@ -114,7 +117,7 @@
 												<span>Date obligatoire.</span>
 											</div>
 										</div>
-									</md-input-container>
+									</md-input-container-->
 									
 								</div>
 								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
@@ -153,7 +156,7 @@
 								</md-input-container>
 								
 								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
-									<input type="text" name="peche_hier" ng-model="vm.echantillon.peche_hier"
+									<input type="number" name="peche_hier" ng-model="vm.echantillon.peche_hier"
 									placeholder="Peche hier " ng-init="vm.echantillon.peche_hier=''"
 									>
 									<div ng-messages="echantillonform.peche_hier.$error"
@@ -164,7 +167,7 @@
 									</div>
 								</md-input-container>
 								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
-									<input type="text" name="peche_avant_hier" ng-model="vm.echantillon.peche_avant_hier"
+									<input type="number" name="peche_avant_hier" ng-model="vm.echantillon.peche_avant_hier"
 									placeholder="Peche avant hier " ng-init="vm.echantillon.peche_avant_hier=''"
 									>
 									<div ng-messages="echantillonform.peche_avant_hier.$error"
@@ -175,7 +178,7 @@
 									</div>
 								</md-input-container>
 								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
-									<input type="text" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
+									<input type="number" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
 									placeholder="nbr jrs dernier sem" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''">
 									<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
 										role="alert">
@@ -271,7 +274,7 @@
 		                        <label>Espece</label>
 		                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" class="md-no-underline">
 		                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}">
-		                           <img src="{{espece.url_image}}" onError="this.src = 'http://localhost/assets/ddb/espece/espece'" height="30" width="30" > {{espece.nom_local}}
+		                           <img src="{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
 		                          </md-option>
 		                        </md-select>
 		                      </md-input-container>
@@ -287,7 +290,7 @@
 		                            </div>
 		                        </md-input-container>
 		                        <md-input-container flex="100" flex-gt-xs="33">
-		                          <input type="text" name="prix" ng-model="vm.espece_capture.prix"
+		                          <input type="number" name="prix" ng-model="vm.espece_capture.prix"
 		                            placeholder="prix " ng-init="vm.espece_capture.prix=''"
 		                            required>
 		                            <div ng-messages="espece_captureform.prix.$error"
@@ -321,7 +324,18 @@
 		                  <form name="filtrepardateform" class="md-inline-form" novalidate >
 		                    <br>
 		                    <div layout="column" layout-gt-xs="row">
-		                        <md-input-container flex="100" flex-gt-xs="33">
+		                    	<md-input-container>
+		                        <span>Date du</span>
+		                        </md-input-container>
+		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut" md-placeholder="Enter date de debut"		ng-change="vm.change_date_debut(vm.filtrepardate.date_debut)">                 		
+		                    	</md-datepicker>
+		                    	<md-input-container>
+		                        <span>&nbsp &nbsp jusqu'au &nbsp &nbsp</span>
+		                        </md-input-container>
+		                    	<md-datepicker ng-model="vm.filtrepardate.date_fin" md-placeholder="Enter date de fin"
+        								md-min-date="vm.min_date" md-max-date="vm.max_date" ng-disabled="!vm.date_begin">        								
+        						</md-datepicker>
+		                        <!--md-input-container flex="100" flex-gt-xs="33">
 		                          <input type="text" name="date_debut" ng-model="vm.filtrepardate.date_debut"
 		                            placeholder="AAAA-MM-JJ " ng-init="vm.filtrepardate.date_debut=''"
 		                            required>
@@ -342,7 +356,7 @@
 		                                <span>Date final obligatoire.</span>
 		                              </div>
 		                            </div>
-		                        </md-input-container>
+		                        </md-input-container-->
 		                    </div>
 		                    <div>
 		                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
