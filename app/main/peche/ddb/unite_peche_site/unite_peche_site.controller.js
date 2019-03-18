@@ -3,17 +3,17 @@
     'use strict';
 
     angular
-        .module('app.peche.ddb.site_enqueteur')
-        .controller('Site_enqueteurController', Site_enqueteurController);
+        .module('app.peche.ddb.unite_peche_site')
+        .controller('Unite_peche_siteController', Unite_peche_siteController);
     /** @ngInject */
-    function Site_enqueteurController($mdDialog, $scope, apiFactory, $state)  {
+    function Unite_peche_siteController($mdDialog, $scope, apiFactory, $state)  {
 		var vm = this;
 		vm.ajout = ajout ;
 		var NouvelItem=false;
 		var currentItem;
 		vm.selectedItem = {} ;
-    vm.site_enqueteur={};
-		vm.allsite_enqueteur = [] ;     
+    vm.unite_peche_site={};
+		vm.allunite_peche_site = [] ;     
 		//variale affichage bouton nouveau
 		vm.afficherboutonnouveau = 1 ;
 		//variable cache masque de saisie
@@ -26,35 +26,35 @@
 			responsive: true
 		};
 		//col table
-		vm.site_enqueteur_column = [{titre:"Site d'embarquement"},{titre:"Enqueteur"}];		
+		vm.unite_peche_site_column = [{titre:"Site d'embarquement"},{titre:"unite de peche"},{titre:"nombre d'echantillon"}];		
 
     apiFactory.getAll("site_embarquement/index").then(function(result)
     {
         vm.allsite_embarquement = result.data.response;
     });
-    apiFactory.getAll("enqueteur/index").then(function(result)
+    apiFactory.getAll("unite_peche/index").then(function(result)
     {
-        vm.allenqueteur = result.data.response;
+        vm.allunite_peche = result.data.response;
     });
 
-    apiFactory.getAll("site_enqueteur/index").then(function(result)
+    apiFactory.getAll("unite_peche_site/index").then(function(result)
     {
-      vm.allsite_enqueteur = result.data.response;
+      vm.allunite_peche_site = result.data.response;
     });
 
-    function ajout(site_enqueteur,suppression)
+    function ajout(unite_peche_site,suppression)
     {
         if (NouvelItem==false)
         {
-            test_existance (site_enqueteur,suppression); 
+            test_existance (unite_peche_site,suppression); 
         } 
         else 
         {
-            insert_in_base(site_enqueteur,suppression);
+            insert_in_base(unite_peche_site,suppression);
         }
     }
     
-    function insert_in_base(site_enqueteur,suppression)
+    function insert_in_base(unite_peche_site,suppression)
     {
         //add
         var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -70,28 +70,30 @@
         var datas = $.param({
                 supprimer:suppression,
                 id:getId,      
-                site_embarquement_id: site_enqueteur.site_embarquement_id,
-                enqueteur_id: site_enqueteur.enqueteur_id             
+                site_embarquement_id: unite_peche_site.site_embarquement_id,
+                unite_peche_id: unite_peche_site.unite_peche_id,
+                nbr_echantillon: unite_peche_site.nbr_echantillon              
         });
         
         //factory
-        apiFactory.add("site_enqueteur/index",datas, config).success(function (data)
+        apiFactory.add("unite_peche_site/index",datas, config).success(function (data)
         {
           var site = vm.allsite_embarquement.filter(function(obj)
           {
-              return obj.id == vm.site_enqueteur.site_embarquement_id;
+              return obj.id == vm.unite_peche_site.site_embarquement_id;
           });
 
-          var enq = vm.allenqueteur.filter(function(obj)
+          var up = vm.allunite_peche.filter(function(obj)
           {
-              return obj.id == vm.site_enqueteur.enqueteur_id;
+              return obj.id == vm.unite_peche_site.unite_peche_id;
           });
 				  if (NouvelItem == false)
           {               
               if(suppression==0)
               {
       						vm.selectedItem.site_embarquement = site[0];
-                  vm.selectedItem.enqueteur = enq[0];
+                  vm.selectedItem.unite_peche= up[0];
+                  vm.selectedItem.nbr_echantillon=vm.unite_peche_site.nbr_echantillon;
       						vm.afficherboutonModifSupr = 0 ;
       						vm.afficherboutonnouveau = 1 ;
       						vm.selectedItem.$selected = false;
@@ -100,7 +102,7 @@
               } 
               else
               {    
-						      vm.allsite_enqueteur = vm.allsite_enqueteur.filter(function(obj) 
+						      vm.allunite_peche_site = vm.allunite_peche_site.filter(function(obj) 
                   {
 							         return obj.id !== currentItem.id;
 						      });
@@ -112,10 +114,11 @@
               {
                   id:String(data.response) ,
                   site_embarquement: site[0],
-                  enqueteur: enq[0], 
+                  unite_peche: up[0],
+                  nbr_echantillon:vm.unite_peche_site.nbr_echantillon 
               };                
-                  vm.allsite_enqueteur.push(item);
-                  vm.site_enqueteur={};                 
+                  vm.allunite_peche_site.push(item);
+                  vm.unite_peche_site={};                 
                   NouvelItem=false;
 				  }
 					vm.affichageMasque = 0 ;
@@ -135,8 +138,8 @@
 		};
 		$scope.$watch('vm.selectedItem', function()
     {
-  			if (!vm.allsite_enqueteur) return;
-  			vm.allsite_enqueteur.forEach(function(item)
+  			if (!vm.allunite_peche_site) return;
+  			vm.allunite_peche_site.forEach(function(item)
         {
   				  item.$selected = false;
         });
@@ -148,7 +151,7 @@
     {
   			vm.selectedItem.$selected = false;
   			vm.affichageMasque = 1 ;
-        vm.site_enqueteur={}; 
+        vm.unite_peche_site={}; 
   			NouvelItem = true ;
     };
     
@@ -167,10 +170,10 @@
         NouvelItem = false ;
         vm.affichageMasque = 1 ;
           
-        vm.site_enqueteur.id = vm.selectedItem.id ;
-        vm.site_enqueteur.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
-        vm.site_enqueteur.enqueteur_id = vm.selectedItem.enqueteur.id ; 
-
+        vm.unite_peche_site.id = vm.selectedItem.id ;
+        vm.unite_peche_site.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
+        vm.unite_peche_site.unite_peche_id = vm.selectedItem.unite_peche.id ; 
+        vm.unite_peche_site.nbr_echantillon = parseInt(vm.selectedItem.nbr_echantillon) ;
         vm.afficherboutonModifSupr = 0;
         vm.afficherboutonnouveau = 0;
     };
@@ -199,12 +202,13 @@
     {          
         if (suppression!=1)
         {
-            vm.allsite_enqueteur.forEach(function(site)
+            vm.allunite_peche_site.forEach(function(site)
             {               
                 if (site.id==item.id)
                 {
                     if((site.site_embarquement.id!=item.site_embarquement_id) 
-                      || (site.enqueteur.id!=item.enqueteur_id))
+                      || (site.unite_peche.id!=item.unite_peche_id)
+                      || (site.nbr_echantillon!=item.nbr_echantillon))
                     {
                         insert_in_base(item,suppression);
                         vm.affichageMasque = 0 ;

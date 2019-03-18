@@ -66,6 +66,26 @@
                               </div>
                             </div>
                         </md-input-container>
+                         <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="url_image" ng-model="vm.type_canoe.url_image"
+                            placeholder="Image" ng-init="vm.type_canoe.url_image=''"
+                            disabled required>
+                            <div ng-messages="type_canoeform.url_image.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>File obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="file" name="myFile" aria-label="upload" custom-on-change="uploadFile"  accept="image/*" ng-model="url_image" id="fileid">
+                            <div ng-messages="type_canoeform.myFile.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>File obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
 
                     </div>
                     <div>
@@ -86,7 +106,44 @@
     <div><p></p></div>
     <div class="white-bg md-whiteframe-4dp"> 
         <md-tabs md-dynamic-height>
-            <md-tab label="Liste Type canoe">
+           <md-tab>              
+              <md-tab-label>
+              Liste type canoë 
+              </md-tab-label>
+              <md-tab-body>
+                <div style="height: 500px; overflow-y: scroll;" id="">
+                  <div class="price-tables" flex layout="row" layout-wrap style="padding:20px;">
+                    <div class="price-table style-1 md-whiteframe-1dp item" layout="column" ng-repeat="type_canoe in vm.alltype_canoe" ng-class="{selected: type_canoe.$selected}" ng-click="vm.selection(type_canoe)" style="width:200px;" >
+                        <div class=" terms package-type md-primary-bg" style="padding:8px;">
+                          
+                            <div class="term" style="font-size: 11px;"><span class="text-bold"style="font-size: 12px; ">Code :</span > {{type_canoe.code}}</div>
+                           
+                            <div class="term" style="font-size: 11px;"><span class="text-bold"style="font-size: 12px">Nom local :</span> {{type_canoe.nom}}</div>
+                            
+
+                        </div>
+                        
+                        <div class="price" layout="row" layout-align="center start" style="padding:0">
+                            <div class="currency" style="padding: 0"><img src="{{type_canoe.url_image}}"style="width:200px;height:90px;" id="image"></div>
+                            
+                        </div>
+
+                        
+
+                        <!--div class="terms" layout="column">
+                            <div class="term"><span class="text-bold">Code :</span> {{espece.code}}</div>
+                            <div class="term"><span class="text-bold">Nom local :</span> {{espece.nom_local}}</div>
+                            <div class="term"><span class="text-bold">Nom scientifique :</span> {{espece.nom_scientifique}}</div>
+                        </div-->
+
+                        <!--md-button class="cta-button md-raised md-accent">BUY NOW</md-button-->
+                    </div>
+                  
+                </div>
+                </div>
+              </md-tab-body>               
+            </md-tab>
+            <!--md-tab label="Liste Type canoe">
              <table class="dataTable row-border hover" datatable="ng"
                   dt-options="vm.dtOptions">
               <thead>
@@ -102,11 +159,12 @@
                     <tr ng-repeat="type_canoe in vm.alltype_canoe" ng-class="{selected: type_canoe.$selected}" ng-click="vm.selection(type_canoe)">
                       <td>{{type_canoe.code}}</td>
                       <td>{{type_canoe.nom}}</td>
+                      <td><img ng-src="{{type_canoe.url_image}}"  height="20" width="20" ></td>
                     </tr>
                 </tbody>
                
               </table>
-            </md-tab>
+            </md-tab-->
         </md-tabs>
         </div>
 

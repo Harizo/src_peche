@@ -39,6 +39,9 @@
           },
           getAPIgeneraliserREST: function(controller,champ1,valeur1,champ2,valeur2,champ3,valeur3,champ4,valeur4) {
             return $http.get(apiUrl+controller+"?"+champ1+"="+valeur1+"&"+champ2+"="+valeur2+"&"+champ3+"="+valeur3+"&"+champ4+"="+valeur4);
+          },
+          getimg: function(controller, data, config) {
+            return $http.post(apiUrl+controller, data, config);
           }
 
 

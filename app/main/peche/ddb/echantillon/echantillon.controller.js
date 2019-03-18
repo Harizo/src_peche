@@ -477,20 +477,18 @@
                 
                   if (echan.id==item.id) 
                   {
-                    if((echan.fiche_echantillonnage_capture_id!=item.fiche_echantillonnage_capture_id)
-                    ||(echan.type_canoe_id!=item.type_canoe_id)
-                    ||(echan.type_engin_id!=item.type_engin_id)
+                    if((echan.fiche_echantillonnage_capture.id!=item.fiche_echantillonnage_capture_id)
                     ||(echan.peche_hier!=item.peche_hier)
                     ||(echan.peche_avant_hier!=item.peche_avant_hier)
                     ||(echan.nbr_jrs_peche_dernier_sem!=item.nbr_jrs_peche_dernier_sem)
                     ||(echan.total_capture!=item.total_capture)
                     ||(echan.unique_code!=item.unique_code)
-                    ||(echan.data_collect_id!=item.data_collect_id)
+                    ||(echan.data_collect.id!=item.data_collect_id)
                     ||(echan.nbr_bateau_actif!=item.nbr_bateau_actif)
                     ||(echan.total_bateau_ecn!=item.total_bateau_ecn))
 
                     
-                    {console.log('ko')
+                    {
                       insert_in_base(item,suppression);
                       vm.affichageMasque = 0 ;
                     }
