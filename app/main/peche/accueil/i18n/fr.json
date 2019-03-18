@@ -1,7 +1,7 @@
 {
     "accueil": {
       "parent": "Accueil",
-      "titre": "Bienvenue dans l'application web",
+      "titre": "Bienvenue dans Open Artfish Madagascar",
       "mot_de_bienvenue":"",
       "menu":{
         "titre":"Acceuil"
