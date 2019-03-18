@@ -143,7 +143,7 @@
 							<div layout="column" layout-gt-xs="row" flex>
 								<input type="hidden" ng-model="vm.echantillon.id">		
 								
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.input_data_collect==true">
+								<md-input-container flex="100" flex-gt-xs="33" ng-if="vm.input_data_collect==true">
 									<label>Effort de pêche</label>
 									<md-select ng-model="vm.echantillon.data_collect_id"  ng-change="vm.modifierdata_collect(vm.echantillon)">
 										<md-option ng-repeat="data_collect in vm.alldata_collect" value="{{data_collect.id}}">

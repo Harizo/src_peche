@@ -16,12 +16,45 @@
                 //color: white;
 
                 }
-        .price-table:hover{
-            background-color: rgb(245,245,245) !important;
-
+       
+        .price
+        {
+            #image
+            {                 
+                width:200px;
+                height:90px;
+                opacity: 0.7; 
+            }
         }
-        .price-table.selected{
-            background-color: rgb(176,190,217) !important;           
+        .terms
+        {
+            color:rgb(187,189,192); 
+        }           
+
+        .price-table:hover{         
+            #image
+            {                   
+                opacity: 1;
+            }
+            .terms
+            {
+                color:white; 
+            }
+        }
+        .price-table.selected
+        {
+            background-color: rgb(3,155,229) !important;
+            #image
+            {                   
+                opacity: 1;
+            }
+            .terms
+            {
+                color:white; 
+            }
+           
+             padding:4px;   
+                      
         }   
 
         }

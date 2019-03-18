@@ -1,21 +1,21 @@
 
 
-  <md-dialog ng-cloak>
+  <md-dialog ng-cloak aria-label="dialog_type_effort">
     <form  class="md-inline-form" name="dfsd">
      <md-subheader style="background-color: rgb(245,245,245)">
       <h2 mat-dialog-title  style="margin:0px">Option</h2>
      </md-subheader> 
       <md-dialog-content layout="row" style="padding:0px">      
         <div style=" margin:auto;">
-          <md-radio-group ng-model="typeajout.type" layout="row">
-              <md-radio-button value="PAB">PAB</md-radio-button>
-              <md-radio-button value="CAB">CAB</md-radio-button>
+          <md-radio-group ng-model="echantillon.data_collect_id" layout="row">
+              <md-radio-button ng-repeat="data_collect in alldata_collect" ng-value="{{data_collect.id}}" aria-label="{{data_collect.code}}">{{data_collect.code}}</md-radio-button>
+              
           </md-radio-group>
         </div>
       </md-dialog-content>
       <md-dialog-actions layout="row" style="background-color: rgb(245,245,245)">
       <span>
-        <md-button type="submit" class="md-raised md-accent" ng-click="dialognouveauajout(typeajout.type)">Confirmer</md-button>
+        <md-button type="submit" class="md-raised md-accent" ng-click="dialognouveauajout(echantillon)">Confirmer</md-button>
         <md-button type="submit" class="md-raised md-primary" ng-click="cancel()">Annuler</md-button>
       </span>    
       </md-dialog-actions>

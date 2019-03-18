@@ -31,6 +31,7 @@
       vm.allechantillon                      = [];
       vm.allespece_capture                   = [];
       vm.currrentSite_embarquement           = [];
+      vm.allunite_peche                      = [];
      // vm.allsite_enqueteur                   = [];
 
       //variale affichage bouton nouveau
@@ -112,8 +113,8 @@
       apiFactory.getAll("espece/index").then(function(result)
       {vm.allespece = result.data.response;});
 
-      apiFactory.getAll("unite_peche/index").then(function(result)
-      {vm.allunite_peche = result.data.response;});
+     /* apiFactory.getAll("unite_peche/index").then(function(result)
+      {vm.allunite_peche = result.data.response;});*/
    
    /* apiFactory.getAll("fiche_echantillonnage_capture/index").then(function(result){
       vm.allfiche_echantillonnage_capture = result.data.response;
@@ -157,6 +158,11 @@
           {
               vm.allechantillon = result.data.response;
           });
+          apiFactory.getFils("unite_peche/index",item.site_embarquement.id).then(function(result)
+          {
+              vm.allunite_peche = result.data.response;
+          });
+
           vm.step1=true;  
       };
       $scope.$watch('vm.selectedItem', function()
@@ -517,6 +523,15 @@
     { 
         vm.input_data_collect = true;
         NouvelItemEchantillon = false ;
+        if(vm.selectedItemEchantillon.data_collect.code=='PAB')
+          {
+              vm.pab=true;
+          }
+          else
+          {
+              vm.pab=false;
+          }
+          
         vm.affichageMasqueEchantillon    = 1 ;
         vm.affichageMasque               = 0 ;
         vm.affichageMasqueEspece_capture = 0 ;
@@ -538,15 +553,7 @@
 
         vm.echantillon.nbr_jrs_peche_dernier_sem = vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem;          
         
-          if(vm.selectedItemEchantillon.data_collect.code=='PAB')
-          {
-              vm.pab=true;
-          }
-          else
-          {
-              vm.pab=false;
-          }
-          
+
           vm.afficherboutonModifSuprEchantillon = 0;
           vm.afficherboutonnouveauEchantillon = 0;  
 
@@ -572,6 +579,7 @@
         
         $mdDialog.show(confirm).then(function(data)
         { 
+          console.log(data)
         },function()
           {//alert('rien');
             });
@@ -648,8 +656,8 @@
       var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
       var getIdEchantillon = 0;
       var total_captur=0;
-      var getIdData_collect=0;
-      var typeeffort='';
+
+      var effort_p=[];
       if (NouvelItemEchantillon==false) 
       {
           getIdEchantillon = vm.selectedItemEchantillon.id;                
@@ -660,43 +668,25 @@
           echantillon.total_capture=total_captur;
       }
       
-      if(vm.pab)
-      {
-          vm.alldata_collect.forEach(function(data_c)
-          {
-               if(data_c.code=='PAB')
-                {
-                    getIdData_collect  = data_c.id;
-                    
-                    typeeffort='PAB';                    
-                    vm.echantillon.data_collect_nom = data_c.code;
-                    vm.echantillon.nbr_bateau_actif = '- -';
-                    vm.echantillon.total_bateau_ecn = '- -'; 
-                }
-          });
-      }
-      else
-      {
-          vm.alldata_collect.forEach(function(data_c)
-          {
-              if(data_c.code=='CAB')
-              {
-                  getIdData_collect  = data_c.id;
-                    
-                  typeeffort='CAB';
-                  vm.echantillon.data_collect_nom = data_c.code;
-                  vm.echantillon.peche_hier = '- -';
-                  vm.echantillon.peche_avant_hier = '- -';
-                  vm.echantillon.nbr_jrs_peche_dernier_sem = '- -';  
-              }
-            });
-      }
 
+      var effort_p= vm.alldata_collect.filter(function(obj)
+          {
+              return obj.id == vm.echantillon.data_collect_id;
+          });
+
+      if(effort_p[0].code=='PAB'){
+          vm.echantillon.nbr_bateau_actif = '- -';
+          vm.echantillon.total_bateau_ecn = '- -';
+      }else{
+          vm.echantillon.peche_hier = '- -';
+          vm.echantillon.peche_avant_hier = '- -';
+          vm.echantillon.nbr_jrs_peche_dernier_sem = '- -';
+      }
 
       var datas = $.param(
       {
           supprimer:                        suppression,
-          typeeffort:                       typeeffort,      
+          typeeffort:                       effort_p[0].code,      
           id:getIdEchantillon,
           fiche_echantillonnage_capture_id: vm.selectedItem.id,
           peche_hier:                       echantillon.peche_hier,
@@ -704,7 +694,7 @@
           nbr_jrs_peche_dernier_sem:        echantillon.nbr_jrs_peche_dernier_sem,
           total_capture:                    echantillon.total_capture,
           unique_code:                      echantillon.unique_code,
-          data_collect_id:                  getIdData_collect,
+          data_collect_id:                  echantillon.data_collect_id,
           nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
           total_bateau_ecn:                 echantillon.total_bateau_ecn,
           unite_peche_id:                   echantillon.unite_peche_id,
@@ -714,13 +704,7 @@
       //factory
       apiFactory.add("echantillon/index",datas, config).success(function (data)
       {  
-        //***modif
-        var effort_p= vm.alldata_collect.filter(function(obj)
-          {
-              return obj.id == vm.echantillon.data_collect_id;
-          });
-        //**nouveau
-        var data_c={id:getIdData_collect,code:typeeffort}
+
           var unite_p= vm.allunite_peche.filter(function(obj)
           {
               return obj.id == vm.echantillon.unite_peche_id;
@@ -781,7 +765,7 @@
                   nbr_jrs_peche_dernier_sem:        echantillon.nbr_jrs_peche_dernier_sem,
                   total_capture:                    total_captur,
                   unique_code:                      echantillon.unique_code,
-                  data_collect:                     data_c,
+                  data_collect:                     effort_p[0],
                   nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
                   total_bateau_ecn:                 echantillon.total_bateau_ecn,
                   unite_peche:                      unite_p[0],
@@ -805,40 +789,40 @@
   function DialogController($mdDialog, $scope)
   { 
       var dg=$scope;
-      //***selection par defaut
-      dg.typeajout= {type : 'PAB'};
+
+      apiFactory.getAll("data_collect/index").then(function(result)
+       {dg.alldata_collect = result.data.response;});
 
       dg.cancel = function()
       {$mdDialog.cancel();};
 
       dg.dialognouveauajout = function(typeajout)
-      {
-        if(typeajout=='PAB')
-        {
+      { //console.log(typeajout);
+        var effort_p= dg.alldata_collect.filter(function(obj)
+          {
+              return obj.id == dg.echantillon.data_collect_id;
+          });
+
+        if(effort_p[0].code=='PAB')
+        {   
             vm.pab=true;
-            vm.selectedItemEchantillon.$selected = false;
-            vm.step2=false;
-            vm.step3=false;
-            vm.affichageMasqueEchantillon = 1 ;
-            vm.affichageMasque = 0 ;
-            vm.affichageMasqueEspece_capture = 0 ;
-            vm.echantillon={};
-            NouvelItemEchantillon = true ;
+            
         }
         else
         {
-          vm.pab=false;
-          vm.selectedItemEchantillon.$selected = false;
-          vm.step2=false;
-          vm.step3=false;
-          vm.affichageMasqueEchantillon = 1 ;
-          vm.affichageMasque = 0 ;
-          vm.affichageMasqueEspece_capture = 0 ;
-          vm.echantillon={};
-          NouvelItemEchantillon = true ; 
+            vm.pab=false;
         }
+        vm.selectedItemEchantillon.$selected = false;
+        vm.step2=false;
+        vm.step3=false;
+        vm.affichageMasqueEchantillon = 1 ;
+        vm.affichageMasque = 0 ;
+        vm.affichageMasqueEspece_capture = 0 ;
+        vm.echantillon={};
+        NouvelItemEchantillon = true ;
         $mdDialog.cancel();
-        vm.input_data_collect     = false;
+        vm.input_data_collect = false;
+        vm.echantillon.data_collect_id=dg.echantillon.data_collect_id;
       }
 
 
