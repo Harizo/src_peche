@@ -23,13 +23,13 @@
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "Fiche validé"
+              page: "Fiche echantillonnage capture valide"
             }
 
         });
         // Navigation
         msNavigationServiceProvider.saveItem('peche.validation_fiche_echantillonnage_capture', {
-            title: 'Validation fiche d\'echantillonnage',
+            title: 'Fiche validé',
             icon  : 'icon-clipboard-text',
             state: 'app.population_validation_fiche_echantillonnage_capture',
             weight: 3

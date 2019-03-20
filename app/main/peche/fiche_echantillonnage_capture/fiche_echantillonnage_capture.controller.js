@@ -143,7 +143,7 @@
       {        
           vm.selectedItem = item;
           vm.nouvelItem   = item;
-          console.log(item);
+          //console.log(item);
           if(currentItem != vm.selectedItem)
           {
             vm.step1 = false;
@@ -388,7 +388,7 @@
             {
               return obj.id == vm.fiche_echantillonnage_capture.enqueteur_id;
             });
-            console.log(enqt[0]);
+           // console.log(enqt[0]);
             var reg = vm.allregion.filter(function(obj)
             {
               return obj.id == vm.fiche_echantillonnage_capture.region_id;
@@ -478,7 +478,7 @@
             {
                 vm.allsite_enqueteur = result.data.response;
                 vm.allsite_embarquement = vm.allsite_enqueteur;
-                console.log(vm.allsite_embarquement);
+               // console.log(vm.allsite_embarquement);
             });
         }          
     }
@@ -650,7 +650,7 @@
         
         $mdDialog.show(confirm).then(function(data)
         { 
-          console.log(data)
+         // console.log(data)
         },function()
           {//alert('rien');
             });
@@ -1121,7 +1121,7 @@
     function majtotal_captureEchantillon(tot_cap,config)
     { 
         var typeeffort='';
-        if(vm.selectedItemEchantillon.unite_peche_nom=='PAB')
+        if(vm.selectedItemEchantillon.data_collect.code=='PAB')
         {
             typeeffort='PAB';
         }
@@ -1147,7 +1147,7 @@
             unite_peche_id:                   vm.selectedItemEchantillon.unite_peche.id,
             user_id:                          cookieService.get("id")                        
         });
-
+        console.log(vm.selectedItemEchantillon);
 //factory
         apiFactory.add("echantillon/index",datasmaj, config).success(function (data)
         {

@@ -29,7 +29,7 @@
         });
         // Navigation
         msNavigationServiceProvider.saveItem('peche.fiche_echantillonnage_capture', {
-            title: 'Fiche d\'echantillonnage',
+            title: 'Fiche en attente',
             icon  : 'icon-clipboard-text',
             state: 'app.population_fiche_echantillonnage_capture',
             weight: 3
