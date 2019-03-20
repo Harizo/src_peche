@@ -12,10 +12,7 @@
             'app.peche.auth.lock',
             'app.peche.administration',
             'app.peche.fiche_echantillonnage_capture',
-            'app.peche.ddb',
-            'app.peche.importationbdd'
-            
-
+            'app.peche.importationbdd',
             'app.peche.validation_fiche_echantillonnage_capture',
             'app.peche.ddb'
 
