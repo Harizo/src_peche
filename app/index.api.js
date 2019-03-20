@@ -22,8 +22,8 @@
           getFils: function(controller, cle_etrangere) {
             return $http.get(apiUrl+controller+"?cle_etrangere="+cle_etrangere);
           },
-          getEchantillonnageByDate: function(controller, date_debut, date_fin) {
-            return $http.get(apiUrl+controller+"?date_debut="+date_debut+"&date_fin="+date_fin);
+          getEchantillonnageByDate: function(controller, date_debut, date_fin,validation) {
+            return $http.get(apiUrl+controller+"?date_debut="+date_debut+"&date_fin="+date_fin+"&validation="+validation);
           },
           getEchantillonnageByValidation: function(controller, validation) {
             return $http.get(apiUrl+controller+"?validation="+validation);

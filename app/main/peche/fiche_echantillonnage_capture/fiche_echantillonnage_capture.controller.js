@@ -132,8 +132,8 @@
           date_mois = '0' + date_mois;
         }
       var date_dujour= date_annee+"-"+date_mois+"-"+date_jour;
-
-      apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour).then(function(result)
+      var validation = 0;
+      apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation).then(function(result)
       {
         vm.allfiche_echantillonnage_capture = result.data.response;
       });
@@ -545,8 +545,8 @@
             date2_mois = '0' + date2_mois;
         }
         var date_fin= date2_annee+"-"+date2_mois+"-"+date2_jour;
-      
-        apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin).then(function(result)
+        var validation = 0;
+        apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation).then(function(result)
         {
             vm.allfiche_echantillonnage_capture  = result.data.response;
             vm.affichageMasqueFiltrepardate = 0 ;

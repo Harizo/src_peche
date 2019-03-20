@@ -13,6 +13,368 @@
         </div>
     </div>
     <div class="content"layout="column">
+<!--FORM-->		
+		<div class="form-wrapper">			  
+			<div style="clear:both;"></div>
+	
+	<!--FORM FICHE ECHANTILLONNAGE CAPTURE -->
+			<div class="white-bg md-whiteframe-4dp " id="gas">
+				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
+					<md-tab label="Ajout fiche echantillonnage capture" >
+						
+						<div class="simple-table-container md-whiteframe-4dp" id="gast">
+						<md-tab-body>
+							<br>
+							<form name="fiche_echantillonnage_captureform" class="md-inline-form "  novalidate>
+								<div layout="column" layout-gt-sm="row">
+									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id">				
+									<md-input-container flex-gt-sm>
+										<input type="text" name="code_unique" ng-model="vm.fiche_echantillonnage_capture.code_unique"
+										placeholder="Code unique " ng-init="vm.fiche_echantillonnage_capture.code_unique=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.code_unique.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Code unique obligatoire.</span>
+											</div>
+										</div>
+									</md-input-container>
+									<md-input-container flex-gt-sm>
+										<label>Enqueteur</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.enqueteur_id"  ng-change="vm.modifierenqueteur(vm.fiche_echantillonnage_capture)"  md-container-class="my">
+											<md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}" >
+												{{enqueteur.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex-gt-sm>
+										<label>Site de débarquement</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.fiche_echantillonnage_capture)" ng-disabled="vm.enqueteur==false" required>
+											<md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
+												{{site_embarquement.libelle}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex-gt-sm>
+										<label>Region</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.region_id"  ng-change="vm.modifierregion(vm.fiche_echantillonnage_capture)" disabled>
+											<md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
+												{{region.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex-gt-sm>
+										<label>District</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.district_id"  ng-change="vm.modifierdistrict(vm.fiche_echantillonnage_capture)" disabled>
+											<md-option ng-repeat="district in vm.allcurrentdistrict" value="{{district.id}}">
+												{{district.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex-gt-sm>
+										<input type="text" name="latitude" ng-model="vm.fiche_echantillonnage_capture.latitude"
+										placeholder="Latitude " ng-init="vm.fiche_echantillonnage_capture.latitude=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.latitude.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Latitude obligatoire.</span>
+											</div>
+										</div>
+									</md-input-container>
+									<md-input-container flex-gt-sm>
+										<input type="text" name="longitude" ng-model="vm.fiche_echantillonnage_capture.longitude"
+										placeholder="Longitude " ng-init="vm.fiche_echantillonnage_capture.longitude=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.longitude.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Longitude obligatoire.</span>
+											</div>
+										</div>
+									</md-input-container>
+									<md-input-container flex-gt-sm>
+										<input type="text" name="altitude" ng-model="vm.fiche_echantillonnage_capture.altitude"
+										placeholder="Altitude " ng-init="vm.fiche_echantillonnage_capture.altitude=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.altitude.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Altitude obligatoire.</span>
+											</div>
+										</div>
+									</md-input-container>
+																		
+									<md-datepicker name="date" ng-model="vm.fiche_echantillonnage_capture.date" md-placeholder="Date" required>										
+									</md-datepicker>
+									<!--md-input-container flex="100" flex-gt-xs="33">
+										<input type="datetime" name="date" ng-model="vm.fiche_echantillonnage_capture.date"
+										placeholder="Date: AAAA-MM-JJ " ng-init="vm.fiche_echantillonnage_capture.date=''"
+										required>
+										<div ng-messages="fiche_echantillonnage_captureform.date.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Date obligatoire.</span>
+											</div>
+										</div>
+									</md-input-container-->
+									
+								</div>
+								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+									ng-disabled="fiche_echantillonnage_captureform.$invalid " ng-click="vm.ajout(vm.fiche_echantillonnage_capture,0,0)">
+									Enregistrer
+								</md-button>
+								<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+									Annuler
+								</md-button>
+							</form>
+						</md-tab-body>
+						</div>
+					
+					</md-tab>
+					</md-tabs>
+			</div>
+	<!--/FORM FICHE ECHANTILLONNAGE CAPTURE -->
+
+	<!--FORM ECHANTILLON-->
+			<div class="white-bg md-whiteframe-4dp">	
+				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1">
+				<md-tab label="Ajout Echantillon">
+					<div class="simple-table-container md-whiteframe-4dp">
+					<md-tab-body>
+						<form name="echantillonform" class="md-inline-form"  novalidate>
+							<div layout="column" layout-gt-xs="row" flex>
+								<input type="hidden" ng-model="vm.echantillon.id">		
+								
+								<md-input-container flex="100" flex-gt-xs="33" ng-if="vm.input_data_collect==true">
+									<label>Effort de pêche</label>
+									<md-select ng-model="vm.echantillon.data_collect_id"  ng-change="vm.modifierdata_collect(vm.echantillon)">
+										<md-option ng-repeat="data_collect in vm.alldata_collect" value="{{data_collect.id}}">
+											{{data_collect.code}}
+										</md-option>
+									</md-select>
+								</md-input-container>
+								
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
+									<input type="number" name="peche_hier" ng-model="vm.echantillon.peche_hier"
+									placeholder="Peche hier " ng-init="vm.echantillon.peche_hier=''"
+									>
+									<div ng-messages="echantillonform.peche_hier.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Peche hier obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
+									<input type="number" name="peche_avant_hier" ng-model="vm.echantillon.peche_avant_hier"
+									placeholder="Peche avant hier " ng-init="vm.echantillon.peche_avant_hier=''"
+									>
+									<div ng-messages="echantillonform.peche_avant_hier.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Peche avant hier obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
+									<input type="number" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
+									placeholder="nbr jrs dernier sem" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''">
+									<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Nbr du jours obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.pab">
+									<input type="number" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
+									placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''"
+									>
+									<div ng-messages="echantillonform.nbr_bateau_actif.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Nbr bateau actif obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.pab">
+									<input type="number" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
+									placeholder="Total bateau " ng-init="vm.echantillon.total_bateau_ecn=''"
+									>
+									<div ng-messages="echantillonform.total_bateau_ecn.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Total bateau ecn obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>
+								<md-input-container flex="100" flex-gt-xs="33">
+									<label>Unite peche</label>
+									<md-select ng-model="vm.echantillon.unite_peche_id"  ng-change="vm.modifierunite_peche(vm.echantillon)">
+										<md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
+											{{unite_peche_site.unite_peche.libelle}}
+										</md-option>
+									</md-select>
+								</md-input-container>
+								<!--md-input-container flex="100" flex-gt-xs="33">
+									<label>Type canoe</label>
+									<md-select ng-model="vm.echantillon.type_canoe_id"  ng-change="vm.modifiertype_canoe(vm.echantillon)" disabled>
+										<md-option ng-repeat="type_canoe in vm.alltype_canoe" value="{{type_canoe.id}}">
+											{{type_canoe.nom}}
+										</md-option>
+									</md-select>
+								</md-input-container-->
+								<!--md-input-container flex="100" flex-gt-xs="33">
+									<label>Type engin</label>
+									<md-select ng-model="vm.echantillon.type_engin_id"  ng-change="vm.modifiertype_engin(vm.echantillon)" disabled>
+										<md-option ng-repeat="type_engin in vm.alltype_engin" value="{{type_engin.id}}">
+											{{type_engin.libelle}}
+										</md-option>
+									</md-select>
+								</md-input-container-->
+								<md-input-container flex="100" flex-gt-xs="33">
+									<input type="text" name="unique_code" ng-model="vm.echantillon.unique_code"
+									placeholder="Code unique" ng-init="vm.echantillon.unique_code=''"
+									required>
+									<div ng-messages="echantillonform.unique_code.$error"
+										role="alert">
+										<div ng-message="required">
+											<span>Code unique obligatoire.</span>
+										</div>
+									</div>
+								</md-input-container>							
+								
+							</div>
+							<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+								ng-disabled="echantillonform.$invalid " ng-click="vm.ajoutEchantillon(vm.echantillon,0)">
+								Enregistrer
+							</md-button>
+							<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerEchantillon()">
+								Annuler
+							</md-button>
+						</form>
+					</md-tab-body>
+					</div>
+				
+				</md-tab>
+			</div>
+	<!--/FORM ECHANTILLON -->
+
+	<!--FORM FICHE ESPACE CAPTURE --> 
+		    <div class="white-bg md-whiteframe-4dp"> 
+		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueEspece_capture==1">
+		            <md-tab label="Ajout Espece capture">
+		                <md-tab-body>
+		                  <form name="espece_captureform" class="md-inline-form" novalidate >
+		                    <br>
+		                    <div layout="column" layout-gt-xs="row">
+		                      <input type="hidden" ng-model="vm.espece_capture.id">
+		                      <md-input-container flex="100" flex-gt-xs="33">
+		                        <label>Espece</label>
+		                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" class="md-no-underline">
+		                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}">
+		                           <img src="{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
+		                          </md-option>
+		                        </md-select>
+		                      </md-input-container>
+		                        <md-input-container flex="100" flex-gt-xs="33">
+		                          <input type="text" name="capture" ng-model="vm.espece_capture.capture"
+		                            placeholder="capture " ng-init="vm.espece_capture.capture=''"
+		                            required>
+		                            <div ng-messages="espece_captureform.capture.$error"
+		                              role="alert">
+		                              <div ng-message="required">
+		                                <span>Capture obligatoire.</span>
+		                              </div>
+		                            </div>
+		                        </md-input-container>
+		                        <md-input-container flex="100" flex-gt-xs="33">
+		                          <input type="number" name="prix" ng-model="vm.espece_capture.prix"
+		                            placeholder="prix " ng-init="vm.espece_capture.prix=''"
+		                            required>
+		                            <div ng-messages="espece_captureform.prix.$error"
+		                              role="alert">
+		                              <div ng-message="required">
+		                                <span>Prix obligatoire.</span>
+		                              </div>
+		                            </div>
+		                        </md-input-container>
+		                    </div>
+		                    <div>
+		                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+		                          ng-disabled="espece_captureform.$invalid" ng-click="vm.ajoutEspece_capture(vm.espece_capture,0)">
+		                          Enregistrer
+		                    </md-button>
+		                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerEspece_capture()">
+		                      Annuler
+		                    </md-button>
+		                    </div>
+		                  </form>
+		                </md-tab-body>
+		            </md-tab>
+		        </md-tabs>
+		    </div> 
+	<!--/FORM FICHE ESPACE CAPTURE --> 
+	<!--FORM FILTRE PAR DATE --> 
+		    <div class="white-bg md-whiteframe-4dp"> 
+		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueFiltrepardate==1">
+		            <md-tab label="Filtre par date">
+		                <md-tab-body>
+		                  <form name="filtrepardateform" class="md-inline-form" novalidate >
+		                    <br>
+		                    <div layout="column" layout-gt-xs="row">
+		                    	<md-input-container>
+		                        <span>Date du</span>
+		                        </md-input-container>
+		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut" md-placeholder="Enter date de debut"		ng-change="vm.change_date_debut(vm.filtrepardate.date_debut)" required>                 		
+		                    	</md-datepicker>
+		                    	<md-input-container>
+		                        <span>&nbsp &nbsp jusqu'au &nbsp &nbsp</span>
+		                        </md-input-container>
+		                    	<md-datepicker ng-model="vm.filtrepardate.date_fin" md-placeholder="Enter date de fin"
+        								md-min-date="vm.min_date" md-max-date="vm.max_date" ng-disabled="!vm.date_begin" required>        								
+        						</md-datepicker>
+		                        <!--md-input-container flex="100" flex-gt-xs="33">
+		                          <input type="text" name="date_debut" ng-model="vm.filtrepardate.date_debut"
+		                            placeholder="AAAA-MM-JJ " ng-init="vm.filtrepardate.date_debut=''"
+		                            required>
+		                            <div ng-messages="filtrepardateform.date_debut.$error"
+		                              role="alert">
+		                              <div ng-message="required">
+		                                <span>Date debut obligatoire.</span>
+		                              </div>
+		                            </div>
+		                        </md-input-container>
+		                        <md-input-container flex="100" flex-gt-xs="33">
+		                          <input type="text" name="date_fin" ng-model="vm.filtrepardate.date_fin"
+		                            placeholder="AAAA-MM-JJ " ng-init="vm.filtrepardate.date_fin=''"
+		                            required>
+		                            <div ng-messages="filtrepardateform.date_fin.$error"
+		                              role="alert">
+		                              <div ng-message="required">
+		                                <span>Date final obligatoire.</span>
+		                              </div>
+		                            </div>
+		                        </md-input-container-->
+		                    </div>
+		                    <div>
+		                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+		                          ng-disabled="filtrepardateform.$invalid" ng-click="vm.recherchefiltrepardate(vm.filtrepardate)">
+		                          Recherche
+		                    </md-button>
+		                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+		                      Annuler
+		                    </md-button>
+		                    </div>
+		                  </form>
+		                </md-tab-body>
+		            </md-tab>
+		        </md-tabs>
+		    </div> 
+	<!--/FORM FORM FILTRE PAR DATE -->
+<!--/FORM-->
+
 <!--STEP-->	
 			<div layout="row">
 	        	<ms-form-wizard flex>
@@ -34,8 +396,19 @@
 	                       <md-tab-body ms-form-wizard-form>
 	                       		<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 1</md-button >
 								<div style="widht:100%;"> 
-									
-									<md-button type="submit" ng-show="vm.afficherboutonValidation==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+									<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Filtre" ng-click="vm.formfiltrepardate()" style="width:10%;">
+										Filtre
+									</md-button>   
+									<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+										Nouveau
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+										Modifier
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+										Supprimer
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Valider" ng-click="vm.valider()" style="width:10%;">
 										Valider
 									</md-button>
 								</div>
@@ -95,7 +468,7 @@
 									<tbody>
 										<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
 											<td>{{fiche_echantillonnage_capture.code_unique}}</td>
-											<td>{{fiche_echantillonnage_capture.enqueteur.prenom}}</td>
+											<td>{{fiche_echantillonnage_capture.enqueteur.nom}}</td>
 											<td>{{fiche_echantillonnage_capture.site_embarquement.libelle}}</td>
 											<td>{{fiche_echantillonnage_capture.region.nom}}</td>
 											<td>{{fiche_echantillonnage_capture.district.nom}}</td>

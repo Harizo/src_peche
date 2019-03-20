@@ -9,7 +9,7 @@
     /** @ngInject */
     function Validation_fiche_echantillonnage_captureController($mdDialog, $scope, $location, apiFactory, $cookieStore,cookieService)
     {
-      var vm                                 = this;
+       var vm                                 = this;
       vm.ajout                               = ajout;
       vm.ajoutEchantillon                    = ajoutEchantillon;
       vm.ajoutEspece_capture                 = ajoutEspece_capture;
@@ -31,13 +31,25 @@
       vm.allechantillon                      = [];
       vm.allespece_capture                   = [];
       vm.currrentSite_embarquement           = [];
-      vm.allunite_peche_site                 = [];
+      vm.allunite_peche_site                      = [];
+     // vm.allsite_enqueteur                   = [];
+
+      //variale affichage bouton nouveau
+      vm.afficherboutonnouveau               = 1;
+      vm.afficherboutonnouveauEchantillon    = 0;
+      vm.afficherboutonnouveauEspece_capture = 0;
+      //variable cache masque de saisie
+      vm.affichageMasque                     = 0;
+      vm.affichageMasqueEchantillon          = 0;
+      vm.affichageMasqueFiltrepardate        = 0;
       vm.step1                               = false;
       vm.step2                               = false;
       vm.step3                               = false;
 
-
-
+      vm.enqueteur                           = false;
+      vm.pab                                 = false;
+      vm.input_data_collect                  = false;
+      vm.date_begin                          = false;
       
 //style
       vm.dtOptions =
@@ -102,12 +114,6 @@
       apiFactory.getAll("espece/index").then(function(result)
       {vm.allespece = result.data.response;});
 
-     /* apiFactory.getAll("unite_peche/index").then(function(result)
-      {vm.allunite_peche = result.data.response;});*/
-   
-   /* apiFactory.getAll("fiche_echantillonnage_capture/index").then(function(result){
-      vm.allfiche_echantillonnage_capture = result.data.response;
-    });*/
 
 /*********** ************************Debut fi fiche_echantillonnage_capture  *******************************************/
      
@@ -120,8 +126,8 @@
           date_mois = '0' + date_mois;
         }
       var date_dujour= date_annee+"-"+date_mois+"-"+date_jour;
-      var validation = 0;
-      apiFactory.getEchantillonnageByValidation("fiche_echantillonnage_capture/index",validation).then(function(result)
+      var validation = 1;
+      apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation).then(function(result)
       {
         vm.allfiche_echantillonnage_capture = result.data.response;
       });
@@ -131,6 +137,7 @@
       {        
           vm.selectedItem = item;
           vm.nouvelItem   = item;
+          console.log(item);
           if(currentItem != vm.selectedItem)
           {
             vm.step1 = false;
@@ -138,7 +145,10 @@
             vm.step3 = false;
           }
           currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
-          vm.afficherboutonValidation          = 1 ;
+          vm.afficherboutonModifSupr          = 1 ;
+          vm.affichageMasque                  = 0 ;
+          vm.afficherboutonnouveau            = 1 ;
+          vm.afficherboutonnouveauEchantillon = 1 ;
           //vm.allechantillon                   = [];
           apiFactory.getFils("echantillon/index",item.id).then(function(result)
           {
@@ -147,12 +157,11 @@
           apiFactory.getFils("unite_peche_site/index",item.site_embarquement.id).then(function(result)
           {
               vm.allunite_peche_site = result.data.response;
-              console.log(vm.allunite_peche_site);
+              
           });
 
           vm.step1=true;  
       };
-
       $scope.$watch('vm.selectedItem', function()
       {
         if (!vm.allfiche_echantillonnage_capture) return;
@@ -165,19 +174,127 @@
       });
 
 
-    function ajout(fiche_echantillonnage_capture,suppression)   
+      vm.modifier = function() 
+      {
+          NouvelItem = false ;
+          vm.enqueteur=true;
+          vm.affichageMasque = 1 ;
+          vm.fiche_echantillonnage_capture.id              = vm.selectedItem.id ;
+          vm.fiche_echantillonnage_capture.code_unique     = vm.selectedItem.code_unique ;        
+          vm.fiche_echantillonnage_capture.date            = new Date(vm.selectedItem.date);
+          vm.fiche_echantillonnage_capture.date_creation   = vm.selectedItem.date_creation;
+          vm.fiche_echantillonnage_capture.latitude        = vm.selectedItem.latitude;
+          vm.fiche_echantillonnage_capture.longitude       = vm.selectedItem.longitude;
+          vm.fiche_echantillonnage_capture.altitude        = vm.selectedItem.altitude;
+          vm.fiche_echantillonnage_capture.region_id       = vm.selectedItem.region.id ;
+          vm.fiche_echantillonnage_capture.district_id     = vm.selectedItem.district.id ;
+          vm.fiche_echantillonnage_capture.enqueteur_id    =vm.selectedItem.enqueteur.id ;
+          vm.fiche_echantillonnage_capture.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
+          
+          apiFactory.getFils("site_enqueteur/index",vm.selectedItem.enqueteur.id).then(function(result)
+          {
+            vm.allsite_enqueteur = result.data.response;
+            vm.allsite_embarquement = vm.allsite_enqueteur;
+            //console.log(vm.allsite_enqueteur);
+          });
+          
+          vm.afficherboutonModifSupr = 0;
+          vm.afficherboutonnouveau   = 0;  
+
+      };
+
+      vm.annuler = function() 
+      {   //vm.selectedItem = {} ;          
+          //vm.selectedItem.$selected = false;
+          vm.affichageMasque         = 0 ;
+          vm.afficherboutonnouveau   = 1 ;
+          vm.afficherboutonModifSupr = 0 ;
+          NouvelItem                 = false;
+          vm.allcurrentdistrict      = vm.alldistrict;
+          vm.affichageMasqueFiltrepardate = 0 ;
+      };
+//valider la fiche echantillonnage capture
+      vm.valider =function()   
+      {   var suppression = 0;
+          var validation = 1;
+          var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;' }};
+
+          var date = new Date(vm.selectedItem.date);       
+          var date_jour = date.getDate();
+          var date_mois = date.getMonth()+1;
+          var date_annee = date.getFullYear();
+          if(date_mois <10)
+          {
+              date_mois = '0'+date_mois;
+          }
+          var date_fiche= date_annee+"-"+date_mois+"-"+date_jour;
+
+          var datas = $.param(
+          {
+            supprimer:            suppression,
+            id:                   vm.selectedItem.id,
+            code_unique:          vm.selectedItem.code_unique,
+            date:                 date_fiche,
+            longitude:            vm.selectedItem.longitude,
+            latitude:             vm.selectedItem.latitude,
+            altitude:             vm.selectedItem.altitude,
+            validation:           validation,
+            site_embarquement_id: vm.selectedItem.site_embarquement.id,
+            enqueteur_id:         vm.selectedItem.enqueteur.id,
+            district_id:          vm.selectedItem.district.id,
+            region_id:            vm.selectedItem.region.id,
+            user_id:              cookieService.get("id")                      
+          });
+          var confirm = $mdDialog.confirm().title('Etes-vous sûr de vouloir faire cet action ?')
+                                .textContent('')
+                                .ariaLabel('Lucky day')
+                                .clickOutsideToClose(true)
+                                .parent(angular.element(document.body))
+                                .ok('ok')
+                                .cancel('annuler');
+
+        $mdDialog.show(confirm).then(function()
+        {
+          apiFactory.add("fiche_echantillonnage_capture/index",datas, config).success(function (data)
+          {
+            vm.allfiche_echantillonnage_capture = vm.allfiche_echantillonnage_capture.filter(function(obj)
+            {
+                return obj.id !== currentItem.id;
+            });
+          }).error(function (data)
+            {alert('Error');}); 
+        }, function()
+            {
+              //alert('rien');
+            });
+                        
+      };
+//function cache masque de saisie
+      vm.ajouter = function () 
+      {           
+          vm.selectedItem.$selected = false;
+          vm.step1=false;
+          vm.step2=false;
+          vm.step3=false;
+          vm.affichageMasque = 1 ;
+          vm.fiche_echantillonnage_capture={};
+          NouvelItem = true ;
+          vm.enqueteur = false;
+      };
+
+    function ajout(fiche_echantillonnage_capture,suppression,validation)   
     {
       if (NouvelItem==false) 
       {
-        test_existance (fiche_echantillonnage_capture,suppression); 
+        test_existance (fiche_echantillonnage_capture,suppression,validation); 
       }
       else
       {
-        insert_in_base(fiche_echantillonnage_capture,suppression);
+        insert_in_base(fiche_echantillonnage_capture,suppression,validation);
       }
     }
     
-    function test_existance (item,suppression) 
+    function test_existance (item,suppression,validation) 
     {
            
         if (suppression!=1) 
@@ -197,21 +314,21 @@
                     ||(fiche.region.id!=item.region_id)
                     ||(fiche.district.id!=item.district_id))                    
                   {
-                    insert_in_base(item,suppression);
-
+                    insert_in_base(item,suppression,validation);
+                    vm.affichageMasque = 0 ;
                   }
                   else
                   {
-
+                    vm.affichageMasque = 0 ;
                   }
                 }
             });
         }
           else
-              insert_in_base(item,suppression);
+              insert_in_base(item,suppression,validation);
     }
 
-    function insert_in_base(fiche_echantillonnage_capture,suppression)
+    function insert_in_base(fiche_echantillonnage_capture,suppression,validation)
     {
            
 //add
@@ -242,12 +359,12 @@
           longitude:            fiche_echantillonnage_capture.longitude,
           latitude:             fiche_echantillonnage_capture.latitude,
           altitude:             fiche_echantillonnage_capture.altitude,
+          validation:             fiche_echantillonnage_capture.validation,
           site_embarquement_id: fiche_echantillonnage_capture.site_embarquement_id,
           enqueteur_id:         fiche_echantillonnage_capture.enqueteur_id,
           district_id:          fiche_echantillonnage_capture.district_id,
           region_id:            fiche_echantillonnage_capture.region_id,
-          user_id:              cookieService.get("id"),
-          validated:            1
+          user_id:              cookieService.get("id")
                     
         });
              
@@ -265,7 +382,7 @@
             {
               return obj.id == vm.fiche_echantillonnage_capture.enqueteur_id;
             });
-
+            console.log(enqt[0]);
             var reg = vm.allregion.filter(function(obj)
             {
               return obj.id == vm.fiche_echantillonnage_capture.region_id;
@@ -296,8 +413,8 @@
                     
                     vm.selectedItem.region        = reg[0];
                     vm.selectedItem.district      = dist[0];                              
-                    vm.afficherboutonValidation = 0 ;
-
+                    vm.afficherboutonModifSupr = 0 ;
+                    vm.afficherboutonnouveau = 1 ;
                     vm.selectedItem.$selected = false;
                     //console.log(vm.selectedItem);
                     vm.selectedItem ={};
@@ -337,7 +454,7 @@
                             
                 NouvelItem=false;
               }
-
+              vm.affichageMasque = 0 ;
               })
                 .error(function (data)
                 {
@@ -346,10 +463,93 @@
                 
     }
 
+    vm.modifierenqueteur = function (item)
+    {
+        if(item.enqueteur_id)
+        {
+            vm.enqueteur=true;
+            apiFactory.getFils("site_enqueteur/index",item.enqueteur_id).then(function(result)
+            {
+                vm.allsite_enqueteur = result.data.response;
+                vm.allsite_embarquement = vm.allsite_enqueteur;
+                console.log(vm.allsite_embarquement);
+            });
+        }          
+    }
+    vm.modifiersite_embarquement = function (item)
+    {
+        var site = vm.allsite_embarquement.filter(function(obj)
+        {
+            return obj.id == item.site_embarquement_id;
+        });
+        item.region_id= site[0].region.id;
+        item.district_id= site[0].district.id;       
+    }
+
+    vm.supprimer = function() 
+    {
+        vm.afficherboutonModifSupr = 0 ;
+        vm.affichageMasque = 0 ;
+        var confirm = $mdDialog.confirm().title('Etes-vous sûr de supprimer cet enregistrement ?')
+                                .textContent('')
+                                .ariaLabel('Lucky day')
+                                .clickOutsideToClose(true)
+                                .parent(angular.element(document.body))
+                                .ok('ok')
+                                .cancel('annuler');
+
+        $mdDialog.show(confirm).then(function()
+        {
+            ajout(vm.selectedItem,1);
+        }, function()
+            {
+              //alert('rien');
+            });
+    };
+
+    vm.formfiltrepardate = function()
+    {
+        vm.affichageMasqueFiltrepardate = 1 ;
+        vm.filtrepardate={};
+    }
+    vm.change_date_debut=function(dateDebut)
+    { var date_now= new Date();
+      vm.date_begin=true;
+      vm.min_date=dateDebut;
+      vm.max_date= date_now;
+    }
+
+    vm.recherchefiltrepardate= function (filtrepardate)
+    {
+        var date1 = new Date(filtrepardate.date_debut);
+        var date2= new Date(filtrepardate.date_fin);
+        var date1_jour = date1.getDate();
+        var date1_mois = date1.getMonth()+1;
+        var date1_annee = date1.getFullYear();
+        if(date1_mois <10)
+        {
+            date1_mois = '0' + date1_mois;
+        }
+        var date_debut= date1_annee+"-"+date1_mois+"-"+date1_jour;
+        var date2_jour = date2.getDate();
+        var date2_mois = date2.getMonth()+1;
+        var date2_annee = date2.getFullYear();
+        if(date2_mois <10)
+        {
+            date2_mois = '0' + date2_mois;
+        }
+        var date_fin= date2_annee+"-"+date2_mois+"-"+date2_jour;
+        var validation = 1;
+        apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation).then(function(result)
+        {
+            vm.allfiche_echantillonnage_capture  = result.data.response;
+            vm.affichageMasqueFiltrepardate = 0 ;
+        });
+    }
 
     $scope.removeBouton = function()
     {
-        //vm.afficherboutonModifSuprEchantillon = 0 ;
+        vm.afficherboutonModifSuprEchantillon = 0 ;
     }
 
 /************************************ Fin fiche_echantillonnage_capture  ***********************************************/
@@ -361,7 +561,9 @@
         vm.selectedItemEchantillon = item;
         vm.nouvelItemEchantillon = item;
         currentItemEchantillon = JSON.parse(JSON.stringify(vm.selectedItemEchantillon));
-        //vm.afficherboutonModifSuprEchantillon = 1 ;
+        vm.afficherboutonModifSuprEchantillon = 1 ;
+        vm.afficherboutonnouveauEspece_capture = 1 ;
+        vm.affichageMasqueEchantillon = 0 ;
         vm.allespece_capture = [];
           
         apiFactory.getFils("espece_capture/index",item.id).then(function(result)
@@ -382,6 +584,92 @@
         vm.selectedItemEchantillon.$selected = true;
       });
 
+    vm.modifierEchantillon = function() 
+    { 
+        vm.input_data_collect = true;
+        NouvelItemEchantillon = false ;
+        if(vm.selectedItemEchantillon.data_collect.code=='PAB')
+          {
+              vm.pab=true;
+          }
+          else
+          {
+              vm.pab=false;
+          }
+          
+        vm.affichageMasqueEchantillon    = 1 ;
+        vm.affichageMasque               = 0 ;
+        vm.affichageMasqueEspece_capture = 0 ;
+        
+        vm.echantillon.id         = vm.selectedItemEchantillon.id ;       
+        vm.echantillon.date       = vm.selectedItemEchantillon.date;
+        vm.echantillon.latitude   = vm.selectedItemEchantillon.latitude;
+        vm.echantillon.longitude  = vm.selectedItemEchantillon.longitude;
+        vm.echantillon.altitude   = vm.selectedItemEchantillon.altitude;
+
+        vm.echantillon.unite_peche_id   = vm.selectedItemEchantillon.unite_peche.id;
+        vm.echantillon.peche_hier       = parseInt(vm.selectedItemEchantillon.peche_hier) ;
+        vm.echantillon.peche_avant_hier = parseInt(vm.selectedItemEchantillon.peche_avant_hier) ; 
+        vm.echantillon.total_capture    = vm.selectedItemEchantillon.total_capture;
+        vm.echantillon.unique_code      = vm.selectedItemEchantillon.unique_code  ;
+        vm.echantillon.nbr_bateau_actif = parseInt(vm.selectedItemEchantillon.nbr_bateau_actif) ;
+        vm.echantillon.total_bateau_ecn = parseInt(vm.selectedItemEchantillon.total_bateau_ecn) ;
+        vm.echantillon.data_collect_id  = vm.selectedItemEchantillon.data_collect.id;
+
+        vm.echantillon.nbr_jrs_peche_dernier_sem = parseInt(vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem);          
+        
+
+          vm.afficherboutonModifSuprEchantillon = 0;
+          vm.afficherboutonnouveauEchantillon = 0;  
+
+    };
+
+    vm.annulerEchantillon = function() 
+    {
+        vm.selectedItemEchantillon = {} ;
+        vm.selectedItemEchantillon.$selected = false;
+        vm.affichageMasqueEchantillon = 0 ;
+        vm.afficherboutonnouveauEchantillon = 1 ;
+        vm.afficherboutonModifSuprEchantillon = 0 ;
+        NouvelItemEchantillon = false;
+    };
+
+    vm.ajouterEchantillon = function () 
+    {        
+        var confirm = $mdDialog.confirm({
+          controller: DialogController,
+          templateUrl: 'app/main/peche/fiche_echantillonnage_capture/dialog.html',
+          parent: angular.element(document.body),              
+        })
+        
+        $mdDialog.show(confirm).then(function(data)
+        { 
+          console.log(data)
+        },function()
+          {//alert('rien');
+            });
+    };
+
+    vm.supprimerEchantillon = function() 
+    {
+        vm.afficherboutonModifSuprEchantillon = 0 ;
+        vm.affichageMasqueEchantillon = 0 ;
+        var confirm = $mdDialog.confirm().title('Etes-vous sûr de supprimer cet enregistrement ?')
+                                  .textContent('')
+                                  .ariaLabel('Lucky day')
+                                  .clickOutsideToClose(true)
+                                  .parent(angular.element(document.body))
+                                  .ok('ok')
+                                  .cancel('annuler');
+
+        $mdDialog.show(confirm).then(function()
+        {
+            ajoutEchantillon(vm.selectedItemEchantillon,1);
+        }, function()
+        {
+              //alert('rien');
+        });
+    };
 
   function ajoutEchantillon(echantillon,suppression)   
   {
@@ -415,11 +703,11 @@
                     ||(echan.unite_peche.id!=item.unite_peche_id))
                 {
                   insert_in_baseEchantillon(item,suppression);
- 
+                   vm.affichageMasqueEchantillon = 0 ;
                 }
                 else
                 {
-
+                  vm.affichageMasqueEchantillon = 0 ;
                 }
               }
           });
@@ -451,6 +739,15 @@
           {
               return obj.id == vm.echantillon.data_collect_id;
           });
+
+     /* if(effort_p[0].code=='PAB'){
+          vm.echantillon.nbr_bateau_actif = '- -';
+          vm.echantillon.total_bateau_ecn = '- -';
+      }else{
+          vm.echantillon.peche_hier = '- -';
+          vm.echantillon.peche_avant_hier = '- -';
+          vm.echantillon.nbr_jrs_peche_dernier_sem = '- -';
+      }*/
 
       var datas = $.param(
       {
@@ -521,8 +818,10 @@
                   vm.selectedItemEchantillon.date_creation = vm.echantillon.date_creation;
                   vm.selectedItemEchantillon.date_modification = date_dujour;
                       
-                 // vm.afficherboutonModifSuprEchantillon = 0 ;
+                  vm.afficherboutonModifSuprEchantillon = 0 ;
+                  vm.afficherboutonnouveauEchantillon   = 1 ;
                   vm.selectedItemEchantillon.$selected = false;
+                  // console.log(vm.selectedItemEchantillon);
                   vm.selectedItemEchantillon ={};
               } 
               else 
@@ -571,7 +870,7 @@
                vm.echantillon  ={};                  
                NouvelItemEchantillon=false;
           }
-
+          vm.affichageMasqueEchantillon = 0 ;
       }).error(function (data)
           {
               alert('Error');
@@ -579,7 +878,47 @@
                 
   }
 
+  function DialogController($mdDialog, $scope)
+  { 
+      var dg=$scope;
 
+      apiFactory.getAll("data_collect/index").then(function(result)
+       {dg.alldata_collect = result.data.response;});
+
+      dg.cancel = function()
+      {$mdDialog.cancel();};
+
+      dg.dialognouveauajout = function(typeajout)
+      { //console.log(typeajout);
+        var effort_p= dg.alldata_collect.filter(function(obj)
+          {
+              return obj.id == dg.echantillon.data_collect_id;
+          });
+
+        if(effort_p[0].code=='PAB')
+        {   
+            vm.pab=true;
+            
+        }
+        else
+        {
+            vm.pab=false;
+        }
+        vm.selectedItemEchantillon.$selected = false;
+        vm.step2=false;
+        vm.step3=false;
+        vm.affichageMasqueEchantillon = 1 ;
+        vm.affichageMasque = 0 ;
+        vm.affichageMasqueEspece_capture = 0 ;
+        vm.echantillon={};
+        NouvelItemEchantillon = true ;
+        $mdDialog.cancel();
+        vm.input_data_collect = false;
+        vm.echantillon.data_collect_id=dg.echantillon.data_collect_id;
+      }
+
+
+}
 
 /******************************************** Fin echantillon  ******************************************************/
 
@@ -589,7 +928,8 @@
       vm.selectedItemEspece_capture = item;
       vm.nouvelItemEspece_capture = item;
       currentItemEspece_capture = JSON.parse(JSON.stringify(vm.selectedItemEspece_capture));
-     // vm.afficherboutonModifSuprEspece_capture = 1 ; 
+      vm.afficherboutonModifSuprEspece_capture = 1 ;
+      vm.affichageMasqueEspece_capture = 0 ; 
       vm.step3=true;
   };
 
@@ -603,6 +943,62 @@
         vm.selectedItemEspece_capture.$selected = true;
   });
 
+  vm.modifierEspece_capture = function()
+  {
+      NouvelItemEspece_capture                 = false ;
+      vm.affichageMasqueEspece_capture         = 1 ;
+      vm.affichageMasqueEchantillon            = 0 ;
+      vm.affichageMasque                       = 0 ;
+      vm.espece_capture.id                     = vm.selectedItemEspece_capture.id ;
+      vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
+      vm.espece_capture.capture                =vm.selectedItemEspece_capture.capture;
+      vm.espece_capture.prix                   =parseInt(vm.selectedItemEspece_capture.prix);
+      vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
+      vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
+      vm.afficherboutonModifSuprEspece_capture = 0;
+      vm.afficherboutonnouveauEspece_capture   = 0;
+  };
+
+  vm.annulerEspece_capture = function()
+  {
+      vm.selectedItemEspece_capture = {} ;
+      vm.selectedItemEspece_capture.$selected = false;
+      vm.affichageMasqueEspece_capture = 0 ;
+      vm.afficherboutonnouveauEspece_capture = 1 ;
+      vm.afficherboutonModifSuprEspece_capture = 0 ;          
+      NouvelItemEspece_capture = false;
+  };
+
+  vm.ajouterEspece_capture = function ()
+  {
+      vm.selectedItemEspece_capture.$selected = false;
+      vm.step3=false;
+      vm.affichageMasqueEspece_capture = 1 ;
+      vm.affichageMasque = 0 ;
+      vm.affichageMasqueEchantillon = 0 ;
+      vm.espece_capture = {} ;
+      NouvelItemEspece_capture = true ;
+  };
+
+  vm.supprimerEspece_capture = function()
+  {
+      vm.affichageMasqueEspece_capture = 0 ;
+      vm.afficherboutonModifSuprEspece_capture = 0 ;
+      var confirm = $mdDialog.confirm().title('Etes-vous sûr de supprimer cet enregistrement ?')
+                                      .textContent('')
+                                      .ariaLabel('Lucky day')
+                                      .clickOutsideToClose(true)
+                                      .parent(angular.element(document.body))
+                                      .ok('ok')
+                                      .cancel('annuler');
+            $mdDialog.show(confirm).then(function()
+            {
+                vm.ajoutEspece_capture(vm.selectedItemEspece_capture,1);
+            }, function()
+              {
+                //alert('rien');
+              });
+  };
 
   function ajoutEspece_capture(espece_capture,suppression)
   {
@@ -666,8 +1062,8 @@
                     vm.selectedItemEspece_capture.date_creation       = vm.espece_capture.date_creation;
                     vm.selectedItemEspece_capture.date_modification   = date_dujour;
                               
-                   // vm.afficherboutonModifSuprEspece_capture          = 0 ;
-
+                    vm.afficherboutonModifSuprEspece_capture          = 0 ;
+                    vm.afficherboutonnouveauEspece_capture            = 1 ;
                     vm.selectedItemEspece_capture.$selected           = false;                   
                              
                     var tot_cap1=parseInt(vm.selectedItemEchantillon.total_capture)- parseInt(total_capture_selected) ;
@@ -706,11 +1102,72 @@
                 vm.espece_capture={};                         
                 NouvelItemEspece_capture=false;
             }
+            vm.affichageMasqueEspece_capture = 0 ;
         }).error(function (data)
           {
             alert('Error');
           });
                 
+    }
+
+
+//Mise à jour echantillon (total-capture) lors nouvelle insertion espece_capture      
+    function majtotal_captureEchantillon(tot_cap,config)
+    { 
+        var typeeffort='';
+        if(vm.selectedItemEchantillon.unite_peche_nom=='PAB')
+        {
+            typeeffort='PAB';
+        }
+        else
+        {
+            typeeffort='CAB';
+        }
+        
+        var datasmaj = $.param(
+        {
+            supprimer:                        0,
+            typeeffort:                       typeeffort,
+            id:vm.selectedItemEchantillon.id,
+            fiche_echantillonnage_capture_id: vm.selectedItem.id,
+            peche_hier:                       vm.selectedItemEchantillon.peche_hier,
+            peche_avant_hier:                 vm.selectedItemEchantillon.peche_avant_hier,
+            nbr_jrs_peche_dernier_sem:        vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem,
+            total_capture:                    tot_cap,
+            unique_code:                      vm.selectedItemEchantillon.unique_code,
+            data_collect_id:                  vm.selectedItemEchantillon.data_collect.id,
+            nbr_bateau_actif:                 vm.selectedItemEchantillon.nbr_bateau_actif,
+            total_bateau_ecn:                 vm.selectedItemEchantillon.total_bateau_ecn,
+            unite_peche_id:                   vm.selectedItemEchantillon.unite_peche.id,
+            user_id:                          cookieService.get("id")                        
+        });
+
+//factory
+        apiFactory.add("echantillon/index",datasmaj, config).success(function (data)
+        {
+            // Update or delete: id exclu                                    
+            vm.selectedItemEchantillon.fiche_echantillonnage_capture_id = vm.selectedItem.id;
+
+            vm.selectedItemEchantillon.peche_hier                 = vm.selectedItemEchantillon.peche_hier;
+            vm.selectedItemEchantillon.peche_avant_hier           = vm.selectedItemEchantillon.peche_avant_hier;
+            vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem  = vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem; 
+            vm.selectedItemEchantillon.total_capture              = tot_cap;
+            vm.selectedItemEchantillon.unique_code                = vm.selectedItemEchantillon.unique_code;
+                          
+            vm.selectedItemEchantillon.data_collect.id            = vm.selectedItemEchantillon.data_collect.id;
+                          
+            vm.selectedItemEchantillon.nbr_bateau_actif           = vm.selectedItemEchantillon.nbr_bateau_actif;
+            vm.selectedItemEchantillon.total_bateau_ecn           = vm.selectedItemEchantillon.total_bateau_ecn;
+                          
+            vm.selectedItemEchantillon.user_id                    = cookieService.get("id");
+                          
+            vm.selectedItemEchantillon.date_creation              = vm.selectedItemEchantillon.date_creation;
+            vm.selectedItemEchantillon.date_modification          = date_dujour;
+          
+        }).error(function (data)
+            {
+              alert('Error');
+            });          
     }
 
     function test_existanceEspece_capture (item,suppression) 
@@ -728,10 +1185,11 @@
                     ||(esp.prix!=item.prix))
                   {
                       insert_in_baseEspece_capture(item,suppression);
+                      vm.affichageMasqueEspece_capture = 0 ;
                   }
                   else
                   {
-                 
+                      vm.affichageMasqueEspece_capture = 1 ;
                   }
                 }
             });
@@ -742,9 +1200,25 @@
 
     $scope.removeBoutonEspece_capture = function()
     {
-        //vm.afficherboutonModifSuprEspece_capture = 0 ;
+        vm.afficherboutonModifSuprEspece_capture = 0 ;
     }
 
+    //function cache masque de saisie        
+    vm.modifierdata_collect = function (item)
+    {
+        var effort_p= vm.alldata_collect.filter(function(obj)
+        {
+            return obj.id == item.data_collect_id;
+        });
+        if(effort_p[0].code=='PAB')
+        {
+            vm.pab=true;
+        }
+        else
+        {
+            vm.pab=false;
+        }
+    }
 
     }
 })();
