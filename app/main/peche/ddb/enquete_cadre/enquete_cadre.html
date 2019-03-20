@@ -16,6 +16,116 @@
     </div>
     <!-- / HEADER -->
     <!-- CONTENT -->
+    <div class="content"layout="column">
+        <div class="form-wrapper">
+            <div style="widht:100%;">    
+                <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                      Nouveau
+                </md-button>
+                <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                      Modifier
+                </md-button>
+                <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                      Supprimer
+                </md-button>
+            </div>
+<!-- BASIC FORM -->
+            <div class="white-bg md-whiteframe-4dp">            
+                <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
+                  <md-tab label="Ajout enquete cadre">
+                    <md-tab-body>
+                    </br>
+                      <form name="enquete_cadreform" class="md-inline-form" novalidate>
+                        <div layout="column" layout-gt-xs="row" flex>
+                          <input type="hidden" ng-model="vm.enquete_cadre.id">
+                            <md-input-container flex="100" flex-gt-xs="33">
+                                <label>Site d'enqueteur</label>
+                                <md-select ng-model="vm.enquete_cadre.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.enquete_cadre)">
+                                    <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
+                                                    {{site_embarquement.libelle}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="33">
+                                <label>Region</label>
+                                <md-select ng-model="vm.enquete_cadre.region_id"  disabled>
+                                    <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" >
+                                                    {{region.nom}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="33">
+                                <label>District</label>
+                                <md-select ng-model="vm.enquete_cadre.district_id"  disabled>
+                                    <md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}" >
+                                                    {{district.nom}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="33">
+                                <label>Unite de pêche</label>
+                                <md-select ng-model="vm.enquete_cadre.unite_peche_id">
+                                    <md-option ng-repeat="unite_peche_site in vm.currentunite_peche_site" value="{{unite_peche_site.unite_peche.id}}" >
+                                                   {{unite_peche_site.unite_peche.id}} {{unite_peche_site.unite_peche.libelle}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="33">
+                              <input type="number" name="nbr_unite_peche" ng-model="vm.enquete_cadre.nbr_unite_peche"
+                                placeholder="Nombre unite de pêche " ng-init="vm.enquete_cadre.nbr_unite_peche=''"
+                                required>
+                                <div ng-messages="enquete_cadreform.nbr_unite_peche.$error"
+                                  role="alert">
+                                  <div ng-message="required">
+                                    <span>nombre unite de peche obligatoire.</span>
+                                  </div>
+                                </div>
+                            </md-input-container>
 
+                        </div>
+                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                              ng-disabled="enquete_cadreform.$invalid" ng-click="vm.ajout(vm.enquete_cadre,0)">
+                              Enregistrer
+                        </md-button>
+                        <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                          Annuler
+                        </md-button>
+                      </form>
+                    </md-tab-body>
+               
+                  </md-tab>
+                </md-tabs>
+            </div>
+<!-- / BASIC FORM -->
+            <div class="white-bg md-whiteframe-4dp">
+                <md-tabs md-dynamic-height>
+                    <md-tab label="Liste enquete cadre">
+                     <table class="dataTable row-border hover" datatable="ng"
+                          dt-options="vm.dtOptions">
+                      <thead>
+                        <tr>
+                          <th class="secondary-text" ng-repeat="ec in ::vm.enquete_cadre_column">
+                                <div class="table-header">
+                                  <span class="column-title">{{ec.titre}}</span>
+                                </div>
+                          </th>
+                        </tr>
+                      </thead>
+                        <tbody>
+                            <tr ng-repeat="enquete_cadre in vm.allenquete_cadre" ng-class="{selected: enquete_cadre.$selected}" ng-click="vm.selection(enquete_cadre)">
+                              <td>{{enquete_cadre.site_embarquement.libelle}}</td>
+                              <td>{{enquete_cadre.region.nom}}</td>
+                              <td>{{enquete_cadre.district.nom}}</td>
+                              <td>{{enquete_cadre.unite_peche.libelle}}</td>
+                              <td>{{enquete_cadre.nbr_unite_peche}}</td>
+                            </tr>
+                        </tbody>
+                       
+                      </table>
+                    </md-tab>
+                </md-tabs>
+            </div>
+        </div>
+    </div>
     <!-- / CONTENT -->
   </div>

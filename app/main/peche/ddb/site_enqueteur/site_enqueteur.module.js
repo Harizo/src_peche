@@ -28,7 +28,7 @@
 
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.site_enqueteur', {
-            title: 'Sites des enquêteurs',
+            title: 'Sites / enquêteurs',
             icon  : 'icon-map-marker-circle',
             state: 'app.population_ddb_site_enqueteur',
 			weight: 11

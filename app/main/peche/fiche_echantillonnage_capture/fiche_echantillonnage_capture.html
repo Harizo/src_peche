@@ -49,7 +49,7 @@
 									</md-input-container>
 									<md-input-container flex-gt-sm>
 										<label>Site de débarquement</label>
-										<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.fiche_echantillonnage_capture)" ng-disabled="vm.enqueteur==false">
+										<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.fiche_echantillonnage_capture)" ng-disabled="vm.enqueteur==false" required>
 											<md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
 												{{site_embarquement.libelle}}
 											</md-option>
@@ -105,7 +105,7 @@
 										</div>
 									</md-input-container>
 																		
-									<md-datepicker name="date" ng-model="vm.fiche_echantillonnage_capture.date" md-placeholder="Enter date" required>										
+									<md-datepicker name="date" ng-model="vm.fiche_echantillonnage_capture.date" md-placeholder="Date" required>										
 									</md-datepicker>
 									<!--md-input-container flex="100" flex-gt-xs="33">
 										<input type="datetime" name="date" ng-model="vm.fiche_echantillonnage_capture.date"
@@ -121,7 +121,7 @@
 									
 								</div>
 								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-									ng-disabled="fiche_echantillonnage_captureform.$invalid " ng-click="vm.ajout(vm.fiche_echantillonnage_capture,0)">
+									ng-disabled="fiche_echantillonnage_captureform.$invalid " ng-click="vm.ajout(vm.fiche_echantillonnage_capture,0,0)">
 									Enregistrer
 								</md-button>
 								<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -188,7 +188,7 @@
 									</div>
 								</md-input-container>
 								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.pab">
-									<input type="text" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
+									<input type="number" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
 									placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''"
 									>
 									<div ng-messages="echantillonform.nbr_bateau_actif.$error"
@@ -199,7 +199,7 @@
 									</div>
 								</md-input-container>
 								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.pab">
-									<input type="text" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
+									<input type="number" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
 									placeholder="Total bateau " ng-init="vm.echantillon.total_bateau_ecn=''"
 									>
 									<div ng-messages="echantillonform.total_bateau_ecn.$error"
@@ -212,8 +212,8 @@
 								<md-input-container flex="100" flex-gt-xs="33">
 									<label>Unite peche</label>
 									<md-select ng-model="vm.echantillon.unite_peche_id"  ng-change="vm.modifierunite_peche(vm.echantillon)">
-										<md-option ng-repeat="unite_peche in vm.allunite_peche" value="{{unite_peche.id}}">
-											{{unite_peche.libelle}}
+										<md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
+											{{unite_peche_site.unite_peche.libelle}}
 										</md-option>
 									</md-select>
 								</md-input-container>
@@ -327,13 +327,13 @@
 		                    	<md-input-container>
 		                        <span>Date du</span>
 		                        </md-input-container>
-		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut" md-placeholder="Enter date de debut"		ng-change="vm.change_date_debut(vm.filtrepardate.date_debut)">                 		
+		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut" md-placeholder="Enter date de debut"		ng-change="vm.change_date_debut(vm.filtrepardate.date_debut)" required>                 		
 		                    	</md-datepicker>
 		                    	<md-input-container>
 		                        <span>&nbsp &nbsp jusqu'au &nbsp &nbsp</span>
 		                        </md-input-container>
 		                    	<md-datepicker ng-model="vm.filtrepardate.date_fin" md-placeholder="Enter date de fin"
-        								md-min-date="vm.min_date" md-max-date="vm.max_date" ng-disabled="!vm.date_begin">        								
+        								md-min-date="vm.min_date" md-max-date="vm.max_date" ng-disabled="!vm.date_begin" required>        								
         						</md-datepicker>
 		                        <!--md-input-container flex="100" flex-gt-xs="33">
 		                          <input type="text" name="date_debut" ng-model="vm.filtrepardate.date_debut"
@@ -408,6 +408,9 @@
 									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
 										Supprimer
 									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Valider" ng-click="vm.valider()" style="width:10%;">
+										Valider
+									</md-button>
 								</div>
 								
 								<table class="dataTable row-border hover" datatable="ng"
@@ -426,7 +429,7 @@
 											</th>
 											<th class="secondary-text">
 												<div class="table-header">
-													<span class="column-title">Site</span>
+													<span class="column-title">Site de débarquement</span>
 												</div>
 											</th>
 											<th class="secondary-text">
@@ -465,7 +468,7 @@
 									<tbody>
 										<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
 											<td>{{fiche_echantillonnage_capture.code_unique}}</td>
-											<td>{{fiche_echantillonnage_capture.enqueteur.prenom}}</td>
+											<td>{{fiche_echantillonnage_capture.enqueteur.nom}}</td>
 											<td>{{fiche_echantillonnage_capture.site_embarquement.libelle}}</td>
 											<td>{{fiche_echantillonnage_capture.region.nom}}</td>
 											<td>{{fiche_echantillonnage_capture.district.nom}}</td>

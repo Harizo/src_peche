@@ -28,7 +28,7 @@
 
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.unite_peche_site', {
-            title: 'Sites unite peche',
+            title: 'Sites / unités de pêche',
             icon  : 'icon-map-marker-circle',
             state: 'app.population_ddb_unite_peche_site',
 			weight: 11

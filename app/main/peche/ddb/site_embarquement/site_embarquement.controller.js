@@ -25,6 +25,11 @@
       //variable cache masque de saisie
       vm.affichageMasque = 0 ;
 
+      //step
+      vm.step1                               = false;
+      vm.step2                               = false;
+      //vm.step3                               = false;
+      vm.step = [{step:1},{step:2}];
       //style
     vm.dtOptions = {
       dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -79,7 +84,9 @@
       vm.allsite_embarquement = result.data.response; 
     });
     
-     
+
+/*********** ************************Debut site d'embarquement  *******************************************/     
+        
         function ajout(site_embarquement,suppression)   
         {
               if (NouvelItem==false) 
@@ -198,20 +205,25 @@
                 
         }
 
-      //*****************************************************************
-
-     
+      //***************************************************************** 
 
       //selection sur la liste
       vm.selection= function (item) {
   //      vm.modifiercategorie(item);
         
           vm.selectedItem = item;
-          vm.nouvelItem = item;
+          vm.nouvelItem = item;          
           currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
           vm.afficherboutonModifSupr = 1 ;
           vm.affichageMasque = 0 ;
           vm.afficherboutonnouveau = 1 ;
+          console.log(item.id);
+          apiFactory.getFilsEnqueteur("site_enqueteur/index",item.id).then(function(result)
+          {
+              vm.allenqueteur = result.data.response;
+              console.log(vm.allenqueteur);
+          });
+          vm.step1=true;
       };
 
       $scope.$watch('vm.selectedItem', function() {
@@ -328,5 +340,7 @@
             else
               insert_in_base(item,suppression);
         }
+
+/*********** ************************Debut fi fiche_echantillonnage_capture  *******************************************/     
     }
 })();
