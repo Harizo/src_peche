@@ -12,7 +12,9 @@
             'app.peche.auth.lock',
             'app.peche.administration',
             'app.peche.fiche_echantillonnage_capture',
-            'app.peche.ddb'
+            'app.peche.ddb',
+            'app.peche.importationbdd'
+            
         ])
         .config(config);
 

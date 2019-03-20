@@ -54,10 +54,9 @@
                       </md-input-container>
                       <md-input-container flex="100" flex-gt-xs="33">
                             <label>Enqueteur</label>
-                              <md-select ng-model="vm.site_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.site_enqueteur)">
+                              <md-select name="site_enqueteur" ng-model="vm.site_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.site_enqueteur)">
                                 <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
-                                  {{enqueteur.nom}} {{enqueteur.prenom}}
-
+                                  {{enqueteur.nom}} {{enqueteur.prenom}}.
                                 </md-option>
                               </md-select>
                       </md-input-container>
@@ -107,7 +106,7 @@
                 <tbody>
                   <tr ng-repeat="site_enqueteur in vm.allsite_enqueteur"  ng-class="{selected: site_enqueteur.$selected}" ng-click="vm.selection(site_enqueteur)">
                     <td>({{site_enqueteur.site_embarquement.code}}) {{site_enqueteur.site_embarquement_nom}}</td>
-                    <td>{{site_enqueteur.enqueteur_nom}} {{site_enqueteur.enqueteur.prenom}}</td>
+                    <td>{{site_enqueteur.enqueteur.nom}} {{site_enqueteur.enqueteur.prenom}}</td>
                   </tr>
                 </tbody>
               </table>
