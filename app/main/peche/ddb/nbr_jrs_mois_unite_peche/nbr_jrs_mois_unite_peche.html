@@ -1,0 +1,115 @@
+  <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Données de bases</span>
+                
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> Localisation</span>
+
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> Sites des enquêteurs</span>
+            </div>
+
+            <div class="title">Nombre de jours de pêche par mois par unité de pêche</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+            <!-- LISTE TABLE -->
+    <div class="content"layout="column">
+      <div class="form-wrapper">
+      <div style="widht:100%;">    
+          <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+              Nouveau
+          </md-button>
+          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+              Modifier
+          </md-button>
+          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+              Supprimer
+          </md-button>
+        </div>  
+        <div style="clear:both;"></div>
+                    <!-- BASIC FORM -->
+        <div class="white-bg md-whiteframe-4dp">            
+          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
+            <md-tab label="Ajout nbr_jrs_mois_unite_peche">
+              <md-tab-body>
+                <form name="nbr_jrs_mois_unite_pecheform" class="md-inline-form" novalidate>
+                  <div layout="column" layout-gt-xs="row" flex>
+                    <input type="hidden" ng-model="vm.nbr_jrs_mois_unite_peche.id"></input>
+
+                      <md-input-container flex="100" flex-gt-xs="33">
+                            <label>unite_peche</label>
+                              <md-select ng-model="vm.nbr_jrs_mois_unite_peche.unite_peche_id" ng-change="vm.modifierunite_peche(vm.nbr_jrs_mois_unite_peche)">
+                                <md-option ng-repeat="unite_peche in vm.allunite_peche" value="{{unite_peche.id}}">
+                                  {{unite_peche.libelle}}
+
+                                </md-option>
+                              </md-select>
+                      </md-input-container>
+
+                      <md-input-container flex="100" flex-gt-xs="33">
+                        <input type="number" name="max_jrs_peche" ng-model="vm.nbr_jrs_mois_unite_peche.max_jrs_peche"
+                          placeholder="Nombre " ng-init="vm.nbr_jrs_mois_unite_peche.max_jrs_peche=''"
+                          >
+                          <div ng-messages="nbr_jrs_mois_unite_pecheform.max_jrs_peche.$error"
+                            role="alert">
+                            <div ng-message="required">
+                              <span>max jours de pêche obligatoire.</span>
+                            </div>
+                          </div>
+                      </md-input-container>
+
+                  </div>
+                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                        ng-disabled="nbr_jrs_mois_unite_pecheform.$invalid" ng-click="vm.ajout(vm.nbr_jrs_mois_unite_peche,0)">
+                        Enregistrer
+                  </md-button>
+                  <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                    Annuler
+                  </md-button>
+                </form>
+              </md-tab-body>
+         
+            </md-tab>
+          </md-tabs>
+        </div><br>
+         <!-- / BASIC FORM -->
+        <div class="white-bg md-whiteframe-4dp">
+          <md-tabs md-dynamic-height>
+
+            <md-tab label="Listes">
+              <table class="dataTable row-border hover" datatable="ng"
+                dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text" ng-repeat="re in ::vm.nbr_jrs_mois_unite_peche_column">
+                      <div class="table-header">
+                        <span class="column-title">{{re.titre}}</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="nbr_jrs_mois_unite_peche in vm.allnbr_jrs_mois_unite_peche"  ng-class="{selected: nbr_jrs_mois_unite_peche.$selected}" ng-click="vm.selection(nbr_jrs_mois_unite_peche)">
+                    <td>{{nbr_jrs_mois_unite_peche.unite_peche.libelle}}</td>
+                    <td>{{nbr_jrs_mois_unite_peche.max_jrs_peche}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </md-tab>
+          </md-tabs>
+        </div>
+            <!-- / LISTE TABLE -->
+
+
+      </div>
+    </div>
+    <!-- / CONTENT -->
+  </div>

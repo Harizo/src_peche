@@ -121,7 +121,7 @@
 									
 								</div>
 								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-									ng-disabled="fiche_echantillonnage_captureform.$invalid " ng-click="vm.ajout(vm.fiche_echantillonnage_capture,0)">
+									ng-disabled="fiche_echantillonnage_captureform.$invalid " ng-click="vm.ajout(vm.fiche_echantillonnage_capture,0,0)">
 									Enregistrer
 								</md-button>
 								<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -408,6 +408,9 @@
 									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
 										Supprimer
 									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Valider" ng-click="vm.valider()" style="width:10%;">
+										Valider
+									</md-button>
 								</div>
 								
 								<table class="dataTable row-border hover" datatable="ng"
@@ -465,7 +468,7 @@
 									<tbody>
 										<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
 											<td>{{fiche_echantillonnage_capture.code_unique}}</td>
-											<td>{{fiche_echantillonnage_capture.enqueteur.prenom}}</td>
+											<td>{{fiche_echantillonnage_capture.enqueteur.nom}}</td>
 											<td>{{fiche_echantillonnage_capture.site_embarquement.libelle}}</td>
 											<td>{{fiche_echantillonnage_capture.region.nom}}</td>
 											<td>{{fiche_echantillonnage_capture.district.nom}}</td>

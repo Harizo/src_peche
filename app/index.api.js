@@ -25,6 +25,9 @@
           getEchantillonnageByDate: function(controller, date_debut, date_fin) {
             return $http.get(apiUrl+controller+"?date_debut="+date_debut+"&date_fin="+date_fin);
           },
+          getEchantillonnageByValidation: function(controller, validation) {
+            return $http.get(apiUrl+controller+"?validation="+validation);
+          },
           add: function(controller, data, config) {
             return $http.post(apiUrl+controller, data, config);
           },
