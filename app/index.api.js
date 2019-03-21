@@ -21,6 +21,10 @@
           },
           getFils: function(controller, cle_etrangere) {
             return $http.get(apiUrl+controller+"?cle_etrangere="+cle_etrangere);
+          }
+          ,
+          getFilsSiteCanoeEngin: function(controller, cle_site) {
+            return $http.get(apiUrl+controller+"?cle_site="+cle_site);
           },
           getFilsEnqueteur: function(controller, cle_site) {
             return $http.get(apiUrl+controller+"?cle_site="+cle_site);

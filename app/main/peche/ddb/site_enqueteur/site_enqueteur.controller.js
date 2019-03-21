@@ -40,6 +40,7 @@
     apiFactory.getAll("site_enqueteur/index").then(function(result)
     {
       vm.allsite_enqueteur = result.data.response;
+      console.log(vm.allsite_enqueteur);
     });
 
     function ajout(site_enqueteur,suppression)

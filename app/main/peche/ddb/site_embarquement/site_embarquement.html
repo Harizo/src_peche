@@ -25,8 +25,9 @@
 					Supprimer
 				</md-button>
 			</div-->  
-			
+<!-- BASIC FORM -->			
 			<div class="white-bg md-whiteframe-4dp">
+	<!-- FORM SITE D'EMBARQUEMENT-->				
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
 					<md-tab label="Ajout Site d'enquête">
 						<div class="simple-table-container md-whiteframe-4dp">
@@ -139,11 +140,89 @@
 							</form>
 						</md-tab-body>
 						</div>
-					<!-- / BASIC FORM -->
+					
 					</md-tab>
 					
 				</md-tabs>
+	<!-- /FORM SITE D'EMBARQUEMENT-->
+
+	<!-- FORM SITE site_enqueteur-->
+				<md-tabs md-dynamic-height ng-show="vm.affichageMasquesite_enqueteur==1">
+            <md-tab label="Ajout site_enqueteur">
+              <md-tab-body >
+                <form name="site_enqueteurform" class="md-inline-form" novalidate>
+                  <div layout="column" layout-gt-xs="row" flex>
+                    <input type="hidden" ng-model="vm.site_enqueteur.id"></input>
+                      <md-input-container flex="50" flex-gt-xs="33">
+                            <label>Enqueteur</label>
+                              <md-select ng-model="vm.site_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.site_enqueteur)">
+                                <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
+                                  {{enqueteur.nom}} {{enqueteur.prenom}}
+
+                                </md-option>
+                              </md-select>
+                      </md-input-container>
+                  </div>
+                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                        ng-disabled="site_enqueteurform.$invalid" ng-click="vm.ajoutsite_enqueteur(vm.site_enqueteur,0)">
+                        Enregistrer
+                  </md-button>
+                  <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulersite_enqueteur()">
+                    Annuler
+                  </md-button>
+                </form>
+              </md-tab-body>
+         
+            </md-tab>
+          </md-tabs>
+	<!-- /FORM SITE site_enqueteur-->
+	
+	<!-- FORM SITE UNITE_SITE-->
+			<md-tabs md-dynamic-height ng-show="vm.affichageMasqueunite_peche_site==1">
+	            <md-tab label="Ajout unite_peche_site">
+	              <md-tab-body>
+	                <form name="unite_peche_siteform" class="md-inline-form" novalidate>
+	                  <div layout="column" layout-gt-xs="row" flex>
+	                    <input type="hidden" ng-model="vm.unite_peche_site.id"></input>
+
+	                      <md-input-container flex="100" flex-gt-xs="33">
+	                            <label>unite_peche</label>
+	                              <md-select ng-model="vm.unite_peche_site.unite_peche_id" ng-change="vm.modifierunite_peche(vm.unite_peche_site)" required>
+	                                <md-option ng-repeat="unite_peche in vm.allunite_peche" value="{{unite_peche.id}}">
+	                                  {{unite_peche.libelle}}
+
+	                                </md-option>
+	                              </md-select>
+	                      </md-input-container>
+
+	                      <md-input-container flex="100" flex-gt-xs="33">
+	                        <input type="number" name="nbr_echantillon" ng-model="vm.unite_peche_site.nbr_echantillon"
+	                          placeholder="Nombre " ng-init="vm.unite_peche_site.nbr_echantillon=''"
+	                          required>
+	                          <div ng-messages="unite_peche_siteform.nbr_echantillon.$error"
+	                            role="alert">
+	                            <div ng-message="required">
+	                              <span>nombre echantillon obligatoire.</span>
+	                            </div>
+	                          </div>
+	                      </md-input-container>
+
+	                  </div>
+	                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+	                        ng-disabled="unite_peche_siteform.$invalid" ng-click="vm.ajoutunite_peche_site(vm.unite_peche_site,0)">
+	                        Enregistrer
+	                  </md-button>
+	                  <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerunite_peche_site()">
+	                    Annuler
+	                  </md-button>
+	                </form>
+	              </md-tab-body>
+	         
+	            </md-tab>
+          </md-tabs>
+	<!-- FORM SITE UNITE_SITE-->			
 			</div>
+<!-- / BASIC FORM -->			
 <!--STEP-->				
 			<div layout="row">
 	        	<ms-form-wizard flex>
@@ -204,36 +283,102 @@
 	                    </md-tab>
 	<!--/STEP1 site d'enquête-->
 
-	<!--STEP2 enqueteur-->	                    
-	                    <md-tab ng-disabled="vm.step1==false">
+	<!--STEP2 site_enqueteur-->	                    
+	                    <md-tab ng-disabled="!vm.step1">
 	                    	<md-tab-label>
 	                            <span class="ms-form-wizard-step-label">
 	                                <span class="ms-form-wizard-step-number md-accent-bg"
-	                                      ng-if="vm.step2==false">2</span>
-	                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step1==true">
+	                                      ng-if="!vm.step2">2</span>
+	                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step2">
 	                                    <i class="icon-check s16"></i>
 	                                </span>
-	                                <span class="ms-form-wizard-step-text">Liste site d'enquête</span>
+	                                <span class="ms-form-wizard-step-text">Liste site_enqueteur</span>
 	                            </span>
 	                        </md-tab-label>
 	                        <md-tab-body ms-form-wizard-form>
+	                        	<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 2</md-button >
+	                       		 <div style="widht:100%;">    
+									<md-button type="submit" ng-show="vm.afficherboutonnouveausite_enqueteur==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajoutersite_enqueteur()" style="width:10%;">
+										Nouveau
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSuprsite_enqueteur==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifiersite_enqueteur()" style="width:10%;">
+										Modifier
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSuprsite_enqueteur==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimersite_enqueteur()" style="width:10%;">
+										Supprimer
+									</md-button>
+								</div>
+	                        	<table class="dataTable row-border hover" datatable="ng"
+				                  dt-options="vm.dtOptions">
+				                  <thead>
+				                    <tr>
+				                      <th class="secondary-text" ng-repeat="di in ::vm.site_enqueteur_column">
+				                        <div class="table-header">
+				                            <span class="column-title">{{di.titre}}</span>
+				                        </div>
+				                      </th>
+				                    </tr>
+				                  </thead>
+				                    <tbody>
+				                      <tr ng-repeat="site_enqueteur in vm.allsite_enqueteur"  ng-class="{selected: site_enqueteur.$selected}" ng-click="vm.selectionsite_enqueteur(site_enqueteur)">
+				                        <td>{{site_enqueteur.enqueteur.nom}}</td>
+				                        <td>{{site_enqueteur.enqueteur.prenom}}</td>
+				                        <td>{{site_enqueteur.enqueteur.telephone}}</td>
+				                      </tr>
+				                    </tbody>
+				                </table>	
 	                       	</md-tab-body>	
 	                    </md-tab>
-	<!--/STEP2 enqueteur-->	                    
-	                    <!--md-tab>
+	<!--/STEP2 site_enqueteur-->
+	
+	<!--STEP3 unite_peche-->	                    
+	                    <md-tab ng-disabled="!vm.step1">
 	                    	<md-tab-label>
 	                            <span class="ms-form-wizard-step-label">
 	                                <span class="ms-form-wizard-step-number md-accent-bg"
-	                                      ng-if="vm.step2==false">2</span>
-	                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step1==true">
+	                                      ng-if="!vm.step3">3</span>
+	                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step3">
 	                                    <i class="icon-check s16"></i>
 	                                </span>
-	                                <span class="ms-form-wizard-step-text">Liste site d'enquête</span>
+	                                <span class="ms-form-wizard-step-text">Liste unite de pêche</span>
 	                            </span>
 	                        </md-tab-label>
 	                        <md-tab-body ms-form-wizard-form>
+	                        <md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 2</md-button >
+	                       		 <div style="widht:100%;">    
+									<md-button type="submit" ng-show="vm.afficherboutonnouveauunite_peche_site==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterunite_peche_site()" style="width:10%;">
+										Nouveau
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSuprunite_peche_site==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierunite_peche_site()" style="width:10%;">
+										Modifier
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSuprunite_peche_site==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerunite_peche_site()" style="width:10%;">
+										Supprimer
+									</md-button>
+								</div>
+								<table class="dataTable row-border hover" datatable="ng"
+				                  dt-options="vm.dtOptions">
+				                  <thead>
+				                    <tr>
+				                      <th class="secondary-text" ng-repeat="di in ::vm.unite_peche_site_column">
+				                        <div class="table-header">
+				                            <span class="column-title">{{di.titre}}</span>
+				                        </div>
+				                      </th>
+				                    </tr>
+				                  </thead>
+				                    <tbody>
+				                      <tr ng-repeat="unite_peche_site in vm.allunite_peche_site"  ng-class="{selected: unite_peche_site.$selected}" ng-click="vm.selectionunite_peche_site(unite_peche_site)">
+				                        <td>{{unite_peche_site.unite_peche.libelle}}</td>
+				                        <td>{{unite_peche_site.type_canoe.nom}}</td>
+				                        <td>{{unite_peche_site.type_engin.libelle}}</td>
+				                        <td>{{unite_peche_site.nbr_echantillon}}</td>
+				                      </tr>
+				                    </tbody>
+				                </table>	
 	                       	</md-tab-body>	
-	                    </md-tab-->			
+	                    </md-tab>	
+	<!--/STEP3 unite_peche-->                    		
 					</md-tabs>         
 	                <div class="navigation" flex layout="row" layout-align="center center">
 	                    <md-button class="md-raised md-accent" ng-click="msWizard.previousStep()"

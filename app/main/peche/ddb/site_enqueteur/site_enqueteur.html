@@ -107,7 +107,7 @@
                 <tbody>
                   <tr ng-repeat="site_enqueteur in vm.allsite_enqueteur"  ng-class="{selected: site_enqueteur.$selected}" ng-click="vm.selection(site_enqueteur)">
                     <td>({{site_enqueteur.site_embarquement.code}}) {{site_enqueteur.site_embarquement_nom}}</td>
-                    <td>{{site_enqueteur.enqueteur_nom}} {{site_enqueteur.enqueteur.prenom}}</td>
+                    <td>{{site_enqueteur.enqueteur.nom}} {{site_enqueteur.enqueteur.prenom}}</td>
                   </tr>
                 </tbody>
               </table>
