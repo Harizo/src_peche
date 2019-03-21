@@ -297,8 +297,7 @@
       {  if (suppression!=1) 
          {  vm.allunite_peche.forEach(function(unite_p) // ITY FONCTION ITY OVAO HOATRAN'ILAY FILTRE ANATY vm.set_libelle IO AMBONY IO REHEFA MALALAKA
             {  if (unite_p.id==item.id) 
-               {  if((unite_p.site_embarquement.id!=item.site_embarquement_id)
-                    ||(unite_p.type_canoe.id!=item.type_canoe_id)
+               {  if((unite_p.type_canoe.id!=item.type_canoe_id)
                     ||(unite_p.type_engin.id!=item.type_engin_id)
                     ||(unite_p.libelle!=item.libelle))                    
                   { insert_in_base(item,suppression);

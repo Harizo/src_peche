@@ -60,9 +60,7 @@
               else
               {
                 insert_in_base(enqueteur,suppression);
-              }
-                
-                
+              }     
             
         }
 
