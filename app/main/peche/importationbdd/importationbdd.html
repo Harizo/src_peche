@@ -1,0 +1,214 @@
+  <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Importation BDD ACCESS</span>
+                <!--md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent"  > Fokontany</span-->
+                <!--md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent"  > Importation Fokontany</span-->
+            </div>
+
+            <div class="title">Importation BDD ACCESS</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+            <!-- LISTE TABLE -->
+    <div class="content"layout="column">
+      <div class="form-wrapper">
+      <div style="widht:100%;">   
+      <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
+          <md-button type="submit" ng-show="vm.cliquable==1" class="md-raised md-accent" aria-label="Importer" ng-click="vm.importexcel()" style="width:10%;">
+              Importer
+          </md-button>
+          <!--md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+              Supprimer
+          </md-button-->
+        </div>  
+        <div style="clear:both;"></div>
+        <!-- BASIC FORM -->
+			<md-tabs md-dynamic-height>
+				<md-tab label="Site">
+					<table class="dataTable row-border hover" datatable="ng"
+						dt-options="vm.dtOptions">
+						<thead>
+							<tr>
+								<th class="secondary-text" ng-repeat="fkt in ::vm.site_column">
+									<div class="table-header">
+										<span class="column-title">{{fkt.titre}}</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="enq in vm.allsiteembarquement"  ng-class="{selected: enq.$selected}" ng-click="vm.selectionsite(enq)">
+								<td>{{enq.id}}</td>
+								<td>{{enq.code}}</td>
+								<td>{{enq.code_unique}}</td>
+								<td>{{enq.libelle}}</td>
+								<td>{{enq.region}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-tab>
+				<md-tab label="Enqueteur">
+					<table class="dataTable row-border hover" datatable="ng"
+						dt-options="vm.dtOptions">
+						<thead>
+							<tr>
+								<th class="secondary-text" ng-repeat="fkt in ::vm.enqueteur_column">
+									<div class="table-header">
+										<span class="column-title">{{fkt.titre}}</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="enq in vm.allenqueteur"  ng-class="{selected: enq.$selected}" ng-click="vm.selectionenqueteur(enq)">
+								<td>{{enq.id}}</td>
+								<td>{{enq.nom}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-tab>
+				<md-tab label="Site Enqueteur">
+					<table class="dataTable row-border hover" datatable="ng"
+						dt-options="vm.dtOptions">
+						<thead>
+							<tr>
+								<th class="secondary-text" ng-repeat="fkt in ::vm.site_enqueteur_column">
+									<div class="table-header">
+										<span class="column-title">{{fkt.titre}}</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="enq in vm.allsiteenqueteur"  ng-class="{selected: enq.$selected}" ng-click="vm.selectionsiteenqueteur(enq)">
+								<td>{{enq.id}}</td>
+								<td>{{enq.nom}}</td>
+								<td>{{enq.site}}</td>
+								<td>{{enq.region}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-tab>
+				<md-tab label="Type canoe">
+					<table class="dataTable row-border hover" datatable="ng"
+						dt-options="vm.dtOptions">
+						<thead>
+							<tr>
+								<th class="secondary-text" ng-repeat="fkt in ::vm.typecanoe_column">
+									<div class="table-header">
+										<span class="column-title">{{fkt.titre}}</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="enq in vm.alltypecanoe"  ng-class="{selected: enq.$selected}" ng-click="vm.selectiontypecanoe(enq)">
+								<td>{{enq.id}}</td>
+								<td>{{enq.code}}</td>
+								<td>{{enq.nom}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-tab>
+				<md-tab label="Type engin">
+					<table class="dataTable row-border hover" datatable="ng"
+						dt-options="vm.dtOptions">
+						<thead>
+							<tr>
+								<th class="secondary-text" ng-repeat="fkt in ::vm.typeengin_column">
+									<div class="table-header">
+										<span class="column-title">{{fkt.titre}}</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="enq in vm.alltypeengin"  ng-class="{selected: enq.$selected}" ng-click="vm.selectiontypeengin(enq)">
+								<td>{{enq.id}}</td>
+								<td>{{enq.code}}</td>
+								<td>{{enq.libelle}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-tab>
+				<md-tab label="Unité peche">
+					<table class="dataTable row-border hover" datatable="ng"
+						dt-options="vm.dtOptions">
+						<thead>
+							<tr>
+								<th class="secondary-text" ng-repeat="fkt in ::vm.unite_peche_column">
+									<div class="table-header">
+										<span class="column-title">{{fkt.titre}}</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="enq in vm.allunitepeche"  ng-class="{selected: enq.$selected}" ng-click="vm.selectionunitepeche(enq)">
+								<td>{{enq.id}}</td>
+								<td>{{enq.libelle}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-tab>
+				<md-tab label="Unité peche par site">
+					<table class="dataTable row-border hover" datatable="ng"
+						dt-options="vm.dtOptions">
+						<thead>
+							<tr>
+								<th class="secondary-text" ng-repeat="fkt in ::vm.unite_peche_site_column">
+									<div class="table-header">
+										<span class="column-title">{{fkt.titre}}</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="enq in vm.allunitepechesite"  ng-class="{selected: enq.$selected}" ng-click="vm.selectionunitepechesite(enq)">
+								<td>{{enq.id}}</td>
+								<td>{{enq.libelle}}</td>
+								<td>{{enq.site}}</td>
+								<td>{{enq.region}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-tab>
+				<md-tab label="Espece">
+					<table class="dataTable row-border hover" datatable="ng"
+						dt-options="vm.dtOptions">
+						<thead>
+							<tr>
+								<th class="secondary-text" ng-repeat="fkt in ::vm.espece_column">
+									<div class="table-header">
+										<span class="column-title">{{fkt.titre}}</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="enq in vm.allespece"  ng-class="{selected: enq.$selected}" ng-click="vm.selectionespece(enq)">
+								<td>{{enq.id}}</td>
+								<td>{{enq.code}}</td>
+								<td>{{enq.nom_local}}</td>
+								<td>{{enq.nom_scientifique}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</md-tab>
+			</md-tabs>
+            <!-- / BASIC FORM -->
+      </div>
+    </div>
+
+    <!-- / CONTENT -->
+
+  </div>

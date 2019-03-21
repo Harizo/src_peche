@@ -119,6 +119,9 @@
 /*********** ************************Debut fi fiche_echantillonnage_capture  *******************************************/
      
       var date_today  = new Date();
+      vm.filtrepardate = {} ;
+      vm.filtrepardate.date_fin = date_today ;
+      vm.max_date = date_today ;
       var date_jour   = date_today.getDate();
       var date_mois   = date_today.getMonth()+1;
       var date_annee  = date_today.getFullYear();
@@ -511,15 +514,9 @@
     vm.formfiltrepardate = function()
     {
         vm.affichageMasqueFiltrepardate = 1 ;
-        vm.filtrepardate={};
+        
     }
-    vm.change_date_debut=function(dateDebut)
-    { var date_now= new Date();
-      vm.date_begin=true;
-      vm.min_date=dateDebut;
-      vm.max_date= date_now;
-    }
-
+   
     vm.recherchefiltrepardate= function (filtrepardate)
     {
         var date1 = new Date(filtrepardate.date_debut);

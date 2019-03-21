@@ -9,7 +9,7 @@
                 <span class="parent" href="javascript:;"> > Fiche echantillonnage capture</span>
             </div>
 
-            <div class="title">Fiche de capture d'echantillonnage</div>
+            <div class="title">Echantillonnage des Captures</div>
         </div>
     </div>
     <div class="content"layout="column">
@@ -274,7 +274,7 @@
 		                        <label>Espece</label>
 		                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" class="md-no-underline">
 		                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}">
-		                           <img src="{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
+		                           <img src="{{espece.url_image}}.png" height="30" width="30" > {{espece.nom_local}}
 		                          </md-option>
 		                        </md-select>
 		                      </md-input-container>
@@ -327,13 +327,13 @@
 		                    	<md-input-container>
 		                        <span>Date du</span>
 		                        </md-input-container>
-		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut" md-placeholder="Enter date de debut"		ng-change="vm.change_date_debut(vm.filtrepardate.date_debut)" required>                 		
+		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut"  md-max-date="vm.filtrepardate.date_fin" md-placeholder="Enter date de debut" required>                 		
 		                    	</md-datepicker>
 		                    	<md-input-container>
 		                        <span>&nbsp &nbsp jusqu'au &nbsp &nbsp</span>
 		                        </md-input-container>
 		                    	<md-datepicker ng-model="vm.filtrepardate.date_fin" md-placeholder="Enter date de fin"
-        								md-min-date="vm.min_date" md-max-date="vm.max_date" ng-disabled="!vm.date_begin" required>        								
+        								md-min-date="vm.filtrepardate.date_debut" md-max-date="vm.date_now" ng-disabled="!vm.filtrepardate.date_debut" required>        								
         						</md-datepicker>
 		                        <!--md-input-container flex="100" flex-gt-xs="33">
 		                          <input type="text" name="date_debut" ng-model="vm.filtrepardate.date_debut"
@@ -429,22 +429,14 @@
 											</th>
 											<th class="secondary-text">
 												<div class="table-header">
-													<span class="column-title">Site de débarquement</span>
+													<span class="column-title">Region<br/> District<br/>Site de débarquement</span>
 												</div>
 											</th>
+										
+											
 											<th class="secondary-text">
 												<div class="table-header">
-													<span class="column-title">Region</span>
-												</div>
-											</th>
-											<th class="secondary-text">
-												<div class="table-header">
-													<span class="column-title">District</span>
-												</div>
-											</th>
-											<th class="secondary-text">
-												<div class="table-header">
-													<span class="column-title">latitude\Longitude\<br/>Altitude</span>
+													<span class="column-title">latitude<br/>Longitude<br/>Altitude</span>
 												</div>
 											</th>
 											<th class="secondary-text">
@@ -459,7 +451,7 @@
 											</th>
 											<th class="secondary-text">
 												<div class="table-header">
-													<span class="column-title">User</span>
+													<span class="column-title">Compte</span>
 												</div>
 											</th>
 
@@ -469,12 +461,21 @@
 										<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
 											<td>{{fiche_echantillonnage_capture.code_unique}}</td>
 											<td>{{fiche_echantillonnage_capture.enqueteur.nom}}</td>
-											<td>{{fiche_echantillonnage_capture.site_embarquement.libelle}}</td>
-											<td>{{fiche_echantillonnage_capture.region.nom}}</td>
-											<td>{{fiche_echantillonnage_capture.district.nom}}</td>
-											<td>{{fiche_echantillonnage_capture.latitude}} \ {{fiche_echantillonnage_capture.longitude}} \ {{fiche_echantillonnage_capture.altitude}}</td>
-											<td>{{fiche_echantillonnage_capture.date}}</td>
-											<td>{{fiche_echantillonnage_capture.date_creation}}<br/>{{fiche_echantillonnage_capture.date_modification}}</td>
+											<td>
+												 
+												-{{fiche_echantillonnage_capture.region.nom}}<br/>
+												-{{fiche_echantillonnage_capture.district.nom}}<br/>
+												-{{fiche_echantillonnage_capture.site_embarquement.libelle}}
+											</td>
+										
+										
+											<td>
+											   {{fiche_echantillonnage_capture.latitude}} <br/>
+											   {{fiche_echantillonnage_capture.longitude}} <br/>
+											   {{fiche_echantillonnage_capture.altitude}}
+											</td>
+											<td>{{vm.formatDateListe(fiche_echantillonnage_capture.date)}}</td>
+											<td>{{vm.formatDateListe(fiche_echantillonnage_capture.date_creation)}}<br/>{{vm.formatDateListe(fiche_echantillonnage_capture.date_modification)}}</td>
 											<td>{{fiche_echantillonnage_capture.user.nom}}</td>
 											
 											
@@ -523,7 +524,17 @@
 										</th-->
 										<th class="secondary-text">
 											<div class="table-header">
+												<span class="column-title">Code</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
 												<span class="column-title">Effort de pêche</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Unite peche</span>
 											</div>
 										</th>
 										<th class="secondary-text">
@@ -546,26 +557,8 @@
 												<span class="column-title">Bateau actif<br/>\ Bateau ecn</span>
 											</div>
 										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Unite peche</span>
-											</div>
-										</th>
-										<!--th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Canoe</span>
-											</div>
-										</th-->
-										<!--th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Engin</span>
-											</div>
-										</th-->
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Code</span>
-											</div>
-										</th>
+										
+																		
 										<th class="secondary-text">
 											<div class="table-header">
 												<span class="column-title">Date: creation<br/>\ modification</span>
@@ -588,17 +581,18 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
-										<!--td>{{echantillon.fiche_echantillonnage_capture_nom}}</td-->
+										<td>{{echantillon.unique_code}}</td>
 										<td>{{echantillon.data_collect.code}}</td>
+										<td>{{echantillon.unite_peche.libelle}}</td>
 										<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
 										<td>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
 										<td>{{echantillon.total_capture}} (kg)</td>
 										<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
-										<td>{{echantillon.unite_peche.libelle}}</td>
+										
 										<!--td>{{echantillon.type_canoe_nom}}</td-->
 										<!--td>{{echantillon.type_engin_nom}}</td-->
-										<td>{{echantillon.unique_code}}</td>
-										<td>{{echantillon.date_creation}}<br/>{{echantillon.date_modification}}</td>
+										
+										<td>{{vm.formatDateListe(echantillon.date_creation)}}<br/>{{vm.formatDateListe(echantillon.date_modification)}}</td>
 										<td>{{echantillon.user.nom}}</td>						
 									</tr>
 								</tbody>
@@ -650,8 +644,8 @@
 			                          <td>{{espece_capture.capture}} (kg)</td>
 			                          <td>{{espece_capture.prix}} (Ar/kg)</td>
 			                          <td>{{espece_capture.user.nom}}</td>
-			                          <td>{{espece_capture.date_creation}}</td>
-			                          <td>{{espece_capture.date_modification}}</td>
+			                          <td>{{vm.formatDateListe(espece_capture.date_creation)}}</td>
+			                          <td>{{vm.formatDateListe(espece_capture.date_modification)}}</td>
 			                        </tr>
 			                    </tbody>
 			                   

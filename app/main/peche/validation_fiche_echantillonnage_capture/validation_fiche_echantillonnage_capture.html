@@ -9,7 +9,7 @@
                 <span class="parent" href="javascript:;"> > Fiche echantillonnage capture</span>
             </div>
 
-            <div class="title">Fiche de capture d'echantillonnage</div>
+            <div class="title">Echantillonnage des Captures</div>
         </div>
     </div>
     <div class="content"layout="column">
@@ -26,13 +26,13 @@
 		                    	<md-input-container>
 		                        <span>Date du</span>
 		                        </md-input-container>
-		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut" md-placeholder="Enter date de debut"		ng-change="vm.change_date_debut(vm.filtrepardate.date_debut)" required>                 		
+		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut" md-max-date="vm.filtrepardate.date_fin" md-placeholder="Enter date de debut" required>                 		
 		                    	</md-datepicker>
 		                    	<md-input-container>
 		                        <span>&nbsp &nbsp jusqu'au &nbsp &nbsp</span>
 		                        </md-input-container>
 		                    	<md-datepicker ng-model="vm.filtrepardate.date_fin" md-placeholder="Enter date de fin"
-        								md-min-date="vm.min_date" md-max-date="vm.max_date" ng-disabled="!vm.date_begin" required>        								
+        								md-min-date="vm.filtrepardate.date_debut" md-max-date="vm.max_date" ng-disabled="!vm.filtrepardate.date_debut" required>        								
         						</md-datepicker>
 		                    </div>
 		                    <div>
