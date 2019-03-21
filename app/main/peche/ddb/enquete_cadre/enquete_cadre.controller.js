@@ -67,9 +67,9 @@
       {
         vm.allenquete_cadre= result.data.response;
         vm.tab_enq_cadr = result.data.response;
-
-        console.log(vm.tab_enq_cadr.length);
-        if (vm.tab_enq_cadr.length == 0) 
+        vm.len = vm.tab_enq_cadr.length ;
+        console.log();
+        if (vm.len == 0) 
         {
           vm.autorize_duplication = true ;
         }
@@ -89,7 +89,7 @@
       vm.duplication = function()
       {
         var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;' }};
-
+        vm.autorize_duplication = false ;
         var datas = $.param(
         {
           duplication:1
@@ -99,7 +99,7 @@
         apiFactory.add("enquete_cadre/index",datas, config).success(function (data)
         {
           var res = data.response;
-          
+          vm.len = 1 ;
             
         });
       }
@@ -111,7 +111,7 @@
           vm.allenquete_cadre= result.data.response;
           if (vm.annee == vm.year_now) 
           {
-            if (vm.tab_enq_cadr.length == 0) 
+            if (vm.len == 0) 
             {
               vm.autorize_duplication = true ;
             }
