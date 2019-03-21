@@ -248,7 +248,7 @@
                         id:String(data.response) ,
                         district:dist[0]
                     };
-        //console.log(item);
+       
                     vm.allsite_embarquement.push(item);
                     vm.site_embarquement={};
                     
@@ -283,16 +283,16 @@
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSuprsite_enqueteur = 0 ;
           vm.affichageMasquesite_enqueteur = 0 ;
-         // console.log(item.id);
+         
           apiFactory.getFilsEnqueteur("site_enqueteur/index",item.id).then(function(result)
           {
               vm.allsite_enqueteur = result.data.response;
-              console.log(vm.allsite_enqueteur);
+              
           });
           apiFactory.getFilsSiteCanoeEngin("unite_peche_site/index",item.id).then(function(result)
           {
               vm.allunite_peche_site = result.data.response;
-              console.log(vm.allunite_peche_site);              
+                          
           });
           vm.step1=true;
           //vm.step2 = true;
@@ -351,21 +351,42 @@
         {
           vm.afficherboutonModifSupr = 0 ;
           vm.affichageMasque = 0 ;
-         var confirm = $mdDialog.confirm()
-                .title('Etes-vous sûr de supprimer cet enregistrement ?')
-                .textContent('')
-                .ariaLabel('Lucky day')
-                .clickOutsideToClose(true)
-                .parent(angular.element(document.body))
-                .ok('ok')
-                .cancel('annuler');
 
-          $mdDialog.show(confirm).then(function() {
+          if(vm.allsite_enqueteur=='' && vm.allunite_peche_site==''){
+            var confirm = $mdDialog.confirm()
+                    .title('Etes-vous sûr de supprimer cet enregistrement ?')
+                    .textContent('')
+                    .ariaLabel('Lucky day')
+                    .clickOutsideToClose(true)
+                    .parent(angular.element(document.body))
+                    .ok('ok')
+                    .cancel('annuler');
 
-            ajout(vm.selectedItem,1);
-          }, function() {
-            //alert('rien');
-          });
+              $mdDialog.show(confirm).then(function() {
+
+                ajout(vm.selectedItem,1);
+              }, function() {
+                //alert('rien');
+              });
+          }
+          else
+          {
+             
+              var confirm = $mdDialog.confirm()
+                    .title('vous devez d\'abord supprimmer l\'enqueteur et\\ou l\'unité de pêche')
+                    .textContent('')
+                    .ariaLabel('Lucky day')
+                    .clickOutsideToClose(true)
+                    .parent(angular.element(document.body))
+                    .ok('ok')
+                    .cancel('annuler');
+
+              $mdDialog.show(confirm).then(function() {
+
+              }, function() {
+                //alert('rien');
+              });
+          }
         };
                 
         vm.modifierregion = function (item) 
@@ -427,7 +448,7 @@
           vm.affichageMasquesite_enqueteur = 0 ;
           vm.afficherboutonnouveausite_enqueteur = 1 ;
           vm.step2=true;
-          console.log(vm.selectedItemsite_enqueteur)
+          
       };
 
       $scope.$watch('vm.selectedItemsite_enqueteur', function() {
@@ -456,7 +477,7 @@
                 test_existancesite_enqueteur (site_enqueteur,suppression); 
               }
               else
-              {console.log('tru')
+              {
                 insert_in_basesite_enqueteur(site_enqueteur,suppression);
               }     
             
@@ -582,9 +603,9 @@
                       id:String(data.response) ,
                       enqueteur: enq[0], 
                   };   
-                    console.log(item);             
+                                
                       vm.allsite_enqueteur.push(item);
-                      console.log(vm.allsite_enqueteur); 
+                     
                       vm.site_enqueteur={};                 
                       NouvelItemsite_enqueteur=false;
               }
@@ -754,9 +775,9 @@
                   type_canoe: up[0].type_canoe,
                   nbr_echantillon:vm.unite_peche_site.nbr_echantillon 
               };   
-              console.log(item)             
+                       
                   vm.allunite_peche_site.push(item);
-                  console.log(vm.allunite_peche_site)
+               
                   vm.unite_peche_site={};                 
                   NouvelItemunite_peche_site=false;
           }

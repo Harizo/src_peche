@@ -120,7 +120,7 @@
 									</md-input-container>
 									<md-input-container flex="100" flex-gt-xs="33">
 										<input type="number" name="limite" ng-model="vm.site_embarquement.limite"
-										placeholder="00 " ng-init="vm.site_embarquement.limite=''"
+										placeholder="Limite " ng-init="vm.site_embarquement.limite=''"
 										required>
 										<div ng-messages="site_embarquementform.limite.$error"
 											role="alert">
@@ -157,7 +157,7 @@
                             <label>Enqueteur</label>
                               <md-select ng-model="vm.site_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.site_enqueteur)">
                                 <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
-                                  {{enqueteur.nom}} {{enqueteur.prenom}}
+                                  {{enqueteur.nom}} {{enqueteur.prenom}}.
 
                                 </md-option>
                               </md-select>
