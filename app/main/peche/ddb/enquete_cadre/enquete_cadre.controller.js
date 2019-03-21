@@ -33,13 +33,25 @@
       //col table enqueteur_cadre   
       vm.enquete_cadre_column =
       [
+         {titre:"Année"},
          {titre:"Site d'enqueteur"},
          {titre:"Region"},
-         {titre:"District"},
+        // {titre:"District"},
          {titre:"unite de pêche"},
-         {titre:"nombre d'unite de pêche"},
+         {titre:"nombre d'unite de pêche"}
       ];
-   
+
+      vm.year_now = new Date().getFullYear() ;
+      vm.annee = vm.year_now ;
+      vm.tab_year = [] ;
+      var indice = 0 ;
+      for (var i = 2012; i <= vm.year_now; i++) {
+        
+        vm.tab_year[indice] = i ;
+        indice++;
+
+      }
+    vm.autorize_duplication = false ;
       apiFactory.getAll("site_embarquement/index").then(function(result)
      {vm.allsite_embarquement = result.data.response;});
       
@@ -49,13 +61,67 @@
       apiFactory.getAll("region/index").then(function(result)
       {vm.allregion= result.data.response;});
 
-      apiFactory.getAll("enquete_cadre/index").then(function(result)
-      {vm.allenquete_cadre= result.data.response;});
+      /*apiFactory.getAll("enquete_cadre/index").then(function(result)
+      {vm.allenquete_cadre= result.data.response;});*/
+      apiFactory.getAPIgeneraliserREST("enquete_cadre/index","annee",vm.annee).then(function(result)
+      {
+        vm.allenquete_cadre= result.data.response;
+        vm.tab_enq_cadr = result.data.response;
+
+        console.log(vm.tab_enq_cadr.length);
+        if (vm.tab_enq_cadr.length == 0) 
+        {
+          vm.autorize_duplication = true ;
+        }
+        else
+        {
+          vm.autorize_duplication = false ;
+        }
+      });
 
       apiFactory.getAll("unite_peche_site/index").then(function(result)
-      {vm.allunite_peche_site= result.data.response;
-      vm.currentunite_peche_site= vm.allunite_peche_site;});
+      {
+        vm.allunite_peche_site= result.data.response;
 
+       // vm.currentunite_peche_site= vm.allunite_peche_site;
+      });
+
+      vm.duplication = function()
+      {
+        var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;' }};
+
+        var datas = $.param(
+        {
+          duplication:1
+                    
+        });
+
+        apiFactory.add("enquete_cadre/index",datas, config).success(function (data)
+        {
+          var res = data.response;
+          
+            
+        });
+      }
+
+      vm.Filtrer = function()
+      {
+        apiFactory.getAPIgeneraliserREST("enquete_cadre/index","annee",vm.annee).then(function(result)
+        {
+          vm.allenquete_cadre= result.data.response;
+          if (vm.annee == vm.year_now) 
+          {
+            if (vm.tab_enq_cadr.length == 0) 
+            {
+              vm.autorize_duplication = true ;
+            }
+            else
+            {
+              vm.autorize_duplication = false ;
+            }}
+            
+        });
+      }
 
       
       vm.selection= function (item)
@@ -113,6 +179,7 @@
           NouvelItem = false ;
           vm.affichageMasque = 1 ;
           vm.enquete_cadre.id              = vm.selectedItem.id ;
+          vm.enquete_cadre.annee              = vm.selectedItem.annee ;
           vm.enquete_cadre.region_id       = vm.selectedItem.region.id ;
           vm.enquete_cadre.district_id     = vm.selectedItem.district.id ;
           vm.enquete_cadre.unite_peche_id  = vm.selectedItem.unite_peche.id ;
@@ -168,6 +235,7 @@
                    if (ec.id==item.id) 
                    {
                      if((ec.site_embarquement.id!=item.site_embarquement_id)
+                       ||(ec.annee!=item.annee)
                        ||(ec.region.id!=item.region_id)
                        ||(ec.district.id!=item.district_id)
                        ||(ec.unite_peche.id!=item.unite_peche_id)
@@ -204,6 +272,7 @@
         {
           supprimer:            suppression,
           id:                   getId,
+          annee:                enquete_cadre.annee,
           id_site_embarquement: enquete_cadre.site_embarquement_id,
           id_unite_peche:       enquete_cadre.unite_peche_id,
           id_district:          enquete_cadre.district_id,
@@ -235,6 +304,7 @@
                
                 if(suppression==0) 
                   { // vm.selectedItem ={};                    
+                    vm.selectedItem.annee   = vm.enquete_cadre.annee;
                     vm.selectedItem.nbr_unite_peche   = vm.enquete_cadre.nbr_unite_peche;
                     vm.selectedItem.unite_peche       = ups[0].unite_peche;
                     vm.selectedItem.site_embarquement = site_emba[0];                              
@@ -260,6 +330,7 @@
                
                 var item = 
                 {
+                  annee:      enquete_cadre.annee,
                   nbr_unite_peche:      enquete_cadre.nbr_unite_peche,
                   site_embarquement:    site_emba[0], 
                   unite_peche:          ups[0].unite_peche, 

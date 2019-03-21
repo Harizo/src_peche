@@ -29,7 +29,7 @@
         });
         // Navigation
         msNavigationServiceProvider.saveItem('peche.validation_fiche_echantillonnage_capture', {
-            title: 'Fiche validé',
+            title: 'Données validées',
             icon  : 'icon-clipboard-text',
             state: 'app.population_validation_fiche_echantillonnage_capture',
             weight: 3

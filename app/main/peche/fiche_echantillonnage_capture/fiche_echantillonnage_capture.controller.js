@@ -50,7 +50,9 @@
       vm.pab                                 = false;
       vm.input_data_collect                  = false;
       vm.date_begin                          = false;
-      
+      vm.date_now = new Date();
+      vm.filtrepardate = {} ;
+      vm.filtrepardate.date_fin = new Date() ;
 //style
       vm.dtOptions =
       {
@@ -62,19 +64,7 @@
 
       vm.step = [{step:1},{step:2},{step:3}];
     
-//col table fiche_echantillonnage_capture
-      vm.fiche_echantillonnage_capture_column = 
-      [
-          {titre:"code"},
-          {titre:"Date"},
-          {titre:'Date creation/modification'},
-          {titre:"Enqueteur"},
-          {titre:"Site"},
-          {titre:"Region"},
-          {titre:"District"},
-          {titre:"latitude / Longitude / Altitude"},
-          {titre:"User"}
-      ];
+
 
 //col table espece_capture   
       vm.espece_capture_column =
@@ -516,7 +506,7 @@
     vm.formfiltrepardate = function()
     {
         vm.affichageMasqueFiltrepardate = 1 ;
-        vm.filtrepardate={};
+       // vm.filtrepardate={};
     }
     vm.change_date_debut=function(dateDebut)
     { var date_now= new Date();
@@ -959,7 +949,7 @@
       vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
       vm.espece_capture.capture                =vm.selectedItemEspece_capture.capture;
       vm.espece_capture.prix                   =parseInt(vm.selectedItemEspece_capture.prix);
-      vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
+  //    vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
       vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
       vm.afficherboutonModifSuprEspece_capture = 0;
       vm.afficherboutonnouveauEspece_capture   = 0;
@@ -1225,6 +1215,21 @@
             vm.pab=false;
         }
     }
+
+    //format date affichage sur datatable
+
+        vm.formatDateListe = function (dat)
+        {
+          if (dat) 
+          {
+            var date = new Date(dat);
+            var mois = date.getMonth()+1;
+            var dates = (date.getDate()+"-"+mois+"-"+date.getFullYear());
+            return dates;
+          }
+            
+
+        }
 
     }
 })();

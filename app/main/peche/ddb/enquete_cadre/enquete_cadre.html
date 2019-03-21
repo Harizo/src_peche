@@ -39,6 +39,14 @@
                         <div layout="column" layout-gt-xs="row" flex>
                           <input type="hidden" ng-model="vm.enquete_cadre.id">
                             <md-input-container flex="100" flex-gt-xs="33">
+                                <label>Année</label>
+                                <md-select ng-model="vm.enquete_cadre.annee" >
+                                    <md-option ng-repeat="year in vm.tab_year" value="{{year}}" >
+                                                   {{year}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="33">
                                 <label>Site d'enqueteur</label>
                                 <md-select ng-model="vm.enquete_cadre.site_embarquement_id"  ng-change="vm.modifiersite_embarquement(vm.enquete_cadre)">
                                     <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
@@ -54,17 +62,17 @@
                                     </md-option>
                                 </md-select>
                             </md-input-container>
-                            <md-input-container flex="100" flex-gt-xs="33">
+                            <!--md-input-container flex="100" flex-gt-xs="33">
                                 <label>District</label>
                                 <md-select ng-model="vm.enquete_cadre.district_id"  disabled>
                                     <md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}" >
                                                     {{district.nom}}
                                     </md-option>
                                 </md-select>
-                            </md-input-container>
+                            </md-input-container-->
                             <md-input-container flex="100" flex-gt-xs="33">
                                 <label>Unite de pêche</label>
-                                <md-select ng-model="vm.enquete_cadre.unite_peche_id">
+                                <md-select ng-model="vm.enquete_cadre.unite_peche_id" ng-disabled="!vm.enquete_cadre.site_embarquement_id">
                                     <md-option ng-repeat="unite_peche_site in vm.currentunite_peche_site" value="{{unite_peche_site.unite_peche.id}}" >
                                                    {{unite_peche_site.unite_peche.id}} {{unite_peche_site.unite_peche.libelle}}
                                     </md-option>
@@ -98,8 +106,23 @@
             </div>
 <!-- / BASIC FORM -->
             <div class="white-bg md-whiteframe-4dp">
+
                 <md-tabs md-dynamic-height>
-                    <md-tab label="Liste enquete cadre">
+                    <md-tab label="Enquête cadre {{vm.annee}}">
+                      <md-input-container flex="100" flex-gt-xs="33">
+                                <label>Année</label>
+                                <md-select ng-model="vm.annee" >
+                                    <md-option ng-repeat="year in vm.tab_year" value="{{year}}" >
+                                                   {{year}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container>          
+                              <md-button  class="md-raised md-button md-ink-ripple" ng-click="vm.Filtrer()">Rafraichir</md-button>
+                            </md-input-container>
+                            <md-input-container >          
+                              <md-button ng-disabled="!vm.autorize_duplication" class="md-raised md-button md-ink-ripple" ng-click="vm.duplication()">Répéter la dernière enquête cadre?</md-button>
+                            </md-input-container>
                      <table class="dataTable row-border hover" datatable="ng"
                           dt-options="vm.dtOptions">
                       <thead>
@@ -113,9 +136,10 @@
                       </thead>
                         <tbody>
                             <tr ng-repeat="enquete_cadre in vm.allenquete_cadre" ng-class="{selected: enquete_cadre.$selected}" ng-click="vm.selection(enquete_cadre)">
+                              <td>{{enquete_cadre.annee}}</td>
                               <td>{{enquete_cadre.site_embarquement.libelle}}</td>
                               <td>{{enquete_cadre.region.nom}}</td>
-                              <td>{{enquete_cadre.district.nom}}</td>
+                              <!--td>{{enquete_cadre.district.nom}}</td-->
                               <td>{{enquete_cadre.unite_peche.libelle}}</td>
                               <td>{{enquete_cadre.nbr_unite_peche}}</td>
                             </tr>

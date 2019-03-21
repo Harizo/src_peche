@@ -28,7 +28,7 @@
 
         // Navigation
         msNavigationServiceProvider.saveItem('peche.ddb.nbr_jrs_mois_unite_peche', {
-            title: 'Nombre de jours/mois/pêche',
+            title: 'Nbr de jrs pêche/mois/unité pêche',
             icon  : 'icon-map-marker-circle',
             state: 'app.population_ddb_nbr_jrs_mois_unite_peche',
 			weight: 11
