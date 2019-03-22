@@ -131,7 +131,7 @@
 
                  // $location.path("/accueil");//si n'est pas packeT
                   
-                      $window.location.href = '/peche_ext';
+                      $window.location.href = '/peche';
                     }
                   }else{
 

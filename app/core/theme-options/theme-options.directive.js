@@ -57,7 +57,7 @@
             // Reload the page to apply the changes
             location.reload();
 
-            $window.location.href = '/peche_ext';
+            $window.location.href = '/peche';
         }
     }
 
