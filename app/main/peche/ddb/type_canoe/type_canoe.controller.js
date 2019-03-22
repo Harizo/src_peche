@@ -343,5 +343,16 @@
             } else
                   insert_in_base(item,suppression);
         }
+        vm.changelocalhost = function (localhoste)
+        {
+            if (localhoste) 
+            {
+              var urlencien=localhoste;
+              var urlnew= urlencien.toString().replace('http://localhost/assets/ddb/',apiUrlserver);
+            
+              return urlnew;
+            }
+             
+        }
     }
 })();

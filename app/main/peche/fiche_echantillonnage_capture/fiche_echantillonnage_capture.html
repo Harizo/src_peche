@@ -274,7 +274,7 @@
 		                        <label>Espece</label>
 		                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" class="md-no-underline">
 		                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}">
-		                           <img src="{{espece.url_image}}.png" height="30" width="30" > {{espece.nom_local}}
+		                           <img src="{{vm.changelocalhost(espece.url_image)}}.png" height="30" width="30" > {{espece.nom_local}}
 		                          </md-option>
 		                        </md-select>
 		                      </md-input-container>
