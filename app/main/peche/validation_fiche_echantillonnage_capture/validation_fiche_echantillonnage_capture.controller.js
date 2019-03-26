@@ -7,12 +7,13 @@
         .controller('Validation_fiche_echantillonnage_captureController', Validation_fiche_echantillonnage_captureController);
 
     /** @ngInject */
-    function Validation_fiche_echantillonnage_captureController($mdDialog, $scope, $location, apiFactory, $cookieStore,cookieService)
+    function Validation_fiche_echantillonnage_captureController($mdDialog, $scope, $location, apiFactory, $cookieStore,cookieService,apiUrlserver)
     {
-       var vm                                 = this;
-     /* vm.ajout                               = ajout;
+      var vm                                 = this;
+      vm.ajout                               = ajout;
+      vm.apiUrlimage                         =apiUrlserver;
       vm.ajoutEchantillon                    = ajoutEchantillon;
-      vm.ajoutEspece_capture                 = ajoutEspece_capture;*/
+      vm.ajoutEspece_capture                 = ajoutEspece_capture;
       
       var NouvelItem                         = false;
       var NouvelItemEchantillon              = false;
@@ -35,13 +36,12 @@
      // vm.allsite_enqueteur                   = [];
 
       //variale affichage bouton nouveau
-       vm.afficherboutonfiltre               = 1;
-     /* vm.afficherboutonnouveau               = 1;
+      vm.afficherboutonnouveau               = 1;
       vm.afficherboutonnouveauEchantillon    = 0;
       vm.afficherboutonnouveauEspece_capture = 0;
       //variable cache masque de saisie
       vm.affichageMasque                     = 0;
-      vm.affichageMasqueEchantillon          = 0;*/
+      vm.affichageMasqueEchantillon          = 0;
       vm.affichageMasqueFiltrepardate        = 0;
       vm.step1                               = false;
       vm.step2                               = false;
@@ -51,7 +51,9 @@
       vm.pab                                 = false;
       vm.input_data_collect                  = false;
       vm.date_begin                          = false;
-      
+      vm.date_now = new Date();
+      vm.filtrepardate = {} ;
+      vm.filtrepardate.date_fin = new Date() ;
 //style
       vm.dtOptions =
       {
@@ -63,19 +65,7 @@
 
       vm.step = [{step:1},{step:2},{step:3}];
     
-//col table fiche_echantillonnage_capture
-      vm.fiche_echantillonnage_capture_column = 
-      [
-          {titre:"code"},
-          {titre:"Date"},
-          {titre:'Date creation/modification'},
-          {titre:"Enqueteur"},
-          {titre:"Site"},
-          {titre:"Region"},
-          {titre:"District"},
-          {titre:"latitude / Longitude / Altitude"},
-          {titre:"User"}
-      ];
+
 
 //col table espece_capture   
       vm.espece_capture_column =
@@ -115,22 +105,18 @@
       apiFactory.getAll("espece/index").then(function(result)
       {vm.allespece = result.data.response;});
 
+     /* apiFactory.getAll("unite_peche/index").then(function(result)
+      {vm.allunite_peche = result.data.response;});*/
+   
+   /* apiFactory.getAll("fiche_echantillonnage_capture/index").then(function(result){
+      vm.allfiche_echantillonnage_capture = result.data.response;
+    });*/
 
 /*********** ************************Debut fi fiche_echantillonnage_capture  *******************************************/
      
       var date_today  = new Date();
-      vm.filtrepardate = {} ;
-      vm.filtrepardate.date_fin = date_today ;
-      vm.max_date = date_today ;
-      var date_jour   = date_today.getDate();
-      var date_mois   = date_today.getMonth()+1;
-      var date_annee  = date_today.getFullYear();
-        if(date_mois <10)
-        {
-          date_mois = '0' + date_mois;
-        }
-      var date_dujour= date_annee+"-"+date_mois+"-"+date_jour;
-      var validation = 1;
+      var date_dujour = convertionDate(date_today);
+      var validation = 0;
       apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation).then(function(result)
       {
         vm.allfiche_echantillonnage_capture = result.data.response;
@@ -141,7 +127,6 @@
       {        
           vm.selectedItem = item;
           vm.nouvelItem   = item;
-          console.log(item);
           if(currentItem != vm.selectedItem)
           {
             vm.step1 = false;
@@ -149,10 +134,10 @@
             vm.step3 = false;
           }
           currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
-         /* vm.afficherboutonModifSupr          = 1 ;
+          vm.afficherboutonModifSupr          = 1 ;
           vm.affichageMasque                  = 0 ;
           vm.afficherboutonnouveau            = 1 ;
-          vm.afficherboutonnouveauEchantillon = 1 ;*/
+          vm.afficherboutonnouveauEchantillon = 1 ;
           //vm.allechantillon                   = [];
           apiFactory.getFils("echantillon/index",item.id).then(function(result)
           {
@@ -178,7 +163,7 @@
       });
 
 
-    /*  vm.modifier = function() 
+      vm.modifier = function() 
       {
           NouvelItem = false ;
           vm.enqueteur=true;
@@ -223,16 +208,8 @@
           var validation = 1;
           var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;' }};
 
-          var date = new Date(vm.selectedItem.date);       
-          var date_jour = date.getDate();
-          var date_mois = date.getMonth()+1;
-          var date_annee = date.getFullYear();
-          if(date_mois <10)
-          {
-              date_mois = '0'+date_mois;
-          }
-          var date_fiche= date_annee+"-"+date_mois+"-"+date_jour;
-
+          var date = new Date(vm.selectedItem.date);
+          var date_fiche = convertionDate(date);
           var datas = $.param(
           {
             supprimer:            suppression,
@@ -303,7 +280,31 @@
            
         if (suppression!=1) 
         {
-            vm.allfiche_echantillonnage_capture.forEach(function(fiche)
+            var fiche = vm.allfiche_echantillonnage_capture.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(fiche[0])
+                {
+                   if((fiche[0].code_unique!=item.code_unique)
+                    ||(fiche[0].site_embarquement.id!=item.site_embarquement_id)
+                    ||(fiche[0].enqueteur.id!=item.enqueteur_id)
+                    ||(fiche[0].latitude!=item.latitude)
+                    ||(fiche[0].longitude!=item.longitude)
+                    ||(fiche[0].altitude!=item.altitude)
+                    ||(fiche[0].date!=item.date)
+                    ||(fiche[0].region.id!=item.region_id)
+                    ||(fiche[0].district.id!=item.district_id))                    
+                      {
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }         
+           /* vm.allfiche_echantillonnage_capture.forEach(function(fiche)
             {
                 
                 if (fiche.id==item.id) 
@@ -326,7 +327,7 @@
                     vm.affichageMasque = 0 ;
                   }
                 }
-            });
+            });*/
         }
           else
               insert_in_base(item,suppression,validation);
@@ -344,15 +345,8 @@
         {
           getId = vm.selectedItem.id; 
         } 
-          var date = new Date(fiche_echantillonnage_capture.date);       
-          var date_jour = date.getDate();
-          var date_mois = date.getMonth()+1;
-          var date_annee = date.getFullYear();
-          if(date_mois <10)
-          {
-              date_mois = '0'+date_mois;
-          }
-          var date_fiche= date_annee+"-"+date_mois+"-"+date_jour;
+          var date = new Date(fiche_echantillonnage_capture.date);
+          var date_fiche= convertionDate(date);
 
         var datas = $.param(
         {
@@ -386,7 +380,7 @@
             {
               return obj.id == vm.fiche_echantillonnage_capture.enqueteur_id;
             });
-            console.log(enqt[0]);
+           // console.log(enqt[0]);
             var reg = vm.allregion.filter(function(obj)
             {
               return obj.id == vm.fiche_echantillonnage_capture.region_id;
@@ -400,7 +394,7 @@
             if (NouvelItem == false) 
               {
                 // Update or delete: id exclu
-                var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
+                //var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
                 if(suppression==0) 
                   { // vm.selectedItem ={};                    
                     vm.selectedItem.code_unique       = vm.fiche_echantillonnage_capture.code_unique;
@@ -476,7 +470,7 @@
             {
                 vm.allsite_enqueteur = result.data.response;
                 vm.allsite_embarquement = vm.allsite_enqueteur;
-                console.log(vm.allsite_embarquement);
+               // console.log(vm.allsite_embarquement);
             });
         }          
     }
@@ -509,35 +503,25 @@
             {
               //alert('rien');
             });
-    };*/
+    };
 
     vm.formfiltrepardate = function()
     {
         vm.affichageMasqueFiltrepardate = 1 ;
-        
+       // vm.filtrepardate={};
     }
-   
+   /* vm.change_date_debut=function(dateDebut)
+    { var date_now= new Date();
+      vm.date_begin=true;
+      vm.min_date=dateDebut;
+      vm.max_date= date_now;
+    }*/
+
     vm.recherchefiltrepardate= function (filtrepardate)
     {
-        var date1 = new Date(filtrepardate.date_debut);
-        var date2= new Date(filtrepardate.date_fin);
-        var date1_jour = date1.getDate();
-        var date1_mois = date1.getMonth()+1;
-        var date1_annee = date1.getFullYear();
-        if(date1_mois <10)
-        {
-            date1_mois = '0' + date1_mois;
-        }
-        var date_debut= date1_annee+"-"+date1_mois+"-"+date1_jour;
-        var date2_jour = date2.getDate();
-        var date2_mois = date2.getMonth()+1;
-        var date2_annee = date2.getFullYear();
-        if(date2_mois <10)
-        {
-            date2_mois = '0' + date2_mois;
-        }
-        var date_fin= date2_annee+"-"+date2_mois+"-"+date2_jour;
-        var validation = 1;
+        var date_debut= convertionDate(filtrepardate.date_debut);
+        var date_fin= convertionDate(filtrepardate.date_fin);
+        var validation = 0;
         apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation).then(function(result)
         {
             vm.allfiche_echantillonnage_capture  = result.data.response;
@@ -582,7 +566,7 @@
         vm.selectedItemEchantillon.$selected = true;
       });
 
-  /*  vm.modifierEchantillon = function() 
+    vm.modifierEchantillon = function() 
     { 
         vm.input_data_collect = true;
         NouvelItemEchantillon = false ;
@@ -616,9 +600,8 @@
 
         vm.echantillon.nbr_jrs_peche_dernier_sem = parseInt(vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem);          
         
-
-          vm.afficherboutonModifSuprEchantillon = 0;
-          vm.afficherboutonnouveauEchantillon = 0;  
+        vm.afficherboutonModifSuprEchantillon = 0;
+        vm.afficherboutonnouveauEchantillon = 0;  
 
     };
 
@@ -636,13 +619,13 @@
     {        
         var confirm = $mdDialog.confirm({
           controller: DialogController,
-          templateUrl: 'app/main/peche/fiche_echantillonnage_capture/dialog.html',
+          templateUrl: 'app/main/peche/validation_fiche_echantillonnage_capture/dialog.html',
           parent: angular.element(document.body),              
         })
         
         $mdDialog.show(confirm).then(function(data)
         { 
-          console.log(data)
+         // console.log(data)
         },function()
           {//alert('rien');
             });
@@ -738,7 +721,14 @@
               return obj.id == vm.echantillon.data_collect_id;
           });
 
-
+     /* if(effort_p[0].code=='PAB'){
+          vm.echantillon.nbr_bateau_actif = '- -';
+          vm.echantillon.total_bateau_ecn = '- -';
+      }else{
+          vm.echantillon.peche_hier = '- -';
+          vm.echantillon.peche_avant_hier = '- -';
+          vm.echantillon.nbr_jrs_peche_dernier_sem = '- -';
+      }*/
 
       var datas = $.param(
       {
@@ -909,7 +899,7 @@
       }
 
 
-}*/
+}
 
 /******************************************** Fin echantillon  ******************************************************/
 
@@ -934,7 +924,7 @@
         vm.selectedItemEspece_capture.$selected = true;
   });
 
- /* vm.modifierEspece_capture = function()
+  vm.modifierEspece_capture = function()
   {
       NouvelItemEspece_capture                 = false ;
       vm.affichageMasqueEspece_capture         = 1 ;
@@ -944,7 +934,7 @@
       vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
       vm.espece_capture.capture                =vm.selectedItemEspece_capture.capture;
       vm.espece_capture.prix                   =parseInt(vm.selectedItemEspece_capture.prix);
-      vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
+  //    vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
       vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
       vm.afficherboutonModifSuprEspece_capture = 0;
       vm.afficherboutonnouveauEspece_capture   = 0;
@@ -1106,7 +1096,7 @@
     function majtotal_captureEchantillon(tot_cap,config)
     { 
         var typeeffort='';
-        if(vm.selectedItemEchantillon.unite_peche_nom=='PAB')
+        if(vm.selectedItemEchantillon.data_collect.code=='PAB')
         {
             typeeffort='PAB';
         }
@@ -1132,7 +1122,7 @@
             unite_peche_id:                   vm.selectedItemEchantillon.unite_peche.id,
             user_id:                          cookieService.get("id")                        
         });
-
+        
 //factory
         apiFactory.add("echantillon/index",datasmaj, config).success(function (data)
         {
@@ -1209,7 +1199,51 @@
         {
             vm.pab=false;
         }
-    }*/
+    }
+
+    //format date affichage sur datatable
+
+        vm.formatDateListe = function (dat)
+        {
+          if (dat) 
+          {
+            var date = new Date(dat);
+            var mois = date.getMonth()+1;
+            var dates = (date.getDate()+"-"+mois+"-"+date.getFullYear());
+            return dates;
+          }
+            
+
+        }
+
+     /* vm.changelocalhost = function (localhoste)
+      {
+        if (localhoste) 
+        {
+          var urlencien=localhoste;
+          var urlnew= urlencien.toString().replace('http://localhost/assets/ddb/',apiUrlserver);
+        
+          return urlnew;
+        }
+         
+      }*/
+
+      function convertionDate(date)
+      {   
+        if(date)
+          {
+              var d = new Date(date);
+              var jour = d.getDate();
+              var mois = d.getMonth()+1;
+              var annee = d.getFullYear();
+              if(mois <10)
+              {
+                  mois = '0' + mois;
+              }
+              var date_final= annee+"-"+mois+"-"+jour;
+              return date_final
+          }      
+      }
 
     }
 })();

@@ -3,7 +3,21 @@
     .content {
 
         .form-wrapper {
+           
+                .mySelect{
+                  background-color: yellow;
+                  margin-left: 100px;
+                  margin-top: 50px;
+                }
 
+                .mySelect md-content {
+                  background: yellow;
+                }
+
+                .mySelect md-option:hover {
+                  background: blue;
+                }
+            
         }
     
         .form-data-wrapper {

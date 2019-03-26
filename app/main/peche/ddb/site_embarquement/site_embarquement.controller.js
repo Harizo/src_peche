@@ -687,7 +687,26 @@
 
       function test_existanceunite_peche_site (item,suppression) 
       {  if (suppression!=1) 
-         {  vm.allunite_peche_site.forEach(function(unite_p) 
+         {  
+            var unite_p = vm.allunite_peche_site.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(unite_p[0])
+                {
+                   if((unite_p[0].type_canoe.id!=item.type_canoe_id)
+                    ||(unite_p[0].type_engin.id!=item.type_engin_id)
+                    ||(unite_p[0].libelle!=item.libelle))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+         /*vm.allunite_peche_site.forEach(function(unite_p) 
             {  if (unite_p.id==item.id) 
                {  if((unite_p.type_canoe.id!=item.type_canoe_id)
                     ||(unite_p.type_engin.id!=item.type_engin_id)
@@ -700,7 +719,7 @@
                      vm.affichageMasqueunite_peche_site = 0;
                   }
                }
-            });
+            });*/
          }
          else
             insert_in_baseunite_peche_site(item,suppression);

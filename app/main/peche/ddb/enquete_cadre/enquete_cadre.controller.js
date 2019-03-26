@@ -229,8 +229,29 @@
       function test_existance (item,suppression) 
       {
            if (suppression!=1) 
-           {
-               vm.allenquete_cadre.forEach(function(ec)
+           {  
+                var ec = vm.allenquete_cadre.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(ec[0])
+                {
+                   if((ec[0].site_embarquement.id!=item.site_embarquement_id)
+                       ||(ec[0].annee!=item.annee)
+                       ||(ec[0].region.id!=item.region_id)
+                       ||(ec[0].district.id!=item.district_id)
+                       ||(ec[0].unite_peche.id!=item.unite_peche_id)
+                       ||(ec[0].nbr_unite_peche!=item.nbr_unite_peche))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+               /*vm.allenquete_cadre.forEach(function(ec)
                {
                    if (ec.id==item.id) 
                    {
@@ -249,7 +270,7 @@
                          vm.affichageMasque = 1 ;
                      }
                    }
-               });
+               });*/
            }
            else
                insert_in_base(item,suppression);

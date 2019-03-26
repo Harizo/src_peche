@@ -221,7 +221,25 @@
       {
           if (suppression!=1) 
           {
-              vm.alldistrict.forEach(function(dist){
+              var dist = vm.alldistrict.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(dist[0])
+                {
+                   if((dist[0].nom!=item.nom)
+                        ||(dist[0].code!=item.code)
+                        ||(dist[0].region.id!=item.region_id))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+              /*vm.alldistrict.forEach(function(dist){
                 
                   if (dist.id==item.id) 
                   {
@@ -238,7 +256,7 @@
                           vm.affichageMasque = 0 ;
                         }
                   }
-              });
+              });*/
           }
             else
               insert_in_base(item,suppression);

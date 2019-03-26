@@ -172,15 +172,33 @@
         function test_existance (item,suppression)
         {          
             if (suppression!=1)
-            {
-                vm.alldata_collect.forEach(function(reg)
+            {   
+              var dc = vm.alldata_collect.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(dc[0])
+                {
+                   if((dc[0].id!=item.id)
+                        ||(dc[0].code!=item.code)
+                        ||(dc[0].libelle!=item.libelle))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+               /* vm.alldata_collect.forEach(function(reg)
                 {               
         					if (reg.id==item.id)
                   {
         							insert_in_base(item,suppression);
         							vm.affichageMasque = 0 ;
                   }
-                });
+                });*/
             }  else
               insert_in_base(item,suppression);
         }

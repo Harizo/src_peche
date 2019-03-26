@@ -54,7 +54,8 @@
     function Type_canoeController($mdDialog, $scope, apiFactory, $state,apiUrl,$http,apiUrlserver) 
     {
     	var vm           = this;
-    	vm.ajout         = ajout ;
+    	vm.ajout         = ajout;
+      vm.Urlimage   = apiUrlserver;
     	var NouvelItem   =false;
     	var currentItem;
     	vm.selectedItem  = {} ;
@@ -83,7 +84,7 @@
         function ajout(type_canoe,suppression)
         {
             if (NouvelItem==false)
-            {
+            {   
                 test_existance (type_canoe,suppression); 
             } 
             else
@@ -109,7 +110,6 @@
                 getId = vm.selectedItem.id; 
             }
  
-            console.log(type_canoe.url_image);
             var datas = $.param({
                     supprimer:suppression,
                     id:getId,      
@@ -117,10 +117,10 @@
                     nom: type_canoe.nom,
                     url_image: type_canoe.url_image,  
              });
-                
+            
             //factory
             apiFactory.add("type_canoe/index",datas, config).success(function (data)
-            {
+            { 
                 var file = vm.myFile[0];
                 var repertoire = 'type_canoe/';
                 var uploadUrl = apiUrl + "importerfichier/save_upload_file";
@@ -132,9 +132,8 @@
                 }else{ 
                  getIdurl=String(data.response);
                 }
-                console.log(getIdurl);
-                var name_image=type_canoe.code+'_'+getIdurl;
-                console.log(name_image);
+                
+                var name_image=type_canoe.code+'_'+getIdurl;                
                 var fd = new FormData();
                 fd.append('file', file);
                 fd.append('repertoire',repertoire);
@@ -153,8 +152,8 @@
                             $mdDialog.show( alert ).finally(function(){});              
                         }
                         else
-                        {   console.log(data['nomImage']); 
-                            type_canoe.url_image=apiUrlserver+repertoire+data['nomImage'];                 
+                        {    
+                            type_canoe.url_image = repertoire+data['nomImage'];                 
                             var dataurl = $.param(
                             {
                                 supprimer:        suppression,
@@ -192,7 +191,7 @@
                                         nom: type_canoe.nom,
                                         code: type_canoe.code,
                                         url_image: type_canoe.url_image,
-                                        id:String(data.response) ,
+                                        id:getIdurl ,
                                     };                
                                     vm.alltype_canoe.push(item);
                                     vm.type_canoe = {} ;                   
@@ -214,10 +213,10 @@
                 {
 
     			if (NouvelItem == false)
-                {
-                    // Update or delete: id exclu                 
-                    if(suppression==0)
-                    {
+          {
+              // Update or delete: id exclu                 
+              if(suppression==0)
+              {
             			vm.selectedItem.nom = vm.type_canoe.nom;
             			vm.selectedItem.code = vm.type_canoe.code;
                         vm.selectedItem.url_image = vm.type_canoe.url_image;
@@ -225,14 +224,14 @@
             			vm.afficherboutonnouveau = 1 ;
             			vm.selectedItem.$selected = false;
             			vm.selectedItem ={};
-                    } 
-                    else
-                    {    
-      					vm.alltype_canoe = vm.alltype_canoe.filter(function(obj)
-                        {
-    						return obj.id !== currentItem.id;
-    					});
-                    }
+              } 
+              else
+              {    
+        					vm.alltype_canoe = vm.alltype_canoe.filter(function(obj)
+                  {
+      						return obj.id !== currentItem.id;
+      					 });
+              }
     			} 
                 else
                 {
@@ -325,10 +324,29 @@
         };
         
         function test_existance (item,suppression)
-        {          
+        {       
             if (suppression!=1)
-            {
-                vm.alltype_canoe.forEach(function(reg)
+            {               
+                var tc = vm.alltype_canoe.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(tc[0])
+                {
+                   if((tc[0].id!=item.id)
+                       ||(tc[0].code!=item.code)
+                       ||(tc[0].nom!=item.nom)
+                       ||(tc[0].url_image!=item.url_image))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+               /* vm.alltype_canoe.forEach(function(reg)
                 {               
         			if (reg.id==item.id)
                      {
@@ -339,7 +357,7 @@
                     {
         				vm.affichageMasque = 0 ;
         			}
-    			})
+    			})*/
             } else
                   insert_in_base(item,suppression);
         }

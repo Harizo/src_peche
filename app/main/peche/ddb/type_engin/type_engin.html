@@ -66,6 +66,26 @@
                               </div>
                             </div>
                         </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="url_image" ng-model="vm.type_engin.url_image"
+                            placeholder="Image" ng-init="vm.type_engin.url_image=''"
+                            disabled required>
+                            <div ng-messages="type_enginform.url_image.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>File obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="file" name="myFile" aria-label="upload" custom-on-change="uploadFile"  accept="image/*" ng-model="url_image" id="fileid">
+                            <div ng-messages="type_enginform.myFile.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>File obligatoire.</span>
+                              </div>
+                            </div>
+                        </md-input-container>
 
                     </div>
                     <div>
@@ -86,8 +106,32 @@
     </br>
     <div class="white-bg md-whiteframe-4dp">
         <md-tabs md-dynamic-height>
-            <md-tab label="Liste Type engin">
-             <table class="dataTable row-border hover" datatable="ng"
+            <md-tab>
+              <md-tab-label>
+              Liste Type engin 
+              </md-tab-label>
+              <md-tab-body>
+                <div style="height: 500px; overflow-y: scroll;" id="">
+                  <div class="price-tables" flex layout="row" layout-wrap style="padding:20px;">
+                    <div class="price-table style-1 md-whiteframe-1dp item" layout="column" ng-repeat="type_engin in vm.alltype_engin" ng-class="{selected: type_engin.$selected}" ng-click="vm.selection(type_engin)" style="width:200px;" >
+                        <div class=" terms package-type md-primary-bg" style="padding:8px;">
+                          
+                            <div class="term" style="font-size: 11px;"><span class="text-bold"style="font-size: 12px; ">Code :</span > {{type_engin.code}}</div>
+                           
+                            <div class="term" style="font-size: 11px;"><span class="text-bold"style="font-size: 12px">Nom local :</span> {{type_engin.libelle}}</div>
+                        </div>
+                        
+                        <div class="price" layout="row" layout-align="center start" style="padding:0">
+                            <div class="currency" style="padding: 0"><img src="{{vm.changelocalhost(type_engin.url_image)}}"style="width:200px;height:90px;" id="image"></div>
+                            
+                        </div>
+                    </div>
+                  
+                </div>
+                </div>
+              </md-tab-body>               
+            </md-tab>
+             <!--table class="dataTable row-border hover" datatable="ng"
                   dt-options="vm.dtOptions">
               <thead>
                 <tr>
@@ -105,7 +149,7 @@
                     </tr>
                 </tbody>
                
-              </table>
+              </table-->
             </md-tab>
         </md-tabs>
     </div>

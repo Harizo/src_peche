@@ -11,9 +11,9 @@
             'app.peche.auth.reset-password',
             'app.peche.auth.lock',
             'app.peche.administration',
-            'app.peche.fiche_echantillonnage_capture',
-            'app.peche.importationbdd',
             'app.peche.validation_fiche_echantillonnage_capture',
+            'app.peche.importationbdd',
+            'app.peche.valide_fiche_echantillonnage_capture',
             'app.peche.ddb'
 
         ])
