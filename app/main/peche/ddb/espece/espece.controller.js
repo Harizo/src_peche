@@ -115,6 +115,7 @@
         {
             getId = vm.selectedItem.id;
         }
+       
         var datas = $.param(
         {
             supprimer:        suppression,
@@ -122,7 +123,8 @@
             code:             espece.code,
             nom_local:        espece.nom_local,
             nom_scientifique: espece.nom_scientifique,
-            url_image:        espece.url_image
+            url_image:        espece.url_image,
+            repertoire:       espece.url_image
                                        
         });
             //factory
