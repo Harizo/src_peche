@@ -7,7 +7,7 @@
         .controller('Fiche_echantillonnage_captureController', Fiche_echantillonnage_captureController);
 
     /** @ngInject */
-    function Fiche_echantillonnage_captureController($mdDialog, $scope, $location, apiFactory, $cookieStore,cookieService)
+    function Fiche_echantillonnage_captureController($mdDialog, $scope, $location, apiFactory, $cookieStore,cookieService,apiUrlserver)
     {
       var vm                                 = this;
       vm.ajout                               = ajout;

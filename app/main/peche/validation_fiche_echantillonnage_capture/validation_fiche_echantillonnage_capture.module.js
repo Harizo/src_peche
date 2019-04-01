@@ -30,7 +30,7 @@
         // Navigation
         msNavigationServiceProvider.saveItem('peche.validation_fiche_echantillonnage_capture', {
             title: 'Données validées',
-            icon  : 'icon-clipboard-text',
+            icon  : 'icon-calendar-check',
             state: 'app.population_validation_fiche_echantillonnage_capture',
             weight: 3
         });

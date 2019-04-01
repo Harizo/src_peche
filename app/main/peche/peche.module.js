@@ -14,7 +14,8 @@
             'app.peche.fiche_echantillonnage_capture',
             'app.peche.importationbdd',
             'app.peche.validation_fiche_echantillonnage_capture',
-            'app.peche.ddb'
+            'app.peche.ddb',
+            'app.peche.reporting'
 
         ])
         .config(config);
