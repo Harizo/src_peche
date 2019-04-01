@@ -146,16 +146,16 @@
 							<div layout="column" layout-gt-xs="row" flex>
 								<input type="hidden" ng-model="vm.echantillon.id">		
 								
-								<md-input-container flex="100" flex-gt-xs="33" ng-if="vm.input_data_collect==true">
+								<md-input-container flex="100" flex-gt-xs="33">
 									<label>Effort de pêche</label>
-									<md-select ng-model="vm.echantillon.data_collect_id"  ng-change="vm.modifierdata_collect(vm.echantillon)">
+									<md-select ng-model="vm.echantillon.data_collect_id" disabled>
 										<md-option ng-repeat="data_collect in vm.alldata_collect" value="{{data_collect.id}}">
 											{{data_collect.code}}
 										</md-option>
 									</md-select>
 								</md-input-container>
 								
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
 									<input type="number" name="peche_hier" ng-model="vm.echantillon.peche_hier"
 									placeholder="Peche hier " ng-init="vm.echantillon.peche_hier=''"
 									>
@@ -166,7 +166,7 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
 									<input type="number" name="peche_avant_hier" ng-model="vm.echantillon.peche_avant_hier"
 									placeholder="Peche avant hier " ng-init="vm.echantillon.peche_avant_hier=''"
 									>
@@ -177,7 +177,7 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.pab">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
 									<input type="number" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
 									placeholder="nbr jrs dernier sem" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''">
 									<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
@@ -187,7 +187,7 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.pab">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
 									<input type="number" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
 									placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''"
 									>
@@ -198,9 +198,9 @@
 										</div>
 									</div>
 								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.pab">
+								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
 									<input type="number" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
-									placeholder="Total bateau " ng-init="vm.echantillon.total_bateau_ecn=''"
+									placeholder="Total bateau ecn" ng-init="vm.echantillon.total_bateau_ecn=''"
 									>
 									<div ng-messages="echantillonform.total_bateau_ecn.$error"
 										role="alert">
@@ -273,8 +273,9 @@
 		                      <md-input-container flex="100" flex-gt-xs="33">
 		                        <label>Espece</label>
 		                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" md-container-class="mySelect">
-		                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}">
+		                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
 		                           <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
+		                          
 		                          </md-option>
 		                        </md-select>
 		                      </md-input-container>
@@ -502,6 +503,10 @@
 							<md-tab-body>
 								<div style="clear:both;"></div>
 								<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 2</md-button >
+								<div style="padding: 10px">
+									<md-checkbox ng-model="vm.checkboxPAB" ng-change="vm.recuperationPab(vm.checkboxPAB)"> PAB </md-checkbox>		            
+						            <md-checkbox ng-model="vm.checkboxCAB" ng-change="vm.recuperationCab(vm.checkboxCAB)"> CAB </md-checkbox>
+						        </div>
 								<div style="widht:100%;">    
 									<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
 										Nouveau
@@ -513,6 +518,7 @@
 										Supprimer
 									</md-button>
 								</div>
+								
 								<table class="dataTable row-border hover" datatable="ng"
 								dt-options="vm.dtOptions">
 								<thead>
@@ -534,34 +540,27 @@
 										</th>
 										<th class="secondary-text">
 											<div class="table-header">
+												<span class="column-title">Pêche: hier<br/>avant hier</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Total capture<br/>Nbr jrs dernier sem</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Bateau actif<br/>Bateau ecn</span>
+											</div>
+										</th>										
+										<th class="secondary-text">
+											<div class="table-header">
 												<span class="column-title">Unite peche</span>
 											</div>
-										</th>
+										</th>														
 										<th class="secondary-text">
 											<div class="table-header">
-												<span class="column-title">Pêche: hier<br/>\ avant hier</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Nbr jrs/sem</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Total capture</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Bateau actif<br/>\ Bateau ecn</span>
-											</div>
-										</th>
-										
-																		
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Date: creation<br/>\ modification</span>
+												<span class="column-title">Date creation<br/>Date modification</span>
 											</div>
 										</th>
 										<th class="secondary-text">
@@ -580,14 +579,16 @@
 				                </tr-->
 								</thead>
 								<tbody>
-									<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
+									<tr ng-repeat="echantillon in vm.echantillonfiltre"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
 										<td>{{echantillon.unique_code}}</td>
 										<td>{{echantillon.data_collect.code}}</td>
-										<td>{{echantillon.unite_peche.libelle}}</td>
 										<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
-										<td>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
-										<td>{{echantillon.total_capture}} (kg)</td>
+										
+										<td>{{echantillon.total_capture}} (kg)<br/>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
+										
 										<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
+
+										<td>{{echantillon.unite_peche.libelle}}</td>
 										
 										<!--td>{{echantillon.type_canoe_nom}}</td-->
 										<!--td>{{echantillon.type_engin_nom}}</td-->
@@ -663,7 +664,7 @@
 	                        <span ng-repeat="form in vm.step"
 	                              ng-class="{'selected md-accent-bg':msWizard.selectedIndex === $index}"></span>
 	                    </div>
-	                    <md-button class="md-raised md-accent" ng-click="msWizard.nextStep()"
+	                    <md-button class="md-raised md-accent" ng-click="msWizard.nextStep() || vm.functionpab()"
 	                               ng-hide="msWizard.isLastStep()"
 	                               ng-disabled="msWizard.selectedIndex==2 ||vm.step1==false" >
 

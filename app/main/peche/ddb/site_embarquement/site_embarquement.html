@@ -129,7 +129,23 @@
 											</div>
 										</div>
 									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<label>Type d'effort</label>
+										<md-select ng-model="vm.site_embarquement.type_effort_peche" required>
+											<md-option  value="0">
+												PAB
+											</md-option>
+											<md-option  value="1">
+												CAB
+											</md-option>
+											<md-option  value="2">
+												PAB & CAB
+											</md-option>
+										</md-select>
+									</md-input-container>
+
 								</div>
+								
 								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
 									ng-disabled="site_embarquementform.$invalid " ng-click="vm.ajout(vm.site_embarquement,0)">
 									Enregistrer
@@ -148,33 +164,33 @@
 
 	<!-- FORM SITE site_enqueteur-->
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasquesite_enqueteur==1">
-            <md-tab label="Ajout site_enqueteur">
-              <md-tab-body >
-                <form name="site_enqueteurform" class="md-inline-form" novalidate>
-                  <div layout="column" layout-gt-xs="row" flex>
-                    <input type="hidden" ng-model="vm.site_enqueteur.id"></input>
-                      <md-input-container flex="50" flex-gt-xs="33">
-                            <label>Enqueteur</label>
-                              <md-select ng-model="vm.site_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.site_enqueteur)">
-                                <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
-                                  {{enqueteur.nom}} {{enqueteur.prenom}}.
+		            <md-tab label="Ajout site_enqueteur">
+		              <md-tab-body >
+		                <form name="site_enqueteurform" class="md-inline-form" novalidate>
+		                  <div layout="column" layout-gt-xs="row" flex>
+		                    <input type="hidden" ng-model="vm.site_enqueteur.id"></input>
+		                      <md-input-container flex="50" flex-gt-xs="33">
+		                            <label>Enqueteur</label>
+		                              <md-select ng-model="vm.site_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.site_enqueteur)">
+		                                <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">
+		                                  {{enqueteur.nom}} {{enqueteur.prenom}}.
 
-                                </md-option>
-                              </md-select>
-                      </md-input-container>
-                  </div>
-                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                        ng-disabled="site_enqueteurform.$invalid" ng-click="vm.ajoutsite_enqueteur(vm.site_enqueteur,0)">
-                        Enregistrer
-                  </md-button>
-                  <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulersite_enqueteur()">
-                    Annuler
-                  </md-button>
-                </form>
-              </md-tab-body>
-         
-            </md-tab>
-          </md-tabs>
+		                                </md-option>
+		                              </md-select>
+		                      </md-input-container>
+		                  </div>
+		                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+		                        ng-disabled="site_enqueteurform.$invalid" ng-click="vm.ajoutsite_enqueteur(vm.site_enqueteur,0)">
+		                        Enregistrer
+		                  </md-button>
+		                  <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulersite_enqueteur()">
+		                    Annuler
+		                  </md-button>
+		                </form>
+		              </md-tab-body>
+		         
+		            </md-tab>
+		         </md-tabs>
 	<!-- /FORM SITE site_enqueteur-->
 	
 	<!-- FORM SITE UNITE_SITE-->
@@ -276,6 +292,7 @@
 											<td>{{site_embarquement.region.nom}}</td>
 											<td>{{site_embarquement.district.nom}}</td>
 											<td>{{site_embarquement.limite}}</td>
+											<td>{{vm.typeEffort(site_embarquement.type_effort_peche)}}</td>
 										</tr>
 									</tbody>
 								</table>

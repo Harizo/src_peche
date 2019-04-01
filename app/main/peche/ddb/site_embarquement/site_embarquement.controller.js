@@ -80,6 +80,9 @@
       },
       {
         titre:"Limite"
+      },
+      {
+        titre:"Type d'effort"
       }
     ];
 
@@ -124,7 +127,8 @@
       });
 
     apiFactory.getAll("site_embarquement/index").then(function(result){
-      vm.allsite_embarquement = result.data.response; 
+      vm.allsite_embarquement = result.data.response;
+
     });
     apiFactory.getAll("enqueteur/index").then(function(result)
     {
@@ -155,9 +159,7 @@
               else
               {
                 insert_in_base(site_embarquement,suppression);
-              }
-                
-                
+              }   
             
         }
 
@@ -179,17 +181,18 @@
             } 
             var datas = $.param(
             {
-                supprimer:suppression,
-                id:getId,      
-                code: site_embarquement.code,
-                libelle: site_embarquement.libelle,
-                code_unique: site_embarquement.code_unique,
-                latitude: site_embarquement.latitude,
-                longitude: site_embarquement.longitude,
-                altitude: site_embarquement.altitude,
-                region_id: site_embarquement.region_id,
-                district_id:site_embarquement.district_id,
-                limite: site_embarquement.limite
+                supprimer:         suppression,
+                id:                getId,      
+                code:              site_embarquement.code,
+                libelle:           site_embarquement.libelle,
+                code_unique:       site_embarquement.code_unique,
+                latitude:          site_embarquement.latitude,
+                longitude:         site_embarquement.longitude,
+                altitude:          site_embarquement.altitude,
+                region_id:         site_embarquement.region_id,
+                district_id:       site_embarquement.district_id,
+                limite:            site_embarquement.limite,
+                type_effort_peche: site_embarquement.type_effort_peche
                 
             });
             //factory
@@ -211,18 +214,19 @@
                     // Update or delete: id exclu
                     
                     if(suppression==0) 
-                    {                      
-                      vm.selectedItem.code = vm.site_embarquement.code;
-                      vm.selectedItem.code_unique = vm.site_embarquement.code_unique;
-                      vm.selectedItem.libelle = vm.site_embarquement.libelle;
-                      vm.selectedItem.latitude = vm.site_embarquement.latitude;
+                    { 
+                      vm.selectedItem.type_effort_peche = vm.site_embarquement.type_effort_peche;
+                      vm.selectedItem.code_unique       = vm.site_embarquement.code_unique;                     
+                      vm.selectedItem.code      = vm.site_embarquement.code;
+                      vm.selectedItem.libelle   = vm.site_embarquement.libelle;
+                      vm.selectedItem.latitude  = vm.site_embarquement.latitude;
                       vm.selectedItem.longitude = vm.site_embarquement.longitude;
-                      vm.selectedItem.altitude = vm.site_embarquement.altitude;
-                      vm.selectedItem.limite = vm.site_embarquement.limite;
-                      vm.selectedItem.region = reg[0];
-                      vm.selectedItem.district = dist[0];
-                      vm.afficherboutonModifSupr = 0 ;
-                      vm.afficherboutonnouveau = 1 ;
+                      vm.selectedItem.altitude  = vm.site_embarquement.altitude;
+                      vm.selectedItem.limite    = vm.site_embarquement.limite;
+                      vm.selectedItem.region    = reg[0];
+                      vm.selectedItem.district  = dist[0];
+                      vm.afficherboutonModifSupr= 0 ;
+                      vm.afficherboutonnouveau  = 1 ;
                       vm.selectedItem.$selected = false;
                       vm.selectedItem ={};
                     } 
@@ -237,16 +241,17 @@
                   else
                   {
                     var item = {
-                        code: site_embarquement.code,
-                        libelle: site_embarquement.libelle,
+                        code:        site_embarquement.code,
+                        libelle:     site_embarquement.libelle,
                         code_unique: site_embarquement.code_unique,
-                        latitude: site_embarquement.latitude,
-                        longitude: site_embarquement.longitude,
-                        altitude: site_embarquement.altitude,
-                        limite: site_embarquement.limite,
-                        region: reg[0],
-                        id:String(data.response) ,
-                        district:dist[0]
+                        latitude:    site_embarquement.latitude,
+                        longitude:   site_embarquement.longitude,
+                        altitude:    site_embarquement.altitude,
+                        limite:      site_embarquement.limite,
+                        region:      reg[0],
+                        id:          String(data.response) ,
+                        district:    dist[0],
+                        type_effort_peche:site_embarquement.type_effort_peche
                     };
        
                     vm.allsite_embarquement.push(item);
@@ -287,15 +292,14 @@
           apiFactory.getFilsEnqueteur("site_enqueteur/index",item.id).then(function(result)
           {
               vm.allsite_enqueteur = result.data.response;
-              
+              console.log(vm.allsite_enqueteur);
           });
           apiFactory.getFilsSiteCanoeEngin("unite_peche_site/index",item.id).then(function(result)
           {
               vm.allunite_peche_site = result.data.response;
-                          
+              console.log(vm.allunite_peche_site);            
           });
           vm.step1=true;
-          //vm.step2 = true;
       };
 
       $scope.$watch('vm.selectedItem', function() {
@@ -313,7 +317,7 @@
           vm.affichageMasque = 1 ;
           vm.site_embarquement={};
           NouvelItem = true ;
-
+          vm.site_embarquement.type_effort_peche=0;
         };
 
         vm.annuler = function() 
@@ -336,15 +340,20 @@
           vm.site_embarquement.code        = vm.selectedItem.code ;        
           vm.site_embarquement.libelle     = vm.selectedItem.libelle;
           vm.site_embarquement.code_unique = vm.selectedItem.code_unique;
+          vm.site_embarquement.limite      = parseInt(vm.selectedItem.limite);
+          vm.site_embarquement.type_effort_peche = vm.selectedItem.type_effort_peche;
+          vm.afficherboutonModifSupr = 0;
+          vm.afficherboutonnouveau = 0; 
+          vm.allcurrentdistrict = vm.alldistrict.filter(function(obj)
+            {                 
+                return obj.region.id == vm.selectedItem.region.id;
+            }); 
+
           vm.site_embarquement.latitude    = vm.selectedItem.latitude;
           vm.site_embarquement.longitude   = vm.selectedItem.longitude;
           vm.site_embarquement.altitude    = vm.selectedItem.altitude;
           vm.site_embarquement.region_id   = vm.selectedItem.region.id;
           vm.site_embarquement.district_id = vm.selectedItem.district.id;
-          vm.site_embarquement.limite      = parseInt(vm.selectedItem.limite);
-          vm.afficherboutonModifSupr = 0;
-          vm.afficherboutonnouveau = 0;  
-
         };
 
         vm.supprimer = function() 
@@ -417,7 +426,8 @@
                     ||(comm.libelle!=item.libelle)
                     ||(comm.region.id!=item.region_id)
                     ||(comm.district.id!=item.district_id)
-                    ||(comm.limite!=item.limite))
+                    ||(comm.limite!=item.limite)
+                    ||(comm.type_effort_peche!=item.type_effort_peche))
                     
                     {
                       insert_in_base(item,suppression);
@@ -616,6 +626,21 @@
         
 
     }
+    vm.typeEffort = function(type)
+    {
+      if(type==0)
+      {
+        return 'PAB'
+      }
+      else if(type==1)
+      {
+        return 'CAB'
+      }
+      else
+      {
+        return 'PAB & CAB'
+      }
+    }
 /*********** ************************Fin site d'embarquement  *******************************************/
 
 /*********** ************************Fin unite_peche_site  *******************************************/
@@ -706,20 +731,6 @@
                          vm.affichageMasque = 0;
                       }
                 }
-         /*vm.allunite_peche_site.forEach(function(unite_p) 
-            {  if (unite_p.id==item.id) 
-               {  if((unite_p.type_canoe.id!=item.type_canoe_id)
-                    ||(unite_p.type_engin.id!=item.type_engin_id)
-                    ||(unite_p.libelle!=item.libelle))                    
-                  { insert_in_baseunite_peche_site(item,suppression);
-                     vm.affichageMasqueunite_peche_site = 0;
-                  }
-                  else
-                  {
-                     vm.affichageMasqueunite_peche_site = 0;
-                  }
-               }
-            });*/
          }
          else
             insert_in_baseunite_peche_site(item,suppression);

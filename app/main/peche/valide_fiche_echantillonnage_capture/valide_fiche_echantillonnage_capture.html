@@ -95,22 +95,12 @@
 											</th>
 											<th class="secondary-text">
 												<div class="table-header">
-													<span class="column-title">Site de débarquement</span>
+													<span class="column-title">Region<br/> District<br/>Site de débarquement</span>
 												</div>
 											</th>
 											<th class="secondary-text">
 												<div class="table-header">
-													<span class="column-title">Region</span>
-												</div>
-											</th>
-											<th class="secondary-text">
-												<div class="table-header">
-													<span class="column-title">District</span>
-												</div>
-											</th>
-											<th class="secondary-text">
-												<div class="table-header">
-													<span class="column-title">latitude\Longitude\<br/>Altitude</span>
+													<span class="column-title">latitude<br/>Longitude<br/>Altitude</span>
 												</div>
 											</th>
 											<th class="secondary-text">
@@ -135,12 +125,19 @@
 										<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
 											<td>{{fiche_echantillonnage_capture.code_unique}}</td>
 											<td>{{fiche_echantillonnage_capture.enqueteur.nom}}</td>
-											<td>{{fiche_echantillonnage_capture.site_embarquement.libelle}}</td>
-											<td>{{fiche_echantillonnage_capture.region.nom}}</td>
-											<td>{{fiche_echantillonnage_capture.district.nom}}</td>
-											<td>{{fiche_echantillonnage_capture.latitude}} \ {{fiche_echantillonnage_capture.longitude}} \ {{fiche_echantillonnage_capture.altitude}}</td>
-											<td>{{fiche_echantillonnage_capture.date}}</td>
-											<td>{{fiche_echantillonnage_capture.date_creation}}<br/>{{fiche_echantillonnage_capture.date_modification}}</td>
+											<td>												 
+												-{{fiche_echantillonnage_capture.region.nom}}<br/>
+												-{{fiche_echantillonnage_capture.district.nom}}<br/>
+												-{{fiche_echantillonnage_capture.site_embarquement.libelle}}
+											</td>							
+										
+											<td>
+											   {{fiche_echantillonnage_capture.latitude}} <br/>
+											   {{fiche_echantillonnage_capture.longitude}} <br/>
+											   {{fiche_echantillonnage_capture.altitude}}
+											</td>
+											<td>{{vm.formatDateListe(fiche_echantillonnage_capture.date)}}</td>
+											<td>{{vm.formatDateListe(fiche_echantillonnage_capture.date_creation)}}<br/>{{vm.formatDateListe(fiche_echantillonnage_capture.date_modification)}}</td>
 											<td>{{fiche_echantillonnage_capture.user.nom}}</td>
 											
 											

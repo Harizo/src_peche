@@ -115,10 +115,9 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="unite_peche in vm.allunite_peche"  ng-class="{selected: unite_peche.$selected}" ng-click="vm.selection(unite_peche)">
-                                <td>{{unite_peche.libelle}}</td>    
-                                <td>{{unite_peche.type_canoe.nom}}</td>
-                                <td>{{unite_peche.type_engin.libelle}}</td>
-                                                    
+                                <td>{{unite_peche.libelle}}</td>
+                                <td>{{unite_peche.type_engin.libelle}}</td>    
+                                <td>{{unite_peche.type_canoe.nom}}</td>                                            
                             </tr>
                         </tbody>
                     </table>
