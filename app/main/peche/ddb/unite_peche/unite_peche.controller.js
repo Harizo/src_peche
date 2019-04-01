@@ -295,7 +295,26 @@
 
       function test_existance (item,suppression) 
       {  if (suppression!=1) 
-         {  vm.allunite_peche.forEach(function(unite_p) // ITY FONCTION ITY OVAO HOATRAN'ILAY FILTRE ANATY vm.set_libelle IO AMBONY IO REHEFA MALALAKA
+         {  
+            var up = vm.allunite_peche.filter(function(obj)
+            {
+               return obj.id == item.id;
+            });
+            if(up[0])
+            {
+               if((up[0].type_canoe.id!=item.type_canoe_id)
+                    ||(up[0].type_engin.id!=item.type_engin_id)
+                    ||(up[0].libelle!=item.libelle))                    
+                  { 
+                     insert_in_base(item,suppression);
+                     vm.affichageMasque = 0;
+                  }
+                  else
+                  {  
+                     vm.affichageMasque = 0;
+                  }
+            }
+         /*vm.allunite_peche.forEach(function(unite_p) // ITY FONCTION ITY OVAO HOATRAN'ILAY FILTRE ANATY vm.set_libelle IO AMBONY IO REHEFA MALALAKA
             {  if (unite_p.id==item.id) 
                {  if((unite_p.type_canoe.id!=item.type_canoe_id)
                     ||(unite_p.type_engin.id!=item.type_engin_id)
@@ -308,7 +327,7 @@
                      vm.affichageMasque = 0;
                   }
                }
-            });
+            });*/            
          }
          else
             insert_in_base(item,suppression);

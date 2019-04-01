@@ -39,8 +39,7 @@
 
     apiFactory.getAll("site_enqueteur/index").then(function(result)
     {
-      vm.allsite_enqueteur = result.data.response;
-      console.log(vm.allsite_enqueteur);
+      vm.allsite_enqueteur = result.data.response;      
     });
 
     function ajout(site_enqueteur,suppression)
@@ -200,7 +199,24 @@
     {          
         if (suppression!=1)
         {
-            vm.allsite_enqueteur.forEach(function(site)
+           var site_e = vm.allsite_enqueteur.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(site_e[0])
+                {
+                   if((site_e[0].site_embarquement.id!=item.site_embarquement_id) 
+                      || (site_e[0].enqueteur.id!=item.enqueteur_id))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+           /* vm.allsite_enqueteur.forEach(function(site)
             {               
                 if (site.id==item.id)
                 {
@@ -215,7 +231,7 @@
         							vm.affichageMasque = 0 ;
         						}
                 }
-            });
+            });*/
         }  else
               insert_in_base(item,suppression);
     }

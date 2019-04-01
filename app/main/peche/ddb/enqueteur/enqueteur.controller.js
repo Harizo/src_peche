@@ -224,11 +224,28 @@
         };
 
         function test_existance (item,suppression) 
-        {
-           
+        {           
             if (suppression!=1) 
             {
-                vm.allenqueteur.forEach(function(dist) {
+                var eq = vm.allenqueteur.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(eq[0])
+                {
+                   if((eq[0].nom!=item.nom)
+                    ||(eq[0].prenom!=item.prenom)
+                    ||(eq[0].telephone!=item.telephone))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+               /* vm.allenqueteur.forEach(function(dist) {
                 
                   if (dist.id==item.id) 
                   {
@@ -245,7 +262,7 @@
                       vm.affichageMasque = 0 ;
                     }
                   }
-                });
+                });*/
             }
             else
               insert_in_base(item,suppression);

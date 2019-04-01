@@ -268,8 +268,26 @@
         {
            
             if (suppression!=1) 
-            {
-                vm.allcommune.forEach(function(comm) {
+            {   
+                var co = vm.allcommune.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(co[0])
+                {
+                   if((co[0].nom!=item.nom)
+                    ||(co[0].code!=item.code)
+                    ||(co[0].district_id!=item.district_id))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+                /*vm.allcommune.forEach(function(comm) {
                 
                   if (comm.id==item.id) 
                   {
@@ -286,7 +304,7 @@
                       vm.affichageMasque = 0 ;
                     }
                   }
-                });
+                });*/
             }
             else
               insert_in_base(item,suppression);

@@ -54,6 +54,7 @@
     function EspeceController($mdDialog, $scope, apiFactory, $state,cookieService,apiUrl,$http,apiUrlserver,$window)
     { var vm                   = this;
   		vm.ajout                 = ajout;
+      vm.apiUrlimage          =apiUrlserver;
   		var NouvelItem           =false;
   		var currentItem;
   		vm.selectedItem          = {} ;
@@ -102,7 +103,6 @@
        {
          // console.dir(event);
           var files =event.target.files;
-          console.log('file is ');
           vm.myFile=files;
           vm.espece.url_image=vm.myFile[0].name;
         }  
@@ -115,6 +115,7 @@
         {
             getId = vm.selectedItem.id;
         }
+       
         var datas = $.param(
         {
             supprimer:        suppression,
@@ -122,7 +123,8 @@
             code:             espece.code,
             nom_local:        espece.nom_local,
             nom_scientifique: espece.nom_scientifique,
-            url_image:        espece.url_image
+            url_image:        espece.url_image,
+            repertoire:       espece.url_image
                                        
         });
             //factory
@@ -160,7 +162,7 @@
                   }
                   else
                   { 
-                    espece.url_image=apiUrlserver+repertoire+data['nomImage'];                 
+                    espece.url_image=repertoire+data['nomImage'];                
                     var dataurl = $.param(
                     {
                         supprimer:        suppression,
@@ -333,8 +335,31 @@
 
     function test_existance (item,suppression)
     { if (suppression!=1)
-      {
-        vm.allespece.forEach(function(esp)
+      { 
+        var esp = vm.allespece.filter(function(obj)
+        {
+            return obj.id == item.id;
+        });
+        
+        if(esp[0])
+        {
+            if (esp[0].id==item.id)
+            { 
+              if((esp[0].code!=item.code)
+                ||(esp[0].nom_local!=item.nom_local)
+                ||(esp[0].nom_scientifique!=item.nom_scientifique)
+                ||(esp[0].url_image!=item.url_image))                    
+              { 
+                  insert_in_base(item,suppression);
+                  vm.affichageMasque = 0;
+              }
+            else
+            {  
+                vm.affichageMasque = 0;
+            }
+          }
+        } 
+        /*vm.allespece.forEach(function(esp)
           { if (esp.id==item.id)
             { if((esp.code!=item.code)
                 ||(esp.nom_local!=item.nom_local)
@@ -349,13 +374,13 @@
                 vm.affichageMasque = 1;
               }
 						}
-					});
+					});*/
       }
       else
           insert_in_base(item,suppression);
     }
 
-vm.changelocalhost = function (localhoste)
+/*vm.changelocalhost = function (localhoste)
 {
   if (localhoste) 
   {
@@ -365,6 +390,6 @@ vm.changelocalhost = function (localhoste)
     return urlnew;
   }
    
-}
+}*/
     }
 })();

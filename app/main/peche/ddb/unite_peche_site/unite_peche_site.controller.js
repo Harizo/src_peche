@@ -202,7 +202,25 @@
     {          
         if (suppression!=1)
         {
-            vm.allunite_peche_site.forEach(function(site)
+            var ups = vm.allunite_peche_site.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(ups[0])
+                {
+                   if((ups[0].site_embarquement.id!=item.site_embarquement_id) 
+                      || (ups[0].unite_peche.id!=item.unite_peche_id)
+                      || (ups[0].nbr_echantillon!=item.nbr_echantillon))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+           /* vm.allunite_peche_site.forEach(function(site)
             {               
                 if (site.id==item.id)
                 {
@@ -218,7 +236,7 @@
         							vm.affichageMasque = 0 ;
         						}
                 }
-            });
+            });*/
         }  else
               insert_in_base(item,suppression);
     }

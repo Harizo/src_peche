@@ -188,7 +188,23 @@
         {          
             if (suppression!=1)
             {
-                vm.allregion.forEach(function(reg)
+               var reg = vm.allregion.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(reg[0])
+                {
+                   if((reg[0].nom!=item.nom) || (reg[0].code!=item.code) || (reg[0].pays.id!=item.pays_id))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+               /* vm.allregion.forEach(function(reg)
                 {               
                    if (reg.id==item.id) 
                    {
@@ -202,7 +218,7 @@
                            vm.affichageMasque = 0 ;
                       }
                    }
-                });
+                });*/
             } else
                   insert_in_base(item,suppression);
         }

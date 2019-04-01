@@ -190,7 +190,24 @@
     {          
         if (suppression!=1)
         {
-            vm.allnbr_jrs_mois_unite_peche.forEach(function(nbr_jours)
+           var nbr = vm.allnbr_jrs_mois_unite_peche.filter(function(obj)
+                {
+                   return obj.id == item.id;
+                });
+                if(nbr[0])
+                {
+                   if((nbr[0].unite_peche.id!=item.unite_peche_id)
+                      || (nbr[0].max_jrs_peche!=item.max_jrs_peche))                    
+                      { 
+                         insert_in_base(item,suppression);
+                         vm.affichageMasque = 0;
+                      }
+                      else
+                      {  
+                         vm.affichageMasque = 0;
+                      }
+                }
+           /* vm.allnbr_jrs_mois_unite_peche.forEach(function(nbr_jours)
             {               
                 if (nbr_jours.id==item.id)
                 {
@@ -205,7 +222,7 @@
         							vm.affichageMasque = 0 ;
         						}
                 }
-            });
+            });*/
         }  else
               insert_in_base(item,suppression);
     }
