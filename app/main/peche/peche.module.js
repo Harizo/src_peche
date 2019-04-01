@@ -15,7 +15,6 @@
             'app.peche.ddb',
             'app.peche.reporting',
             'app.peche.importationbdd',
-            'app.peche.valide_fiche_echantillonnage_capture',
             'app.peche.valide_fiche_echantillonnage_capture'
 
 
