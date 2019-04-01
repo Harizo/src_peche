@@ -18,6 +18,7 @@
             'app.peche.valide_fiche_echantillonnage_capture'
 
 
+
         ])
         .config(config);
 
