@@ -32,8 +32,8 @@
       vm.allechantillon                      = [];
       vm.allespece_capture                   = [];
       vm.currrentSite_embarquement           = [];
-      vm.allunite_peche_site                      = [];
-     // vm.allsite_enqueteur                   = [];
+      vm.allunite_peche_site                 = [];
+      vm.echantillon                         = [];
 
       //variale affichage bouton nouveau
       vm.afficherboutonnouveau               = 1;
@@ -48,9 +48,11 @@
       vm.step3                               = false;
 
       vm.enqueteur                           = false;
-      vm.pab                                 = false;
-      vm.input_data_collect                  = false;
+      //vm.pab                                 = false;
+      
       vm.date_begin                          = false;
+     // vm.checkboxPAB                         = false;
+      //vm.checkboxCAB                         = false;
       vm.date_now = new Date();
       vm.filtrepardate = {} ;
       vm.filtrepardate.date_fin = new Date() ;
@@ -105,6 +107,9 @@
       apiFactory.getAll("espece/index").then(function(result)
       {vm.allespece = result.data.response;});
 
+      apiFactory.getAll("utilisateurs/index").then(function(result)
+      {vm.allutilisateur = result.data.response;});
+
      /* apiFactory.getAll("unite_peche/index").then(function(result)
       {vm.allunite_peche = result.data.response;});*/
    
@@ -113,7 +118,7 @@
     });*/
 
 /*********** ************************Debut fi fiche_echantillonnage_capture  *******************************************/
-     
+    
       var date_today  = new Date();
       var date_dujour = convertionDate(date_today);
       var validation = 0;
@@ -133,22 +138,34 @@
             vm.step2 = false;
             vm.step3 = false;
           }
-          currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+          currentItem = vm.selectedItem;
           vm.afficherboutonModifSupr          = 1 ;
           vm.affichageMasque                  = 0 ;
           vm.afficherboutonnouveau            = 1 ;
           vm.afficherboutonnouveauEchantillon = 1 ;
-          //vm.allechantillon                   = [];
+          
+          //recuperation echantillon quand id_echantillon = item.id                  = [];
           apiFactory.getFils("echantillon/index",item.id).then(function(result)
           {
-              vm.allechantillon = result.data.response;
-          });
+              try
+              {                  
+                vm.allechantillon = result.data.response;                 
+              }catch(e){
+
+              }finally{
+                vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                  {
+                      return obj.data_collect.code == 'PAB';
+                  });
+              }
+           });
+          //recuperation unite_peche quand id_site_embarquement = item.site_embarquement.id
           apiFactory.getFils("unite_peche_site/index",item.site_embarquement.id).then(function(result)
           {
               vm.allunite_peche_site = result.data.response;
               
           });
-
+          vm.checkboxPAB = true;
           vm.step1=true;  
       };
       $scope.$watch('vm.selectedItem', function()
@@ -180,6 +197,7 @@
           vm.fiche_echantillonnage_capture.enqueteur_id    =vm.selectedItem.enqueteur.id ;
           vm.fiche_echantillonnage_capture.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
           
+          //liste site_embarquement quand id enqueteur vm.selectedItem.enqueteur.id 
           apiFactory.getFils("site_enqueteur/index",vm.selectedItem.enqueteur.id).then(function(result)
           {
             vm.allsite_enqueteur = result.data.response;
@@ -224,7 +242,7 @@
             enqueteur_id:         vm.selectedItem.enqueteur.id,
             district_id:          vm.selectedItem.district.id,
             region_id:            vm.selectedItem.region.id,
-            user_id:              cookieService.get("id")                      
+            user_id:              vm.selectedItem.user.id                      
           });
           var confirm = $mdDialog.confirm().title('Etes-vous sûr de vouloir faire cet action ?')
                                 .textContent('')
@@ -303,31 +321,7 @@
                       {  
                          vm.affichageMasque = 0;
                       }
-                }         
-           /* vm.allfiche_echantillonnage_capture.forEach(function(fiche)
-            {
-                
-                if (fiche.id==item.id) 
-                {
-                  if((fiche.code_unique!=item.code_unique)
-                    ||(fiche.site_embarquement.id!=item.site_embarquement_id)
-                    ||(fiche.enqueteur.id!=item.enqueteur_id)
-                    ||(fiche.latitude!=item.latitude)
-                    ||(fiche.longitude!=item.longitude)
-                    ||(fiche.altitude!=item.altitude)
-                    ||(fiche.date!=item.date)
-                    ||(fiche.region.id!=item.region_id)
-                    ||(fiche.district.id!=item.district_id))                    
-                  {
-                    insert_in_base(item,suppression,validation);
-                    vm.affichageMasque = 0 ;
-                  }
-                  else
-                  {
-                    vm.affichageMasque = 0 ;
-                  }
                 }
-            });*/
         }
           else
               insert_in_base(item,suppression,validation);
@@ -340,11 +334,14 @@
         var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;' }};
 
         var getId = 0;
-
+        var userId = cookieService.get("id");
+       
         if (NouvelItem==false) 
         {
-          getId = vm.selectedItem.id; 
+          getId = vm.selectedItem.id;
+          userId = vm.selectedItem.user.id;          
         } 
+       
           var date = new Date(fiche_echantillonnage_capture.date);
           var date_fiche= convertionDate(date);
 
@@ -357,12 +354,12 @@
           longitude:            fiche_echantillonnage_capture.longitude,
           latitude:             fiche_echantillonnage_capture.latitude,
           altitude:             fiche_echantillonnage_capture.altitude,
-          validation:             fiche_echantillonnage_capture.validation,
+          validation:           fiche_echantillonnage_capture.validation,
           site_embarquement_id: fiche_echantillonnage_capture.site_embarquement_id,
           enqueteur_id:         fiche_echantillonnage_capture.enqueteur_id,
           district_id:          fiche_echantillonnage_capture.district_id,
           region_id:            fiche_echantillonnage_capture.region_id,
-          user_id:              cookieService.get("id")
+          user_id:              userId
                     
         });
              
@@ -370,7 +367,7 @@
         apiFactory.add("fiche_echantillonnage_capture/index",datas, config).success(function (data)
         {
             //vm.allcurrentdistrict=vm.alldistrict;
-            var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
+           
             var site_emba = vm.allsite_embarquement.filter(function(obj)
             {
               return obj.id == vm.fiche_echantillonnage_capture.site_embarquement_id;
@@ -390,7 +387,12 @@
             {
               return obj.id == vm.fiche_echantillonnage_capture.district_id;
             });
-
+            
+            var utili= vm.allutilisateur.filter(function(obj)
+            {
+              return obj.id == userId;
+            });
+            
             if (NouvelItem == false) 
               {
                 // Update or delete: id exclu
@@ -407,7 +409,7 @@
 
                     vm.selectedItem.enqueteur          = enqt[0];
                     vm.selectedItem.site_embarquement  = site_emba[0];
-                    vm.selectedItem.user          = user;          
+                    vm.selectedItem.user          = utili[0];          
                     
                     vm.selectedItem.region        = reg[0];
                     vm.selectedItem.district      = dist[0];                              
@@ -438,9 +440,8 @@
                   longitude:            fiche_echantillonnage_capture.longitude,
                   latitude:             fiche_echantillonnage_capture.latitude,
                   altitude:             fiche_echantillonnage_capture.altitude,
-                  site_embarquement:    site_emba[0], 
-                  user_id:              cookieService.get("id"),
-                  user:                 user, 
+                  site_embarquement:    site_emba[0],
+                  user:                 utili[0], 
                   enqueteur:            enqt[0], 
                   district:             dist[0], 
                   region:               reg[0],
@@ -508,14 +509,7 @@
     vm.formfiltrepardate = function()
     {
         vm.affichageMasqueFiltrepardate = 1 ;
-       // vm.filtrepardate={};
     }
-   /* vm.change_date_debut=function(dateDebut)
-    { var date_now= new Date();
-      vm.date_begin=true;
-      vm.min_date=dateDebut;
-      vm.max_date= date_now;
-    }*/
 
     vm.recherchefiltrepardate= function (filtrepardate)
     {
@@ -538,22 +532,63 @@
   
 
 /******************************************** Debut echantillon  ******************************************************/
+      vm.recuperationPab = function(pab)
+      {         
+         if(pab){
+              vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+              {
+                  return obj.data_collect.code == 'PAB';
+              });
+              vm.checkboxCAB=false;   
+          }else
+          { 
+            vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+              {
+                  return obj.data_collect.code == 'CAB';
+              });
+            vm.checkboxCAB=true; 
+          }
+          vm.affichageMasqueEchantillon = 0;  
+      }
+      vm.recuperationCab = function(cab){
+        if(cab)
+        {
+          vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                {
+                    return obj.data_collect.code == 'CAB';
+                });
+          
+          vm.checkboxPAB=false;
+        }
+        else
+        { 
+            vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+            {
+                return obj.data_collect.code == 'PAB';
+            });
+            vm.checkboxPAB=true; 
+        }
+        vm.affichageMasqueEchantillon = 0;
+      }
+      
+
     vm.selectionechantillon= function (item)
     {
         vm.selectedItemEchantillon = item;
         vm.nouvelItemEchantillon = item;
-        currentItemEchantillon = JSON.parse(JSON.stringify(vm.selectedItemEchantillon));
+        currentItemEchantillon = vm.selectedItemEchantillon;
         vm.afficherboutonModifSuprEchantillon = 1 ;
         vm.afficherboutonnouveauEspece_capture = 1 ;
         vm.affichageMasqueEchantillon = 0 ;
-        vm.allespece_capture = [];
-          
+        
+        //find espece_capture where id echantillon item.id  
         apiFactory.getFils("espece_capture/index",item.id).then(function(result)
         {
             vm.allespece_capture = result.data.response;            
         });
             vm.step2=true;
-            vm.step3=false;         
+            vm.step3=false; 
+
     };
 
     $scope.$watch('vm.selectedItemEchantillon', function()
@@ -568,17 +603,7 @@
 
     vm.modifierEchantillon = function() 
     { 
-        vm.input_data_collect = true;
         NouvelItemEchantillon = false ;
-        if(vm.selectedItemEchantillon.data_collect.code=='PAB')
-          {
-              vm.pab=true;
-          }
-          else
-          {
-              vm.pab=false;
-          }
-          
         vm.affichageMasqueEchantillon    = 1 ;
         vm.affichageMasque               = 0 ;
         vm.affichageMasqueEspece_capture = 0 ;
@@ -616,19 +641,31 @@
     };
 
     vm.ajouterEchantillon = function () 
-    {        
-        var confirm = $mdDialog.confirm({
-          controller: DialogController,
-          templateUrl: 'app/main/peche/validation_fiche_echantillonnage_capture/dialog.html',
-          parent: angular.element(document.body),              
-        })
-        
-        $mdDialog.show(confirm).then(function(data)
-        { 
-         // console.log(data)
-        },function()
-          {//alert('rien');
-            });
+    {         
+        vm.selectedItemEchantillon.$selected = false;
+        vm.step2=false;
+        vm.step3=false;
+        vm.affichageMasqueEchantillon = 1 ;
+        vm.affichageMasque = 0 ;
+        vm.affichageMasqueEspece_capture = 0 ;
+        vm.echantillon={};
+        NouvelItemEchantillon = true ;
+        var effort_p=[];
+        if(vm.checkboxPAB)
+        {
+          effort_p= vm.alldata_collect.filter(function(obj)
+          {
+                return obj.code == 'PAB';
+          });
+        }
+        else
+        {
+          effort_p= vm.alldata_collect.filter(function(obj)
+          {
+                return obj.code == 'CAB';
+          });
+        }
+        vm.echantillon.data_collect_id=effort_p[0].id; 
     };
 
     vm.supprimerEchantillon = function() 
@@ -703,38 +740,38 @@
       var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
       var getIdEchantillon = 0;
       var total_captur=0;
-
+      var userId = cookieService.get("id");
       var effort_p=[];
       if (NouvelItemEchantillon==false) 
       {
           getIdEchantillon = vm.selectedItemEchantillon.id;                
-
+          userId = vm.selectedItemEchantillon.user.id;
       }
       else
       {
           echantillon.total_capture=total_captur;
       }
       
-
-      var effort_p= vm.alldata_collect.filter(function(obj)
-          {
-              return obj.id == vm.echantillon.data_collect_id;
-          });
-
-     /* if(effort_p[0].code=='PAB'){
-          vm.echantillon.nbr_bateau_actif = '- -';
-          vm.echantillon.total_bateau_ecn = '- -';
-      }else{
-          vm.echantillon.peche_hier = '- -';
-          vm.echantillon.peche_avant_hier = '- -';
-          vm.echantillon.nbr_jrs_peche_dernier_sem = '- -';
-      }*/
-
+      if(suppression==1)
+      {
+        var effort_p= vm.alldata_collect.filter(function(obj)
+        {
+            return obj.id == echantillon.data_collect.id;
+        });
+      }
+      else
+      {
+        var effort_p= vm.alldata_collect.filter(function(obj)
+        {
+            return obj.id == echantillon.data_collect_id;
+        });
+      }
+      
       var datas = $.param(
       {
           supprimer:                        suppression,
           typeeffort:                       effort_p[0].code,      
-          id:getIdEchantillon,
+          id:                               getIdEchantillon,
           fiche_echantillonnage_capture_id: vm.selectedItem.id,
           peche_hier:                       echantillon.peche_hier,
           peche_avant_hier:                 echantillon.peche_avant_hier,
@@ -745,16 +782,19 @@
           nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
           total_bateau_ecn:                 echantillon.total_bateau_ecn,
           unite_peche_id:                   echantillon.unite_peche_id,
-          user_id:                          cookieService.get("id")                
+          user_id:                          userId                
       });
            
       //factory
       apiFactory.add("echantillon/index",datas, config).success(function (data)
-      {  
-          var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
+      {           
           var unite_p= vm.allunite_peche_site.filter(function(obj)
           {
               return obj.unite_peche.id == vm.echantillon.unite_peche_id;
+          });
+          var utili= vm.allutilisateur.filter(function(obj)
+          {
+              return obj.id == userId;
           });
           if (NouvelItemEchantillon == false) 
           {
@@ -794,7 +834,7 @@
 
                   vm.selectedItemEchantillon.unite_peche  = unite_p[0].unite_peche;
                       
-                  vm.selectedItemEchantillon.user  = user;
+                  vm.selectedItemEchantillon.user  = utili[0];
                       
                   vm.selectedItemEchantillon.date_creation = vm.echantillon.date_creation;
                   vm.selectedItemEchantillon.date_modification = date_dujour;
@@ -811,7 +851,13 @@
                   {
                       return obj.id !== currentItemEchantillon.id;
                   });
+                  vm.echantillonfiltre = vm.echantillonfiltre.filter(function(obj)
+                  {
+                      return obj.id !== currentItemEchantillon.id;
+                  });
+
               }
+
           }
           else
           {   
@@ -842,12 +888,13 @@
                   nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
                   total_bateau_ecn:                 echantillon.total_bateau_ecn,
                   unite_peche:                      unite_p[0].unite_peche,
-                  user:                             user,
+                  user:                             utili[0],
                   date_creation:                    date_dujour,
                   date_modification:                date_dujour,
                   id:                               String(data.response) 
               };
                vm.allechantillon.push(item);
+               vm.echantillonfiltre.push(item);
                vm.echantillon  ={};                  
                NouvelItemEchantillon=false;
           }
@@ -859,7 +906,7 @@
                 
   }
 
-  function DialogController($mdDialog, $scope)
+ /* function DialogController($mdDialog, $scope)
   { 
       var dg=$scope;
 
@@ -870,10 +917,10 @@
       {$mdDialog.cancel();};
 
       dg.dialognouveauajout = function(typeajout)
-      { //console.log(typeajout);
-        var effort_p= dg.alldata_collect.filter(function(obj)
+      {   //console.log(typeajout);
+          var effort_p= dg.alldata_collect.filter(function(obj)
           {
-              return obj.id == dg.echantillon.data_collect_id;
+                return obj.id == dg.echantillon.data_collect_id;
           });
 
         if(effort_p[0].code=='PAB')
@@ -899,7 +946,7 @@
       }
 
 
-}
+}*/
 
 /******************************************** Fin echantillon  ******************************************************/
 
@@ -908,10 +955,11 @@
   {        
       vm.selectedItemEspece_capture = item;
       vm.nouvelItemEspece_capture = item;
-      currentItemEspece_capture = JSON.parse(JSON.stringify(vm.selectedItemEspece_capture));
+      currentItemEspece_capture = vm.selectedItemEspece_capture;
       vm.afficherboutonModifSuprEspece_capture = 1 ;
       vm.affichageMasqueEspece_capture = 0 ; 
       vm.step3=true;
+      console.log(item);
   };
 
   $scope.$watch('vm.selectedItemEspece_capture', function()
@@ -999,10 +1047,11 @@
         //add
         var config ={headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
         var getIdEspece_capture = 0;
-
-        if (NouvelItemEspece_capture==false) 
+        var userId = cookieService.get('id');
+        if (NouvelItemEspece_capture == false) 
         {
-            getIdEspece_capture = vm.selectedItemEspece_capture.id;                
+            getIdEspece_capture = vm.selectedItemEspece_capture.id;
+            userId = vm.selectedItemEspece_capture.user.id;                
         }
 
         var datas = $.param(
@@ -1014,7 +1063,7 @@
             echantillon_id:                    vm.selectedItemEchantillon.id,
             capture:                           espece_capture.capture,
             prix:                              espece_capture.prix,
-            user_id:                           cookieService.get("id")                  
+            user_id:                           userId                  
         });
           
       //factory
@@ -1023,6 +1072,11 @@
             var espece= vm.allespece.filter(function(obj)
             {
                 return obj.id == vm.espece_capture.espece_id;
+            });
+            
+            var utili= vm.allutilisateur.filter(function(obj)
+            {
+                return obj.id == userId;
             });
             if (NouvelItemEspece_capture == false) 
             {
@@ -1038,7 +1092,7 @@
                     vm.selectedItemEspece_capture.capture             = vm.espece_capture.capture;
                     vm.selectedItemEspece_capture.prix                = vm.espece_capture.prix;
                               
-                    vm.selectedItemEspece_capture.user_id             = cookieService.get("id");
+                    vm.selectedItemEspece_capture.user                = utili[0];
                               
                     vm.selectedItemEspece_capture.date_creation       = vm.espece_capture.date_creation;
                     vm.selectedItemEspece_capture.date_modification   = date_dujour;
@@ -1065,18 +1119,18 @@
             }
             else
             { 
-                var user = {id:cookieService.get("id"),nom:cookieService.get("nom")};
+                
                 var item =
                 {
                   espece:                           espece[0],
                   capture:                          espece_capture.capture,
                   prix:                             espece_capture.prix,                        
-                  user:                             user,
+                  user:                             utili[0],
                   date_creation:                    date_dujour,
                   date_modification:                date_dujour,
-                  id:                   String(data.response) 
+                  id:                               String(data.response) 
                 };
-              
+                
                 vm.allespece_capture.push(item);                          
                 var tot_cap=parseInt(vm.selectedItemEchantillon.total_capture)+ parseInt(espece_capture.capture);
                 majtotal_captureEchantillon(tot_cap,config);
@@ -1120,7 +1174,7 @@
             nbr_bateau_actif:                 vm.selectedItemEchantillon.nbr_bateau_actif,
             total_bateau_ecn:                 vm.selectedItemEchantillon.total_bateau_ecn,
             unite_peche_id:                   vm.selectedItemEchantillon.unite_peche.id,
-            user_id:                          cookieService.get("id")                        
+            user_id:                          vm.selectedItemEchantillon.user.id                        
         });
         
 //factory
@@ -1140,7 +1194,7 @@
             vm.selectedItemEchantillon.nbr_bateau_actif           = vm.selectedItemEchantillon.nbr_bateau_actif;
             vm.selectedItemEchantillon.total_bateau_ecn           = vm.selectedItemEchantillon.total_bateau_ecn;
                           
-            vm.selectedItemEchantillon.user_id                    = cookieService.get("id");
+            vm.selectedItemEchantillon.user_id                    = vm.selectedItemEchantillon.user.id;
                           
             vm.selectedItemEchantillon.date_creation              = vm.selectedItemEchantillon.date_creation;
             vm.selectedItemEchantillon.date_modification          = date_dujour;
@@ -1159,9 +1213,7 @@
             {
                 if (esp.id==item.id) 
                 {
-                  if((esp.fiche_echantillonnage_capture.id!=item.fiche_echantillonnage_capture_id)
-                    ||(esp.echantillon.id!=item.echantillon_id)
-                    ||(esp.espece.id!=item.espece_id)
+                  if((esp.espece.id!=item.espece_id)
                     ||(esp.capture!=item.capture)
                     ||(esp.prix!=item.prix))
                   {
@@ -1184,23 +1236,6 @@
         vm.afficherboutonModifSuprEspece_capture = 0 ;
     }
 
-    //function cache masque de saisie        
-    vm.modifierdata_collect = function (item)
-    {
-        var effort_p= vm.alldata_collect.filter(function(obj)
-        {
-            return obj.id == item.data_collect_id;
-        });
-        if(effort_p[0].code=='PAB')
-        {
-            vm.pab=true;
-        }
-        else
-        {
-            vm.pab=false;
-        }
-    }
-
     //format date affichage sur datatable
 
         vm.formatDateListe = function (dat)
@@ -1211,22 +1246,9 @@
             var mois = date.getMonth()+1;
             var dates = (date.getDate()+"-"+mois+"-"+date.getFullYear());
             return dates;
-          }
-            
+          }            
 
         }
-
-     /* vm.changelocalhost = function (localhoste)
-      {
-        if (localhoste) 
-        {
-          var urlencien=localhoste;
-          var urlnew= urlencien.toString().replace('http://localhost/assets/ddb/',apiUrlserver);
-        
-          return urlnew;
-        }
-         
-      }*/
 
       function convertionDate(date)
       {   

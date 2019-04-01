@@ -15,6 +15,7 @@
             'app.peche.ddb.unite_peche',
             'app.peche.ddb.enquete_cadre',
             'app.peche.ddb.nbr_jrs_mois_unite_peche',
+            'app.peche.ddb.nbr_echantillon_enqueteur',
             //'app.peche.ddb.echantillon'
 
 

@@ -196,6 +196,17 @@
       });
         vm.selectedItemEspece_capture.$selected = true;
   });
+  vm.formatDateListe = function (dat)
+  {
+      if (dat) 
+      {
+          var date = new Date(dat);
+          var mois = date.getMonth()+1;
+          var dates = (date.getDate()+"-"+mois+"-"+date.getFullYear());
+          return dates;
+      }            
+
+  }
 
     }
 })();
