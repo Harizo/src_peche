@@ -29,13 +29,10 @@
         });
         // Navigation
         msNavigationServiceProvider.saveItem('peche.validation_fiche_echantillonnage_capture', {
-<<<<<<< HEAD
-            title: 'Données validées',
-            icon  : 'icon-calendar-check',
-=======
+
             title: 'Validation des données',
             icon  : 'icon-clipboard-text',
->>>>>>> origin/master
+
             state: 'app.population_validation_fiche_echantillonnage_capture',
             weight: 3
         });

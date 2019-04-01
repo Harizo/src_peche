@@ -12,14 +12,11 @@
             'app.peche.auth.lock',
             'app.peche.administration',
             'app.peche.validation_fiche_echantillonnage_capture',
-<<<<<<< HEAD
             'app.peche.ddb',
-            'app.peche.reporting'
-=======
+            'app.peche.reporting',
             'app.peche.importationbdd',
             'app.peche.valide_fiche_echantillonnage_capture',
             'app.peche.ddb'
->>>>>>> origin/master
 
         ])
         .config(config);
