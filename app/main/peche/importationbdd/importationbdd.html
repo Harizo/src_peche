@@ -23,8 +23,11 @@
       <div class="form-wrapper">
       <div style="widht:100%;">   
       <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
-          <md-button type="submit" ng-show="vm.cliquable==1" class="md-raised md-accent" aria-label="Importer" ng-click="vm.importexcel()" style="width:10%;">
+          <md-button type="submit" ng-show="vm.cliquable==1" class="md-raised md-accent" aria-label="Importer" ng-click="vm.importexcel()" style="width:10%;margin-right:10%;">
               Importer
+          </md-button>
+          <md-button type="submit" ng-show="vm.cliquable==1" class="md-raised md-accent" aria-label="Importer enquete cadre" ng-click="vm.importenquetecadreexcel()" style="width:20%;">
+              Importer enquete cadre
           </md-button>
           <!--md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
               Supprimer

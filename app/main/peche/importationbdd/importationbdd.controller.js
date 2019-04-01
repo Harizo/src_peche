@@ -32,6 +32,7 @@
 		vm.allsiteenqueteur=[];
 		vm.allunitepeche=[];
 		vm.allunitepechesite=[];
+		vm.allenquetecadre=[];
         vm.myFile={};
 		vm.fichier='';
 		vm.fokontany_column = [{titre:"Code"},{titre:"Nom"},{titre:"Commune"}];
@@ -89,6 +90,23 @@
 					console.log(vm.alltypecanoe);
 					console.log(vm.allunitepeche);
 					console.log(vm.allunitepechesite);
+					vm.showAlert("INFORMATION","Importation terminé !. Merci")
+				});
+		} 
+ 		vm.importenquetecadreexcel = function() {
+
+ 				vm.affiche_load =true;
+				vm.cliquable=0;
+				vm.allenquetecadre=[];
+				var bla = $.post(apiUrl + "importbddaccess/importerbasededonneesenquetecadre",{
+				// var bla = $.post(apiUrl + "importbddaccess/importerbasededonneesespececapture",{
+					repertoire:'importbdd/',
+					// nomfichier : vm.fichier
+				},function(data){		
+					vm.affiche_load =false;
+					vm.cliquable=1;
+					vm.allenquetecadre=data[0].enquete_cadre;
+					console.log(vm.allenquetecadre);
 					vm.showAlert("INFORMATION","Importation terminé !. Merci")
 				});
 		} 
