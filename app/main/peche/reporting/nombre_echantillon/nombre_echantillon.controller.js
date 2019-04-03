@@ -27,11 +27,17 @@
         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
         pagingType: 'simple',
         autoWidth: false,
-        responsive: true
+        responsive: true/*,
+        columnDefs : [
+        {
+           // your case first column
+            "className": "dt-body-center", targets: [ 1, 2, 3 ,4,5,6,7,8,9,10,11,12]
+         
+       }]*/
       };
 
-      vm.columns = [{titre:"Unié de pêche"},{titre:"Nbr unité de pêche dans l'enquête cadre"},{titre:'01'},{titre:"02"},{titre:"03"},{titre:"04"},
-      {titre:"05"},{titre:"06"},{titre:"07"},{titre:"08"},{titre:"09"},{titre:"10"},{titre:"11"},{titre:"12"}];
+     /* vm.columns = [{titre:"Unié de pêche"},{titre:"Nbr unité de pêche dans l'enquête cadre"},{titre:'01'},{titre:"02"},{titre:"03"},{titre:"04"},
+      {titre:"05"},{titre:"06"},{titre:"07"},{titre:"08"},{titre:"09"},{titre:"10"},{titre:"11"},{titre:"12"}];*/
 
       apiFactory.getAll("region/index").then(function(result)
       {
@@ -100,18 +106,33 @@
 
       }
 
-        function formatDateBDD(dat)
+      function formatDateBDD(dat)
+      {
+        if (dat) 
         {
-          if (dat) 
-          {
-            var date = new Date(dat);
-            var mois = date.getMonth()+1;
-            var dates = (date.getFullYear()+"-"+mois+"-"+date.getDate());
-            return dates;
-          }
-            
-
+          var date = new Date(dat);
+          var mois = date.getMonth()+1;
+          var dates = (date.getFullYear()+"-"+mois+"-"+date.getDate());
+          return dates;
         }
+          
+
+      }
+
+      vm.couleur = function(val)
+      {
+        if (val == 0) 
+        {
+          
+          return "#ff0000" ;
+        }
+
+        if (val >= 0) 
+        {
+          
+          return "#03af2b" ;
+        }
+      }
 
       vm.filtrer = function(filtres)
       {
@@ -151,7 +172,7 @@
             "id_site_embarquement",filtres.id_site_embarquement).then(function(result)
           {
             vm.datas = result.data.response;
-            console.log(vm.datas);
+            
           });
         
       }

@@ -12,7 +12,7 @@
             
             </div>
 
-            <div class="title">Nombres d'echantillon</div>
+            <div class="title">Nombres d'échantillon</div>
         </div>
     </div>
     <!-- / HEADER -->
@@ -75,8 +75,8 @@
                             <div layout="column" layout-gt-xs="row" flex>
                                 <md-input-container flex="100" flex-gt-xs="90">
                                   <label>Région</label>
-                                    <md-select ng-model="vm.filtre.id_region" ng-change="vm.filtre_district()">
-                                      <md-option  value="*">*</md-option>
+                                    <md-select ng-model="vm.filtre.id_region" ng-change="vm.filtre_district()" required>
+                                    
                                       <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" >
                                         {{region.nom}}
                                       </md-option>
@@ -129,33 +129,99 @@
 
                 <md-tabs md-dynamic-height>
                 <md-tab label="Liste unité de pêche">
-                    <table class="dataTable row-border hover" datatable="ng"
+                    <table class="dataTable row-border cell-border text-center" datatable="ng"
                         dt-options="vm.dtOptions">
                         <thead>                          
                         <tr>
-                             <th class="secondary-text" ng-repeat="up in ::vm.columns">
+                             <th class="secondary-text">
                               <div class="table-header">
-                                  <span class="column-title">{{up.titre}}</span>
+                                  <span class="column-title text-center">Unité de pêche</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">Nbr unité de <br> pêche  dans <br> l'enquête cadre</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">01</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">02</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">03</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">04</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">05</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">06</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">07</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">08</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">09</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">10</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">11</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text">
+                              <div class="table-header">
+                                  <span class="column-title text-center">12</span>
                               </div>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="d in vm.datas"  ng-class="{selected: unite_peche.$selected}" ng-click="vm.selection(unite_peche)">
+                            <tr ng-repeat="d in vm.datas"  ng-class="{selected: unite_peche.$selected}">
                                 <td>{{d.unite_peche}}</td>    
-                                <td>0</td>    
-                                <td style="background-color: red;">{{d.jan}}</td>    
-                                <td>{{d.fev}}</td>    
-                                <td>{{d.mar}}</td>    
-                                <td>{{d.avr}}</td>    
-                                <td>{{d.mai}}</td>    
-                                <td>{{d.juin}}</td>    
-                                <td>{{d.jui}}</td>    
-                                <td>{{d.aou}}</td>    
-                                <td>{{d.sep}}</td>    
-                                <td>{{d.oct}}</td>    
-                                <td>{{d.nov}}</td>    
-                                <td>{{d.dec}}</td>    
+                                <td>{{d.enquete_cadre}}</td>    
+                               
+                                <td style="background-color: {{vm.couleur(d.jan)}};">{{d.jan}}</td>    
+                                <td style="background-color: {{vm.couleur(d.fev)}};">{{d.fev}}</td>    
+                                <td style="background-color: {{vm.couleur(d.mar)}};">{{d.mar}}</td>    
+                                <td style="background-color: {{vm.couleur(d.avr)}};">{{d.avr}}</td>    
+                                <td style="background-color: {{vm.couleur(d.mai)}};">{{d.mai}}</td>    
+                                <td style="background-color: {{vm.couleur(d.juin)}};">{{d.juin}}</td>    
+                                <td style="background-color: {{vm.couleur(d.jui)}};">{{d.jui}}</td>    
+                                <td style="background-color: {{vm.couleur(d.aou)}};">{{d.aou}}</td>    
+                                <td style="background-color: {{vm.couleur(d.sep)}};">{{d.sep}}</td>    
+                                <td style="background-color: {{vm.couleur(d.oct)}};">{{d.oct}}</td>    
+                                <td style="background-color: {{vm.couleur(d.nov)}};">{{d.nov}}</td>    
+                                <td style="background-color: {{vm.couleur(d.dec)}};">{{d.dec}}</td>    
                               
                                                     
                             </tr>
