@@ -157,7 +157,7 @@
     {
         vm.selectedItemEchantillon = item;
         currentItemEchantillon = JSON.parse(JSON.stringify(vm.selectedItemEchantillon));
-        vm.allespece_capture = [];
+        
           
         apiFactory.getFils("espece_capture/index",item.id).then(function(result)
         {

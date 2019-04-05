@@ -1,0 +1,178 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Reporting</span>
+
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Analyse parametrable</span>
+            
+            </div>
+
+            <div class="title">Analyse Echantillon</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content"layout="column">
+        <div class="form-wrapper">            
+            <div style="clear:both;"></div>
+            <div class="white-bg md-whiteframe-4dp"> 
+                 <md-tabs  md-dynamic-height>
+                    <md-tab label="Filtre">
+                        <md-tab-body>
+                          <form name="filtreform" class="md-inline-form" novalidate >
+                            <br>
+                            <div layout="column" layout-gt-xs="row">
+
+                              <md-input-container flex="100" flex-gt-xs="10">
+                                  <label>Année</label>
+                                    <md-select ng-model="vm.filtre.annee" required>
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="annee in vm.annees" value="{{annee}}" >
+                                        {{annee}}
+                                      </md-option>
+
+                                    </md-select>
+
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  
+                                </md-input-container>
+                            </div>
+                            <div layout="column" layout-gt-xs="row" flex>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Région</label>
+                                    <md-select ng-model="vm.filtre.id_region" ng-change="vm.filtre_district()" required>
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" >
+                                        {{region.nom}}
+                                      </md-option>
+                                    </md-select>
+                                    <div ng-messages="filtreform.region.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Région obligatoire.</span>
+                                      </div>
+                                    </div>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>District</label>
+                                    <md-select ng-model="vm.filtre.id_district" ng-disabled="!vm.filtre.id_region" ng-change="vm.filtre_site_embarquement()">
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="district in vm.districts" value="{{district.id}}">
+                                        {{district.nom}}
+                                      </md-option>                                  
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Site de débarquement</label>
+                                    <md-select ng-model="vm.filtre.id_site_embarquement" ng-disabled="!vm.filtre.id_district">
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="site in vm.sites" value="{{site.id}}">
+                                        {{site.libelle}}
+                                      </md-option>                                  
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Unité de pêche</label>
+                                    <md-select ng-model="vm.filtre.id_unite_peche" >
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="up in vm.unite_peches" value="{{up.id}}">
+                                        {{up.libelle}}
+                                      </md-option>                                     
+                                </md-input-container>
+                            </div>
+                            <div>
+                             <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                  ng-disabled="filtreform.$invalid" ng-click="vm.analysefiltrer(vm.filtre)">
+                                  Analyser
+                            </md-button>
+                            </div>
+                          </form>
+                        </md-tab-body>
+                    </md-tab>
+                </md-tabs>
+                <md-tabs md-dynamic-height >
+                    <md-tab label="Espece capture ">                        
+                        <div class="simple-table-container md-whiteframe-4dp">
+                        <md-tab-body>
+                           <table class="dataTable row-border hover" datatable="ng" dt-options="vm.dtOptions">
+                                <thead>
+                                  <tr>
+                                    <th class="secondary-text">
+                                          <div class="table-header">
+                                            <span class="column-title">Année</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text">
+                                          <div class="table-header">
+                                            <span class="column-title">Région</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text">
+                                          <div class="table-header">
+                                            <span class="column-title">District</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text">
+                                          <div class="table-header">
+                                            <span class="column-title">Site d'enquête</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text">
+                                          <div class="table-header">
+                                            <span class="column-title">Unité de pêche</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text">
+                                          <div class="table-header">
+                                            <span class="column-title">Capture totales</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text">
+                                          <div class="table-header">
+                                            <span class="column-title">Valeur totales</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text">
+                                          <div class="table-header">
+                                            <span class="column-title">Moy Erreur Rel PUI</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text">
+                                          <div class="table-header">
+                                            <span class="column-title">Moy Erreur Rel Capture</span>
+                                          </div>
+                                    </th>
+                                  </tr>
+                                </thead>
+                                  <tbody>
+                                      <tr ng-repeat="data in vm.datas" ng-class="{selected: data.$selected}" ng-click="vm.selection(data)">
+                                        <td>{{data.unite_peche}}</td>
+                                        <td>{{data.region}}</td>
+                                        <td>{{data.district}}</td>
+                                        <td>{{data.site_embarquement}}</td>
+                                        <td>{{data.unite_peche}}</td>
+                                        <td>{{data.capture_totales}}</td>
+                                        <td>{{data.prix}}</td>
+                                        <td>{{data.unite_peche}}</td>
+                                        <td>{{data.unite_peche}}</td>
+                                        
+                                      </tr>
+                                  </tbody>                         
+                            </table>
+                        </md-tab-body>
+                      </div>
+                    </md-tab>                   
+                  </md-tabs>
+            </div> 
+        </div> 
+            
+    </div>
+    <!-- / CONTENT -->
+
+  </div>
