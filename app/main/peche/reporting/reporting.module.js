@@ -4,8 +4,8 @@
 
     angular
         .module('app.peche.reporting', [
-            'app.peche.reporting.nombre_echantillon'
-
+            'app.peche.reporting.nombre_echantillon',
+            'app.peche.reporting.analyse_parametrable'
         ])
         .config(config);
 
