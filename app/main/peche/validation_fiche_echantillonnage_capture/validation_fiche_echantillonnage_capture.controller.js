@@ -56,6 +56,8 @@
       vm.date_now = new Date();
       vm.filtrepardate = {} ;
       vm.filtrepardate.date_fin = new Date() ;
+      vm.num_dernier_code = 0;
+      
 //style
       vm.dtOptions =
       {
@@ -185,8 +187,7 @@
           NouvelItem = false ;
           vm.enqueteur=true;
           vm.affichageMasque = 1 ;
-          vm.fiche_echantillonnage_capture.id              = vm.selectedItem.id ;
-          vm.fiche_echantillonnage_capture.code_unique     = vm.selectedItem.code_unique ;        
+          vm.fiche_echantillonnage_capture.id              = vm.selectedItem.id ;        
           vm.fiche_echantillonnage_capture.date            = new Date(vm.selectedItem.date);
           vm.fiche_echantillonnage_capture.date_creation   = vm.selectedItem.date_creation;
           vm.fiche_echantillonnage_capture.latitude        = vm.selectedItem.latitude;
@@ -279,6 +280,7 @@
           vm.fiche_echantillonnage_capture={};
           NouvelItem = true ;
           vm.enqueteur = false;
+          vm.fiche_echantillonnage_capture.date=vm.date_now;
       };
 
     function ajout(fiche_echantillonnage_capture,suppression,validation)   
@@ -304,8 +306,7 @@
                 });
                 if(fiche[0])
                 {
-                   if((fiche[0].code_unique!=item.code_unique)
-                    ||(fiche[0].site_embarquement.id!=item.site_embarquement_id)
+                   if((fiche[0].site_embarquement.id!=item.site_embarquement_id)
                     ||(fiche[0].enqueteur.id!=item.enqueteur_id)
                     ||(fiche[0].latitude!=item.latitude)
                     ||(fiche[0].longitude!=item.longitude)
@@ -335,11 +336,12 @@
 
         var getId = 0;
         var userId = cookieService.get("id");
-       
+        var codeunique='';
         if (NouvelItem==false) 
         {
           getId = vm.selectedItem.id;
-          userId = vm.selectedItem.user.id;          
+          userId = vm.selectedItem.user.id;
+          codeunique= vm.selectedItem.code_unique;         
         } 
        
           var date = new Date(fiche_echantillonnage_capture.date);
@@ -348,9 +350,9 @@
         var datas = $.param(
         {
           supprimer:            suppression,
-          id:getId,
-          code_unique:          fiche_echantillonnage_capture.code_unique,
+          id:                   getId,
           date:                 date_fiche,
+          code_unique:          codeunique,
           longitude:            fiche_echantillonnage_capture.longitude,
           latitude:             fiche_echantillonnage_capture.latitude,
           altitude:             fiche_echantillonnage_capture.altitude,
@@ -399,7 +401,7 @@
                 //var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
                 if(suppression==0) 
                   { // vm.selectedItem ={};                    
-                    vm.selectedItem.code_unique       = vm.fiche_echantillonnage_capture.code_unique;
+                    vm.selectedItem.code_unique       = codeunique;
                     vm.selectedItem.date              = date_fiche;
                     vm.selectedItem.date_creation     = vm.fiche_echantillonnage_capture.date_creation;
                     vm.selectedItem.date_modification = date_dujour;
@@ -430,10 +432,12 @@
               }
               else
               { 
-                
+                var id=data.response.id;
+                var code_unique=data.response.code_unique;
+
                 var item = 
                 {
-                  code_unique:          fiche_echantillonnage_capture.code_unique,
+                  code_unique:          code_unique,
                   date:                 date_fiche,
                   date_creation:        date_dujour,
                   date_modification:    date_dujour,
@@ -445,7 +449,7 @@
                   enqueteur:            enqt[0], 
                   district:             dist[0], 
                   region:               reg[0],
-                  id:                   String(data.response) 
+                  id:                   id
                 };
                 
                 vm.allfiche_echantillonnage_capture.push(item);
@@ -599,7 +603,7 @@
             item.$selected = false;
         });
         vm.selectedItemEchantillon.$selected = true;
-      });
+    });
 
     vm.modifierEchantillon = function() 
     { 
@@ -615,19 +619,28 @@
         vm.echantillon.altitude   = vm.selectedItemEchantillon.altitude;
 
         vm.echantillon.unite_peche_id   = vm.selectedItemEchantillon.unite_peche.id;
-        vm.echantillon.peche_hier       = parseInt(vm.selectedItemEchantillon.peche_hier) ;
-        vm.echantillon.peche_avant_hier = parseInt(vm.selectedItemEchantillon.peche_avant_hier) ; 
+       // vm.echantillon.peche_hier       = parseInt(vm.selectedItemEchantillon.peche_hier) ;
+       // vm.echantillon.peche_avant_hier = parseInt(vm.selectedItemEchantillon.peche_avant_hier) ; 
         vm.echantillon.total_capture    = vm.selectedItemEchantillon.total_capture;
-        vm.echantillon.unique_code      = vm.selectedItemEchantillon.unique_code  ;
         vm.echantillon.nbr_bateau_actif = parseInt(vm.selectedItemEchantillon.nbr_bateau_actif) ;
         vm.echantillon.total_bateau_ecn = parseInt(vm.selectedItemEchantillon.total_bateau_ecn) ;
         vm.echantillon.data_collect_id  = vm.selectedItemEchantillon.data_collect.id;
+        
+        if(vm.selectedItemEchantillon.peche_hier==1)
+        {vm.echantillon.peche_hier=true;}
+        else
+        {vm.echantillon.peche_hier=false;}
+
+        if(vm.selectedItemEchantillon.peche_avant_hier==1)
+        {vm.echantillon.peche_avant_hier=true;}
+        else
+        {vm.echantillon.peche_avant_hier=false;}
 
         vm.echantillon.nbr_jrs_peche_dernier_sem = parseInt(vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem);          
         
         vm.afficherboutonModifSuprEchantillon = 0;
         vm.afficherboutonnouveauEchantillon = 0;  
-
+        vm.prix = true;
     };
 
     vm.annulerEchantillon = function() 
@@ -638,11 +651,13 @@
         vm.afficherboutonnouveauEchantillon = 1 ;
         vm.afficherboutonModifSuprEchantillon = 0 ;
         NouvelItemEchantillon = false;
+        vm.prix = false;
     };
 
     vm.ajouterEchantillon = function () 
     {         
         vm.selectedItemEchantillon.$selected = false;
+        vm.prix = false;
         vm.step2=false;
         vm.step3=false;
         vm.affichageMasqueEchantillon = 1 ;
@@ -665,7 +680,17 @@
                 return obj.code == 'CAB';
           });
         }
-        vm.echantillon.data_collect_id=effort_p[0].id; 
+        vm.echantillon.data_collect_id=effort_p[0].id;
+
+
+      var nbrEchantillon = vm.allechantillon.length;
+      if(nbrEchantillon)
+      {
+          var code=vm.allechantillon[nbrEchantillon-1].unique_code;
+          var numcode=code.split(' ')[1];
+          vm.num_dernier_code=numcode;
+      }
+      
     };
 
     vm.supprimerEchantillon = function() 
@@ -681,8 +706,41 @@
                                   .cancel('annuler');
 
         $mdDialog.show(confirm).then(function()
-        {
-            ajoutEchantillon(vm.selectedItemEchantillon,1);
+        {   
+           var nbr_echantion_recent=0;
+            vm.allechantillon.forEach(function(item)
+            { if(item.id>vm.selectedItemEchantillon.id)
+              {
+                nbr_echantion_recent=nbr_echantion_recent+1;
+              }
+                
+            });
+            if(nbr_echantion_recent==0)
+            {
+                ajoutEchantillon(vm.selectedItemEchantillon,1); 
+            }
+            else
+            {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                      .clickOutsideToClose(true)
+                      .title('Impossible de supprimer')
+                      .textContent('Vous devrez suprimer l(es) echantillon(s) plus recent')
+                      .ariaLabel('Offscreen Demo')
+                      .parent(angular.element(document.body))
+                      .ok('Fermer')
+                      // Or you can specify the rect to do the transition from
+                      .openFrom({
+                        top: -50,
+                        width: 30,
+                        height: 80
+                      })
+                      .closeTo({
+                        left: 1500
+                      })
+                  );
+            }
+          
         }, function()
         {
               //alert('rien');
@@ -690,13 +748,30 @@
     };
 
   function ajoutEchantillon(echantillon,suppression)   
-  {
+  {   
+      if(echantillon.peche_hier)
+      {
+          echantillon.peche_hier=1;
+      }
+      else
+      {
+          echantillon.peche_hier=0;
+      }
+
+      if(echantillon.peche_avant_hier)
+      {
+          echantillon.peche_avant_hier=1;
+      }
+      else
+      {
+          echantillon.peche_avant_hier=0;
+      }
       if (NouvelItemEchantillon==false) 
       {
         test_existanceEchantillon (echantillon,suppression); 
       }
       else
-      {
+      { 
         insert_in_baseEchantillon(echantillon,suppression);
       }
   }
@@ -714,7 +789,6 @@
                     ||(echan.peche_avant_hier!=item.peche_avant_hier)
                     ||(echan.nbr_jrs_peche_dernier_sem!=item.nbr_jrs_peche_dernier_sem)
                     ||(echan.total_capture!=item.total_capture)
-                    ||(echan.unique_code!=item.unique_code)
                     ||(echan.data_collect.id!=item.data_collect_id)
                     ||(echan.nbr_bateau_actif!=item.nbr_bateau_actif)
                     ||(echan.total_bateau_ecn!=item.total_bateau_ecn)
@@ -742,10 +816,12 @@
       var total_captur=0;
       var userId = cookieService.get("id");
       var effort_p=[];
+      var uniquecode='';     
       if (NouvelItemEchantillon==false) 
       {
-          getIdEchantillon = vm.selectedItemEchantillon.id;                
+          getIdEchantillon = vm.selectedItemEchantillon.id;             
           userId = vm.selectedItemEchantillon.user.id;
+          uniquecode = vm.selectedItemEchantillon.unique_code;
       }
       else
       {
@@ -766,9 +842,8 @@
             return obj.id == echantillon.data_collect_id;
         });
       }
-      
       var datas = $.param(
-      {
+      {   num_dernier_code:                 vm.num_dernier_code,
           supprimer:                        suppression,
           typeeffort:                       effort_p[0].code,      
           id:                               getIdEchantillon,
@@ -777,7 +852,7 @@
           peche_avant_hier:                 echantillon.peche_avant_hier,
           nbr_jrs_peche_dernier_sem:        echantillon.nbr_jrs_peche_dernier_sem,
           total_capture:                    echantillon.total_capture,
-          unique_code:                      echantillon.unique_code,
+          unique_code:                      uniquecode,
           data_collect_id:                  echantillon.data_collect_id,
           nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
           total_bateau_ecn:                 echantillon.total_bateau_ecn,
@@ -821,16 +896,10 @@
                   vm.selectedItemEchantillon.type_engin_id   = vm.echantillon.type_engin_id;
                   vm.selectedItemEchantillon.type_engin_nom  = vm.echantillon.type_engin_nom;
 
-                 // vm.selectedItemEchantillon.peche_hier                 = vm.echantillon.peche_hier;
-                 // vm.selectedItemEchantillon.peche_avant_hier           = vm.echantillon.peche_avant_hier;
-                  //vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem  = vm.echantillon.nbr_jrs_peche_dernier_sem; 
                   vm.selectedItemEchantillon.total_capture              = vm.echantillon.total_capture;
-                  vm.selectedItemEchantillon.unique_code                = vm.echantillon.unique_code;
+                  vm.selectedItemEchantillon.unique_code                = uniquecode;
                       
                   vm.selectedItemEchantillon.data_collect  = effort_p[0];
-                      
-                 // vm.selectedItemEchantillon.nbr_bateau_actif = vm.echantillon.nbr_bateau_actif;
-                 // vm.selectedItemEchantillon.total_bateau_ecn = vm.echantillon.total_bateau_ecn;
 
                   vm.selectedItemEchantillon.unite_peche  = unite_p[0].unite_peche;
                       
@@ -860,7 +929,8 @@
 
           }
           else
-          {   
+          {   var id=data.response.id;
+              var unique_code=data.response.unique_code;
               if(effort_p[0].code=='PAB'){
                       echantillon.nbr_bateau_actif = '- -';
                       echantillon.total_bateau_ecn = '- -';
@@ -883,7 +953,7 @@
                   peche_avant_hier:                 echantillon.peche_avant_hier,
                   nbr_jrs_peche_dernier_sem:        echantillon.nbr_jrs_peche_dernier_sem,
                   total_capture:                    total_captur,
-                  unique_code:                      echantillon.unique_code,
+                  unique_code:                      unique_code,
                   data_collect:                     effort_p[0],
                   nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
                   total_bateau_ecn:                 echantillon.total_bateau_ecn,
@@ -891,7 +961,7 @@
                   user:                             utili[0],
                   date_creation:                    date_dujour,
                   date_modification:                date_dujour,
-                  id:                               String(data.response) 
+                  id:                               id 
               };
                vm.allechantillon.push(item);
                vm.echantillonfiltre.push(item);
@@ -899,6 +969,7 @@
                NouvelItemEchantillon=false;
           }
           vm.affichageMasqueEchantillon = 0 ;
+          vm.num_dernier_code=0;
       }).error(function (data)
           {
               alert('Error');
@@ -959,7 +1030,6 @@
       vm.afficherboutonModifSuprEspece_capture = 1 ;
       vm.affichageMasqueEspece_capture = 0 ; 
       vm.step3=true;
-      console.log(item);
   };
 
   $scope.$watch('vm.selectedItemEspece_capture', function()
@@ -980,14 +1050,15 @@
       vm.affichageMasque                       = 0 ;
       vm.espece_capture.id                     = vm.selectedItemEspece_capture.id ;
       vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
-      vm.espece_capture.capture                =vm.selectedItemEspece_capture.capture;
+      vm.espece_capture.capture                =parseInt(vm.selectedItemEspece_capture.capture);
       vm.espece_capture.prix                   =parseInt(vm.selectedItemEspece_capture.prix);
   //    vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
       vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
       vm.afficherboutonModifSuprEspece_capture = 0;
       vm.afficherboutonnouveauEspece_capture   = 0;
+      vm.prix=true;
   };
-
+  
   vm.annulerEspece_capture = function()
   {
       vm.selectedItemEspece_capture = {} ;
@@ -1001,6 +1072,7 @@
   vm.ajouterEspece_capture = function ()
   {
       vm.selectedItemEspece_capture.$selected = false;
+      vm.prix=false;
       vm.step3=false;
       vm.affichageMasqueEspece_capture = 1 ;
       vm.affichageMasque = 0 ;
@@ -1118,8 +1190,7 @@
                 }
             }
             else
-            { 
-                
+            {                
                 var item =
                 {
                   espece:                           espece[0],
@@ -1138,6 +1209,7 @@
                 NouvelItemEspece_capture=false;
             }
             vm.affichageMasqueEspece_capture = 0 ;
+            vm.prix = false;
         }).error(function (data)
           {
             alert('Error');
@@ -1265,6 +1337,10 @@
               var date_final= annee+"-"+mois+"-"+jour;
               return date_final
           }      
+      }
+      vm.modif_capture = function()
+      {
+        vm.prix = true;
       }
 
     }

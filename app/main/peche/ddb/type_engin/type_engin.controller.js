@@ -45,7 +45,8 @@
   		vm.alltype_engin        = [] ; 		
   		vm.afficherboutonnouveau= 1 ; //variale affichage bouton nouveau		
   		vm.affichageMasque      = 0 ; //variable cache masque de saisie
-  		
+      vm.Urlimage   = apiUrlserver;
+  		vm.myFile     ={}; 
       //style
   		vm.dtOptions = {
   			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -65,6 +66,7 @@
           var files =event.target.files;
           vm.myFile=files;
           vm.type_engin.url_image=vm.myFile[0].name;
+
       }  
       
       function ajout(type_engin,suppression)
@@ -80,8 +82,7 @@
       }
       
       function insert_in_base(type_engin,suppression)
-      {
-        //add
+      {   //add
           var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
           var getId = 0;
           if (NouvelItem==false)
@@ -95,7 +96,7 @@
                 libelle: type_engin.libelle,
                 url_image: type_engin.url_image,                              
           });
-          console.log(datas);
+          
         //factory
         apiFactory.add("type_engin/index",datas, config).success(function (data)
         {
@@ -125,7 +126,7 @@
                 var upl= $http.post(uploadUrl, fd,{transformRequest: angular.identity,
                                     headers: {'Content-Type': undefined}, repertoire: repertoire})
                 .success(function(data)
-                {
+                { 
                     if(data['erreur'])
                     {
                         var msg   = data['erreur'];
@@ -134,7 +135,7 @@
                     }
                     else
                     {
-                        type_engin.url_image=apiUrlserver+repertoire+data['nomImage'];                 
+                        type_engin.url_image=repertoire+data['nomImage'];                 
                         var dataurl = $.param(
                         {
                             supprimer:        suppression,
@@ -151,7 +152,7 @@
                                 // Update or delete: id exclu                 
                                 if(suppression==0)
                                 {
-                                    vm.selectedItem.libelle        = vm.type_engin.libelle;
+                                    vm.selectedItem.libelle    = vm.type_engin.libelle;
                                     vm.selectedItem.code       = vm.type_engin.code;
                                     vm.selectedItem.url_image  = vm.type_engin.url_image;
                                     vm.afficherboutonModifSupr = 0 ;
@@ -331,18 +332,6 @@
                          vm.affichageMasque = 0;
                       }
                 }
-            /*vm.alltype_engin.forEach(function(reg)
-            {               
-      					if (reg.id==item.id)
-                {
-      							insert_in_base(item,suppression);
-      							vm.affichageMasque = 0 ;
-      					} 
-                else 
-                {
-      							vm.affichageMasque = 0 ;
-      					}
-  					})*/
         }
         else
             insert_in_base(item,suppression);
