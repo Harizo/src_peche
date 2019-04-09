@@ -150,76 +150,76 @@
             fd.append('name_image',name_image);
             if(file)
             { 
-              var upl= $http.post(uploadUrl, fd,{transformRequest: angular.identity,
+                var upl= $http.post(uploadUrl, fd,{transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}, repertoire: repertoire
                 }).success(function(data)
                 {
-                  if(data['erreur'])
-                  {
-                    var msg = data['erreur'];
-                    var alert = $mdDialog.alert({title: 'Notification',textContent: msg,ok: 'Fermé'});                  
-                    $mdDialog.show( alert ).finally(function(){});              
-                  }
-                  else
-                  { 
-                    espece.url_image=repertoire+data['nomImage'];                
-                    var dataurl = $.param(
+                    if(data['erreur'])
                     {
-                        supprimer:        suppression,
-                        id:               getIdurl,      
-                        code:             espece.code,
-                        nom_local:        espece.nom_local,
-                        nom_scientifique: espece.nom_scientifique, 
-                        url_image:        espece.url_image,                              
-                    });
-                    apiFactory.add("espece/index",dataurl,config).success(function(data)
-                    {
-                       if (NouvelItem == false)
-                          { if(suppression == 0)
-                              { vm.selectedItem.nom_local        = vm.espece.nom_local;
-                                vm.selectedItem.nom_scientifique = vm.espece.nom_scientifique;
-                                vm.selectedItem.code             = vm.espece.code;
-                                vm.selectedItem.url_image        = vm.espece.url_image;
-                                vm.afficherboutonModifSupr       = 0;
-                                vm.afficherboutonnouveau         = 1;
-                                vm.selectedItem.$selected        = false;
-                                vm.selectedItem                  ={};            
-                              }
-                              else
-                              {    
-                                vm.allespece = vm.allespece.filter(function(obj)
-                                {
-                                    return obj.id !== currentItem.id;
-                                });
-                              }
-                          }
-                          else
-                          { var item =
-                            {   nom_local:        espece.nom_local,
-                                nom_scientifique: espece.nom_scientifique,
-                                code:             espece.code,
-                                url_image:        espece.url_image,
-                                id:               getIdurl,
-                            };                
-                            vm.allespece.push(item);
-                            vm.espece  = {} ;                   
-                            NouvelItem = false;
-                          }
-                          vm.affichageMasque = 0 ;
-                    }).error(function (data)
+                      var msg = data['erreur'].error.replace(/<[^>]*>/g, '');
+                      var alert = $mdDialog.alert({title: 'Notification',textContent: msg,ok: 'Fermé'});                  
+                      $mdDialog.show( alert ).finally(function()
+                      {   
+                          espece.url_image='';                
+                          var dataurl = $.param(
+                          {
+                              supprimer:        suppression,
+                              id:               getIdurl,      
+                              code:             espece.code,
+                              nom_local:        espece.nom_local,
+                              nom_scientifique: espece.nom_scientifique, 
+                              url_image:        espece.url_image,                              
+                          });
+                          
+                          apiFactory.add("espece/index",dataurl,config).success(function(data)
+                          { 
+                            vm.majtable(espece,getIdurl,suppression);
+                          }).error(function (data)
+                              {
+                                  alert('Error');
+                              });
+                      });              
+                    }
+                    else
+                    { 
+                      espece.url_image=repertoire+data['nomImage'];                
+                      var dataurl = $.param(
                       {
-                        alert('Error');
+                          supprimer:        suppression,
+                          id:               getIdurl,      
+                          code:             espece.code,
+                          nom_local:        espece.nom_local,
+                          nom_scientifique: espece.nom_scientifique, 
+                          url_image:        espece.url_image,                              
                       });
-                  }
+                      
+                      apiFactory.add("espece/index",dataurl,config).success(function(data)
+                      {   
+                        vm.majtable(espece,getIdurl,suppression);                       
+                      }).error(function (data)
+                        {
+                          alert('Error');
+                        });
+                    }
                 
                 }).error(function()
                   {
                     vm.showAlert("Information","Erreur lors de l'enregistrement du fichier");
                   });
-          }
-          else
+            }
+            else
+            { 
+            vm.majtable(espece,getIdurl,suppression);
+            }
+          document.getElementById('fileid').value = null;
+        }).error(function (data)
           {
-          if (NouvelItem == false)
+            alert('Error');
+          });                
+      }
+      vm.majtable=function(espece,Id,suppression)
+      {
+        if (NouvelItem == false)
             { if(suppression == 0)
               { vm.selectedItem.nom_local        = vm.espece.nom_local;
                 vm.selectedItem.nom_scientifique = vm.espece.nom_scientifique;
@@ -244,21 +244,14 @@
                     nom_scientifique: espece.nom_scientifique,
                     code:             espece.code,
                     url_image:        espece.url_image,
-                    id:               getIdurl,
+                    id:               Id,
                   };                
                   vm.allespece.push(item);
                   vm.espece  = {} ;                   
                    NouvelItem = false;
             }
-            vm.affichageMasque = 0 ;
-          }
-          document.getElementById('fileid').value = null;
-        }).error(function (data)
-          {
-            alert('Error');
-          });                
+            vm.affichageMasque = 0;
       }
-
   //*****************************************************************
 		vm.selection= function (item)
     {	vm.selectedItem                        = item;

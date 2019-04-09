@@ -131,9 +131,27 @@
                     {
                         if(data['erreur'])
                         {
-                            var msg = data['erreur'];
+                            var msg = data['erreur'].error.replace(/<[^>]*>/g, '');
                             var alert = $mdDialog.alert({title: 'Notification',textContent: msg,ok: 'Fermé'});                  
-                            $mdDialog.show( alert ).finally(function(){});              
+                            $mdDialog.show( alert ).finally(function()
+                            {
+                                type_canoe.url_image = '';                 
+                                var dataurl = $.param(
+                                {
+                                    supprimer:        suppression,
+                                    id:               getIdurl,      
+                                    code:             type_canoe.code,
+                                    nom:              type_canoe.nom,
+                                    url_image:        type_canoe.url_image,                              
+                                });
+                                
+                                apiFactory.add("type_canoe/index",dataurl,config).success(function(data)
+                                {
+                                }).error(function (data)
+                                    {
+                                        alert('Error');
+                                    });
+                            });              
                         }
                         else
                         {    
