@@ -78,7 +78,7 @@
       
   		vm.espece_column =
       [
-        {titre:"Code"},
+        {titre:"Code 3 Alpha"},
         {titre:"Nom local"},
         {titre:"Nom scientifique"},
         {titre:"Image"}

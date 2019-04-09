@@ -17,6 +17,7 @@
       vm.filtre.date_fin = vm.now_date ;
       vm.annees = [] ;
       vm.datas = [] ;
+      vm.affiche_load = false ;
       for (var i = 2012; i <= vm.annee; i++) {
         vm.annees.push(i);
       }
@@ -31,7 +32,13 @@
         responsive: true
       };
 
-      
+      vm.pivots = [
+        {titre:"Région",id:"id_region"},
+        {titre:"Unité de pêche",id:"id_unite_peche"},
+        {titre:"Site de débarquement",id:"id_site_embarquement"},
+        {titre:"Région et Unité de pêche",id:"id_region_and_id_unite_peche"},
+        {titre:"Site de débarquement et Unité de pêche",id:"id_site_embarquement_and_id_unite_peche"},
+      ];
 
       apiFactory.getAll("region/index").then(function(result)
       {
@@ -94,13 +101,61 @@
 
       vm.analysefiltrer = function(filtres)
       {
+        vm.affiche_load = true ;
           apiFactory.getAPIgeneraliserREST("analyse_parametrable/index","menu","analyse_parametrable","annee",filtres.annee,
             "id_unite_peche",filtres.id_unite_peche,"id_region",filtres.id_region,"id_district",filtres.id_district,
-            "id_site_embarquement",filtres.id_site_embarquement).then(function(result)
+            "id_site_embarquement",filtres.id_site_embarquement,"pivot",filtres.pivot).then(function(result)
           {
+            vm.affiche_load = false ;
             vm.datas = result.data.response;
-            console.log(vm.datas);
+            vm.totals = result.data.total;
+            var data = result.data.response;
+            console.log(data);
           });        
+      }
+
+      vm.convertion_kg_tonne = function(val)
+      {
+        if (val > 1000) 
+        {
+          return (val/1000)+" t" ;
+        }
+        else
+        {
+          return val+" Kg"
+        }
+      }
+
+      vm.formatMillier = function (nombre) 
+      {
+          if (typeof nombre != 'undefined' && parseInt(nombre) >= 0) {
+              nombre += '';
+              var sep = ' ';
+              var reg = /(\d+)(\d{3})/;
+              while (reg.test(nombre)) {
+                  nombre = nombre.replace(reg, '$1' + sep + '$2');
+              }
+              return nombre;
+          } else {
+              return "";
+          }
+      }
+
+      vm.cacher_table = function(mot_a_cherecher,string)
+      {
+          if (!string) 
+          {
+            string = "id_region" ;
+          }
+          var res = string.indexOf(mot_a_cherecher);
+          if (res != -1) 
+          {
+            return true ;
+          }
+          else
+          {
+            return false ;
+          }
       }
     }
 

@@ -121,16 +121,22 @@
 
       vm.couleur = function(val)
       {
-        if (val == 0) 
+        if (val < 50) 
         {
           
           return "#ff0000" ;
         }
 
-        if (val >= 0) 
+        if (val > 75) 
         {
           
           return "#03af2b" ;
+        }
+
+        if ( (val >= 50)&&(val <= 75) ) 
+        {
+          
+          return "#ffae00" ;
         }
       }
 
