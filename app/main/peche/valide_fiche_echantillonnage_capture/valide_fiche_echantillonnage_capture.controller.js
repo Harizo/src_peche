@@ -89,14 +89,24 @@
           currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
           apiFactory.getFils("echantillon/index",item.id).then(function(result)
           {
-              vm.allechantillon = result.data.response;
+              try
+              {                  
+                vm.allechantillon = result.data.response;                 
+              }catch(e){
+
+              }finally{
+                vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                  {
+                      return obj.data_collect.code == 'PAB';
+                  });
+              }
           });
           apiFactory.getFils("unite_peche_site/index",item.site_embarquement.id).then(function(result)
           {
               vm.allunite_peche_site = result.data.response;
               
           });
-
+          vm.checkboxPAB = true;
           vm.step1=true;  
       };
       $scope.$watch('vm.selectedItem', function()
@@ -153,6 +163,45 @@
   
 
 /******************************************** Debut echantillon  ******************************************************/
+   vm.recuperationPab = function(pab)
+      {         
+         if(pab){
+              vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+              {
+                  return obj.data_collect.code == 'PAB';
+              });
+              vm.checkboxCAB=false;   
+          }else
+          { 
+            vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+              {
+                  return obj.data_collect.code == 'CAB';
+              });
+            vm.checkboxCAB=true; 
+          }
+          vm.affichageMasqueEchantillon = 0;  
+      }
+      vm.recuperationCab = function(cab){
+        if(cab)
+        {
+          vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                {
+                    return obj.data_collect.code == 'CAB';
+                });
+          
+          vm.checkboxPAB=false;
+        }
+        else
+        { 
+            vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+            {
+                return obj.data_collect.code == 'PAB';
+            });
+            vm.checkboxPAB=true; 
+        }
+        vm.affichageMasqueEchantillon = 0;
+      }
+
     vm.selectionechantillon= function (item)
     {
         vm.selectedItemEchantillon = item;

@@ -497,17 +497,19 @@
 												<span class="column-title">Effort de pêche</span>
 											</div>
 										</th>
-										<th class="secondary-text">
+										<th class="secondary-text" ng-show="vm.checkboxPAB">
 											<div class="table-header">
 												<span class="column-title">Pêche: hier<br/>avant hier</span>
 											</div>
 										</th>
 										<th class="secondary-text">
 											<div class="table-header">
-												<span class="column-title">Total capture<br/>Nbr jrs dernier sem</span>
+												<span class="column-title">Total capture<br ng-if="vm.checkboxPAB">
+													<span ng-if="vm.checkboxPAB">Nbr jrs dernier sem</span>
+												</span>
 											</div>
 										</th>
-										<th class="secondary-text">
+										<th class="secondary-text" ng-show="!vm.checkboxPAB">
 											<div class="table-header">
 												<span class="column-title">Bateau actif<br/>Bateau ecn</span>
 											</div>
@@ -541,11 +543,13 @@
 									<tr ng-repeat="echantillon in vm.echantillonfiltre"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
 										<td>{{echantillon.unique_code}}</td>
 										<td>{{echantillon.data_collect.code}}</td>
-										<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
+										<td ng-show="vm.checkboxPAB">{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
 										
-										<td>{{echantillon.total_capture}} (kg)<br/>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
+										<td>{{echantillon.total_capture}} (kg)<br ng-if="vm.checkboxPAB">
+											<span ng-if="vm.checkboxPAB">{{echantillon.nbr_jrs_peche_dernier_sem}}</span>
+										</td>
 										
-										<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
+										<td ng-show="!vm.checkboxPAB">{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
 
 										<td>{{echantillon.unite_peche.libelle}}</td>
 										

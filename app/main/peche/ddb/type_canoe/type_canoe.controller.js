@@ -196,39 +196,39 @@
                 else
                 {
 
-    			if (NouvelItem == false)
-          {
-              // Update or delete: id exclu                 
-              if(suppression==0)
-              {
-            			vm.selectedItem.nom = vm.type_canoe.nom;
-            			vm.selectedItem.code = vm.type_canoe.code;
-                        vm.selectedItem.url_image = vm.type_canoe.url_image;
-            			vm.afficherboutonModifSupr = 0 ;
-            			vm.afficherboutonnouveau = 1 ;
-            			vm.selectedItem.$selected = false;
-            			vm.selectedItem ={};
-              } 
-              else
-              {    
-        					vm.alltype_canoe = vm.alltype_canoe.filter(function(obj)
+            			if (NouvelItem == false)
                   {
-      						return obj.id !== currentItem.id;
-      					 });
-              }
-    			} 
-                else
-                {
-                    var item = {
-                        nom: type_canoe.nom,
-                        code: type_canoe.code,
-                        url_image: type_canoe.url_image,
-                        id:String(data.response) ,
-                    };                
-                    vm.alltype_canoe.push(item);
-                    vm.type_canoe = {} ;                   
-                    NouvelItem=false;
-    				    } 
+                      // Update or delete: id exclu                 
+                      if(suppression==0)
+                      {
+                    			vm.selectedItem.nom = vm.type_canoe.nom;
+                    			vm.selectedItem.code = vm.type_canoe.code;
+                          vm.selectedItem.url_image = vm.type_canoe.url_image;
+                    			vm.afficherboutonModifSupr = 0 ;
+                    			vm.afficherboutonnouveau = 1 ;
+                    			vm.selectedItem.$selected = false;
+                    			vm.selectedItem ={};
+                      } 
+                      else
+                      {    
+                					vm.alltype_canoe = vm.alltype_canoe.filter(function(obj)
+                          {
+              						return obj.id !== currentItem.id;
+              					 });
+                      }
+            			} 
+                  else
+                  {
+                      var item = {
+                          nom: type_canoe.nom,
+                          code: type_canoe.code,
+                          url_image: type_canoe.url_image,
+                          id:String(data.response) ,
+                      };                
+                      vm.alltype_canoe.push(item);
+                      vm.type_canoe = {} ;                   
+                      NouvelItem=false;
+      				    } 
     					 
                vm.affichageMasque = 0 ;
               }
