@@ -188,19 +188,20 @@
                         alert('Error');
                 });                
         }
-        vm.majtable=function(type_canoe,Id,suppression)
+
+        vm.majtable = function(type_canoe,Id,suppression)
         {
             if (NouvelItem == false)
             {
                 // Update or delete: id exclu                 
                 if(suppression==0)
                 {
-                    vm.selectedItem.nom = vm.type_canoe.nom;
-                    vm.selectedItem.code = vm.type_canoe.code;
-                    vm.selectedItem.url_image = vm.type_canoe.url_image;
+                    vm.selectedItem.nom        = vm.type_canoe.nom;
+                    vm.selectedItem.code       = vm.type_canoe.code;
+                    vm.selectedItem.url_image  = vm.type_canoe.url_image;
                     vm.afficherboutonModifSupr = 0 ;
-                    vm.afficherboutonnouveau = 1 ;
-                    vm.selectedItem.$selected = false;
+                    vm.afficherboutonnouveau   = 1 ;
+                    vm.selectedItem.$selected  = false;
                     vm.selectedItem ={};
                 } 
                 else
@@ -214,10 +215,11 @@
             else
             {
                 var item = {
+                          id:        Id,
                           nom:       type_canoe.nom,
                           code:      type_canoe.code,
                           url_image: type_canoe.url_image,
-                          id:        Id,
+                          
                       };                
                 vm.alltype_canoe.push(item);
                 vm.type_canoe = {} ;                   
