@@ -27,18 +27,7 @@
 							<br>
 							<form name="fiche_echantillonnage_captureform" class="md-inline-form "  novalidate>
 								<div layout="column" layout-gt-sm="row">
-									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id">				
-									<md-input-container flex-gt-sm>
-										<input type="text" name="code_unique" ng-model="vm.fiche_echantillonnage_capture.code_unique"
-										placeholder="Code unique " ng-init="vm.fiche_echantillonnage_capture.code_unique=''"
-										required>
-										<div ng-messages="fiche_echantillonnage_captureform.code_unique.$error"
-											role="alert">
-											<div ng-message="required">
-												<span>Code unique obligatoire.</span>
-											</div>
-										</div>
-									</md-input-container>
+									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id">
 									<md-input-container flex-gt-sm>
 										<label>Enqueteur</label>
 										<md-select ng-model="vm.fiche_echantillonnage_capture.enqueteur_id"  ng-change="vm.modifierenqueteur(vm.fiche_echantillonnage_capture)"  md-container-class="my">
@@ -73,8 +62,7 @@
 									</md-input-container>
 									<md-input-container flex-gt-sm>
 										<input type="text" name="latitude" ng-model="vm.fiche_echantillonnage_capture.latitude"
-										placeholder="Latitude " ng-init="vm.fiche_echantillonnage_capture.latitude=''"
-										required>
+										placeholder="Latitude " ng-init="vm.fiche_echantillonnage_capture.latitude=''">
 										<div ng-messages="fiche_echantillonnage_captureform.latitude.$error"
 											role="alert">
 											<div ng-message="required">
@@ -84,8 +72,7 @@
 									</md-input-container>
 									<md-input-container flex-gt-sm>
 										<input type="text" name="longitude" ng-model="vm.fiche_echantillonnage_capture.longitude"
-										placeholder="Longitude " ng-init="vm.fiche_echantillonnage_capture.longitude=''"
-										required>
+										placeholder="Longitude " ng-init="vm.fiche_echantillonnage_capture.longitude=''">
 										<div ng-messages="fiche_echantillonnage_captureform.longitude.$error"
 											role="alert">
 											<div ng-message="required">
@@ -95,8 +82,7 @@
 									</md-input-container>
 									<md-input-container flex-gt-sm>
 										<input type="text" name="altitude" ng-model="vm.fiche_echantillonnage_capture.altitude"
-										placeholder="Altitude " ng-init="vm.fiche_echantillonnage_capture.altitude=''"
-										required>
+										placeholder="Altitude " ng-init="vm.fiche_echantillonnage_capture.altitude=''">
 										<div ng-messages="fiche_echantillonnage_captureform.altitude.$error"
 											role="alert">
 											<div ng-message="required">
@@ -143,19 +129,18 @@
 					<div class="simple-table-container md-whiteframe-4dp">
 					<md-tab-body>
 						<form name="echantillonform" class="md-inline-form"  novalidate>
-							<div layout="column" layout-gt-xs="row" flex>
-								<input type="hidden" ng-model="vm.echantillon.id">		
-								
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>Effort de pêche</label>
-									<md-select ng-model="vm.echantillon.data_collect_id" disabled>
-										<md-option ng-repeat="data_collect in vm.alldata_collect" value="{{data_collect.id}}">
-											{{data_collect.code}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
+								<div layout="column" layout-gt-xs="row" flex>
+									<input type="hidden" ng-model="vm.echantillon.id">						
+									<md-input-container flex="100" flex-gt-xs="33">
+										<label>Effort de pêche</label>
+										<md-select ng-model="vm.echantillon.data_collect_id" disabled>
+											<md-option ng-repeat="data_collect in vm.alldata_collect" value="{{data_collect.id}}">
+												{{data_collect.code}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+								</div>
+								<!--md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
 									<input type="number" name="peche_hier" ng-model="vm.echantillon.peche_hier"
 									placeholder="Peche hier " ng-init="vm.echantillon.peche_hier=''"
 									>
@@ -165,87 +150,61 @@
 											<span>Peche hier obligatoire.</span>
 										</div>
 									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
-									<input type="number" name="peche_avant_hier" ng-model="vm.echantillon.peche_avant_hier"
-									placeholder="Peche avant hier " ng-init="vm.echantillon.peche_avant_hier=''"
-									>
-									<div ng-messages="echantillonform.peche_avant_hier.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Peche avant hier obligatoire.</span>
-										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
-									<input type="number" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
-									placeholder="nbr jrs dernier sem" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''">
-									<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Nbr du jours obligatoire.</span>
-										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
-									<input type="number" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
-									placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''"
-									>
-									<div ng-messages="echantillonform.nbr_bateau_actif.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Nbr bateau actif obligatoire.</span>
-										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
-									<input type="number" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
-									placeholder="Total bateau ecn" ng-init="vm.echantillon.total_bateau_ecn=''"
-									>
-									<div ng-messages="echantillonform.total_bateau_ecn.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Total bateau ecn obligatoire.</span>
-										</div>
-									</div>
-								</md-input-container>
-								<md-input-container flex="100" flex-gt-xs="33">
-									<label>Unite peche</label>
-									<md-select ng-model="vm.echantillon.unite_peche_id"  ng-change="vm.modifierunite_peche(vm.echantillon)">
-										<md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
-											{{unite_peche_site.unite_peche.libelle}}
-										</md-option>
-									</md-select>
-								</md-input-container>
-								<!--md-input-container flex="100" flex-gt-xs="33">
-									<label>Type canoe</label>
-									<md-select ng-model="vm.echantillon.type_canoe_id"  ng-change="vm.modifiertype_canoe(vm.echantillon)" disabled>
-										<md-option ng-repeat="type_canoe in vm.alltype_canoe" value="{{type_canoe.id}}">
-											{{type_canoe.nom}}
-										</md-option>
-									</md-select>
 								</md-input-container-->
-								<!--md-input-container flex="100" flex-gt-xs="33">
-									<label>Type engin</label>
-									<md-select ng-model="vm.echantillon.type_engin_id"  ng-change="vm.modifiertype_engin(vm.echantillon)" disabled>
-										<md-option ng-repeat="type_engin in vm.alltype_engin" value="{{type_engin.id}}">
-											{{type_engin.libelle}}
-										</md-option>
-									</md-select>
-								</md-input-container-->
-								<md-input-container flex="100" flex-gt-xs="33">
-									<input type="text" name="unique_code" ng-model="vm.echantillon.unique_code"
-									placeholder="Code unique" ng-init="vm.echantillon.unique_code=''"
-									required>
-									<div ng-messages="echantillonform.unique_code.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Code unique obligatoire.</span>
+								<div layout="column" layout-gt-xs="row" flex ng-show="vm.checkboxPAB">
+									<md-checkbox ng-model="vm.echantillon.peche_hier" ng-change="vm.recuperationPechehier(vm.checkboxPechehier)"> Peche hier </md-checkbox>&nbsp&nbsp
+									<md-checkbox ng-model="vm.echantillon.peche_avant_hier" ng-change="vm.recuperationPecheavanthier(vm.checkboxPecheavanthier)"> Peche avant hier</md-checkbox>
+									 
+									<!--md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
+										<input type="number" name="peche_avant_hier" ng-model="vm.echantillon.peche_avant_hier"
+										placeholder="Peche avant hier " ng-init="vm.echantillon.peche_avant_hier=''"
+										>
+										<div ng-messages="echantillonform.peche_avant_hier.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Peche avant hier obligatoire.</span>
+											</div>
 										</div>
+									</md-input-container-->
 									</div>
-								</md-input-container>							
-								
-							</div>
+								<div layout="column" layout-gt-xs="row" flex>
+									<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
+										<input type="number" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
+										placeholder="nombre de jour de peche dernière semaine" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''" ng-max="7">
+										<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
+											role="alert">
+											<div ng-message="max">
+												<span>Nombre maximale autorisé à 7</span>
+											</div>
+										</div>
+									</md-input-container>
+								</div>
+								<div layout="column" layout-gt-xs="row" flex>
+									<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
+										<input type="number" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
+										placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''">
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
+										<input type="number" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
+										placeholder="Total bateau ecn" ng-init="vm.echantillon.total_bateau_ecn=''">
+									</md-input-container>
+								</div>
+								<div layout="column" layout-gt-xs="row" flex>
+									<md-input-container flex="100" flex-gt-xs="33">
+										<label>Unite peche</label>
+										<md-select ng-model="vm.echantillon.unite_peche_id"  ng-change="vm.modifierunite_peche(vm.echantillon)" required>
+											<md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
+												{{unite_peche_site.unite_peche.libelle}}
+											</md-option>
+										</md-select>
+										<div ng-messages="echantillonform.unite_peche_id.$error"
+											role="alert">
+											<div ng-message="required">
+												<span>Unite de pêche obligatoire.</span>
+											</div>
+										</div>
+									</md-input-container>								
+								</div>
 							<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
 								ng-disabled="echantillonform.$invalid " ng-click="vm.ajoutEchantillon(vm.echantillon,0)">
 								Enregistrer
@@ -280,8 +239,8 @@
 		                        </md-select>
 		                      </md-input-container>
 		                        <md-input-container flex="100" flex-gt-xs="33">
-		                          <input type="text" name="capture" ng-model="vm.espece_capture.capture"
-		                            placeholder="capture " ng-init="vm.espece_capture.capture=''"
+		                          <input type="number" name="capture" ng-model="vm.espece_capture.capture"
+		                            placeholder="capture " ng-init="vm.espece_capture.capture=''" ng-change="vm.modif_capture()"
 		                            required>
 		                            <div ng-messages="espece_captureform.capture.$error"
 		                              role="alert">
@@ -293,7 +252,7 @@
 		                        <md-input-container flex="100" flex-gt-xs="33">
 		                          <input type="number" name="prix" ng-model="vm.espece_capture.prix"
 		                            placeholder="prix " ng-init="vm.espece_capture.prix=''"
-		                            required>
+		                            ng-disabled="!vm.prix" required>
 		                            <div ng-messages="espece_captureform.prix.$error"
 		                              role="alert">
 		                              <div ng-message="required">
