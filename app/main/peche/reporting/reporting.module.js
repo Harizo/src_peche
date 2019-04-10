@@ -7,7 +7,9 @@
             'app.peche.reporting.nombre_echantillon',
             'app.peche.reporting.analyse_parametrable'
         ])
+        .run(testPermission)        
         .config(config);
+        var vs ;
 
     /** @ngInject */
     function config(msNavigationServiceProvider, $mdDateLocaleProvider)
@@ -17,9 +19,34 @@
             title : 'Reporting/Analyses',
            // group : true,
             icon  : 'icon-calendar-text',
-            weight: 6
+            weight: 6,
+            hidden: function()
+            {
+                    return vs;
+            }
         });
 
+     
+    }
+
+    function testPermission(loginService,$cookieStore,apiFactory)
+    {
+        var id_user = $cookieStore.get('id');
+       
+        var permission = [];
+        if (id_user) 
+        {
+            apiFactory.getOne("utilisateurs/index", id_user).then(function(result) 
+            {
+                var user = result.data.response;
+                var permission = user.roles;
+                var permissions = ["RPT"];
+                var x =  loginService.gestionMenu(permissions,permission);        
+                vs = x ;
+              
+
+            });
+        }
      
     }
 })();

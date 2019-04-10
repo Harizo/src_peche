@@ -5,7 +5,9 @@
 
     angular
         .module('app.peche.validation_fiche_echantillonnage_capture', [])
+        .run(testPermission)        
         .config(config);
+        var vs ;
 
     /** @ngInject */
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
@@ -34,8 +36,33 @@
             icon  : 'icon-clipboard-text',
 
             state: 'app.population_validation_fiche_echantillonnage_capture',
-            weight: 3
+            weight: 3,
+            hidden: function()
+            {
+                    return vs;
+            }
         });
+    }
+
+    function testPermission(loginService,$cookieStore,apiFactory)
+    {
+        var id_user = $cookieStore.get('id');
+       
+        var permission = [];
+        if (id_user) 
+        {
+            apiFactory.getOne("utilisateurs/index", id_user).then(function(result) 
+            {
+                var user = result.data.response;
+                var permission = user.roles;
+                var permissions = ["VLD"];
+                var x =  loginService.gestionMenu(permissions,permission);        
+                vs = x ;
+              
+
+            });
+        }
+     
     }
 
 })();

@@ -30,11 +30,11 @@
         msNavigationServiceProvider.saveItem('peche.ddb', {
             title : 'Données de Bases',
             icon  : 'icon-data',
-            weight: 2/*,
+            weight: 2,
             hidden: function()
             {
                     return vs;
-            }*/
+            }
         });
 
 

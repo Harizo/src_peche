@@ -75,6 +75,39 @@
                     </div>
                 </md-input-container>
 
+                <md-input-container class="md-block" md-no-float>
+                  <label>Région</label>
+                    <md-select ng-model="vm.registerForm.id_region" name="region" ng-change="vm.filtre_district()" required>
+                  
+                      <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" >
+                        {{region.nom}}
+                      </md-option>
+                    </md-select>
+                    <div ng-messages="registerForm.region.$error"
+                      role="alert">
+                      <div ng-message="required">
+                        <span>Région obligatoire.</span>
+                      </div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" md-no-float>
+                    <label>District</label>
+                    <md-select ng-model="vm.registerForm.id_district" name="district" ng-disabled="!vm.registerForm.id_region" ng-change="vm.filtre_site()" required>
+                   
+                      <md-option ng-repeat="district in vm.districts" value="{{district.id}}">
+                        {{district.nom}}
+                      </md-option>                                  
+                    </md-select>
+
+                    <div ng-messages="registerForm.district.$error"
+                      role="alert">
+                      <div ng-message="required">
+                        <span>Région obligatoire.</span>
+                      </div>
+                    </div>
+                </md-input-container>
+
 
                 <div class="terms" layout="row" layout-align="center center">
                     <md-checkbox name="terms" ng-model="data.cb1" aria-label="I read and accept" required></md-checkbox>

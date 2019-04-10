@@ -36,8 +36,9 @@
         {titre:"Région",id:"id_region"},
         {titre:"Unité de pêche",id:"id_unite_peche"},
         {titre:"Site de débarquement",id:"id_site_embarquement"},
+        {titre:"Espèce",id:"id_espece"},
         {titre:"Région et Unité de pêche",id:"id_region_and_id_unite_peche"},
-        {titre:"Site de débarquement et Unité de pêche",id:"id_site_embarquement_and_id_unite_peche"},
+        {titre:"Site de débarquement et Unité de pêche",id:"id_site_embarquement_and_id_unite_peche"}
       ];
 
       apiFactory.getAll("region/index").then(function(result)
@@ -62,6 +63,14 @@
           vm.allunite_peche= result.data.response;
           vm.unite_peches= result.data.response;
       });
+
+      apiFactory.getAll("espece/index").then(function(result)
+      {
+          vm.allespece = result.data.response;
+          
+      });
+
+      
 
       vm.filtre_district = function()
       {
@@ -99,18 +108,39 @@
           }
       }
 
+      vm.filtre_up = function()
+      {
+        vm.unite_peches = [];
+        
+        if (vm.filtre.id_site_embarquement != "*") 
+        {
+          apiFactory.getAPIgeneraliserREST("unite_peche_site/index","cle_etrangere",vm.filtre.id_site_embarquement).then(function(result)
+          {
+              vm.allunite_peche_site = result.data.response;
+              vm.unite_peches = result.data.response;
+             
+          });
+        }
+        else 
+        {
+          vm.unite_peches = vm.allunite_peche ;
+        }
+          
+      }
+
       vm.analysefiltrer = function(filtres)
       {
         vm.affiche_load = true ;
           apiFactory.getAPIgeneraliserREST("analyse_parametrable/index","menu","analyse_parametrable","annee",filtres.annee,
             "id_unite_peche",filtres.id_unite_peche,"id_region",filtres.id_region,"id_district",filtres.id_district,
-            "id_site_embarquement",filtres.id_site_embarquement,"pivot",filtres.pivot).then(function(result)
+            "id_site_embarquement",filtres.id_site_embarquement,
+            "id_espece",filtres.id_espece,"pivot",filtres.pivot).then(function(result)
           {
             vm.affiche_load = false ;
             vm.datas = result.data.response;
             vm.totals = result.data.total;
             var data = result.data.response;
-            console.log(data);
+           
           });        
       }
 

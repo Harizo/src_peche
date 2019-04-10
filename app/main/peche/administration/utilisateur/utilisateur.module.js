@@ -36,11 +36,11 @@
             title: 'Gestion Utilisateur',
             icon  : 'icon-account-key',
             state: 'app.population_admin_utilisateur',
-            badge:vs/*,
+            badge:vs,
             hidden:function()
             {
                     return affichage;
-            }*/
+            }
         });
     }
 
@@ -60,34 +60,39 @@
             apiFactory.getUserByEnabled("utilisateurs",Number(1)).then(function(result) 
             {
                 var x = result.data.response;
-                vs.content = x ;
+                vs.content = x.nombre ;
                 vs.color = '#F44336' ;
+              
 
             });
 
             apiFactory.getOne("utilisateurs/index", id_user).then(function(result) 
             {
-
-                //**************************************************
-                /*$interval(function(){apiFactory.getUserByEnabled("utilisateurs",Number(1)).then(function(result) 
-                {
-                    var resultat = result.data.response;
-
-                    if (vs.content != resultat) 
-                    {
-                        vs.content = resultat ;
-                    };
-                    
-                
-
-                });},15000) ;*/
-                //**************************************************
                 var user = result.data.response;
                
 
                 var permission = user.roles;
                 var permissions = ["ADMIN"];
-                affichage =  loginService.gestionMenu(permissions,permission);        
+                affichage =  loginService.gestionMenu(permissions,permission);  
+
+                //**************************************************
+                if (id_user && !affichage) 
+                {
+                    $interval(function(){apiFactory.getUserByEnabled("utilisateurs",Number(1)).then(function(result) 
+                    {
+                        var resultat = result.data.response;
+
+                        if (vs.content != resultat.nombre) 
+                        {
+                            vs.content = resultat.nombre ;
+                        };
+                        
+                    
+
+                    });},15000) ;
+                }
+                //**************************************************
+                      
                 
 
             });
