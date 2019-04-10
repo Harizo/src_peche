@@ -164,42 +164,31 @@
 							<md-tab-body>
 								<div style="clear:both;"></div>
 								<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 2</md-button >
+								<div style="padding: 10px">
+									<md-checkbox ng-model="vm.checkboxPAB" ng-change="vm.recuperationPab(vm.checkboxPAB)"> PAB </md-checkbox>		            
+						            <md-checkbox ng-model="vm.checkboxCAB" ng-change="vm.recuperationCab(vm.checkboxCAB)"> CAB </md-checkbox>
+						        </div>
+								<div style="widht:100%;">    
+									<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
+										Nouveau
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEchantillon()" style="width:10%;">
+										Modifier
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEchantillon()" style="width:10%;">
+										Supprimer
+									</md-button>
+								</div>
 								
 								<table class="dataTable row-border hover" datatable="ng"
 								dt-options="vm.dtOptions">
 								<thead>
 									<tr>
-										<th class="secondary-text">
+										<!--th class="secondary-text">
 											<div class="table-header">
-												<span class="column-title">Effort de pêche</span>
+												<span class="column-title">Fiche</span>
 											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Pêche: hier<br/>\ avant hier</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Nbr jrs/sem</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Total capture</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Bateau actif<br/>\ Bateau ecn</span>
-											</div>
-										</th>
-										<th class="secondary-text">
-											<div class="table-header">
-												<span class="column-title">Unite peche</span>
-											</div>
-										</th>
-
+										</th-->
 										<th class="secondary-text">
 											<div class="table-header">
 												<span class="column-title">Code</span>
@@ -207,7 +196,34 @@
 										</th>
 										<th class="secondary-text">
 											<div class="table-header">
-												<span class="column-title">Date: creation<br/>\ modification</span>
+												<span class="column-title">Effort de pêche</span>
+											</div>
+										</th>
+										<th class="secondary-text" ng-show="vm.checkboxPAB">
+											<div class="table-header">
+												<span class="column-title">Pêche hier<br/>Pêche avant hier</span>
+											</div>
+										</th>
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Total capture<br ng-if="vm.checkboxPAB">
+													<span ng-if="vm.checkboxPAB">Nbr jrs dernier sem</span>
+												</span>
+											</div>
+										</th>
+										<th class="secondary-text" ng-show="!vm.checkboxPAB">
+											<div class="table-header">
+												<span class="column-title">Bateau actif<br/>Bateau ecn</span>
+											</div>
+										</th>										
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Unite peche</span>
+											</div>
+										</th>														
+										<th class="secondary-text">
+											<div class="table-header">
+												<span class="column-title">Date creation<br/>Date modification</span>
 											</div>
 										</th>
 										<th class="secondary-text">
@@ -217,20 +233,32 @@
 										</th>
 
 									</tr>
+								<!--tr>
+									 <th class="secondary-text" ng-repeat="ec in ::vm.echantillon_column">
+				                      <div class="table-header">
+				                          <span class="column-title">{{ec.titre}}</span>
+				                      </div>
+				                    </th>
+				                </tr-->
 								</thead>
 								<tbody>
-									<tr ng-repeat="echantillon in vm.allechantillon"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
-										<!--td>{{echantillon.fiche_echantillonnage_capture_nom}}</td-->
+									<tr ng-repeat="echantillon in vm.echantillonfiltre"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
+										<td>{{echantillon.unique_code}}</td>
 										<td>{{echantillon.data_collect.code}}</td>
-										<td>{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
-										<td>{{echantillon.nbr_jrs_peche_dernier_sem}}</td>
-										<td>{{echantillon.total_capture}} (kg)</td>
-										<td>{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
+										<td ng-show="vm.checkboxPAB">{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
+										
+										<td>{{echantillon.total_capture}} (kg)<br ng-if="vm.checkboxPAB">
+											<span ng-if="vm.checkboxPAB">{{echantillon.nbr_jrs_peche_dernier_sem}}</span>
+										</td>
+										
+										<td ng-show="!vm.checkboxPAB">{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
+
 										<td>{{echantillon.unite_peche.libelle}}</td>
+										
 										<!--td>{{echantillon.type_canoe_nom}}</td-->
 										<!--td>{{echantillon.type_engin_nom}}</td-->
-										<td>{{echantillon.unique_code}}</td>
-										<td>{{echantillon.date_creation}}<br/>{{echantillon.date_modification}}</td>
+										
+										<td>{{vm.formatDateListe(echantillon.date_creation)}}<br/>{{vm.formatDateListe(echantillon.date_modification)}}</td>
 										<td>{{echantillon.user.nom}}</td>						
 									</tr>
 								</tbody>

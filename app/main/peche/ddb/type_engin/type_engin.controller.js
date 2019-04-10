@@ -129,9 +129,28 @@
                 { 
                     if(data['erreur'])
                     {
-                        var msg   = data['erreur'];
-                        var alert = $mdDialog.alert({title: 'Notification',textContent: msg,ok: 'Fermé'});                  
-                        $mdDialog.show( alert ).finally(function(){});              
+                        var msg   = data['erreur'].error.replace(/<[^>]*>/g, '');
+                        var alert = $mdDialog.alert({title: 'Notification',textContent: 'Data insert but '+ msg,ok: 'Fermé'});                  
+                        $mdDialog.show( alert ).finally(function()
+                        {
+                            type_engin.url_image='';                 
+                            var dataurl = $.param(
+                            {
+                                supprimer:        suppression,
+                                id:               getIdurl,      
+                                code:             type_engin.code,
+                                libelle:          type_engin.libelle,
+                                url_image:        type_engin.url_image,                              
+                            });
+                            
+                            apiFactory.add("type_engin/index",dataurl,config).success(function(data)
+                            {
+                                vm.majtable(type_engin,getIdurl,suppression);
+                            }).error(function (data)
+                                {
+                                    alert('Error');
+                                });
+                        });              
                     }
                     else
                     {
@@ -146,41 +165,8 @@
                         });
                         
                         apiFactory.add("type_engin/index",dataurl,config).success(function(data)
-                        {
-                            if (NouvelItem == false)
-                            {
-                                // Update or delete: id exclu                 
-                                if(suppression==0)
-                                {
-                                    vm.selectedItem.libelle    = vm.type_engin.libelle;
-                                    vm.selectedItem.code       = vm.type_engin.code;
-                                    vm.selectedItem.url_image  = vm.type_engin.url_image;
-                                    vm.afficherboutonModifSupr = 0 ;
-                                    vm.afficherboutonnouveau   = 1 ;
-                                    vm.selectedItem.$selected  = false;
-                                    vm.selectedItem            ={};
-                                      } 
-                                      else
-                                      {    
-                                          vm.alltype_engin = vm.alltype_engin.filter(function(obj)
-                                          {
-                                              return obj.id !== currentItem.id;
-                                          });
-                                      }
-                                  } 
-                                  else
-                                  {
-                                      var item = {
-                                          libelle: type_engin.libelle,
-                                          code: type_engin.code,
-                                          url_image: type_engin.url_image,
-                                          id:getIdurl,
-                                      };                
-                                      vm.alltype_engin.push(item);
-                                      vm.type_engin = {} ;                   
-                                      NouvelItem=false;
-                                  } 
-                                  vm.affichageMasque = 0 ;
+                        {   
+                            vm.majtable(type_engin,getIdurl,suppression);                            
                         }).error(function (data)
                             {
                                 alert('Error');
@@ -193,40 +179,8 @@
                     });
             }
             else
-            {
-        				if (NouvelItem == false)
-                {
-                  // Update or delete: id exclu                 
-                  if(suppression==0)
-                  {
-        						vm.selectedItem.libelle = vm.type_engin.libelle;
-        						vm.selectedItem.code = vm.type_engin.code;
-        						vm.afficherboutonModifSupr = 0 ;
-        						vm.afficherboutonnouveau = 1 ;
-        						vm.selectedItem.$selected = false;
-        						vm.selectedItem ={};
-                   
-                  }
-                  else
-                  {    
-        						  vm.alltype_engin = vm.alltype_engin.filter(function(obj)
-                      {
-        							return obj.id !== currentItem.id;
-        						  });
-                  }
-        				}
-                else
-                {
-                    var item = {
-                          libelle: type_engin.libelle,
-                          code: type_engin.code,
-                          id:String(data.response),
-                    };                
-                    vm.alltype_engin.push(item);
-                    vm.type_engin = {} ;                   
-                    NouvelItem=false;
-  				      }
-  					   vm.affichageMasque = 0 ;
+            { 
+                vm.majtable(type_engin,getIdurl,suppression);
             }
               
             document.getElementById('fileid').value = null;  
@@ -235,7 +189,44 @@
             alert('Error');
         });                
     }
-  		
+  	vm.majtable=function(type_engin,Id,suppression)
+    {
+        if (NouvelItem == false)
+        {
+            // Update or delete: id exclu                 
+            if(suppression==0)
+            {
+                vm.selectedItem.libelle    = vm.type_engin.libelle;
+                vm.selectedItem.code       = vm.type_engin.code;
+                vm.selectedItem.url_image  = vm.type_engin.url_image;
+                vm.afficherboutonModifSupr = 0 ;
+                vm.afficherboutonnouveau   = 1 ;
+                vm.selectedItem.$selected  = false;
+                vm.selectedItem            ={};
+                   
+            }
+            else
+            {    
+                vm.alltype_engin = vm.alltype_engin.filter(function(obj)
+                {
+                    return obj.id !== currentItem.id;
+                });
+            }
+        }
+        else
+        {
+            var item = {
+                          libelle:   type_engin.libelle,
+                          code:      type_engin.code,
+                          url_image: type_engin.url_image,
+                          id:        Id,
+                        };                
+            vm.alltype_engin.push(item);
+            vm.type_engin = {} ;                   
+            NouvelItem=false;
+        }
+        vm.affichageMasque = 0;
+    }
     vm.selection= function (item)
     {
   			vm.selectedItem            = item;
