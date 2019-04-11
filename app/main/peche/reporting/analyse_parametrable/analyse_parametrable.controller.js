@@ -7,10 +7,10 @@
         .controller('Analyse_parametrableController', Analyse_parametrableController);
 
     /** @ngInject */
-    function Analyse_parametrableController($mdDialog, $scope, apiFactory, $state)
+    function Analyse_parametrableController($mdDialog, $scope, apiFactory, $state, apiUrlserver)
     {
       var vm = this;
-      
+      vm.apiUrlimage = apiUrlserver;
       vm.filtre = {} ;
       vm.now_date = new Date();
       vm.annee = vm.now_date.getFullYear();
@@ -33,12 +33,19 @@
       };
 
       vm.pivots = [
-        {titre:"Région",id:"id_region"},
-        {titre:"Unité de pêche",id:"id_unite_peche"},
-        {titre:"Site de débarquement",id:"id_site_embarquement"},
-        {titre:"Espèce",id:"id_espece"},
-        {titre:"Région et Unité de pêche",id:"id_region_and_id_unite_peche"},
-        {titre:"Site de débarquement et Unité de pêche",id:"id_site_embarquement_and_id_unite_peche"}
+        {titre:"L1.2 Région(= Strate Mineur)",id:"id_region"},
+        {titre:"L1.4 Région et Unité de pêche",id:"id_region_and_id_unite_peche"},
+        {titre:"L1.3&L1.6 Unité de pêche",id:"id_unite_peche"},
+        {titre:"L1.5 Site de débarquement et Unité de pêche",id:"id_site_embarquement_and_id_unite_peche"},
+        {titre:"L2.1&L2.2 Mois Strate majeur",id:"mois_strate_majeur"},
+        {titre:"L2.3 Mois Unité de pêche",id:"mois_and_id_unite_peche"},
+        {titre:"L2.4 Mois Région Unité de pêche",id:"mois_and_id_unite_peche_and_id_region"},
+        {titre:"L2.5 Mois Site Unité de pêche",id:"mois_and_id_unite_peche_and_id_site_embarquement"},
+        {titre:"L3.1&L3.2 Espèce",id:"id_espece"},
+        {titre:"L4.1 Mois Espèce",id:"mois_and_id_espece"},
+        {titre:"Site de débarquement",id:"id_site_embarquement"}
+        
+        
       ];
 
       apiFactory.getAll("region/index").then(function(result)

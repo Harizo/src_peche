@@ -10,9 +10,9 @@
             <form name="registerForm" novalidate>
 
 
-                <md-input-container class="md-block" md-no-float>
+                <md-input-container class="md-block" >
                     <input type="text" name="firstname" ng-model="vm.registerForm.firstname"
-                           placeholder="Firstname" translate translate-attr-placeholder="REGISTER.firstname"
+                           placeholder="Nom" translate translate-attr-placeholder="REGISTER.firstname"
                            required>
                     <div ng-messages="registerForm.firstname.$error"
                          role="alert">
@@ -22,9 +22,9 @@
                     </div>
                 </md-input-container>
 
-                <md-input-container class="md-block" md-no-float>
+                <md-input-container class="md-block" >
                     <input type="text" name="lastname" ng-model="vm.registerForm.lastname"
-                           placeholder="Lastname"  translate translate-attr-placeholder="REGISTER.lastname"
+                           placeholder="Prénom"  translate translate-attr-placeholder="REGISTER.lastname"
                            required>
                     <div ng-messages="registerForm.lastname.$error"
                          role="alert">
@@ -35,7 +35,7 @@
                 </md-input-container>
 
 
-                <md-input-container class="md-block" md-no-float>
+                <md-input-container class="md-block" >
                     <input type="email" name="email" ng-model="vm.registerForm.email"
                            placeholder="Email"  translate translate-attr-placeholder="REGISTER.email"
                            ng-pattern="/^.+@.+\..+$/" required>
@@ -52,7 +52,7 @@
 
                 
 
-                <md-input-container class="md-block" md-no-float>
+                <md-input-container class="md-block" >
                     <input type="password" name="password" ng-model="vm.registerForm.password" placeholder="Mot de passe"
                            required>
                     <div ng-messages="registerForm.password.$error" role="alert">
@@ -62,7 +62,7 @@
                     </div>
                 </md-input-container>
 
-                <md-input-container class="md-block" md-no-float>
+                <md-input-container class="md-block" >
                     <input type="password" name="password_verif" ng-model="vm.registerForm.password_verif" placeholder="Confirmation de mot de passe"
                            required>
                     <div ng-messages="registerForm.password_verif.$error" role="alert">
@@ -75,7 +75,7 @@
                     </div>
                 </md-input-container>
 
-                <md-input-container class="md-block" md-no-float>
+                <md-input-container class="md-block" >
                   <label>Région</label>
                     <md-select ng-model="vm.registerForm.id_region" name="region" ng-change="vm.filtre_district()" required>
                   
@@ -91,7 +91,7 @@
                     </div>
                 </md-input-container>
 
-                <md-input-container class="md-block" md-no-float>
+                <md-input-container class="md-block" >
                     <label>District</label>
                     <md-select ng-model="vm.registerForm.id_district" name="district" ng-disabled="!vm.registerForm.id_region" ng-change="vm.filtre_site()" required>
                    
