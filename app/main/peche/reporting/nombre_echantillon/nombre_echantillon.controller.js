@@ -17,6 +17,7 @@
       vm.filtre.date_fin = vm.now_date ;
       vm.annees = [] ;
       vm.datas = [] ;
+      vm.affiche_load = false ;
       for (var i = 2012; i <= vm.annee; i++) {
         vm.annees.push(i);
       }
@@ -64,6 +65,8 @@
 
       vm.filtre_district = function()
       {
+          vm.filtre.id_district ="*";
+          vm.filtre.id_site_embarquement ="*";
           var ds = vm.alldistrict ;
           if (vm.filtre.id_region != "*") 
           {
@@ -142,7 +145,7 @@
 
       vm.filtrer = function(filtres)
       {
-        
+        vm.affiche_load = true ;
 
         /*var annee_debut = filtres.date_debut.getFullYear() ;
         var annee_fin = filtres.date_fin.getFullYear() ;*/
@@ -178,6 +181,7 @@
             "id_site_embarquement",filtres.id_site_embarquement).then(function(result)
           {
             vm.datas = result.data.response;
+            vm.affiche_load = false ;
             
           });
         

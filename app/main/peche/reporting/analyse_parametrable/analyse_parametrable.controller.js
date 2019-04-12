@@ -81,6 +81,8 @@
 
       vm.filtre_district = function()
       {
+          vm.filtre.id_district ="*";
+          vm.filtre.id_site_embarquement ="*";
           var ds = vm.alldistrict ;
           if (vm.filtre.id_region != "*") 
           {
@@ -182,7 +184,7 @@
       {
           if (!string) 
           {
-            string = "id_region" ;
+            string = "" ;
           }
           var res = string.indexOf(mot_a_cherecher);
           if (res != -1) 

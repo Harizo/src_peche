@@ -20,7 +20,10 @@
     <div class="content"layout="column">
         <div class="form-wrapper">            
             <div style="clear:both;"></div>
-            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
+            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" aria-label="Rating" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
+                  <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
+                      Chargement,veuillez patienter s'il vous plait ...
+                  </div>
             <div class="white-bg md-whiteframe-4dp"> 
                  <md-tabs  md-dynamic-height>
                     <md-tab label="Filtre">
@@ -73,7 +76,7 @@
                                 </md-input-container>
                                 <md-input-container flex="100" flex-gt-xs="90">
                                   <label>District</label>
-                                    <md-select ng-model="vm.filtre.id_district" ng-disabled="!vm.filtre.id_region">
+                                    <md-select ng-model="vm.filtre.id_district" ng-disabled="!vm.filtre.id_region" ng-change="vm.filtre_site()">
                                       <md-option  value="*">*</md-option>
                                       <md-option ng-repeat="district in vm.districts" value="{{district.id}}">
                                         {{district.nom}}

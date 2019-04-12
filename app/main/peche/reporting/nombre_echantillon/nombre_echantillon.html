@@ -20,7 +20,15 @@
     <div class="content"layout="column">
         <div class="form-wrapper">            
             <div style="clear:both;"></div>
+            
             <div class="white-bg md-whiteframe-4dp"> 
+
+              
+                  <md-progress-circular ng-if="vm.affiche_load" class="md-accent" aria-label="Rating" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
+                  <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
+                      Chargement,veuillez patienter s'il vous plait ...
+                  </div>
+             
                  <md-tabs  md-dynamic-height>
                     <md-tab label="Filtre">
                         <md-tab-body>
@@ -115,7 +123,7 @@
                             </div>
                             <div>
                              <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                  ng-disabled="filtrepardateform.$invalid" ng-click="vm.filtrer(vm.filtre)">
+                                  ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.filtrer(vm.filtre)">
                                   Vérifier nombres d'échantillons
                             </md-button>
                             <!--md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -128,106 +136,106 @@
                 </md-tabs>
 
                 <md-tabs md-dynamic-height>
-                <md-tab label="Liste unité de pêche">
-                    <table class="dataTable row-border cell-border text-center" datatable="ng"
-                        dt-options="vm.dtOptions">
-                        <thead>                          
-                        <tr>
-                             <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">Unité de pêche</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">Nbr unité de <br> pêche  dans <br> l'enquête cadre</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">01</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">02</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">03</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">04</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">05</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">06</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">07</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">08</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">09</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">10</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">11</span>
-                              </div>
-                            </th>
-                            <th class="secondary-text">
-                              <div class="table-header">
-                                  <span class="column-title text-center">12</span>
-                              </div>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="d in vm.datas"  ng-class="{selected: unite_peche.$selected}">
-                                <td>{{d.unite_peche}}</td>    
-                                <td>{{d.enquete_cadre}}</td>    
-                               
-                                <td style="background-color: {{vm.couleur(d.jan)}};">{{d.jan}}</td>    
-                                <td style="background-color: {{vm.couleur(d.fev)}};">{{d.fev}}</td>    
-                                <td style="background-color: {{vm.couleur(d.mar)}};">{{d.mar}}</td>    
-                                <td style="background-color: {{vm.couleur(d.avr)}};">{{d.avr}}</td>    
-                                <td style="background-color: {{vm.couleur(d.mai)}};">{{d.mai}}</td>    
-                                <td style="background-color: {{vm.couleur(d.juin)}};">{{d.juin}}</td>    
-                                <td style="background-color: {{vm.couleur(d.jui)}};">{{d.jui}}</td>    
-                                <td style="background-color: {{vm.couleur(d.aou)}};">{{d.aou}}</td>    
-                                <td style="background-color: {{vm.couleur(d.sep)}};">{{d.sep}}</td>    
-                                <td style="background-color: {{vm.couleur(d.oct)}};">{{d.oct}}</td>    
-                                <td style="background-color: {{vm.couleur(d.nov)}};">{{d.nov}}</td>    
-                                <td style="background-color: {{vm.couleur(d.dec)}};">{{d.dec}}</td>    
-                              
-                                                    
-                            </tr>
-                        </tbody>
-                    </table>
-                </md-tab>
+                  <md-tab label="Liste unité de pêche">
+                      <table class="dataTable row-border cell-border text-center" datatable="ng"
+                          dt-options="vm.dtOptions">
+                          <thead>                          
+                          <tr>
+                               <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Unité de pêche</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Nbr unité de <br> pêche  dans <br> l'enquête cadre</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">01</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">02</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">03</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">04</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">05</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">06</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">07</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">08</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">09</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">10</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">11</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">12</span>
+                                </div>
+                              </th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="d in vm.datas"  ng-class="{selected: unite_peche.$selected}">
+                                  <td>{{d.unite_peche}}</td>    
+                                  <td>{{d.enquete_cadre}}</td>    
+                                 
+                                  <td style="background-color: {{vm.couleur(d.jan)}};">{{d.jan}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.fev)}};">{{d.fev}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.mar)}};">{{d.mar}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.avr)}};">{{d.avr}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.mai)}};">{{d.mai}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.juin)}};">{{d.juin}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.jui)}};">{{d.jui}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.aou)}};">{{d.aou}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.sep)}};">{{d.sep}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.oct)}};">{{d.oct}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.nov)}};">{{d.nov}}</td>    
+                                  <td style="background-color: {{vm.couleur(d.dec)}};">{{d.dec}}</td>    
+                                
+                                                      
+                              </tr>
+                          </tbody>
+                      </table>
+                  </md-tab>
                 </md-tabs>
             </div> 
         </div> 
