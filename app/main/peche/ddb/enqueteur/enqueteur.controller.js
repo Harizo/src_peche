@@ -7,23 +7,46 @@
         .controller('EnqueteurController', EnqueteurController);
 
     /** @ngInject */
-    function EnqueteurController($mdDialog, $scope, apiFactory, $state)
+    function EnqueteurController($mdDialog, $scope, apiFactory, $state,apiUrlexcel)
     {
       var vm = this;
       vm.ajout = ajout ;
 
       var NouvelItem=false;
       var currentItem;
-    vm.titrepage="Ajout enqueteur";
+      vm.titrepage="Ajout enqueteur";
       vm.selectedItem = {} ;
       vm.allenqueteur = [] ;
-      
+      vm.alldata      = [];
+
+      //variale affichage bouton rapport
+      vm.afficherboutonrapport = 0 ;
 
       //variale affichage bouton nouveau
       vm.afficherboutonnouveau = 1 ;
 
       //variable cache masque de saisie
       vm.affichageMasque = 0 ;
+      vm.affichageMasqueRapport = 0;
+
+      vm.filtre = {} ;
+      vm.now_date = new Date();
+      vm.annee = vm.now_date.getFullYear();
+      vm.filtre.date_fin = vm.now_date ;
+      vm.annees = [] ;
+      vm.datas = [] ;
+      vm.affiche_load = false ;
+      for (var i = 2012; i <= vm.annee; i++) {
+        vm.annees.push(i);
+      }
+      vm.filtre.annee = vm.annee ;
+      vm.mois = [
+      {titre:"Janvier",val:'01'},{titre:"Fevrier",val:'02'},{titre:"Mars",val:'03'},
+      {titre:"Avril",val:'04'},{titre:"May",val:'05'},{titre:"Juin",val:'06'},
+      {titre:"Juillet",val:'07'},{titre:"Aôut",val:'08'},{titre:"Septembre",val:'09'},
+      {titre:"Octobre",val:'10'},{titre:"Novembre",val:'11'},{titre:"Decembre",val:'12'
+      }
+    ]
 
       //style
     vm.dtOptions = {
@@ -124,7 +147,7 @@
                         telephone: enqueteur.telephone,
                         id:String(data.response) 
                     };
-                  console.log(enqueteur.region_nom);
+                  //console.log(enqueteur.region_nom);
                     vm.allenqueteur.push(item);
                     vm.enqueteur.prenom='';
                     vm.enqueteur.nom='';
@@ -153,6 +176,14 @@
           vm.afficherboutonModifSupr = 1 ;
           vm.affichageMasque = 0 ;
           vm.afficherboutonnouveau = 1 ;
+          vm.afficherboutonrapport = 1 ;
+
+        apiFactory.getFils("enqueteur/index",item.id).then(function(result){
+        vm.alldata = result.data.response;
+
+        console.log(vm.alldata);
+      });
+
       };
 
       $scope.$watch('vm.selectedItem', function() {
@@ -245,27 +276,49 @@
                          vm.affichageMasque = 0;
                       }
                 }
-               /* vm.allenqueteur.forEach(function(dist) {
-                
-                  if (dist.id==item.id) 
-                  {
-                    if((dist.nom!=item.nom)
-                    ||(dist.prenom!=item.prenom)
-                    ||(dist.telephone!=item.telephone))
-                    
-                    {
-                      insert_in_base(item,suppression);
-                      vm.affichageMasque = 0 ;
-                    }
-                    else
-                    {
-                      vm.affichageMasque = 0 ;
-                    }
-                  }
-                });*/
             }
             else
               insert_in_base(item,suppression);
+        }
+
+        vm.masquerapport = function()
+        {
+          vm.affichageMasqueRapport=1;
+        }
+
+        vm.annulerrapport = function() 
+        {
+          vm.selectedItem = {} ;
+          vm.filtre.mois ='';
+          vm.filtre.unite_peche ='';
+          vm.filtre.annee = vm.annee ;
+          vm.selectedItem.$selected = false;
+          vm.affichageMasqueRapport = 0 ;
+          vm.afficherboutonnouveau = 1 ;
+          vm.afficherboutonModifSupr = 0 ;
+          vm.afficherboutonrapport = 0 ;          
+          NouvelItem = false;
+
+        };
+        vm.creerapport = function(filtre)
+        {   var repertoire="fiche_suivi/"
+            var nom = vm.selectedItem.nom;
+            var prenom = vm.selectedItem.prenom;           
+            apiFactory.getAPIgeneraliserREST("rapport_enqueteur/index","menu","raportenqueteur","id_enqueteur",vm.selectedItem.id,"nom_enqueteur",nom,"prenom_enqueteur",prenom,"annee",filtre.annee,"mois",filtre.mois,'id_unite_peche',filtre.unite_peche,'repertoire',repertoire).success(function (result)
+            {
+              vm.affichageMasqueRapport = 0;
+
+              vm.data=result.response;
+              console.log(vm.data);
+              vm.data2=result.max;
+              
+              console.log(vm.data2);
+                window.location = apiUrlexcel+"fiche_suivi/fiche_suivi.xlsx" ;
+            })
+            .error(function (data)
+            {
+                alert('Error');
+            });
         }
     }
 

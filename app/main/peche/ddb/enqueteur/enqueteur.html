@@ -19,7 +19,7 @@
     <div class="content"layout="column">
       <div class="form-wrapper">
         <div class="white-bg md-whiteframe-4dp">
-          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
+          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
               <md-tab label="{{vm.titrepage}}">
                 <div class="simple-table-container md-whiteframe-4dp">
                   <md-tab-body>
@@ -74,6 +74,48 @@
                 </div>
               </md-tab>
             </md-tabs>
+            <md-tabs md-dynamic-height ng-show="vm.affichageMasqueRapport==1">
+              <md-tab label="Rapport">
+                <md-tab-body>
+                  <form name="rapportform" class="md-inline-form"  novalidate>
+                      
+                      <div layout="column" layout-gt-xs="row">
+                        <md-input-container flex="100" flex-gt-xs="10">
+                          <label>Année</label>
+                          <md-select ng-model="vm.filtre.annee" required>
+                              <md-option ng-repeat="annee in vm.annees" value="{{annee}}" > {{annee}}
+                              </md-option>
+                          </md-select>
+                        </md-input-container>
+                        
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <label>Mois</label>
+                          <md-select ng-model="vm.filtre.mois" required>
+                            <md-option ng-repeat="mois in vm.mois" value="{{mois.val}}" >  {{mois.titre}}
+                            </md-option>
+
+                          </md-select>
+                          </md-input-container>
+                          <md-input-container flex="100" flex-gt-xs="33">
+                          <label>Unite de peche</label>
+                          <md-select ng-model="vm.filtre.unite_peche">
+                            <md-option  value="*">*</md-option>
+                            <md-option ng-repeat="unite_peche in vm.alldata" value="{{unite_peche.id}}" > {{unite_peche.id}} {{unite_peche.libelle}}
+                            </md-option>
+
+                          </md-select>
+
+                        </md-input-container>
+                    </div>
+
+                    <md-button type="submit" class="md-raised md-accent" aria-label="Export excel" ng-disabled="rapportform.$invalid " ng-click="vm.creerapport(vm.filtre)">Export excel
+                    </md-button>
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerrapport()"> Annuler
+                    </md-button>
+                </form>
+              </md-tab-body>
+            </md-tab>
+            </md-tabs>
           </div>  
       <div style="widht:100%;">    
           <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
@@ -84,6 +126,9 @@
           </md-button>
           <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
               Supprimer
+          </md-button>
+          <md-button type="submit" ng-show="vm.afficherboutonrapport==1" class="md-raised md-accent" aria-label="Rapport" ng-click="vm.masquerapport()" style="width:10%;">
+              Rapport
           </md-button>
         </div>  
         </br>
