@@ -109,8 +109,8 @@
       apiFactory.getAll("espece/index").then(function(result)
       {vm.allespece = result.data.response;});
 
-      apiFactory.getAll("utilisateurs/index").then(function(result)
-      {vm.allutilisateur = result.data.response;});
+      apiFactory.getOne("utilisateurs/index",cookieService.get("id")).then(function(result)
+      {vm.allutilisateur = result.data.response; console.log(vm.allutilisateur.id);});
 
      /* apiFactory.getAll("unite_peche/index").then(function(result)
       {vm.allunite_peche = result.data.response;});*/
@@ -335,7 +335,7 @@
         var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;' }};
 
         var getId = 0;
-        var userId = cookieService.get("id");
+        var userId = vm.allutilisateur.id;
         var codeunique='';
         if (NouvelItem==false) 
         {
@@ -390,10 +390,10 @@
               return obj.id == vm.fiche_echantillonnage_capture.district_id;
             });
             
-            var utili= vm.allutilisateur.filter(function(obj)
+          /*  var utili= vm.allutilisateur.filter(function(obj)
             {
               return obj.id == userId;
-            });
+            });*/
             
             if (NouvelItem == false) 
               {
@@ -411,7 +411,7 @@
 
                     vm.selectedItem.enqueteur          = enqt[0];
                     vm.selectedItem.site_embarquement  = site_emba[0];
-                    vm.selectedItem.user          = utili[0];          
+                    vm.selectedItem.user          = vm.selectedItem.user;          
                     
                     vm.selectedItem.region        = reg[0];
                     vm.selectedItem.district      = dist[0];                              
@@ -445,7 +445,7 @@
                   latitude:             fiche_echantillonnage_capture.latitude,
                   altitude:             fiche_echantillonnage_capture.altitude,
                   site_embarquement:    site_emba[0],
-                  user:                 utili[0], 
+                  user:                 vm.allutilisateur, 
                   enqueteur:            enqt[0], 
                   district:             dist[0], 
                   region:               reg[0],
@@ -814,7 +814,7 @@
       var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
       var getIdEchantillon = 0;
       var total_captur=0;
-      var userId = cookieService.get("id");
+      var userId = vm.allutilisateur.id;
       var effort_p=[];
       var uniquecode='';     
       if (NouvelItemEchantillon==false) 
@@ -867,10 +867,10 @@
           {
               return obj.unite_peche.id == vm.echantillon.unite_peche_id;
           });
-          var utili= vm.allutilisateur.filter(function(obj)
+         /* var utili= vm.allutilisateur.filter(function(obj)
           {
               return obj.id == userId;
-          });
+          });*/
           if (NouvelItemEchantillon == false) 
           {
               // Update or delete: id exclu
@@ -903,7 +903,7 @@
 
                   vm.selectedItemEchantillon.unite_peche  = unite_p[0].unite_peche;
                       
-                  vm.selectedItemEchantillon.user  = utili[0];
+                  vm.selectedItemEchantillon.user  = vm.selectedItemEchantillon.user;
                       
                   vm.selectedItemEchantillon.date_creation = vm.echantillon.date_creation;
                   vm.selectedItemEchantillon.date_modification = date_dujour;
@@ -958,7 +958,7 @@
                   nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
                   total_bateau_ecn:                 echantillon.total_bateau_ecn,
                   unite_peche:                      unite_p[0].unite_peche,
-                  user:                             utili[0],
+                  user:                             vm.allutilisateur,
                   date_creation:                    date_dujour,
                   date_modification:                date_dujour,
                   id:                               id 
@@ -1119,7 +1119,7 @@
         //add
         var config ={headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
         var getIdEspece_capture = 0;
-        var userId = cookieService.get('id');
+        var userId = vm.allutilisateur.id;
         if (NouvelItemEspece_capture == false) 
         {
             getIdEspece_capture = vm.selectedItemEspece_capture.id;
@@ -1146,10 +1146,10 @@
                 return obj.id == vm.espece_capture.espece_id;
             });
             
-            var utili= vm.allutilisateur.filter(function(obj)
+            /*var utili= vm.allutilisateur.filter(function(obj)
             {
                 return obj.id == userId;
-            });
+            });*/
             if (NouvelItemEspece_capture == false) 
             {
                 // Update or delete: id exclu
@@ -1164,7 +1164,7 @@
                     vm.selectedItemEspece_capture.capture             = vm.espece_capture.capture;
                     vm.selectedItemEspece_capture.prix                = vm.espece_capture.prix;
                               
-                    vm.selectedItemEspece_capture.user                = utili[0];
+                    vm.selectedItemEspece_capture.user                = vm.selectionEspece_capture.user;
                               
                     vm.selectedItemEspece_capture.date_creation       = vm.espece_capture.date_creation;
                     vm.selectedItemEspece_capture.date_modification   = date_dujour;
@@ -1196,7 +1196,7 @@
                   espece:                           espece[0],
                   capture:                          espece_capture.capture,
                   prix:                             espece_capture.prix,                        
-                  user:                             utili[0],
+                  user:                             vm.allutilisateur,
                   date_creation:                    date_dujour,
                   date_modification:                date_dujour,
                   id:                               String(data.response) 

@@ -303,7 +303,8 @@
         vm.creerapport = function(filtre)
         {   var repertoire="fiche_suivi/"
             var nom = vm.selectedItem.nom;
-            var prenom = vm.selectedItem.prenom;           
+            var prenom = vm.selectedItem.prenom; 
+            vm.loadingProgress= true;          
             apiFactory.getAPIgeneraliserREST("rapport_enqueteur/index","menu","raportenqueteur","id_enqueteur",vm.selectedItem.id,"nom_enqueteur",nom,"prenom_enqueteur",prenom,"annee",filtre.annee,"mois",filtre.mois,'id_unite_peche',filtre.unite_peche,'repertoire',repertoire).success(function (result)
             {
               vm.affichageMasqueRapport = 0;
@@ -314,6 +315,7 @@
               
               console.log(vm.data2);
                 window.location = apiUrlexcel+"fiche_suivi/fiche_suivi.xlsx" ;
+                vm.loadingProgress= false;
             })
             .error(function (data)
             {
