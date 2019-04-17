@@ -20,7 +20,10 @@
     <div class="content"layout="column">
         <div class="form-wrapper">            
             <div style="clear:both;"></div>
-            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
+            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" aria-label="Rating" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
+                  <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
+                      Chargement,veuillez patienter s'il vous plait ...
+                  </div>
             <div class="white-bg md-whiteframe-4dp"> 
                  <md-tabs  md-dynamic-height>
                     <md-tab label="Filtre">
@@ -43,7 +46,7 @@
                                 <md-input-container flex="100" flex-gt-xs="10">
                                   <label>Pivot</label>
                                     <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load" ng-change="vm.analysefiltrer(vm.filtre)" required>
-                                      <md-option  value="*">*</md-option>
+                                      <md-option  value="*">L1.1 Strate Majeur</md-option>
                                       <md-option ng-repeat="piv in vm.pivots" value="{{piv.id}}" >
                                         {{piv.titre}}
                                       </md-option>
@@ -57,7 +60,7 @@
                             </div>
                             <div layout="column" layout-gt-xs="row" flex>
                                 <md-input-container flex="100" flex-gt-xs="90">
-                                  <label>Région</label>
+                                  <label>Région(= Strate Mineur)</label>
                                     <md-select ng-model="vm.filtre.id_region" ng-change="vm.filtre_district()" >
                                       <md-option  value="*">*</md-option>
                                       <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" >
@@ -73,7 +76,7 @@
                                 </md-input-container>
                                 <md-input-container flex="100" flex-gt-xs="90">
                                   <label>District</label>
-                                    <md-select ng-model="vm.filtre.id_district" ng-disabled="!vm.filtre.id_region" ng-change="vm.filtre_site_embarquement()">
+                                    <md-select ng-model="vm.filtre.id_district" ng-disabled="!vm.filtre.id_region" ng-change="vm.filtre_site()">
                                       <md-option  value="*">*</md-option>
                                       <md-option ng-repeat="district in vm.districts" value="{{district.id}}">
                                         {{district.nom}}
@@ -82,7 +85,7 @@
                                 </md-input-container>
                                 <md-input-container flex="100" flex-gt-xs="90">
                                   <label>Site de débarquement</label>
-                                    <md-select ng-model="vm.filtre.id_site_embarquement" ng-disabled="!vm.filtre.id_district">
+                                    <md-select ng-model="vm.filtre.id_site_embarquement" ng-disabled="!vm.filtre.id_district" ng-change="vm.filtre_up()">
                                       <md-option  value="*">*</md-option>
                                       <md-option ng-repeat="site in vm.sites" value="{{site.id}}">
                                         {{site.libelle}}
@@ -97,6 +100,15 @@
                                         {{up.libelle}}
                                       </md-option>                                     
                                 </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Espèce</label>
+                                    <md-select ng-model="vm.filtre.id_espece" >
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
+                                       <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > ({{espece.code}}){{espece.nom_local}}
+                                      
+                                      </md-option>                                   
+                                </md-input-container>
                             </div>
                             <div>
                              <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
@@ -110,16 +122,14 @@
                 </md-tabs>
                 <md-tabs md-dynamic-height >
                     <md-tab label="Espece capture ">                        
-                        <div class="simple-table-container md-whiteframe-4dp">
-                        <md-tab-body>
-                           <table class="dataTable row-border hover cell-border text-center" datatable="ng" dt-options="vm.dtOptions">
+                        <table class="dataTable row-border hover cell-border text-center" datatable="ng" dt-options="vm.dtOptions">
                                 <thead>
                                   <tr>
-                                    <!--th class="secondary-text">
+                                    <th class="secondary-text" ng-show="vm.cacher_table('mois',vm.filtre.pivot)">
                                           <div class="table-header">
-                                            <span class="column-title">Année</span>
+                                            <span class="column-title">Mois</span>
                                           </div>
-                                    </th-->
+                                    </th>
                                     <th class="secondary-text" ng-show="vm.cacher_table('id_region',vm.filtre.pivot)">
                                           <div class="table-header">
                                             <span class="column-title">Région</span>
@@ -138,6 +148,16 @@
                                     <th class="secondary-text" ng-show="vm.cacher_table('id_unite_peche',vm.filtre.pivot)">
                                           <div class="table-header">
                                             <span class="column-title">Unité de pêche</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text" ng-show="vm.cacher_table('id_espece',vm.filtre.pivot)">
+                                          <div class="table-header">
+                                            <span class="column-title">Nom local</span>
+                                          </div>
+                                    </th>
+                                    <th class="secondary-text" ng-show="vm.cacher_table('id_espece',vm.filtre.pivot)">
+                                          <div class="table-header">
+                                            <span class="column-title">Nom scientifique</span>
                                           </div>
                                     </th>
                                     <th class="secondary-text">
@@ -164,11 +184,13 @@
                                 </thead>
                                   <tbody>
                                       <tr ng-repeat="data in vm.datas" ng-class="{selected: data.$selected}" ng-click="vm.selection(data)">
-                                        <!--td>{{data.unite_peche}}</td-->
+                                        <td ng-show="vm.cacher_table('mois',vm.filtre.pivot)">{{data.mois}}</td>
                                         <td ng-show="vm.cacher_table('id_region',vm.filtre.pivot)">{{data.region}}</td>
                                         <!--td>{{data.district}}</td-->
                                         <td ng-show="vm.cacher_table('id_site_embarquement',vm.filtre.pivot)">{{data.site_embarquement}}</td>
                                         <td ng-show="vm.cacher_table('id_unite_peche',vm.filtre.pivot)">{{data.unite_peche}}</td>
+                                        <td ng-show="vm.cacher_table('id_espece',vm.filtre.pivot)">{{data.espece_nom_local}}</td>
+                                        <td ng-show="vm.cacher_table('id_espece',vm.filtre.pivot)">{{data.espece_nom_scientifique}}</td>
                                         <td>{{vm.convertion_kg_tonne(data.capture)}}</td>
                                         <td>{{vm.formatMillier(data.prix)}} Ar</td>
                                         <td>?</td>
@@ -176,7 +198,7 @@
                                         
                                       </tr>
                                   </tbody>   
-                                  <tfoot>
+                                  <tfoot >
                                       <tr style="background-color: #00b6ff;">
                                         <td ng-if="vm.totals">Total captures = {{vm.convertion_kg_tonne(vm.totals.total_capture)}}</td>
                                         <td ng-if="!vm.totals"> Total captures = 0 Kg</td>
@@ -184,9 +206,7 @@
                                         <td ng-if="vm.totals">Total Prix = {{vm.formatMillier(vm.totals.total_prix)}} Ar</td>
                                       </tr>
                                   </tfoot>                      
-                            </table>
-                        </md-tab-body>
-                      </div>
+                        </table>
                     </md-tab>                   
                   </md-tabs>
             </div> 

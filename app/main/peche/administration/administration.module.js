@@ -18,11 +18,11 @@
         msNavigationServiceProvider.saveItem('peche.administration', {
             title : 'Administration',
             icon  : 'icon-camera-iris',
-            weight: 1/*,
+            weight: 1,
             hidden: function()
             {
                     return vs;
-            }*/
+            }
         });
 
         msNavigationServiceProvider.saveItem('peche.administration.utilisateurs', {

@@ -17,8 +17,6 @@
   		apiFactory.getOne("utilisateurs/index", id_user).then(function(result)  
 	      {
 	        vm.user = result.data.response;
-	   
-
 	        vm.profil = {} ;
 	        vm.profil.nom = vm.user.nom ;
 	        vm.profil.prenom = vm.user.prenom ;

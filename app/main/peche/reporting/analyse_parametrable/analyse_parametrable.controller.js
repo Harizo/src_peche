@@ -7,10 +7,10 @@
         .controller('Analyse_parametrableController', Analyse_parametrableController);
 
     /** @ngInject */
-    function Analyse_parametrableController($mdDialog, $scope, apiFactory, $state)
+    function Analyse_parametrableController($mdDialog, $scope, apiFactory, $state, apiUrlserver)
     {
       var vm = this;
-      
+      vm.apiUrlimage = apiUrlserver;
       vm.filtre = {} ;
       vm.now_date = new Date();
       vm.annee = vm.now_date.getFullYear();
@@ -33,11 +33,19 @@
       };
 
       vm.pivots = [
-        {titre:"Région",id:"id_region"},
-        {titre:"Unité de pêche",id:"id_unite_peche"},
-        {titre:"Site de débarquement",id:"id_site_embarquement"},
-        {titre:"Région et Unité de pêche",id:"id_region_and_id_unite_peche"},
-        {titre:"Site de débarquement et Unité de pêche",id:"id_site_embarquement_and_id_unite_peche"},
+        {titre:"L1.2 Région(= Strate Mineur)",id:"id_region"},
+        {titre:"L1.4 Région et Unité de pêche",id:"id_region_and_id_unite_peche"},
+        {titre:"L1.3&L1.6 Unité de pêche",id:"id_unite_peche"},
+        {titre:"L1.5 Site de débarquement et Unité de pêche",id:"id_site_embarquement_and_id_unite_peche"},
+        {titre:"L2.1&L2.2 Mois Strate majeur",id:"mois_strate_majeur"},
+        {titre:"L2.3 Mois Unité de pêche",id:"mois_and_id_unite_peche"},
+        {titre:"L2.4 Mois Région Unité de pêche",id:"mois_and_id_unite_peche_and_id_region"},
+        {titre:"L2.5 Mois Site Unité de pêche",id:"mois_and_id_unite_peche_and_id_site_embarquement"},
+        {titre:"L3.1&L3.2 Espèce",id:"id_espece"},
+        {titre:"L4.1 Mois Espèce",id:"mois_and_id_espece"},
+        {titre:"Site de débarquement",id:"id_site_embarquement"}
+        
+        
       ];
 
       apiFactory.getAll("region/index").then(function(result)
@@ -63,8 +71,18 @@
           vm.unite_peches= result.data.response;
       });
 
+      apiFactory.getAll("espece/index").then(function(result)
+      {
+          vm.allespece = result.data.response;
+          
+      });
+
+      
+
       vm.filtre_district = function()
       {
+          vm.filtre.id_district ="*";
+          vm.filtre.id_site_embarquement ="*";
           var ds = vm.alldistrict ;
           if (vm.filtre.id_region != "*") 
           {
@@ -99,18 +117,39 @@
           }
       }
 
+      vm.filtre_up = function()
+      {
+        vm.unite_peches = [];
+        
+        if (vm.filtre.id_site_embarquement != "*") 
+        {
+          apiFactory.getAPIgeneraliserREST("unite_peche_site/index","cle_etrangere",vm.filtre.id_site_embarquement).then(function(result)
+          {
+              vm.allunite_peche_site = result.data.response;
+              vm.unite_peches = result.data.response;
+             
+          });
+        }
+        else 
+        {
+          vm.unite_peches = vm.allunite_peche ;
+        }
+          
+      }
+
       vm.analysefiltrer = function(filtres)
       {
         vm.affiche_load = true ;
           apiFactory.getAPIgeneraliserREST("analyse_parametrable/index","menu","analyse_parametrable","annee",filtres.annee,
             "id_unite_peche",filtres.id_unite_peche,"id_region",filtres.id_region,"id_district",filtres.id_district,
-            "id_site_embarquement",filtres.id_site_embarquement,"pivot",filtres.pivot).then(function(result)
+            "id_site_embarquement",filtres.id_site_embarquement,
+            "id_espece",filtres.id_espece,"pivot",filtres.pivot).then(function(result)
           {
             vm.affiche_load = false ;
             vm.datas = result.data.response;
             vm.totals = result.data.total;
             var data = result.data.response;
-            console.log(data);
+           
           });        
       }
 
@@ -145,7 +184,7 @@
       {
           if (!string) 
           {
-            string = "id_region" ;
+            string = "" ;
           }
           var res = string.indexOf(mot_a_cherecher);
           if (res != -1) 

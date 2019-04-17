@@ -17,7 +17,7 @@
       vm.infoAssuj = {} ;
 
       vm.column = [{"titre":"Nom"},{"titre":"Prénom"},{"titre":"Email"},
-      {"titre":"Etat"},{"titre":"Envoi des données"},{"titre":"Privilège"}];
+      {"titre":"Etat"},{"titre":"Privilège"}];
 
       vm.dtOptions = {
         dom       : '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -27,7 +27,7 @@
     };
 
 
-      apiFactory.getAll("utilisateurs/index").then(function(result) {
+      apiFactory.getAPIgeneraliserREST("utilisateurs/index","type_get","findAll").then(function(result) {
 
         vm.listes_utilisateurs = result.data.response;
 
@@ -194,8 +194,8 @@
           vm.user.prenom = vm.selectedItem.prenom ;
           vm.user.email = vm.selectedItem.email ;
           vm.user.enabled = vm.selectedItem.enabled ;
-          vm.user.sigle = vm.selectedItem.sigle ;
-		  vm.user.envoi_donnees = parseInt(vm.selectedItem.envoi_donnees) ;
+          /*vm.user.sigle = vm.selectedItem.sigle ;
+		  vm.user.envoi_donnees = parseInt(vm.selectedItem.envoi_donnees) ;*/
         
           vm.searchText="";
           vm.searchTextPers="";
@@ -224,30 +224,6 @@
                       break;
                   }
 
-                  case 'PSP':
-                  {
-                      vm.user.psp = true ;
-                      break;
-                  }
-
-                  case 'TRT':
-                  {
-                      vm.user.trt = true ;
-                      break;
-                  }
-
-                  case 'MTO':
-                  {
-                      vm.user.mto = true ;
-                      break;
-                  }
-
-                  case 'MGS':
-                  {
-                      vm.user.mgs = true ;
-                      break;
-                  }
-
                   case 'SSI':
                   {
                       vm.user.ssi = true ;
@@ -257,6 +233,12 @@
                   case 'VLD':
                   {
                       vm.user.vld = true ;
+                      break;
+                  }
+
+                  case 'RPT':
+                  {
+                      vm.user.rpt = true ;
                       break;
                   }
 
@@ -300,17 +282,11 @@
                 tab.push(key.toUpperCase());
               if(key == 'admin' && value == true)
                   tab.push(key.toUpperCase());
-              if(key == 'psp' && value == true)
-                  tab.push(key.toUpperCase());
-              if(key == 'trt' && value == true)
-                tab.push(key.toUpperCase());
-              if(key == 'mto' && value == true)
-                tab.push(key.toUpperCase());
-              if(key == 'mgs' && value == true)
-                tab.push(key.toUpperCase());
               if(key == 'ssi' && value == true)
                 tab.push(key.toUpperCase());
               if(key == 'vld' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'rpt' && value == true)
                 tab.push(key.toUpperCase());
               
           });
@@ -344,10 +320,10 @@
                   id:vm.selectedItem.id,
                   nom: user.nom,
                   prenom: user.prenom,                           
-                  sigle: user.sigle,                           
+                 // sigle: user.sigle,                           
                   email: user.email ,
                   enabled: user.enabled ,
-                  envoi_donnees: user.envoi_donnees ,
+                 // envoi_donnees: user.envoi_donnees ,
                   roles: tab 
                              
                   
@@ -372,11 +348,11 @@
                   vm.selectedItem.nom = user.nom;
                   vm.selectedItem.email = user.email;
                   vm.selectedItem.prenom = user.prenom;
-                  vm.selectedItem.sigle = user.sigle;
+                 // vm.selectedItem.sigle = user.sigle;
                   vm.selectedItem.enabled = user.enabled;
-                  vm.selectedItem.envoi_donnees = user.envoi_donnees;
-                  vm.selectedItem.assujettis = vm.infoAssuj;
-                  vm.selectedItem.personnel = vm.pers;
+                 // vm.selectedItem.envoi_donnees = user.envoi_donnees;
+                  //vm.selectedItem.assujettis = vm.infoAssuj;
+                  //vm.selectedItem.personnel = vm.pers;
 
              /*     
 

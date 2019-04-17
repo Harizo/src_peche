@@ -28,7 +28,7 @@
         },
         "error":{
           "titre": "Création de compte Message",
-          "msg": "ce CIN existe déjà, veuillez le changer svp! Merci.",
+          "msg": "cette email existe déjà, veuillez le changer svp! Merci.",
           "quitter": "Quitter"
         },
         "ok":{
