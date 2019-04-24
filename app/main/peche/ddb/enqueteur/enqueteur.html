@@ -24,7 +24,7 @@
           <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
               <md-tab label="{{vm.titrepage}}">
                 <div class="simple-table-container md-whiteframe-4dp">
-                  <md-tab-body>
+                
                     <br>
                     <form name="enqueteurform" class="md-inline-form"  novalidate>
                       <div layout="column" layout-gt-xs="row" flex>
@@ -72,7 +72,7 @@
                         Annuler
                       </md-button>
                     </form>
-                  </md-tab-body>
+                  
                 </div>
               </md-tab>
             </md-tabs>
@@ -81,7 +81,7 @@
     <!--Debut masque fiche de suivi-->           
             <md-tabs md-dynamic-height ng-show="vm.affichageMasqueFiche_suivi==1">
               <md-tab label="Fiche_suivi">
-                <md-tab-body>
+               
                   <form name="fiche_suiviform" class="md-inline-form"  novalidate>
                       
                       <div layout="column" layout-gt-xs="row">
@@ -118,7 +118,7 @@
                     <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerfiche_suivi()"> Annuler
                     </md-button>
                 </form>
-              </md-tab-body>
+              
             </md-tab>
             </md-tabs>
 <!--/Fin masque fiche de suivi-->

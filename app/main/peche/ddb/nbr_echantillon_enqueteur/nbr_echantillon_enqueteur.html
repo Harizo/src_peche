@@ -36,7 +36,7 @@
         <div class="white-bg md-whiteframe-4dp">            
           <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
             <md-tab label="Ajout nbr_echantillon_enqueteur">
-              <md-tab-body>
+            
                 <form name="nbr_echantillon_enqueteurform" class="md-inline-form" novalidate>
                   <div layout="column" layout-gt-xs="row" flex>
                     <input type="hidden" ng-model="vm.nbr_echantillon_enqueteur.id"></input>
@@ -85,8 +85,7 @@
                   <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
                     Annuler
                   </md-button>
-                </form>
-              </md-tab-body>
+                </form>              
          
             </md-tab>
           </md-tabs>

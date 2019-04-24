@@ -27,7 +27,7 @@
      <div class="white-bg md-whiteframe-4dp"> 
          <md-tabs  md-dynamic-height ng-show="vm.affichageMasque==1">
             <md-tab label="Ajout Espece">
-                <md-tab-body>
+                
                   <form name="especeform" class="md-inline-form" novalidate >
                     <div layout="column" layout-gt-xs="row"><P></P>
                     </div>
@@ -98,7 +98,7 @@
                     </md-button>
                     </div>
                   </form>
-                </md-tab-body>
+                
             </md-tab>
         </md-tabs>
     </div> 
@@ -152,11 +152,8 @@
    <br>
     <div class="white-bg md-whiteframe-4dp" >
         <md-tabs md-dynamic-height > 
-            <md-tab>              
-              <md-tab-label>
-              Liste Espece 
-              </md-tab-label>
-              <md-tab-body>
+            <md-tab label="Liste Espece">              
+              
                 <div style="height: 500px; overflow-y: scroll;" id="">
                   <div class="price-tables" flex layout="row" layout-wrap style="padding:20px;">
                     <div class="price-table style-1 md-whiteframe-1dp item" layout="column" ng-repeat="espece in vm.allespece" ng-class="{selected: espece.$selected}" ng-click="vm.selection(espece)" style="width:200px;" >
@@ -179,7 +176,7 @@
                   
                 </div>
                 </div>
-              </md-tab-body>               
+                            
             </md-tab>             
             <!--md-tab md-on-select="removeBouton()">
               <md-tab-label>

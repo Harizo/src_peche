@@ -31,7 +31,7 @@
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
 					<md-tab label="Ajout Site d'enquête">
 						<div class="simple-table-container md-whiteframe-4dp">
-						<md-tab-body>
+						
 							<br>
 							<form name="site_embarquementform" class="md-inline-form"  novalidate>
 								<div layout="column" layout-gt-xs="row" flex>
@@ -153,8 +153,7 @@
 								<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
 									Annuler
 								</md-button>
-							</form>
-						</md-tab-body>
+							</form>					
 						</div>
 					
 					</md-tab>
@@ -165,7 +164,7 @@
 	<!-- FORM SITE site_enqueteur-->
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasquesite_enqueteur==1">
 		            <md-tab label="Ajout site_enqueteur">
-		              <md-tab-body >
+		          
 		                <form name="site_enqueteurform" class="md-inline-form" novalidate>
 		                  <div layout="column" layout-gt-xs="row" flex>
 		                    <input type="hidden" ng-model="vm.site_enqueteur.id"></input>
@@ -187,7 +186,7 @@
 		                    Annuler
 		                  </md-button>
 		                </form>
-		              </md-tab-body>
+		         
 		         
 		            </md-tab>
 		         </md-tabs>
@@ -196,7 +195,7 @@
 	<!-- FORM SITE UNITE_SITE-->
 			<md-tabs md-dynamic-height ng-show="vm.affichageMasqueunite_peche_site==1">
 	            <md-tab label="Ajout unite_peche_site">
-	              <md-tab-body>
+	            
 	                <form name="unite_peche_siteform" class="md-inline-form" novalidate>
 	                  <div layout="column" layout-gt-xs="row" flex>
 	                    <input type="hidden" ng-model="vm.unite_peche_site.id"></input>
@@ -232,7 +231,7 @@
 	                    Annuler
 	                  </md-button>
 	                </form>
-	              </md-tab-body>
+	            
 	         
 	            </md-tab>
           </md-tabs>

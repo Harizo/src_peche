@@ -20,10 +20,8 @@
 	<!--FORM FICHE ECHANTILLONNAGE CAPTURE -->
 			<div class="white-bg md-whiteframe-4dp ">
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-					<md-tab label="Ajout fiche echantillonnage capture" >
-						
-						<div class="simple-table-container md-whiteframe-4dp">
-						<md-tab-body>
+					<md-tab label="Ajout fiche echantillonnage capture" >					
+						<div class="simple-table-container md-whiteframe-4dp">				
 							<br>
 							<form name="fiche_echantillonnage_captureform" class="md-inline-form "  novalidate>
 								<div layout="column" layout-gt-sm="row">
@@ -114,7 +112,7 @@
 									Annuler
 								</md-button>
 							</form>
-						</md-tab-body>
+					
 						</div>
 					
 					</md-tab>
@@ -127,7 +125,7 @@
 				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1">
 				<md-tab label="Ajout Echantillon">
 					<div class="simple-table-container md-whiteframe-4dp">
-					<md-tab-body>
+				
 						<form name="echantillonform" class="md-inline-form"  novalidate>
 								<div layout="column" layout-gt-xs="row" flex>
 									<input type="hidden" ng-model="vm.echantillon.id">						
@@ -213,7 +211,7 @@
 								Annuler
 							</md-button>
 						</form>
-					</md-tab-body>
+			
 					</div>
 				
 				</md-tab>
@@ -224,7 +222,7 @@
 		    <div class="white-bg md-whiteframe-4dp espece"> 
 		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueEspece_capture==1">
 		            <md-tab label="Ajout Espece capture">
-		                <md-tab-body>
+		        
 		                  <form name="espece_captureform" class="md-inline-form" novalidate >
 		                    <br>
 		                    <div layout="column" layout-gt-xs="row">
@@ -271,7 +269,7 @@
 		                    </md-button>
 		                    </div>
 		                  </form>
-		                </md-tab-body>
+		         
 		            </md-tab>
 		        </md-tabs>
 		    </div> 
@@ -280,7 +278,7 @@
 		    <div class="white-bg md-whiteframe-4dp"> 
 		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueFiltrepardate==1">
 		            <md-tab label="Filtre par date">
-		                <md-tab-body>
+		          
 		                  <form name="filtrepardateform" class="md-inline-form" novalidate >
 		                    <br>
 		                    <div layout="column" layout-gt-xs="row">
@@ -328,7 +326,7 @@
 		                    </md-button>
 		                    </div>
 		                  </form>
-		                </md-tab-body>
+		         
 		            </md-tab>
 		        </md-tabs>
 		    </div> 
