@@ -38,8 +38,7 @@
      <!-- BASIC FORM --> 
          <md-tabs  md-dynamic-height ng-show="vm.affichageMasque==1" >
             <md-tab label="Ajout Type engin">
-              <br>
-                <md-tab-body>
+              <br>              
                   <form name="type_enginform" class="md-inline-form" novalidate >
                     <div layout="column" layout-gt-xs="row">
                       <input type="hidden" ng-model="vm.type_engin.id">
@@ -97,8 +96,7 @@
                       Annuler
                     </md-button>
                     </div>
-                  </form>
-                </md-tab-body>
+                  </form>            
             </md-tab>
         </md-tabs>
     </div>
@@ -106,11 +104,7 @@
     </br>
     <div class="white-bg md-whiteframe-4dp">
         <md-tabs md-dynamic-height>
-            <md-tab>
-              <md-tab-label>
-              Liste Type engin 
-              </md-tab-label>
-              <md-tab-body>
+            <md-tab label="Liste Type engin ">
                 <div style="height: 500px; overflow-y: scroll;" id="">
                   <div class="price-tables" flex layout="row" layout-wrap style="padding:20px;">
                     <div class="price-table style-1 md-whiteframe-1dp item" layout="column" ng-repeat="type_engin in vm.alltype_engin" ng-class="{selected: type_engin.$selected}" ng-click="vm.selection(type_engin)" style="width:200px;" >
@@ -129,7 +123,7 @@
                   
                 </div>
                 </div>
-              </md-tab-body>               
+                            
             </md-tab>
              <!--table class="dataTable row-border hover" datatable="ng"
                   dt-options="vm.dtOptions">

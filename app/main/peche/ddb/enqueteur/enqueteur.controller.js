@@ -7,23 +7,52 @@
         .controller('EnqueteurController', EnqueteurController);
 
     /** @ngInject */
-    function EnqueteurController($mdDialog, $scope, apiFactory, $state)
+    function EnqueteurController($mdDialog, $scope, apiFactory, $state,apiUrlexcel)
     {
       var vm = this;
       vm.ajout = ajout ;
 
       var NouvelItem=false;
       var currentItem;
-    vm.titrepage="Ajout enqueteur";
+      var currentItemrapport;
+      vm.titrepage="Ajout enqueteur";
       vm.selectedItem = {} ;
+      vm.selectedItemrapport = {} ;
       vm.allenqueteur = [] ;
-      
-
+      vm.alldata      = [];
+     // vm.nbrechantillon_unite= [] ;
+      //vm.nouveauechantillon_unite= [] ;
+      //variale affichage bouton rapport
+      vm.afficherboutonfiche_suivi = 0 ;
+      vm.afficherboutonrapport  = 0 ;
       //variale affichage bouton nouveau
       vm.afficherboutonnouveau = 1 ;
 
       //variable cache masque de saisie
       vm.affichageMasque = 0 ;
+      vm.affichageMasqueFiche_suivi = 0;
+      vm.affichageMasqueRapport = 0;
+
+      vm.filtre = {} ;
+      vm.now_date = new Date();
+      vm.annee = vm.now_date.getFullYear();
+      vm.rapport = {};
+      vm.rapport.date_fin = vm.now_date ;
+      vm.annees = [] ;
+      vm.datas = [] ;
+      vm.loadingProgress = false ;
+      
+      for (var i = 2012; i <= vm.annee; i++) {
+        vm.annees.push(i);
+      }
+      vm.filtre.annee = vm.annee ;
+      vm.mois = [
+      {titre:"Janvier",val:'01'},{titre:"Fevrier",val:'02'},{titre:"Mars",val:'03'},
+      {titre:"Avril",val:'04'},{titre:"May",val:'05'},{titre:"Juin",val:'06'},
+      {titre:"Juillet",val:'07'},{titre:"Aôut",val:'08'},{titre:"Septembre",val:'09'},
+      {titre:"Octobre",val:'10'},{titre:"Novembre",val:'11'},{titre:"Decembre",val:'12'
+      }
+    ]
 
       //style
     vm.dtOptions = {
@@ -43,6 +72,18 @@
       },
        {
         titre:"Téléphone"
+      }
+    ];
+
+    vm.rapport_column = [
+      {
+        titre:"Noms des Villages"
+      },
+      {
+        titre:"Questionnaires remplis"
+      },
+      {
+        titre:"Questionnaires validés par le superviseur"
       }
     ];
 
@@ -124,7 +165,7 @@
                         telephone: enqueteur.telephone,
                         id:String(data.response) 
                     };
-                  console.log(enqueteur.region_nom);
+                  //console.log(enqueteur.region_nom);
                     vm.allenqueteur.push(item);
                     vm.enqueteur.prenom='';
                     vm.enqueteur.nom='';
@@ -142,31 +183,41 @@
                 
         }
 
+        //selection sur la liste
+        vm.selection= function (item)
+        {
+            //vm.modifiercategorie(item);          
+            vm.selectedItem = item;
+            vm.nouvelItem = item;
+            currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+            vm.afficherboutonModifSupr = 1 ;
+            vm.affichageMasque = 0 ;
+            vm.affichageMasqueFiche_suivi =0;
+            vm.affichageMasqueRapport = 0;
+            vm.afficherboutonnouveau = 1 ;
+            vm.afficherboutonfiche_suivi = 1 ;
+            vm.afficherboutonrapport = 1 ;
 
-      //selection sur la liste
-      vm.selection= function (item) {
-  //      vm.modifiercategorie(item);
-        
-          vm.selectedItem = item;
-          vm.nouvelItem = item;
-          currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
-          vm.afficherboutonModifSupr = 1 ;
-          vm.affichageMasque = 0 ;
-          vm.afficherboutonnouveau = 1 ;
-      };
+            apiFactory.getFils("enqueteur/index",item.id).then(function(result){
+            vm.alldata = result.data.response;
+          
+            console.log(vm.selectedItem);
+            });
+        };
 
-      $scope.$watch('vm.selectedItem', function() {
-        if (!vm.allenqueteur) return;
-        vm.allenqueteur.forEach(function(item) {
-            item.$selected = false;
+        $scope.$watch('vm.selectedItem', function()
+        {
+          if (!vm.allenqueteur) return;
+          vm.allenqueteur.forEach(function(item) {
+              item.$selected = false;
+          });
+          vm.selectedItem.$selected = true;
         });
-        vm.selectedItem.$selected = true;
-      });
 
       //function cache masque de saisie
         vm.ajouter = function () 
         {
-      vm.titrepage="Ajout enqueteur";
+          vm.titrepage="Ajout enqueteur";
           vm.selectedItem.$selected = false;
           vm.affichageMasque = 1 ;
           vm.enqueteur.telephone='';
@@ -184,13 +235,16 @@
           vm.affichageMasque = 0 ;
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
+          vm.afficherboutonfiche_suivi  = 0 ;
+          vm.afficherboutonrapport = 0 ;
+
           NouvelItem = false;
 
         };
 
         vm.modifier = function() 
         {
-      vm.titrepage="Modifier enqueteur";
+          vm.titrepage="Modifier enqueteur";
           NouvelItem = false ;
           vm.affichageMasque = 1 ;
           vm.enqueteur.id = vm.selectedItem.id ;
@@ -198,7 +252,9 @@
           vm.enqueteur.telephone = vm.selectedItem.telephone ;
           vm.enqueteur.nom = vm.selectedItem.nom ;
           vm.afficherboutonModifSupr = 0;
-          vm.afficherboutonnouveau = 0;  
+          vm.afficherboutonnouveau = 0;
+          vm.afficherboutonfiche_suivi = 0 ;
+          vm.afficherboutonrapport = 0;  
 
         };
 
@@ -206,7 +262,7 @@
         {
           vm.affichageMasque = 0 ;
           vm.afficherboutonModifSupr = 0 ;
-         var confirm = $mdDialog.confirm()
+          var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
                 .ariaLabel('Lucky day')
@@ -245,28 +301,167 @@
                          vm.affichageMasque = 0;
                       }
                 }
-               /* vm.allenqueteur.forEach(function(dist) {
-                
-                  if (dist.id==item.id) 
-                  {
-                    if((dist.nom!=item.nom)
-                    ||(dist.prenom!=item.prenom)
-                    ||(dist.telephone!=item.telephone))
-                    
-                    {
-                      insert_in_base(item,suppression);
-                      vm.affichageMasque = 0 ;
-                    }
-                    else
-                    {
-                      vm.affichageMasque = 0 ;
-                    }
-                  }
-                });*/
             }
             else
               insert_in_base(item,suppression);
         }
+
+/***********Debut fiche de suivi*************/
+        vm.masquefiche_suivi = function()
+        {
+          vm.affichageMasqueFiche_suivi=1;
+          vm.afficherboutonModifSupr = 0;
+          vm.afficherboutonnouveau = 0;
+          vm.afficherboutonfiche_suivi  = 0 ;
+          vm.afficherboutonrapport = 0 ;
+          vm.affichageMasque = 0 ; 
+        }
+
+        vm.annulerfiche_suivi = function() 
+        {
+          vm.selectedItem = {} ;
+          vm.filtre.mois ='';
+          vm.filtre.unite_peche ='';
+          vm.filtre.annee = vm.annee ;
+          vm.selectedItem.$selected = false;
+          vm.affichageMasqueFiche_suivi = 0 ;
+          vm.afficherboutonnouveau = 1 ;
+          vm.afficherboutonModifSupr = 0 ;
+          vm.afficherboutonrapport = 0 ;
+          vm.afficherboutonfiche_suivi = 0 ;          
+          NouvelItem = false;
+
+        };
+        
+        vm.creefiche_suivi = function(filtre)
+        {   
+          var repertoire="fiche_suivi/"
+            var nom = vm.selectedItem.nom;
+            var prenom = vm.selectedItem.prenom; 
+            vm.loadingProgress= true;          
+            apiFactory.getAPIgeneraliserREST("rapport_enqueteur/index","menu","fichesuivienqueteur","id_enqueteur",vm.selectedItem.id,"nom_enqueteur",nom,"prenom_enqueteur",prenom,"annee",filtre.annee,"mois",filtre.mois,'id_unite_peche',filtre.unite_peche,'repertoire',repertoire).success(function (result)
+            {
+              vm.affichageMasqueFiche_suivi = 0;
+
+              var nom_file=result.response;
+             /* console.log(vm.data);
+              vm.data2=result.max;              
+              console.log(vm.data2);*/
+              if(nom_file)
+              {
+                try
+                {
+                  window.location = apiUrlexcel+"fiche_suivi/fiche_suivi.xlsx" ;
+                }catch(error)
+                {
+
+                }finally
+                {
+                  vm.loadingProgress= false;
+                }
+              }
+              
+                
+                
+            })
+            .error(function (data)
+            {
+                alert('Error');
+            });
+        }
+
+/***********Fin fiche de suivi*************/
+       
+        vm.masquerapport = function()
+        {
+          vm.affichageMasqueRapport=1;
+          vm.afficherboutonModifSupr = 0;
+          vm.afficherboutonnouveau = 0;
+          vm.afficherboutonfiche_suivi  = 0 ;
+          vm.afficherboutonrapport = 0 ;
+          vm.affichageMasque = 0 ;
+        }
+
+        vm.annulerrapport = function() 
+        {
+          vm.selectedItem = {} ;
+          vm.rapport.date_debut ='';
+          vm.selectedItem.$selected = false;
+          vm.affichageMasqueRapport = 0 ;
+          vm.afficherboutonnouveau = 1 ;
+          vm.afficherboutonModifSupr = 0 ;
+          vm.afficherboutonfiche_suivi  = 0 ;
+          vm.afficherboutonrapport = 0 ;
+      // vm.nbrechantillon_unite = {};
+
+        };
+
+        /*vm.creerapport = function(filtre)
+        {
+          var repertoire="rapport_agent/";
+          var nom = vm.selectedItem.nom;
+          var prenom = vm.selectedItem.prenom;
+           apiFactory.getAPIgeneraliserREST("rapport_enqueteur/index","menu","filtredate","date_debut",convertionDate(filtre.date_debut),"date_fin",convertionDate(filtre.date_fin),"id_enqueteur",vm.selectedItem.id).success(function (result)
+            {
+              //vm.affichageMasqueRapport = 0;
+              vm.nbrechantillon_unite=result.response; 
+              console.log(vm.nbrechantillon_unite);           
+               vm.affichageMasqueRapport = 1; 
+            })
+            .error(function (data)
+            {
+                alert('Error');
+            });
+        }*/
+        vm.creerrapportagent = function(rapport)
+        { 
+            var repertoire= "rapport_agent/";
+            vm.loadingProgress= true;
+           apiFactory.getAPIgeneraliserREST("rapport_agent_enqueteur/index","menu","rapportagent","date_debut",
+            convertionDate(rapport.date_debut),"date_fin",convertionDate(rapport.date_fin),"id_enqueteur",
+            vm.selectedItem.id,"num_contrat",rapport.num_contrat,"repertoire",repertoire).success(function (result)
+            {
+              var nom_file=result.response;
+              console.log(nom_file);
+              if(nom_file)
+              {
+                  try
+                  {
+                    window.location = apiUrlexcel+repertoire+nom_file ;
+                  }catch(error)
+                  {
+
+                  }finally
+                  {
+                    vm.loadingProgress= false;
+                  }
+              }         
+               vm.affichageMasqueRapport = 0; 
+            })
+            .error(function (data)
+            {
+                alert('Error');
+            }); 
+        }
+
+      function convertionDate(date)
+      {   
+        if(date)
+          {
+              var d = new Date(date);
+              var jour = d.getDate();
+              var mois = d.getMonth()+1;
+              var annee = d.getFullYear();
+              if(mois <10)
+              {
+                  mois = '0' + mois;
+              }
+              var date_final= annee+"-"+mois+"-"+jour;
+              return date_final
+          }      
+      }
+
+      
     }
 
 })();

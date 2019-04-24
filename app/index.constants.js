@@ -8,7 +8,8 @@
     //Localhost
 		.constant("apiUrl", "http://localhost/2019/peche/api/index.php/api/")
 		.constant("apiUrlbase", "http://localhost/2019/peche/api/")
-		.constant("apiUrlserver", "http://localhost/assets/ddb/");
+		.constant("apiUrlserver", "http://localhost/assets/ddb/")
+		.constant("apiUrlexcel", "http://localhost/assets/excel/");
 	//Localhost
 
 	//interne ASTRUM
