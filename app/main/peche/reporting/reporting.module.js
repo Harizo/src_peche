@@ -5,7 +5,8 @@
     angular
         .module('app.peche.reporting', [
             'app.peche.reporting.nombre_echantillon',
-            'app.peche.reporting.analyse_parametrable'
+            'app.peche.reporting.analyse_parametrable',
+            'app.peche.reporting.requetes'
         ])
         .run(testPermission)        
         .config(config);

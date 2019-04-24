@@ -203,7 +203,7 @@
                                         <td ng-if="vm.totals">Total captures = {{vm.convertion_kg_tonne(vm.totals.total_capture)}}</td>
                                         <td ng-if="!vm.totals"> Total captures = 0 Kg</td>
                                         <td ng-if="!vm.totals"> Total Prix = 0 Ar</td>
-                                        <td ng-if="vm.totals">Total Prix = {{vm.formatMillier(vm.totals.total_prix)}} Ar</td>
+                                        <td ng-if="vm.totals">Total Prix = {{vm.formatMillier(vm.totals.total_prix)}} Ar <br> {{vm.formatMillier((vm.totals.total_prix)*5)}} Fmg</td>
                                       </tr>
                                   </tfoot>                      
                         </table>

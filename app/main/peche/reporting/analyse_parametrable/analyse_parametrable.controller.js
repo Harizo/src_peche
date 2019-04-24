@@ -157,11 +157,16 @@
       {
         if (val > 1000) 
         {
-          return (val/1000)+" t" ;
+          var res = val/1000 ;
+          var res_virg = vm.replace_point(res) ;
+
+          return res_virg+" t" ;
         }
         else
         {
-          return val+" Kg"
+          var res_virg = vm.replace_point(val) ;
+
+          return res_virg+" Kg" ;
         }
       }
 
@@ -195,6 +200,13 @@
           {
             return false ;
           }
+      }
+
+      vm.replace_point = function(nbr)
+      {
+        var str = ""+nbr ;
+        var res = str.replace(".",",") ;
+        return res ;
       }
     }
 

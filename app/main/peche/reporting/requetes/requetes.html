@@ -1,0 +1,296 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Reporting</span>
+
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Requêtes</span>
+            
+            </div>
+
+            <div class="title">Requêtes</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content"layout="column">
+        <div class="form-wrapper">            
+            <div style="clear:both;"></div>
+            
+            <div class="white-bg md-whiteframe-4dp"> 
+
+              
+                  <md-progress-circular ng-if="vm.affiche_load" class="md-accent" aria-label="Rating" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
+                  <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
+                      Chargement,veuillez patienter s'il vous plait ...
+                  </div>
+             
+                 <md-tabs  md-dynamic-height>
+                    <md-tab label="Filtre">
+                        <md-tab-body>
+                          <form name="filtrepardateform" class="md-inline-form" novalidate >
+                            <br>
+
+                            <div layout="column" layout-gt-xs="row">
+                              <md-input-container flex="100" flex-gt-xs="10">
+                              
+                                  <label>Requête</label>
+                                    <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load" ng-change="vm.controle_date()" required>
+                                     
+                                      <md-option ng-repeat="piv in vm.pivots" value="{{piv.id}}" >
+                                        {{piv.titre}}
+                                      </md-option>
+
+                                    </md-select>
+
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                </md-input-container>
+                              
+                            </div>
+                            <div layout="column" layout-gt-xs="row">
+
+                              <md-input-container flex="100" flex-gt-xs="10" >
+                                  <label>Année</label>
+                                    <md-select ng-model="vm.filtre.annee" >
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="a in vm.annees" value="{{a}}" >
+                                        {{a}}
+                                      </md-option>
+
+                                    </md-select>
+                              </md-input-container>
+
+                              <md-input-container flex="100" flex-gt-xs="10" >
+                                  <label>Mois</label>
+                                    <md-select ng-model="vm.filtre.mois" >
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="m in vm.listes_mois" value="{{m}}" >
+                                        {{vm.affiche_mois(m)}}
+                                      </md-option>
+
+                                    </md-select>
+                              </md-input-container>
+                                
+                                <!--div flex="100" flex-gt-xs="10" ng-if="vm.filtre.pivot == 'req_1'">
+                                    <u>  Date du:</u>
+                                    <md-datepicker md-max-date="vm.filtre.date_fin"  ng-model="vm.filtre.date_debut"
+                                                      md-placeholder="Date debut" name="date_debut"  required>
+                                      
+                                    </md-datepicker>
+                                </div-->
+
+                                <md-input-container flex="100" flex-gt-xs="60">
+                                </md-input-container>
+                                <!--div flex="100" flex-gt-xs="10" ng-if="vm.affichage_date_fin">
+                                    <u>  Jusqu'au:</u>
+                                    <md-datepicker md-min-date="vm.filtre.date_debut" md-max-date="vm.now_date" ng-model="vm.filtre.date_fin" md-placeholder="Date fin" name="date_fin"  required>
+                                      
+                                    </md-datepicker>
+                                </div-->
+                           
+                                
+                              
+                            </div>
+                            <div layout="column" layout-gt-xs="row" flex>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Région(= Strate Mineur)</label>
+                                    <md-select ng-model="vm.filtre.id_region" ng-change="vm.filtre_district()" required>
+                                    
+                                      <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" >
+                                        {{region.nom}}
+                                      </md-option>
+
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>District</label>
+                                    <md-select ng-model="vm.filtre.id_district" ng-disabled="!vm.filtre.id_region" ng-change="vm.filtre_site()">
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="d in vm.districts" value="{{d.id}}">
+                                        {{d.nom}}
+                                      </md-option>
+                                  
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Site de débarquement</label>
+                                    <md-select ng-model="vm.filtre.id_site_embarquement" ng-disabled="!vm.filtre.id_district">
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="s in vm.sites" value="{{s.id}}">
+                                        {{s.libelle}}
+                                      </md-option>
+                                  
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Unité de pêche</label>
+                                    <md-select ng-model="vm.filtre.id_unite_peche" >
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="up in vm.unite_peches" value="{{up.id}}">
+                                        {{up.libelle}}
+                                      </md-option>
+                                     
+                                </md-input-container>
+                                <md-input-container flex="100" flex-gt-xs="90">
+                                  <label>Espèce</label>
+                                    <md-select ng-model="vm.filtre.id_espece" >
+                                      <md-option  value="*">*</md-option>
+                                      <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
+                                       <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > ({{espece.code}}){{espece.nom_local}}
+                                      
+                                      </md-option>                                   
+                                </md-input-container>
+                            </div>
+                            <div>
+                             <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                  ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.filtrer(vm.filtre)">
+                                  Vérifier nombres d'échantillons
+                            </md-button>
+                            <!--md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                              Annuler
+                            </md-button-->
+                            </div>
+                          </form>
+                        </md-tab-body>
+                    </md-tab>
+                </md-tabs>
+
+                <md-tabs md-dynamic-height>
+                  <md-tab label="Liste unité de pêche">
+                      <table class="dataTable row-border cell-border text-center" datatable="ng"
+                          dt-options="vm.dtOptions">
+                          <thead>                          
+                          <tr>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_1'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Site de <br> débarquement</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Unité de<br> pêche</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_1'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Date</span>
+                                </div>
+                              </th>
+
+                             <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_1'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Total <br> Capture (Kg)</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_1'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">CPUE</span>
+                                </div>
+                              </th>
+
+
+
+                               
+
+
+
+                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Mois</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">
+                                <div class="table-header">
+                                    <span class="column-title text-center">CPUE <br> moyenne</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">
+                                <div class="table-header">
+                                    <span class="column-title text-center">stDev <br> CPUE</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Nombre <br> d’échantillon <br>CPUE</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">
+                                <div class="table-header">
+                                    <span class="column-title text-center">SQR(n)</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_2'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">DégréesLibertes</span>
+                                </div>
+                              </th>
+
+
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">90 % <br> 
+                                    Fractile</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">CLCPUE</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Erreur <br> relative <br>90 %</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Max <br> CPUE</span>
+                                </div>
+                              </th>
+                              
+                          </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="d in vm.datas"  ng-class="{selected: unite_peche.$selected}">
+                                  <td ng-show="vm.filtre.pivot == 'req_1'">{{d.libelle}}</td>  
+
+                                  <td>{{d.libelle_unite_peche}}</td>   
+                                  
+                                  <td ng-show="vm.filtre.pivot == 'req_1'">{{vm.formatDateListe(d.date)}}</td>    
+                                  <td ng-show="vm.filtre.pivot == 'req_1'">{{d.capture}}</td>    
+                                  <td ng-show="vm.filtre.pivot == 'req_1'">{{vm.parseFloat(d.cpue)}}</td>  
+                                     
+
+                                  <td ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">{{d.mois}}</td>    
+                                  <td ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">{{vm.parseFloat(d.moyenne)}}</td>    
+                                  <td ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">{{d.ecart_type}}</td>    
+                                  <td ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">{{d.nombre}}</td>    
+                                  <td ng-show="(vm.filtre.pivot == 'req_2')||(vm.filtre.pivot == 'req_3')">{{d.sqrt}}</td>    
+                                  <td ng-show="vm.filtre.pivot == 'req_2'">{{d.degree}}</td>    
+                                  <td ng-show="vm.filtre.pivot == 'req_3'">{{d.distribution_90}}</td>    
+                                  <td ng-show="vm.filtre.pivot == 'req_3'">{{d.clcpue}}</td>    
+                                  <td ng-show="vm.filtre.pivot == 'req_3'">{{d.erreur_relative}} %</td>    
+                                  <td ng-show="vm.filtre.pivot == 'req_3'">{{d.max_cpue}}</td>    
+
+                                                      
+                              </tr>
+                          </tbody>
+                      </table>
+                  </md-tab>
+                </md-tabs>
+            </div> 
+        </div> 
+            
+    </div>
+    <!-- / CONTENT -->
+
+  </div>
