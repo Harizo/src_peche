@@ -19,6 +19,8 @@
     <div class="content"layout="column">
       <div class="form-wrapper">
         <div class="white-bg md-whiteframe-4dp">
+    
+    <!--Debut masque enqueteur-->      
           <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
               <md-tab label="{{vm.titrepage}}">
                 <div class="simple-table-container md-whiteframe-4dp">
@@ -74,10 +76,13 @@
                 </div>
               </md-tab>
             </md-tabs>
-            <md-tabs md-dynamic-height ng-show="vm.affichageMasqueRapport==1">
-              <md-tab label="Rapport">
+   <!--/Fin masque enqueteur--> 
+   
+    <!--Debut masque fiche de suivi-->           
+            <md-tabs md-dynamic-height ng-show="vm.affichageMasqueFiche_suivi==1">
+              <md-tab label="Fiche_suivi">
                 <md-tab-body>
-                  <form name="rapportform" class="md-inline-form"  novalidate>
+                  <form name="fiche_suiviform" class="md-inline-form"  novalidate>
                       
                       <div layout="column" layout-gt-xs="row">
                         <md-input-container flex="100" flex-gt-xs="10">
@@ -100,7 +105,7 @@
                           <label>Unite de peche</label>
                           <md-select ng-model="vm.filtre.unite_peche">
                             <md-option  value="*">*</md-option>
-                            <md-option ng-repeat="unite_peche in vm.alldata" value="{{unite_peche.id}}" > {{unite_peche.id}} {{unite_peche.libelle}}
+                            <md-option ng-repeat="unite_peche in vm.alldata" value="{{unite_peche.id}}" >{{unite_peche.libelle}}
                             </md-option>
 
                           </md-select>
@@ -108,14 +113,58 @@
                         </md-input-container>
                     </div>
 
-                    <md-button type="submit" class="md-raised md-accent" aria-label="Export excel" ng-disabled="rapportform.$invalid " ng-click="vm.creerapport(vm.filtre)">Export excel
+                    <md-button type="submit" class="md-raised md-accent" aria-label="Export excel" ng-disabled="fiche_suiviform.$invalid " ng-click="vm.creefiche_suivi(vm.filtre)">Export excel
                     </md-button>
-                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerrapport()"> Annuler
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerfiche_suivi()"> Annuler
                     </md-button>
                 </form>
               </md-tab-body>
             </md-tab>
             </md-tabs>
+<!--/Fin masque fiche de suivi-->
+
+<!--Debut masque rapport-->
+            <md-tabs md-dynamic-height ng-show="vm.affichageMasqueRapport==1">
+              <md-tab label="Rapport de l'agent">
+                 
+                  <form name="rapportform" class="md-inline-form"  novalidate>
+                    <div layout="column" layout-gt-xs="row">
+                       <md-input-container flex="100" flex-gt-xs="33">                       
+                        <input type="text" name="nom_agent" ng-model="vm.selectedItem.nom"
+                          placeholder="Noms des agents " disabled>
+                        </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="num_contrat" ng-model="vm.rapport.num_contrat"
+                          placeholder="numero contrat ">
+                        </md-input-container>
+                        <!--md-input-container flex="100" flex-gt-xs="33">
+                          <input type="text" name="nom_village" ng-model="vm.rapport.nom_village"
+                          placeholder="Nom du village ">
+                        </md-input-container-->
+                    </div>                      
+                      <div layout="column" layout-gt-xs="row">
+                        <md-input-container>
+                            <span>Export donnée de la période du</span>
+                        </md-input-container>
+                        <md-datepicker ng-model="vm.rapport.date_debut"  md-max-date="vm.rapport.date_fin" md-placeholder="Enter date de debut" required>                     
+                        </md-datepicker>
+                        <md-input-container>
+                            <span>&nbsp &nbsp au &nbsp &nbsp</span>
+                        </md-input-container>
+                        <md-datepicker ng-model="vm.rapport.date_fin" md-placeholder="Enter date de fin"
+                        md-min-date="vm.rapport.date_debut" md-max-date="vm.now_date" ng-disabled="!vm.rapport.date_debut" required>                        
+                        </md-datepicker>
+                      </div><br>
+                      <md-button type="submit" class="md-raised md-accent" aria-label="Annuler" ng-click="vm.creerrapportagent(vm.rapport)" ng-disabled="rapportform.$invalid "> Export excel
+                      </md-button> 
+                      <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerrapport()" > Annuler
+                      </md-button>  
+                   
+                </form>  
+            </md-tab>
+            </md-tabs>
+<!--/Fin masque rapport-->
+
           </div>  
       <div style="widht:100%;">
           <md-progress-circular ng-If="vm.loadingProgress==true" class=" md-raised md-accent" md-mode="indeterminate" md-diameter="55" style="float: left;">
@@ -128,6 +177,9 @@
           </md-button>
           <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
               Supprimer
+          </md-button>
+          <md-button type="submit" ng-show="vm.afficherboutonfiche_suivi==1" class="md-raised md-accent" aria-label="Rapport" ng-click="vm.masquefiche_suivi()" style="width:10%;">
+              Fiche suivi
           </md-button>
           <md-button type="submit" ng-show="vm.afficherboutonrapport==1" class="md-raised md-accent" aria-label="Rapport" ng-click="vm.masquerapport()" style="width:10%;">
               Rapport
