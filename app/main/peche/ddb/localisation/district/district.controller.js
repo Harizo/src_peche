@@ -9,15 +9,13 @@
     /** @ngInject */
     function DistrictController($mdDialog, $scope, apiFactory, $state)
     {
-      var vm = this;
-      vm.ajout = ajout ;
-
-      var NouvelItem=false;
+      var vm         = this;
+      vm.ajout       = ajout ;
+      var NouvelItem = false;
       var currentItem;
-    vm.titrepage="Ajout district";
+      vm.titrepage    ="Ajout district";
       vm.selectedItem = {} ;
-      vm.alldistrict = [] ;
-      
+      vm.alldistrict  = [] ;
 
       //variale affichage bouton nouveau
       vm.afficherboutonnouveau = 1 ;
@@ -85,11 +83,11 @@
       
       var datas = $.param(
       {
-          supprimer:suppression,
-          id:getId,      
-          code: district.code,
-          nom: district.nom,
-          region_id:district.region_id                
+          supprimer: suppression,
+          id:        getId,      
+          code:      district.code,
+          nom:       district.nom,
+          region_id: district.region_id                
       });
         
       //factory
@@ -104,14 +102,14 @@
             // Update or delete: id exclu
             if(suppression==0) 
             {
-                vm.selectedItem.nom = vm.district.nom;
-                vm.selectedItem.code = vm.district.code;
-                vm.selectedItem.region = reg[0];
+                vm.selectedItem.nom        = vm.district.nom;
+                vm.selectedItem.code       = vm.district.code;
+                vm.selectedItem.region     = reg[0];
                 vm.afficherboutonModifSupr = 0 ;
-                vm.afficherboutonModif      = 0 ;
-                vm.afficherboutonnouveau = 1 ;
-                vm.selectedItem.$selected = false;
-                vm.selectedItem ={};
+                vm.afficherboutonModif     = 0 ;
+                vm.afficherboutonnouveau   = 1 ;
+                vm.selectedItem.$selected  = false;
+                vm.selectedItem            = {};
             } 
             else 
             {    
@@ -124,15 +122,15 @@
         else
         {
             var item = {
-                        nom: district.nom,
-                        code: district.code,
-                        id:String(data.response) ,
-                        region:reg[0]
+                        nom:    district.nom,
+                        code:   district.code,
+                        id:     String(data.response) ,
+                        region: reg[0]
                       };
                     
             vm.alldistrict.push(item);
-            vm.district={};
-            NouvelItem=false;
+            vm.district = {};
+            NouvelItem  = false;
         }
 
         vm.affichageMasque = 0 ;
@@ -144,12 +142,12 @@
     vm.selection= function (item)
     { 
         vm.selectedItem = item;
-        vm.nouvelItem = item;
-        currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+        vm.nouvelItem   = item;
+        currentItem     = JSON.parse(JSON.stringify(vm.selectedItem));
         vm.afficherboutonModifSupr = 1 ;
         vm.afficherboutonModif     = 1 ;
-        vm.affichageMasque = 0 ;
-        vm.afficherboutonnouveau = 1 ;
+        vm.affichageMasque         = 0 ;
+        vm.afficherboutonnouveau   = 1 ;
     };
 
     $scope.$watch('vm.selectedItem', function()
@@ -166,48 +164,48 @@
     vm.ajouter = function () 
     {
         vm.titrepage="Ajout district";
-        vm.selectedItem.$selected = false;
-        vm.affichageMasque = 1 ;
-        vm.district={};
-        NouvelItem = true ;
+        vm.selectedItem.$selected  = false;
+        vm.affichageMasque         = 1 ;
+        vm.district                = {};
+        NouvelItem                 = true ;
         vm.afficherboutonModifSupr = 0;
-        vm.afficherboutonModif = 0;
-        vm.afficherboutonnouveau = 1;
+        vm.afficherboutonModif     = 0;
+        vm.afficherboutonnouveau   = 1;
 
     };
 
     vm.annuler = function() 
     {
-        vm.selectedItem = {} ;
-        vm.selectedItem.$selected = false;
-        vm.affichageMasque = 0 ;
-        vm.afficherboutonnouveau = 1 ;
+        vm.selectedItem            = {} ;
+        vm.selectedItem.$selected  = false;
+        vm.affichageMasque         = 0 ;
+        vm.afficherboutonnouveau   = 1 ;
         vm.afficherboutonModifSupr = 0 ;
         vm.afficherboutonModif     = 0 ;
-        NouvelItem = false;
+        NouvelItem                 = false;
 
     };
 
     vm.modifier = function() 
     {
-        vm.titrepage="Modifier district";
-        NouvelItem = false ;
-        vm.affichageMasque = 1 ;
-        vm.district.id = vm.selectedItem.id ;
-        vm.district.code = vm.selectedItem.code ;
-        vm.district.nom = vm.selectedItem.nom ;
-        vm.district.region_id = vm.selectedItem.region.id;          
+        vm.titrepage               = "Modifier district";
+        NouvelItem                 = false ;
+        vm.affichageMasque         = 1 ;
+        vm.district.id             = vm.selectedItem.id ;
+        vm.district.code           = vm.selectedItem.code ;
+        vm.district.nom            = vm.selectedItem.nom ;
+        vm.district.region_id      = vm.selectedItem.region.id;          
         vm.afficherboutonModifSupr = 0;
-        vm.afficherboutonModif = 1;
-        vm.afficherboutonnouveau = 0;  
+        vm.afficherboutonModif     = 1;
+        vm.afficherboutonnouveau   = 0;  
 
     };
 
     vm.supprimer = function() 
     {
-        vm.affichageMasque = 0 ;
+        vm.affichageMasque         = 0 ;
         vm.afficherboutonModifSupr = 0 ;
-        vm.afficherboutonModif = 0 ;
+        vm.afficherboutonModif     = 0 ;
         var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -247,24 +245,6 @@
                          vm.affichageMasque = 0;
                       }
                 }
-              /*vm.alldistrict.forEach(function(dist){
-                
-                  if (dist.id==item.id) 
-                  {
-                      if((dist.nom!=item.nom)
-                        ||(dist.code!=item.code)
-                        ||(dist.region.id!=item.region_id))
-                        
-                        {
-                          insert_in_base(item,suppression);
-                          vm.affichageMasque = 0 ;
-                        }
-                        else
-                        {
-                          vm.affichageMasque = 0 ;
-                        }
-                  }
-              });*/
           }
             else
               insert_in_base(item,suppression);

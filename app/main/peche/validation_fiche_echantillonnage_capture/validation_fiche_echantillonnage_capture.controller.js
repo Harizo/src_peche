@@ -1081,8 +1081,8 @@
       vm.affichageMasque                       = 0 ;
       vm.espece_capture.id                     = vm.selectedItemEspece_capture.id ;
       vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
-      vm.espece_capture.capture                =parseInt(vm.selectedItemEspece_capture.capture);
-      vm.espece_capture.prix                   =parseInt(vm.selectedItemEspece_capture.prix);
+      vm.espece_capture.capture                =parseFloat(vm.selectedItemEspece_capture.capture);
+      vm.espece_capture.prix                   =parseFloat(vm.selectedItemEspece_capture.prix);
   //    vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
       vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
       vm.afficherboutonModifSuprEspece_capture = 0;
@@ -1209,10 +1209,10 @@
                     vm.afficherboutonModifSuprEspece_capture          = 0 ;
                     vm.afficherboutonnouveauEspece_capture            = 1 ;
                     vm.selectedItemEspece_capture.$selected           = false;                   
-                             
-                    var tot_cap1=parseInt(vm.selectedItemEchantillon.total_capture)- parseInt(total_capture_selected) ;
-                    var tot_cap=parseInt(tot_cap1)+parseInt(vm.espece_capture.capture);
-                    
+                           
+                    var tot_cap1=parseFloat(vm.selectedItemEchantillon.total_capture)- parseFloat(total_capture_selected) ;
+                    var tot_cap=parseFloat(tot_cap1)+parseFloat(vm.espece_capture.capture);
+                 
                     majtotal_captureEchantillon(tot_cap,config);
                     vm.selectedItemEspece_capture ={};
                 } 
@@ -1222,7 +1222,8 @@
                   {
                     return obj.id !== currentItemEspece_capture.id;
                   });
-                  var tot_cap=parseInt(vm.selectedItemEchantillon.total_capture)- parseInt(currentItemEspece_capture.capture) ;                 
+                  var tot_cap=parseFloat(vm.selectedItemEchantillon.total_capture)- parseFloat(currentItemEspece_capture.capture) ;                 
+                  console.log(tot_cap)
                   majtotal_captureEchantillon(tot_cap,config);
                 }
             }
@@ -1240,7 +1241,7 @@
                 };
                 
                 vm.allespece_capture.push(item);                          
-                var tot_cap=parseInt(vm.selectedItemEchantillon.total_capture)+ parseInt(espece_capture.capture);
+                var tot_cap=parseFloat(vm.selectedItemEchantillon.total_capture)+ parseFloat(espece_capture.capture);
                 majtotal_captureEchantillon(tot_cap,config);
                 vm.espece_capture={};                         
                 NouvelItemEspece_capture=false;
