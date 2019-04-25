@@ -85,6 +85,7 @@
                   vm.selectedItem.unite_peche= up[0];
                   vm.selectedItem.max_jrs_peche=vm.nbr_jrs_mois_unite_peche.max_jrs_peche;
       						vm.afficherboutonModifSupr = 0 ;
+                  vm.afficherboutonModif = 0 ;
       						vm.afficherboutonnouveau = 1 ;
       						vm.selectedItem.$selected = false;
       						vm.selectedItem ={};
@@ -122,6 +123,7 @@
   			vm.nouvelItem = item;
   			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
   			vm.afficherboutonModifSupr = 1 ;
+        vm.afficherboutonModif = 1 ;
   			vm.affichageMasque = 0 ;
   			vm.afficherboutonnouveau = 1 ;
 		};
@@ -142,6 +144,9 @@
   			vm.affichageMasque = 1 ;
         vm.nbr_jrs_mois_unite_peche={}; 
   			NouvelItem = true ;
+        vm.afficherboutonnouveau = 1 ;
+        vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
     };
     
     vm.annuler = function()
@@ -151,6 +156,7 @@
         vm.affichageMasque = 0 ;
         vm.afficherboutonnouveau = 1 ;
         vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
         NouvelItem = false;
     };
     
@@ -163,6 +169,7 @@
         vm.nbr_jrs_mois_unite_peche.unite_peche_id = vm.selectedItem.unite_peche.id ; 
         vm.nbr_jrs_mois_unite_peche.max_jrs_peche = parseInt(vm.selectedItem.max_jrs_peche) ;
         vm.afficherboutonModifSupr = 0;
+        vm.afficherboutonModif = 1;
         vm.afficherboutonnouveau = 0;
     };
     
@@ -170,6 +177,7 @@
     {
         vm.affichageMasque = 0 ;
         vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif = 0 ;
         var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')

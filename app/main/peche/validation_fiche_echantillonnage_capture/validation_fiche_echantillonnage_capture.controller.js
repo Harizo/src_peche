@@ -37,6 +37,7 @@
 
       //variale affichage bouton nouveau
       vm.afficherboutonnouveau               = 1;
+      vm.afficherboutonfiltre                = 1;
       vm.afficherboutonnouveauEchantillon    = 0;
       vm.afficherboutonnouveauEspece_capture = 0;
       //variable cache masque de saisie
@@ -110,7 +111,7 @@
       {vm.allespece = result.data.response;});
 
       apiFactory.getOne("utilisateurs/index",cookieService.get("id")).then(function(result)
-      {vm.allutilisateur = result.data.response; console.log(vm.allutilisateur.id);});
+      {vm.allutilisateur = result.data.response;});
 
      /* apiFactory.getAll("unite_peche/index").then(function(result)
       {vm.allunite_peche = result.data.response;});*/
@@ -142,8 +143,9 @@
           }
           currentItem = vm.selectedItem;
           vm.afficherboutonModifSupr          = 1 ;
-          vm.affichageMasque                  = 0 ;
+          vm.afficherboutonModif              = 1 ;
           vm.afficherboutonnouveau            = 1 ;
+          vm.afficherboutonfiltre             = 1;
           vm.afficherboutonnouveauEchantillon = 1 ;
           
           //recuperation echantillon quand id_echantillon = item.id                  = [];
@@ -168,6 +170,7 @@
               
           });
           vm.checkboxPAB = true;
+          vm.checkboxCAB = false;
           vm.step1=true;  
       };
       $scope.$watch('vm.selectedItem', function()
@@ -207,16 +210,20 @@
           });
           
           vm.afficherboutonModifSupr = 0;
-          vm.afficherboutonnouveau   = 0;  
+          vm.afficherboutonModif     = 1 ;
+          vm.afficherboutonnouveau   = 0;
+          vm.afficherboutonfiltre    = 0;  
 
       };
 
       vm.annuler = function() 
-      {   //vm.selectedItem = {} ;          
-          //vm.selectedItem.$selected = false;
+      {   vm.selectedItem = {} ;          
+          vm.selectedItem.$selected = false;
           vm.affichageMasque         = 0 ;
           vm.afficherboutonnouveau   = 1 ;
+          vm.afficherboutonfiltre    = 1;
           vm.afficherboutonModifSupr = 0 ;
+          vm.afficherboutonModif     = 0 ;
           NouvelItem                 = false;
           vm.allcurrentdistrict      = vm.alldistrict;
           vm.affichageMasqueFiltrepardate = 0 ;
@@ -277,6 +284,9 @@
           vm.step2=false;
           vm.step3=false;
           vm.affichageMasque = 1 ;
+          vm.afficherboutonfiltre = 0;
+          vm.afficherboutonModifSupr=0;
+          vm.afficherboutonModif    = 0 ;
           vm.fiche_echantillonnage_capture={};
           NouvelItem = true ;
           vm.enqueteur = false;
@@ -416,7 +426,9 @@
                     vm.selectedItem.region        = reg[0];
                     vm.selectedItem.district      = dist[0];                              
                     vm.afficherboutonModifSupr = 0 ;
+                    vm.afficherboutonModif     = 0 ;
                     vm.afficherboutonnouveau = 1 ;
+                    vm.afficherboutonfiltre  = 1;
                     vm.selectedItem.$selected = false;
                     //console.log(vm.selectedItem);
                     vm.selectedItem ={};
@@ -512,7 +524,11 @@
 
     vm.formfiltrepardate = function()
     {
-        vm.affichageMasqueFiltrepardate = 1 ;
+        vm.affichageMasqueFiltrepardate = 1 ;        
+        vm.afficherboutonfiltre         = 1;
+        vm.afficherboutonModifSupr      =0;
+        vm.afficherboutonModif          = 0 ;
+        vm.afficherboutonnouveau        =0;
     }
 
     vm.recherchefiltrepardate= function (filtrepardate)
@@ -525,6 +541,7 @@
             vm.allfiche_echantillonnage_capture  = result.data.response;
             vm.affichageMasqueFiltrepardate = 0 ;
         });
+
     }
 
     $scope.removeBouton = function()
@@ -552,7 +569,10 @@
               });
             vm.checkboxCAB=true; 
           }
-          vm.affichageMasqueEchantillon = 0;  
+          vm.affichageMasqueEchantillon = 0;
+          vm.afficherboutonnouveauEchantillon=1;
+          vm.afficherboutonModifEchantillon=0;
+          vm.afficherboutonModifSuprEchantillon=0;  
       }
       vm.recuperationCab = function(cab){
         if(cab)
@@ -573,6 +593,9 @@
             vm.checkboxPAB=true; 
         }
         vm.affichageMasqueEchantillon = 0;
+        vm.afficherboutonnouveauEchantillon=1;
+        vm.afficherboutonModifEchantillon=0;
+        vm.afficherboutonModifSuprEchantillon=0;
       }
       
 
@@ -582,6 +605,7 @@
         vm.nouvelItemEchantillon = item;
         currentItemEchantillon = vm.selectedItemEchantillon;
         vm.afficherboutonModifSuprEchantillon = 1 ;
+        vm.afficherboutonModifEchantillon = 1 ;
         vm.afficherboutonnouveauEspece_capture = 1 ;
         vm.affichageMasqueEchantillon = 0 ;
         
@@ -639,6 +663,7 @@
         vm.echantillon.nbr_jrs_peche_dernier_sem = parseInt(vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem);          
         
         vm.afficherboutonModifSuprEchantillon = 0;
+        vm.afficherboutonModifEchantillon = 1;
         vm.afficherboutonnouveauEchantillon = 0;  
         vm.prix = true;
     };
@@ -650,6 +675,7 @@
         vm.affichageMasqueEchantillon = 0 ;
         vm.afficherboutonnouveauEchantillon = 1 ;
         vm.afficherboutonModifSuprEchantillon = 0 ;
+        vm.afficherboutonModifEchantillon = 0 ;
         NouvelItemEchantillon = false;
         vm.prix = false;
     };
@@ -665,6 +691,9 @@
         vm.affichageMasqueEspece_capture = 0 ;
         vm.echantillon={};
         NouvelItemEchantillon = true ;
+        vm.afficherboutonnouveauEchantillon=1;
+        vm.afficherboutonModifEchantillon=0;
+        vm.afficherboutonModifSuprEchantillon=0;
         var effort_p=[];
         if(vm.checkboxPAB)
         {
@@ -909,6 +938,7 @@
                   vm.selectedItemEchantillon.date_modification = date_dujour;
                       
                   vm.afficherboutonModifSuprEchantillon = 0 ;
+                  vm.afficherboutonModifEchantillon = 0 ;
                   vm.afficherboutonnouveauEchantillon   = 1 ;
                   vm.selectedItemEchantillon.$selected = false;
                   // console.log(vm.selectedItemEchantillon);
@@ -1028,6 +1058,7 @@
       vm.nouvelItemEspece_capture = item;
       currentItemEspece_capture = vm.selectedItemEspece_capture;
       vm.afficherboutonModifSuprEspece_capture = 1 ;
+      vm.afficherboutonModifEspece_capture = 1;
       vm.affichageMasqueEspece_capture = 0 ; 
       vm.step3=true;
   };
@@ -1055,6 +1086,7 @@
   //    vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
       vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
       vm.afficherboutonModifSuprEspece_capture = 0;
+      vm.afficherboutonModifEspece_capture     = 1;
       vm.afficherboutonnouveauEspece_capture   = 0;
       vm.prix=true;
   };
@@ -1065,7 +1097,8 @@
       vm.selectedItemEspece_capture.$selected = false;
       vm.affichageMasqueEspece_capture = 0 ;
       vm.afficherboutonnouveauEspece_capture = 1 ;
-      vm.afficherboutonModifSuprEspece_capture = 0 ;          
+      vm.afficherboutonModifSuprEspece_capture = 0 ;
+      vm.afficherboutonModifEspece_capture = 0;          
       NouvelItemEspece_capture = false;
   };
 
@@ -1079,12 +1112,16 @@
       vm.affichageMasqueEchantillon = 0 ;
       vm.espece_capture = {} ;
       NouvelItemEspece_capture = true ;
+      vm.afficherboutonModifEspece_capture = 0;
+      vm.afficherboutonModifSuprEspece_capture = 0;
+      vm.afficherboutonnouveauEspece_capture = 1;
   };
 
   vm.supprimerEspece_capture = function()
   {
       vm.affichageMasqueEspece_capture = 0 ;
       vm.afficherboutonModifSuprEspece_capture = 0 ;
+      vm.afficherboutonModifEspece_capture = 0;
       var confirm = $mdDialog.confirm().title('Etes-vous sûr de supprimer cet enregistrement ?')
                                       .textContent('')
                                       .ariaLabel('Lucky day')

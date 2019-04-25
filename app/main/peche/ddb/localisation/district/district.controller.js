@@ -108,6 +108,7 @@
                 vm.selectedItem.code = vm.district.code;
                 vm.selectedItem.region = reg[0];
                 vm.afficherboutonModifSupr = 0 ;
+                vm.afficherboutonModif      = 0 ;
                 vm.afficherboutonnouveau = 1 ;
                 vm.selectedItem.$selected = false;
                 vm.selectedItem ={};
@@ -146,6 +147,7 @@
         vm.nouvelItem = item;
         currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
         vm.afficherboutonModifSupr = 1 ;
+        vm.afficherboutonModif     = 1 ;
         vm.affichageMasque = 0 ;
         vm.afficherboutonnouveau = 1 ;
     };
@@ -168,6 +170,9 @@
         vm.affichageMasque = 1 ;
         vm.district={};
         NouvelItem = true ;
+        vm.afficherboutonModifSupr = 0;
+        vm.afficherboutonModif = 0;
+        vm.afficherboutonnouveau = 1;
 
     };
 
@@ -178,6 +183,7 @@
         vm.affichageMasque = 0 ;
         vm.afficherboutonnouveau = 1 ;
         vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
         NouvelItem = false;
 
     };
@@ -192,6 +198,7 @@
         vm.district.nom = vm.selectedItem.nom ;
         vm.district.region_id = vm.selectedItem.region.id;          
         vm.afficherboutonModifSupr = 0;
+        vm.afficherboutonModif = 1;
         vm.afficherboutonnouveau = 0;  
 
     };
@@ -200,6 +207,7 @@
     {
         vm.affichageMasque = 0 ;
         vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif = 0 ;
         var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')

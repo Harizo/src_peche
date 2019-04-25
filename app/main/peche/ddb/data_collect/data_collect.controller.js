@@ -9,15 +9,15 @@
     /** @ngInject */
     function DatacollectController($mdDialog, $scope, apiFactory, $state)  
     {
-  		var vm = this;
-  		vm.ajout = ajout ;
-  		var NouvelItem=false;
+  		var vm   = this;
+  		vm.ajout = ajout ;  		
   		var currentItem;
-  		vm.selectedItem = {} ;
+      var NouvelItem     = false;
+  		vm.selectedItem    = {} ;
   		vm.alldata_collect = [] ;
-  		vm.afficherboutonnouveau = 1 ;    //variale affichage bouton nouveau  		
-  		vm.affichageMasque = 0 ;          //variable cache masque de saisie
-  		
+      vm.affichageMasque = 0 ;          //variable cache masque de saisie
+  		vm.afficherboutonnouveau = 1 ;    //variale affichage bouton nouveau 	
+  	
 //style
       vm.dtOptions =
       {
@@ -67,55 +67,55 @@
           });
         
 //factory
-      apiFactory.add("data_collect/index",datas, config).success(function (data)
-      {
-        if (NouvelItem == false)
+        apiFactory.add("data_collect/index",datas, config).success(function (data)
         {
-         // Update or delete: id exclu                 
-          if(suppression==0)
+          if (NouvelItem == false)
           {
-            vm.selectedItem.libelle = vm.data_collect.libelle;
-            vm.selectedItem.code = vm.data_collect.code;					
-            vm.afficherboutonModifSupr = 0 ;
-            vm.afficherboutonnouveau = 1 ;
-            vm.selectedItem.$selected = false;
-            vm.selectedItem ={};
-          } 
-          else
-          {    
-          	vm.alldata_collect = vm.alldata_collect.filter(function(obj)
+           // Update or delete: id exclu                 
+            if(suppression==0)
             {
-          		return obj.id !== currentItem.id;
-          	});
-          }
-        } 
-        else 
-        {
-          var item =
+              vm.selectedItem.libelle    = vm.data_collect.libelle;
+              vm.selectedItem.code       = vm.data_collect.code;					
+              vm.afficherboutonModifSupr = 0 ;
+              vm.afficherboutonnouveau   = 1 ;
+              vm.selectedItem.$selected  = false;
+              vm.selectedItem ={};
+            } 
+            else
+            {    
+            	vm.alldata_collect = vm.alldata_collect.filter(function(obj)
+              {
+            		return obj.id !== currentItem.id;
+            	});
+            }
+          } 
+          else 
           {
-            libelle: data_collect.libelle,
-            code: data_collect.code,
-            id:String(data.response)                       
-          };              
-          vm.alldata_collect.push(item);
-          vm.data_collect = {} ;                   
-          NouvelItem=false;
-        }
-        				  vm.affichageMasque = 0 ;
-                }).error(function (data) {
-                            alert('Error');
-                        });                
+            var item =
+            {
+              libelle: data_collect.libelle,
+              code:    data_collect.code,
+              id:      String(data.response)                       
+            };              
+            vm.alldata_collect.push(item);
+            vm.data_collect = {} ;                   
+            NouvelItem      =false;
+          }
+          vm.affichageMasque = 0 ;
+        }).error(function (data) {alert('Error');});                
       }
-  		vm.selection= function (item)
+  		
+      vm.selection= function (item)
       {
   			vm.selectedItem = item;
-  			vm.nouvelItem = item;
-  			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+  			vm.nouvelItem   = item;
+  			currentItem     = JSON.parse(JSON.stringify(vm.selectedItem));
   			vm.afficherboutonModifSupr = 1 ;
-  			vm.affichageMasque = 0 ;
-  			vm.afficherboutonnouveau = 1 ;
+  			vm.affichageMasque         = 0 ;
+  			vm.afficherboutonnouveau   = 1 ;
   		};
-  		$scope.$watch('vm.selectedItem', function()
+  		
+      $scope.$watch('vm.selectedItem', function()
       {
   			if (!vm.alldata_collect) return;
   			vm.alldata_collect.forEach(function(item) 
@@ -124,36 +124,39 @@
   			});
   			vm.selectedItem.$selected = true;
   		});
+      
       //function cache masque de saisie
       vm.ajouter = function ()
       {
   			vm.selectedItem.$selected = false;
-  			vm.affichageMasque = 1 ;
-  			vm.data_collect = {} ;
-  			NouvelItem = true ;
+  			vm.affichageMasque        = 1 ;
+  			vm.data_collect           = {} ;
+  			NouvelItem                = true ;
       };
+      
       vm.annuler = function()
       {
-        vm.selectedItem = {} ;
-        vm.selectedItem.$selected = false;
-        vm.affichageMasque = 0 ;
-        vm.afficherboutonnouveau = 1 ;
-        vm.afficherboutonModifSupr = 0 ;
-        NouvelItem = false;
+        NouvelItem                 = false;
+        vm.selectedItem            = {} ;        
+        vm.affichageMasque         = 0 ;
+        vm.selectedItem.$selected  = false;        
+        vm.afficherboutonnouveau   = 1 ;
+        vm.afficherboutonModifSupr = 0 ;        
       };
-        vm.modifier = function()
-        {
-          NouvelItem = false ;
-          vm.affichageMasque = 1 ;
-          vm.data_collect.id = vm.selectedItem.id ;
-          vm.data_collect.code = vm.selectedItem.code ;
-          vm.data_collect.libelle = vm.selectedItem.libelle ;		 
+       
+      vm.modifier = function()
+      {
+          NouvelItem                 = false ;
+          vm.affichageMasque         = 1 ;
+          vm.data_collect.id         = vm.selectedItem.id ;
+          vm.data_collect.code       = vm.selectedItem.code ;
+          vm.data_collect.libelle    = vm.selectedItem.libelle ;		 
           vm.afficherboutonModifSupr = 0;
-          vm.afficherboutonnouveau = 0;  
-        };
+          vm.afficherboutonnouveau   = 0;  
+      };
         vm.supprimer = function()
         {
-          vm.affichageMasque = 0 ;
+          vm.affichageMasque         = 0 ;
           vm.afficherboutonModifSupr = 0 ;
          var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
@@ -191,14 +194,6 @@
                          vm.affichageMasque = 0;
                       }
                 }
-               /* vm.alldata_collect.forEach(function(reg)
-                {               
-        					if (reg.id==item.id)
-                  {
-        							insert_in_base(item,suppression);
-        							vm.affichageMasque = 0 ;
-                  }
-                });*/
             }  else
               insert_in_base(item,suppression);
         }

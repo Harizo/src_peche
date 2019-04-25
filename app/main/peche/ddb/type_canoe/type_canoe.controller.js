@@ -200,6 +200,7 @@
                     vm.selectedItem.code       = vm.type_canoe.code;
                     vm.selectedItem.url_image  = vm.type_canoe.url_image;
                     vm.afficherboutonModifSupr = 0 ;
+                    vm.afficherboutonModif     = 0 ;
                     vm.afficherboutonnouveau   = 1 ;
                     vm.selectedItem.$selected  = false;
                     vm.selectedItem ={};
@@ -233,6 +234,7 @@
       			vm.nouvelItem = item;
       			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
       			vm.afficherboutonModifSupr = 1 ;
+            vm.afficherboutonModif     = 1 ;
       			vm.affichageMasque = 0 ;
       			vm.afficherboutonnouveau = 1 ;
     		};
@@ -253,6 +255,9 @@
       			vm.affichageMasque = 1 ;
       			vm.type_canoe = {} ;
       			NouvelItem = true ;
+            vm.afficherboutonModifSupr = 0;
+            vm.afficherboutonModif     = 0 ;
+            vm.afficherboutonnouveau   = 1;
         };
         
         vm.annuler = function()
@@ -262,6 +267,7 @@
             vm.affichageMasque = 0 ;
             vm.afficherboutonnouveau = 1 ;
             vm.afficherboutonModifSupr = 0 ;
+            vm.afficherboutonModif     = 0 ;
             NouvelItem = false;
             document.getElementById('fileid').value = null;
         };
@@ -275,13 +281,15 @@
             vm.type_canoe.nom = vm.selectedItem.nom ;
             vm.type_canoe.url_image = vm.selectedItem.url_image;
             vm.afficherboutonModifSupr = 0;
-            vm.afficherboutonnouveau = 0; 
+            vm.afficherboutonModif     = 1 ;
+            vm.afficherboutonnouveau   = 0; 
         };
         
         vm.supprimer = function()
         {
             vm.affichageMasque = 0 ;
             vm.afficherboutonModifSupr = 0 ;
+            vm.afficherboutonModif     = 0 ;
              var confirm = $mdDialog.confirm()
                     .title('Etes-vous sûr de supprimer cet enregistrement ?')
                     .textContent('')

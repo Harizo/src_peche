@@ -19,24 +19,24 @@
     <!-- CONTENT -->
             <!-- LISTE TABLE -->
     <div class="content"layout="column">
-      <div class="form-wrapper">
-      <div style="widht:100%;">    
-          <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-              Nouveau
-          </md-button>
-          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-              Modifier
-          </md-button>
-          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-              Supprimer
-          </md-button>
-        </div>  
-        <div style="clear:both;"></div>
-                    <!-- BASIC FORM -->
-        <div class="white-bg md-whiteframe-4dp">            
-          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-            <md-tab label="Ajout nbr_echantillon_enqueteur">
-            
+      <div class="form-wrapper">                    
+        <div class="white-bg md-whiteframe-4dp">
+          <md-tabs md-dynamic-height>
+            <md-tab label="Listes">
+              <div style="widht:100%;">    
+                <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                    Nouveau
+                </md-button>
+                <md-button type="submit" ng-show="vm.afficherboutonModif==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                    Modifier
+                </md-button>
+                <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                    Supprimer
+                </md-button>
+              </div>
+
+<!-- BASIC FORM -->
+              <div ng-show="vm.affichageMasque==1">            
                 <form name="nbr_echantillon_enqueteurform" class="md-inline-form" novalidate>
                   <div layout="column" layout-gt-xs="row" flex>
                     <input type="hidden" ng-model="vm.nbr_echantillon_enqueteur.id"></input>
@@ -85,16 +85,11 @@
                   <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
                     Annuler
                   </md-button>
-                </form>              
-         
-            </md-tab>
-          </md-tabs>
-        </div><br>
-         <!-- / BASIC FORM -->
-        <div class="white-bg md-whiteframe-4dp">
-          <md-tabs md-dynamic-height>
+                </form>
+                <md-divider ></md-divider><br>
+              </div>
+<!-- / BASIC FORM -->
 
-            <md-tab label="Listes">
               <table class="dataTable row-border hover" datatable="ng"
                 dt-options="vm.dtOptions">
                 <thead>

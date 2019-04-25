@@ -116,6 +116,7 @@
 
 
                      vm.afficherboutonModifSupr = 0 ;
+                     vm.afficherboutonModif     = 0 ;
                      vm.afficherboutonnouveau = 1 ;
                      vm.selectedItem.$selected = false;                    
                      vm.selectedItem ={};                     
@@ -161,6 +162,7 @@
          vm.nouvelItem              = item;
          currentItem                = JSON.parse(JSON.stringify(vm.selectedItem));
          vm.afficherboutonModifSupr = 1 ;
+         vm.afficherboutonModif     = 1 ;
          vm.affichageMasque         = 0 ;
          vm.afficherboutonnouveau   = 1 ;   
 
@@ -177,14 +179,13 @@
       });
 
       vm.ajouter = function () 
-      {  vm.selectedItem.$selected           = false;
-         vm.affichageMasque                  = 1 ;
-         vm.unite_peche = {} ;
-         /*vm.unite_peche.type_canoe_id        =''; ********* IO AMBONY IO NO SOLONY  ************
-         vm.unite_peche.type_engin_id        ='';
-         vm.unite_peche.site_embarquement_id ='';
-         vm.unite_peche.libelle              ='';*/
-         NouvelItem                          = true ;
+      {  vm.selectedItem.$selected = false;
+         vm.affichageMasque        = 1 ;
+         vm.unite_peche            = {} ;
+         NouvelItem                = true ;
+         vm.afficherboutonModifSupr = 0;
+         vm.afficherboutonModif     = 0 ;
+         vm.afficherboutonnouveau   = 1;
       };
 
       vm.annuler = function() 
@@ -193,6 +194,7 @@
          vm.affichageMasque         = 0 ;
          vm.afficherboutonnouveau   = 1 ;
          vm.afficherboutonModifSupr = 0 ;
+         vm.afficherboutonModif     = 0 ;
          NouvelItem                 = false;
       };
 
@@ -203,32 +205,16 @@
          vm.unite_peche.libelle = vm.selectedItem.libelle;
 
          vm.unite_peche.type_engin_id = vm.selectedItem.type_engin.id ;
-         vm.unite_peche.type_canoe_id = vm.selectedItem.type_canoe.id ;
-
-      /*   vm.alltype_canoe.forEach(function(typec)   ******************TSY ILAINA ***********************
-         {  if(typec.id==vm.selectedItem.type_canoe_id)
-            { vm.unite_peche.type_canoe_id  = typec.id;
-              vm.unite_peche.type_canoe_nom = typec.nom;
-            }
-         });
-         vm.alltype_engin.forEach(function(type_e)
-         {  if(type_e.id==vm.selectedItem.type_engin_id)
-            { vm.unite_peche.type_engin_id  = type_e.id;
-              vm.unite_peche.type_engin_nom = type_e.libelle;              
-            }
-         });
-         vm.allsite_embarquement.forEach(function(site)
-         {if(site.id==vm.selectedItem.site_embarquement_id)
-            { vm.unite_peche.site_embarquement_id  = site.id;
-              vm.unite_peche.site_embarquement_nom = site.libelle;
-            }
-         });  */        
+         vm.unite_peche.type_canoe_id = vm.selectedItem.type_canoe.id ;       
          vm.afficherboutonModifSupr = 0;
+         vm.afficherboutonModif     = 1 ;
          vm.afficherboutonnouveau   = 0; 
       };
 
       vm.supprimer = function() 
-      {  vm.afficherboutonModifSupr = 0;
+      {  
+         vm.afficherboutonModifSupr = 0;
+         vm.afficherboutonModif     = 0 ;
          vm.affichageMasque         = 0;
          var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')

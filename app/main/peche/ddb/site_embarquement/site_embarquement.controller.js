@@ -64,6 +64,12 @@
         titre:"Code unique"
       }*/,
       {
+        titre:"Region"
+      },
+      {
+        titre:"District"
+      },
+      {
         titre:"Latitude"
       },
       {
@@ -71,12 +77,6 @@
       },
       {
         titre:"Altitude"
-      },
-      {
-        titre:"Region"
-      },
-      {
-        titre:"District"
       },
       {
         titre:"Limite"
@@ -226,6 +226,7 @@
                       vm.selectedItem.region    = reg[0];
                       vm.selectedItem.district  = dist[0];
                       vm.afficherboutonModifSupr= 0 ;
+                      vm.afficherboutonModif    = 0 ;
                       vm.afficherboutonnouveau  = 1 ;
                       vm.selectedItem.$selected = false;
                       vm.selectedItem ={};
@@ -284,20 +285,22 @@
           vm.nouvelItem = item;          
           currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
           vm.afficherboutonModifSupr = 1 ;
+          vm.afficherboutonModif = 1 ;
           vm.affichageMasque = 0 ;
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSuprsite_enqueteur = 0 ;
+          vm.afficherboutonModifsite_enqueteur = 0 ;
           vm.affichageMasquesite_enqueteur = 0 ;
          
           apiFactory.getFilsEnqueteur("site_enqueteur/index",item.id).then(function(result)
           {
               vm.allsite_enqueteur = result.data.response;
-              console.log(vm.allsite_enqueteur);
+              
           });
           apiFactory.getFilsSiteCanoeEngin("unite_peche_site/index",item.id).then(function(result)
           {
               vm.allunite_peche_site = result.data.response;
-              console.log(vm.allunite_peche_site);            
+                         
           });
           vm.step1=true;
       };
@@ -327,6 +330,7 @@
           vm.affichageMasque = 0 ;
           vm.afficherboutonnouveau = 1 ;
           vm.afficherboutonModifSupr = 0 ;
+          vm.afficherboutonModif     = 0 ;
           NouvelItem = false;
           vm.allcurrentdistrict=vm.alldistrict;
         };
@@ -343,6 +347,7 @@
           vm.site_embarquement.limite      = parseInt(vm.selectedItem.limite);
           vm.site_embarquement.type_effort_peche = vm.selectedItem.type_effort_peche;
           vm.afficherboutonModifSupr = 0;
+          vm.afficherboutonModif     = 1 ;
           vm.afficherboutonnouveau = 0; 
           vm.allcurrentdistrict = vm.alldistrict.filter(function(obj)
             {                 
@@ -359,6 +364,7 @@
         vm.supprimer = function() 
         {
           vm.afficherboutonModifSupr = 0 ;
+          vm.afficherboutonModif     = 0 ;
           vm.affichageMasque = 0 ;
 
           if(vm.allsite_enqueteur=='' && vm.allunite_peche_site==''){
@@ -455,6 +461,7 @@
           vm.NouvelItemsite_enqueteur = item;
           currentItemsite_enqueteur = JSON.parse(JSON.stringify(vm.selectedItemsite_enqueteur));
           vm.afficherboutonModifSuprsite_enqueteur = 1 ;
+          vm.afficherboutonModifsite_enqueteur = 1 ;
           vm.affichageMasquesite_enqueteur = 0 ;
           vm.afficherboutonnouveausite_enqueteur = 1 ;
           vm.step2=true;
@@ -499,8 +506,11 @@
           vm.affichageMasquesite_enqueteur = 1 ;
 
           vm.site_enqueteur.id = vm.selectedItemsite_enqueteur.id;
-          vm.site_enqueteur.enqueteur_id = vm.selectedItemsite_enqueteur.enqueteur.id; 
+          vm.site_enqueteur.enqueteur_id = vm.selectedItemsite_enqueteur.enqueteur.id;
+          vm.site_enqueteur.enqueteur_telephone = vm.selectedItemsite_enqueteur.enqueteur.telephone;
+          vm.site_enqueteur.enqueteur_prenom = vm.selectedItemsite_enqueteur.enqueteur.prenom;  
           vm.afficherboutonModifSuprsite_enqueteur = 0;
+          vm.afficherboutonModifsite_enqueteur = 1;
           vm.afficherboutonnouveausite_enqueteur = 0;  
 
         };
@@ -511,6 +521,7 @@
           vm.affichageMasquesite_enqueteur = 0 ;
           vm.afficherboutonnouveausite_enqueteur = 1 ;
           vm.afficherboutonModifSuprsite_enqueteur = 0 ;
+          vm.afficherboutonModifsite_enqueteur = 0;
           NouvelItemsite_enqueteur = false;
 
         };
@@ -518,6 +529,7 @@
         {
           vm.affichageMasquesite_enqueteur = 0 ;
           vm.afficherboutonModifSuprsite_enqueteur = 0 ;
+          vm.afficherboutonModifsite_enqueteur = 0;
          var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -593,6 +605,7 @@
                   {
                       vm.selectedItemsite_enqueteur.enqueteur = enq[0];
                       vm.afficherboutonModifSuprsite_enqueteur = 0 ;
+                      vm.afficherboutonModifsite_enqueteur = 0;
                       vm.afficherboutonnouveausite_enqueteur = 1 ;
                       vm.selectedItemsite_enqueteur.$selected = false;
                       vm.selectedItemsite_enqueteur ={};
@@ -641,6 +654,16 @@
         return 'PAB & CAB'
       }
     }
+    vm.modifierenqueteur = function(enqueteur)
+    {
+      var enqu = vm.allenqueteur.filter(function(obj)
+      {
+          return obj.id == enqueteur.enqueteur_id;
+      });
+      
+      vm.site_enqueteur.enqueteur_prenom=enqu[0].prenom;
+      vm.site_enqueteur.enqueteur_telephone=enqu[0].telephone;
+    }
 /*********** ************************Fin site d'embarquement  *******************************************/
 
 /*********** ************************Fin unite_peche_site  *******************************************/
@@ -649,6 +672,7 @@
          vm.NouvelItemunite_peche_site              = item;
          currentItemunite_peche_site                = JSON.parse(JSON.stringify(vm.selectedItemunite_peche_site));
          vm.afficherboutonModifSuprunite_peche_site = 1 ;
+         vm.afficherboutonModifunite_peche_site = 1 ;
          vm.affichageMasqueunite_peche_site         = 0 ;
          vm.afficherboutonnouveauunite_peche_site   = 1 ;   
 
@@ -672,6 +696,7 @@
         vm.unite_peche_site.unite_peche_id = vm.selectedItemunite_peche_site.unite_peche.id ; 
         vm.unite_peche_site.nbr_echantillon = parseInt(vm.selectedItemunite_peche_site.nbr_echantillon) ;      
          vm.afficherboutonModifSuprunite_peche_site = 0;
+         vm.afficherboutonModifunite_peche_site     = 1 ;
          vm.afficherboutonnouveauunite_peche_site   = 0; 
       };
 
@@ -680,6 +705,9 @@
          vm.affichageMasqueunite_peche_site                  = 1 ;
          vm.unite_peche_site = {} ;
          NouvelItemunite_peche_site                         = true ;
+         vm.afficherboutonModifSuprunite_peche_site = 0;
+         vm.afficherboutonModifunite_peche_site     = 0 ;
+         vm.afficherboutonnouveauunite_peche_site   = 1;
       };
       
       vm.annulerunite_peche_site = function() 
@@ -688,10 +716,12 @@
          vm.affichageMasqueunite_peche_site         = 0 ;
          vm.afficherboutonnouveauunite_peche_site   = 1 ;
          vm.afficherboutonModifSuprunite_peche_site = 0 ;
+         vm.afficherboutonModifunite_peche_site     = 0 ;
          NouvelItemunite_peche_site                 = false;
       };
       vm.supprimerunite_peche_site = function() 
       {  vm.afficherboutonModifSuprunite_peche_site = 0;
+        vm.afficherboutonModifunite_peche_site = 0 ;
          vm.affichageMasqueunite_peche_site         = 0;
          var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
@@ -782,6 +812,7 @@
                   vm.selectedItemunite_peche_site.unite_peche= up[0];
                   vm.selectedItemunite_peche_site.nbr_echantillon=vm.unite_peche_site.nbr_echantillon;
                   vm.afficherboutonModifSuprunite_peche_site = 0 ;
+                  vm.afficherboutonModifunite_peche_site = 0 ;
                   vm.afficherboutonnouveauunite_peche_site = 1 ;
                   vm.selectedItemunite_peche_site.$selected = false;
                   vm.selectedItemunite_peche_site ={};

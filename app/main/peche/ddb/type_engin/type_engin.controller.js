@@ -200,6 +200,7 @@
                 vm.selectedItem.code       = vm.type_engin.code;
                 vm.selectedItem.url_image  = vm.type_engin.url_image;
                 vm.afficherboutonModifSupr = 0 ;
+                vm.afficherboutonModif     = 0 ;
                 vm.afficherboutonnouveau   = 1 ;
                 vm.selectedItem.$selected  = false;
                 vm.selectedItem            ={};
@@ -233,6 +234,7 @@
   			vm.nouvelItem              = item;
   			currentItem                = JSON.parse(JSON.stringify(vm.selectedItem));
   			vm.afficherboutonModifSupr = 1 ;
+        vm.afficherboutonModif     = 1 ;
   			vm.affichageMasque         = 0 ;
   			vm.afficherboutonnouveau   = 1 ;
   	};
@@ -255,6 +257,9 @@
         //vm.table=0;
   			vm.type_engin = {} ;
   			NouvelItem = true ;
+        vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
+        vm.afficherboutonnouveau   = 1 ;
     };
     
     vm.annuler = function()
@@ -264,6 +269,7 @@
         vm.affichageMasque         = 0 ;
         vm.afficherboutonnouveau   = 1 ;
         vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
         NouvelItem                 = false;
     };
     
@@ -276,6 +282,7 @@
         vm.type_engin.libelle      = vm.selectedItem.libelle ;
         vm.type_engin.url_image = vm.selectedItem.url_image;
         vm.afficherboutonModifSupr = 0;
+        vm.afficherboutonModif     = 1 ;
         vm.afficherboutonnouveau   = 0;  
     };
     

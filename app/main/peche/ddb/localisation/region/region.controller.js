@@ -89,6 +89,7 @@
                         vm.selectedItem.code = vm.region.code;
                         vm.selectedItem.pays = pay[0];
                         vm.afficherboutonModifSupr = 0 ;
+                        vm.afficherboutonModif = 0 ;
                         vm.afficherboutonnouveau = 1 ;
                         vm.selectedItem.$selected = false;
                         vm.selectedItem ={};
@@ -122,6 +123,7 @@
             vm.nouvelItem = item;
             currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
             vm.afficherboutonModifSupr = 1 ;
+            vm.afficherboutonModif     = 1 ;
             vm.affichageMasque = 0 ;
             vm.afficherboutonnouveau = 1 ;
         };
@@ -141,6 +143,9 @@
           vm.affichageMasque = 1 ;
           vm.region={};
           NouvelItem = true ;
+          vm.afficherboutonModifSupr = 0;
+          vm.afficherboutonModif  = 0;
+          vm.afficherboutonnouveau = 1;
             
         };
         vm.annuler = function()
@@ -150,6 +155,7 @@
               vm.affichageMasque = 0 ;
               vm.afficherboutonnouveau = 1 ;
               vm.afficherboutonModifSupr = 0 ;
+              vm.afficherboutonModif = 0 ;
               NouvelItem = false;
         };
         
@@ -162,6 +168,7 @@
             vm.region.nom = vm.selectedItem.nom ;
             vm.region.pays_id = vm.selectedItem.pays.id ;
             vm.afficherboutonModifSupr = 0;
+            vm.afficherboutonModif  = 1;
             vm.afficherboutonnouveau = 0;  
         };
         

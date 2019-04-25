@@ -22,23 +22,24 @@
             <!-- LISTE TABLE -->
     <div class="content"layout="column">
     <div class="form-wrapper">
-    <div style="widht:100%;">    
-        <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-              Nouveau
-        </md-button>
-        <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-              Modifier
-        </md-button>
-        <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-              Supprimer
-        </md-button>
-    </div> 
-     <div style="clear:both;"></div> 
-     <!-- BASIC FORM --> 
-     <div class="white-bg md-whiteframe-4dp"> 
-         <md-tabs  md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
-            <md-tab label="Ajout Type canoe">             
-                </br>
+    <div class="white-bg md-whiteframe-4dp"> 
+        <md-tabs md-dynamic-height>
+           <md-tab label="Liste type canoë ">
+
+                  <div style="widht:100%;">    
+                    <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                          Nouveau
+                    </md-button>
+                    <md-button type="submit" ng-show="vm.afficherboutonModif==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                          Modifier
+                    </md-button>
+                    <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                          Supprimer
+                    </md-button>
+                </div>
+
+  <!-- BASIC FORM --> 
+                <div ng-show="vm.affichageMasque==1">
                   <form name="type_canoeform" class="md-inline-form" novalidate >
                     <div layout="column" layout-gt-xs="row">
                       <input type="hidden" ng-model="vm.type_canoe.id">
@@ -97,15 +98,10 @@
                     </md-button>
                     </div>
                   </form>
-             
-            </md-tab>
-        </md-tabs>
-    </div> 
+                  <md-divider ></md-divider><br>
+                </div> 
     <!-- / BASIC FORM -->
-    <div><p></p></div>
-    <div class="white-bg md-whiteframe-4dp"> 
-        <md-tabs md-dynamic-height>
-           <md-tab label="Liste type canoë ">
+
                 <div style="height: 500px; overflow-y: scroll;" id="">
                   <div class="price-tables" flex layout="row" layout-wrap style="padding:20px;">
                     <div class="price-table style-1 md-whiteframe-1dp item" layout="column" ng-repeat="type_canoe in vm.alltype_canoe" ng-class="{selected: type_canoe.$selected}" ng-click="vm.selection(type_canoe)" style="width:200px;" >

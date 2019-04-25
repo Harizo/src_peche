@@ -104,6 +104,7 @@
                   vm.selectedItem.enqueteur= enq[0];
                   vm.selectedItem.nbr_max_echantillon=vm.nbr_echantillon_enqueteur.nbr_max_echantillon;
       						vm.afficherboutonModifSupr = 0 ;
+                  vm.afficherboutonModif     = 0 ;
       						vm.afficherboutonnouveau = 1 ;
       						vm.selectedItem.$selected = false;
       						vm.selectedItem ={};
@@ -143,6 +144,7 @@
   			vm.nouvelItem = item;
   			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
   			vm.afficherboutonModifSupr = 1 ;
+        vm.afficherboutonModif     = 1 ;
   			vm.affichageMasque = 0 ;
   			vm.afficherboutonnouveau = 1 ;
 		};
@@ -163,6 +165,9 @@
   			vm.affichageMasque = 1 ;
         vm.nbr_echantillon_enqueteur={}; 
   			NouvelItem = true ;
+        vm.afficherboutonModifSupr = 0;
+        vm.afficherboutonModif     = 0;
+        vm.afficherboutonnouveau   = 1;
     };
     
     vm.annuler = function()
@@ -172,6 +177,7 @@
         vm.affichageMasque = 0 ;
         vm.afficherboutonnouveau = 1 ;
         vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
         NouvelItem = false;
     };
     
@@ -187,6 +193,7 @@
         vm.nbr_echantillon_enqueteur.enqueteur_id = vm.selectedItem.enqueteur.id ; 
         vm.nbr_echantillon_enqueteur.nbr_max_echantillon = parseInt(vm.selectedItem.nbr_max_echantillon) ;
         vm.afficherboutonModifSupr = 0;
+        vm.afficherboutonModif     = 1;
         vm.afficherboutonnouveau = 0;
         apiFactory.getFils("site_enqueteur/index",vm.selectedItem.enqueteur.id).then(function(result)
         {
@@ -202,6 +209,7 @@
     {
         vm.affichageMasque = 0 ;
         vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
         var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
