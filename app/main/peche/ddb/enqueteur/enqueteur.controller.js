@@ -33,9 +33,10 @@
       vm.datas    = [] ;
       vm.annees   = [] ;
       vm.filtre   = {} ;
+      vm.now_date = new Date();
       vm.annee    = vm.now_date.getFullYear();
       vm.rapport  = {};
-      vm.now_date = new Date();
+      
       vm.rapport.date_fin = vm.now_date ;
       vm.loadingProgress  = false ;
       
