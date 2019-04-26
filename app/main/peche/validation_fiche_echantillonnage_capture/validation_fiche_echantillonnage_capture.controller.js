@@ -809,29 +809,30 @@
   {           
       if (suppression!=1) 
       {
-          vm.allechantillon.forEach(function(echan)
+          var echan = vm.allechantillon.filter(function(obj)
           {
-              if (echan.id==item.id) 
-              {
-                if((echan.fiche_echantillonnage_capture_id!=item.fiche_echantillonnage_capture_id)
-                    ||(echan.peche_hier!=item.peche_hier)
-                    ||(echan.peche_avant_hier!=item.peche_avant_hier)
-                    ||(echan.nbr_jrs_peche_dernier_sem!=item.nbr_jrs_peche_dernier_sem)
-                    ||(echan.total_capture!=item.total_capture)
-                    ||(echan.data_collect.id!=item.data_collect_id)
-                    ||(echan.nbr_bateau_actif!=item.nbr_bateau_actif)
-                    ||(echan.total_bateau_ecn!=item.total_bateau_ecn)
-                    ||(echan.unite_peche.id!=item.unite_peche_id))
-                {
-                  insert_in_baseEchantillon(item,suppression);
-                   vm.affichageMasqueEchantillon = 0 ;
-                }
-                else
-                {
-                  vm.affichageMasqueEchantillon = 0 ;
-                }
-              }
+              return obj.id == item.id;
           });
+          if(echan[0])
+          {
+              if((echan[0].fiche_echantillonnage_capture_id!=item.fiche_echantillonnage_capture_id)
+                ||(echan[0].peche_hier!=item.peche_hier)
+                ||(echan[0].peche_avant_hier!=item.peche_avant_hier)
+                ||(echan[0].nbr_jrs_peche_dernier_sem!=item.nbr_jrs_peche_dernier_sem)
+                ||(echan[0].total_capture!=item.total_capture)
+                ||(echan[0].data_collect.id!=item.data_collect_id)
+                ||(echan[0].nbr_bateau_actif!=item.nbr_bateau_actif)
+                ||(echan[0].total_bateau_ecn!=item.total_bateau_ecn)
+                ||(echan[0].unite_peche.id!=item.unite_peche_id))                    
+              {
+                  insert_in_baseEchantillon(item,suppression);
+                  vm.affichageMasqueEchantillon = 0 ;
+              }
+              else
+              {  
+                  vm.affichageMasqueEchantillon = 0 ;
+              }
+          }
         }
           else
             insert_in_baseEchantillon(item,suppression);
@@ -1082,7 +1083,7 @@
       vm.espece_capture.id                     = vm.selectedItemEspece_capture.id ;
       vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
       vm.espece_capture.capture                =parseFloat(vm.selectedItemEspece_capture.capture);
-      vm.espece_capture.prix                   =parseFloat(vm.selectedItemEspece_capture.prix);
+      vm.espece_capture.prix                   =parseInt(vm.selectedItemEspece_capture.prix);
   //    vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
       vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
       vm.afficherboutonModifSuprEspece_capture = 0;
@@ -1201,7 +1202,7 @@
                     vm.selectedItemEspece_capture.capture             = vm.espece_capture.capture;
                     vm.selectedItemEspece_capture.prix                = vm.espece_capture.prix;
                               
-                    vm.selectedItemEspece_capture.user                = vm.selectionEspece_capture.user;
+                    vm.selectedItemEspece_capture.user                = vm.selectedItemEspece_capture.user;
                               
                     vm.selectedItemEspece_capture.date_creation       = vm.espece_capture.date_creation;
                     vm.selectedItemEspece_capture.date_modification   = date_dujour;
@@ -1319,23 +1320,24 @@
     {
         if (suppression!=1) 
         {
-            vm.allespece_capture.forEach(function(esp)
-            {
-                if (esp.id==item.id) 
-                {
-                  if((esp.espece.id!=item.espece_id)
-                    ||(esp.capture!=item.capture)
-                    ||(esp.prix!=item.prix))
-                  {
-                      insert_in_baseEspece_capture(item,suppression);
-                      vm.affichageMasqueEspece_capture = 0 ;
-                  }
-                  else
-                  {
-                      vm.affichageMasqueEspece_capture = 1 ;
-                  }
-                }
-            });
+          var esp = vm.allespece_capture.filter(function(obj)
+          {
+              return obj.id == item.id;
+          });
+          if(esp[0])
+          {
+              if((esp[0].espece.id!=item.espece_id)
+                    ||(esp[0].capture!=item.capture)
+                    ||(esp[0].prix!=item.prix))                   
+              {
+                  insert_in_baseEspece_capture(item,suppression);
+                  vm.affichageMasqueEspece_capture = 0 ;
+              }
+              else
+              {  
+                  vm.affichageMasqueEspece_capture = 1 ;
+              }
+          }
         }
         else
             insert_in_baseEspece_capture(item,suppression);

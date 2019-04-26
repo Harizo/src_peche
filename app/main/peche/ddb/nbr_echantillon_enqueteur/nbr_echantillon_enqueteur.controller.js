@@ -168,6 +168,8 @@
         vm.afficherboutonModifSupr = 0;
         vm.afficherboutonModif     = 0;
         vm.afficherboutonnouveau   = 1;
+        vm.site_embarquement       =false;
+        vm.unite_peche             =false;
     };
     
     vm.annuler = function()

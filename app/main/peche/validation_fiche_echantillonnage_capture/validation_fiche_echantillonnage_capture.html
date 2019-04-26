@@ -325,11 +325,23 @@
 											<div layout="column" layout-gt-xs="row" flex>
 												<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
 													<input type="number" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
-													placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''">
+													placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''" pattern="\d+">
+													<div ng-messages="echantillonform.nbr_bateau_actif.$error"
+														role="alert">
+														<div ng-message="pattern">
+															<span>Nombre entier seulement</span>
+														</div>
+													</div>
 												</md-input-container>
 												<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
 													<input type="number" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
-													placeholder="Total bateau ecn" ng-init="vm.echantillon.total_bateau_ecn=''">
+													placeholder="Total bateau ecn" ng-init="vm.echantillon.total_bateau_ecn=''" pattern="\d+">
+													<div ng-messages="echantillonform.total_bateau_ecn.$error"
+														role="alert">
+														<div ng-message="pattern">
+															<span>Nombre entier seulement</span>
+														</div>
+													</div>
 												</md-input-container>
 												<md-input-container flex="100" flex-gt-xs="33" ng-if="!vm.checkboxPAB">
 													<label>Unite peche</label>
@@ -517,11 +529,14 @@
 			                        <md-input-container flex="100" flex-gt-xs="33">
 			                          <input type="number" name="prix" ng-model="vm.espece_capture.prix"
 			                            placeholder="prix " ng-init="vm.espece_capture.prix=''"
-			                            ng-disabled="!vm.prix" required>
+			                            ng-disabled="!vm.prix" required pattern="\d+">
 			                            <div ng-messages="espece_captureform.prix.$error"
-			                              role="alert">
+			                              role="alert" ng-show="espece_captureform.prix.$touched">
 			                              <div ng-message="required">
 			                                <span>Prix obligatoire.</span>
+			                              </div>
+			                              <div ng-message="pattern">
+			                                <span>Nombre entier seulement</span>
 			                              </div>
 			                            </div>
 			                        </md-input-container>
