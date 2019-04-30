@@ -9,41 +9,41 @@
     /** @ngInject */
     function Site_embarquementController($mdDialog, $scope, $location, apiFactory, $cookieStore)
     {
-      var vm = this;
+      var vm   = this;
       vm.ajout = ajout ;
-      vm.ajoutsite_enqueteur = ajoutsite_enqueteur ;
+      vm.ajoutsite_enqueteur   = ajoutsite_enqueteur ;
       vm.ajoutunite_peche_site = ajoutunite_peche_site ;
-      var NouvelItem=false;
-      var NouvelItemsite_enqueteur=false;
-      var NouvelItemunite_peche_site=false;
+      var NouvelItem                 = false;
+      var NouvelItemsite_enqueteur   = false;
+      var NouvelItemunite_peche_site = false;
       var currentItem;
       var currentItemsite_enqueteur;
       var currentItemunite_peche_site;
 
-      vm.selectedItem = {} ;
-      vm.selectedItemsite_enqueteur = {} ;
-      vm.allsite_embarquement = [] ;
+      vm.selectedItem                 = {} ;
+      vm.selectedItemsite_enqueteur   = {} ;
+      vm.allsite_embarquement         = [] ;
       vm.selectedItemunite_peche_site = {} ;
-      vm.allsite_enqueteur = [] ;
-      vm.allunite_peche_site = [] ;
-      vm.allcurrentdistrict=[];
-      vm.site_enqueteur={};
+      vm.allsite_enqueteur            = [] ;
+      vm.allunite_peche_site          = [] ;
+      vm.allcurrentdistrict           = [];
+      vm.site_enqueteur               = {};
       
 
       //variale affichage bouton nouveau
-      vm.afficherboutonnouveau = 1 ;
-      vm.afficherboutonnouveausite_enqueteur = 1 ;
+      vm.afficherboutonnouveau                 = 1 ;
+      vm.afficherboutonnouveausite_enqueteur   = 1 ;
       vm.afficherboutonnouveauunite_peche_site = 1 ;
 
       //variable cache masque de saisie
-      vm.affichageMasque = 0 ;
-      vm.affichageMasquesite_enqueteur = 0 ;
+      vm.affichageMasque                 = 0 ;
+      vm.affichageMasquesite_enqueteur   = 0 ;
       vm.affichageMasqueunite_peche_site = 0 ;
 
       //step
       vm.step1 = false;
       vm.step2 = false;
-      vm.step = [{step:1},{step:2},{step:3}];
+      vm.step  = [{step:1},{step:2},{step:3}];
       //style
     vm.dtOptions = {
       dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -282,15 +282,15 @@
             vm.step3 = false;
           }
           vm.selectedItem = item;
-          vm.nouvelItem = item;          
-          currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+          vm.nouvelItem   = item;          
+          currentItem     = JSON.parse(JSON.stringify(vm.selectedItem));
           vm.afficherboutonModifSupr = 1 ;
-          vm.afficherboutonModif = 1 ;
-          vm.affichageMasque = 0 ;
-          vm.afficherboutonnouveau = 1 ;
+          vm.afficherboutonModif     = 1 ;
+          vm.affichageMasque         = 0 ;
+          vm.afficherboutonnouveau   = 1 ;
           vm.afficherboutonModifSuprsite_enqueteur = 0 ;
-          vm.afficherboutonModifsite_enqueteur = 0 ;
-          vm.affichageMasquesite_enqueteur = 0 ;
+          vm.afficherboutonModifsite_enqueteur     = 0 ;
+          vm.affichageMasquesite_enqueteur         = 0 ;
          
           apiFactory.getFilsEnqueteur("site_enqueteur/index",item.id).then(function(result)
           {
@@ -317,22 +317,22 @@
         vm.ajouter = function () 
         {
           vm.selectedItem.$selected = false;
-          vm.affichageMasque = 1 ;
-          vm.site_embarquement={};
-          NouvelItem = true ;
-          vm.site_embarquement.type_effort_peche=0;
+          vm.affichageMasque        = 1 ;
+          vm.site_embarquement      = {};
+          NouvelItem                = true ;
+          vm.site_embarquement.type_effort_peche = 0;
         };
 
         vm.annuler = function() 
         {
-          vm.selectedItem = {} ;
-          vm.selectedItem.$selected = false;
-          vm.affichageMasque = 0 ;
-          vm.afficherboutonnouveau = 1 ;
-          vm.afficherboutonModifSupr = 0 ;
-          vm.afficherboutonModif     = 0 ;
-          NouvelItem = false;
-          vm.allcurrentdistrict=vm.alldistrict;
+          vm.selectedItem             = {} ;
+          vm.selectedItem.$selected   = false;
+          vm.affichageMasque          = 0 ;
+          vm.afficherboutonnouveau    = 1 ;
+          vm.afficherboutonModifSupr  = 0 ;
+          vm.afficherboutonModif      = 0 ;
+          NouvelItem                  = false;
+          vm.allcurrentdistrict       = vm.alldistrict;
         };
 
         vm.modifier = function() 
@@ -348,7 +348,7 @@
           vm.site_embarquement.type_effort_peche = vm.selectedItem.type_effort_peche;
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonModif     = 1 ;
-          vm.afficherboutonnouveau = 0; 
+          vm.afficherboutonnouveau   = 0; 
           vm.allcurrentdistrict = vm.alldistrict.filter(function(obj)
             {                 
                 return obj.region.id == vm.selectedItem.region.id;
@@ -458,13 +458,13 @@
         //selection sur la liste
       vm.selectionsite_enqueteur= function (item) { 
           vm.selectedItemsite_enqueteur = item;
-          vm.NouvelItemsite_enqueteur = item;
-          currentItemsite_enqueteur = JSON.parse(JSON.stringify(vm.selectedItemsite_enqueteur));
-          vm.afficherboutonModifSuprsite_enqueteur = 1 ;
-          vm.afficherboutonModifsite_enqueteur = 1 ;
-          vm.affichageMasquesite_enqueteur = 0 ;
-          vm.afficherboutonnouveausite_enqueteur = 1 ;
-          vm.step2=true;
+          vm.NouvelItemsite_enqueteur   = item;
+          currentItemsite_enqueteur     = JSON.parse(JSON.stringify(vm.selectedItemsite_enqueteur));
+          vm.afficherboutonModifSuprsite_enqueteur  = 1 ;
+          vm.afficherboutonModifsite_enqueteur      = 1 ;
+          vm.affichageMasquesite_enqueteur          = 0 ;
+          vm.afficherboutonnouveausite_enqueteur    = 1 ;
+          vm.step2 = true;
           
       };
 
@@ -505,31 +505,31 @@
           NouvelItemsite_enqueteur = false ;
           vm.affichageMasquesite_enqueteur = 1 ;
 
-          vm.site_enqueteur.id = vm.selectedItemsite_enqueteur.id;
-          vm.site_enqueteur.enqueteur_id = vm.selectedItemsite_enqueteur.enqueteur.id;
+          vm.site_enqueteur.id                  = vm.selectedItemsite_enqueteur.id;
+          vm.site_enqueteur.enqueteur_id        = vm.selectedItemsite_enqueteur.enqueteur.id;
           vm.site_enqueteur.enqueteur_telephone = vm.selectedItemsite_enqueteur.enqueteur.telephone;
-          vm.site_enqueteur.enqueteur_prenom = vm.selectedItemsite_enqueteur.enqueteur.prenom;  
-          vm.afficherboutonModifSuprsite_enqueteur = 0;
-          vm.afficherboutonModifsite_enqueteur = 1;
-          vm.afficherboutonnouveausite_enqueteur = 0;  
+          vm.site_enqueteur.enqueteur_prenom    = vm.selectedItemsite_enqueteur.enqueteur.prenom;  
+          vm.afficherboutonModifSuprsite_enqueteur  = 0;
+          vm.afficherboutonModifsite_enqueteur      = 1;
+          vm.afficherboutonnouveausite_enqueteur    = 0;  
 
         };
         vm.annulersite_enqueteur = function() 
         {
-          vm.selectedItemsite_enqueteur = {} ;
-          vm.selectedItemsite_enqueteur.$selected = false;
-          vm.affichageMasquesite_enqueteur = 0 ;
-          vm.afficherboutonnouveausite_enqueteur = 1 ;
-          vm.afficherboutonModifSuprsite_enqueteur = 0 ;
-          vm.afficherboutonModifsite_enqueteur = 0;
-          NouvelItemsite_enqueteur = false;
+          vm.selectedItemsite_enqueteur             = {} ;
+          vm.selectedItemsite_enqueteur.$selected   = false;
+          vm.affichageMasquesite_enqueteur          = 0 ;
+          vm.afficherboutonnouveausite_enqueteur    = 1 ;
+          vm.afficherboutonModifSuprsite_enqueteur  = 0 ;
+          vm.afficherboutonModifsite_enqueteur      = 0;
+          NouvelItemsite_enqueteur                  = false;
 
         };
         vm.supprimersite_enqueteur = function() 
         {
-          vm.affichageMasquesite_enqueteur = 0 ;
-          vm.afficherboutonModifSuprsite_enqueteur = 0 ;
-          vm.afficherboutonModifsite_enqueteur = 0;
+          vm.affichageMasquesite_enqueteur          = 0 ;
+          vm.afficherboutonModifSuprsite_enqueteur  = 0 ;
+          vm.afficherboutonModifsite_enqueteur      = 0;
          var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -585,10 +585,10 @@
             } 
             
             var datas = $.param({
-                    supprimer:suppression,
-                    id:getId,      
+                    supprimer:            suppression,
+                    id:                   getId,      
                     site_embarquement_id: vm.selectedItem.id,
-                    enqueteur_id: site_enqueteur.enqueteur_id             
+                    enqueteur_id:         site_enqueteur.enqueteur_id             
             });
             
             //factory
@@ -603,12 +603,12 @@
               {               
                   if(suppression==0)
                   {
-                      vm.selectedItemsite_enqueteur.enqueteur = enq[0];
-                      vm.afficherboutonModifSuprsite_enqueteur = 0 ;
-                      vm.afficherboutonModifsite_enqueteur = 0;
-                      vm.afficherboutonnouveausite_enqueteur = 1 ;
-                      vm.selectedItemsite_enqueteur.$selected = false;
-                      vm.selectedItemsite_enqueteur ={};
+                      vm.selectedItemsite_enqueteur.enqueteur   = enq[0];
+                      vm.afficherboutonModifSuprsite_enqueteur  = 0 ;
+                      vm.afficherboutonModifsite_enqueteur      = 0;
+                      vm.afficherboutonnouveausite_enqueteur    = 1 ;
+                      vm.selectedItemsite_enqueteur.$selected   = false;
+                      vm.selectedItemsite_enqueteur             = {};
 
                   } 
                   else
@@ -629,10 +629,10 @@
                                 
                       vm.allsite_enqueteur.push(item);
                      
-                      vm.site_enqueteur={};                 
-                      NouvelItemsite_enqueteur=false;
+                      vm.site_enqueteur         = {};                 
+                      NouvelItemsite_enqueteur  = false;
               }
-              vm.affichageMasquesite_enqueteur = 0 ;
+              vm.affichageMasquesite_enqueteur  = 0 ;
             }).error(function (data) {
                         alert('Error');
               });   
@@ -661,8 +661,8 @@
           return obj.id == enqueteur.enqueteur_id;
       });
       
-      vm.site_enqueteur.enqueteur_prenom=enqu[0].prenom;
-      vm.site_enqueteur.enqueteur_telephone=enqu[0].telephone;
+      vm.site_enqueteur.enqueteur_prenom =    enqu[0].prenom;
+      vm.site_enqueteur.enqueteur_telephone = enqu[0].telephone;
     }
 /*********** ************************Fin site d'embarquement  *******************************************/
 
@@ -672,7 +672,7 @@
          vm.NouvelItemunite_peche_site              = item;
          currentItemunite_peche_site                = JSON.parse(JSON.stringify(vm.selectedItemunite_peche_site));
          vm.afficherboutonModifSuprunite_peche_site = 1 ;
-         vm.afficherboutonModifunite_peche_site = 1 ;
+         vm.afficherboutonModifunite_peche_site     = 1 ;
          vm.affichageMasqueunite_peche_site         = 0 ;
          vm.afficherboutonnouveauunite_peche_site   = 1 ;   
 
@@ -701,10 +701,10 @@
       };
 
       vm.ajouterunite_peche_site = function () 
-      {  vm.selectedItemunite_peche_site.$selected           = false;
-         vm.affichageMasqueunite_peche_site                  = 1 ;
+      {  vm.selectedItemunite_peche_site.$selected  = false;
+         vm.affichageMasqueunite_peche_site         = 1 ;
          vm.unite_peche_site = {} ;
-         NouvelItemunite_peche_site                         = true ;
+         NouvelItemunite_peche_site                 = true ;
          vm.afficherboutonModifSuprunite_peche_site = 0;
          vm.afficherboutonModifunite_peche_site     = 0 ;
          vm.afficherboutonnouveauunite_peche_site   = 1;
@@ -721,7 +721,7 @@
       };
       vm.supprimerunite_peche_site = function() 
       {  vm.afficherboutonModifSuprunite_peche_site = 0;
-        vm.afficherboutonModifunite_peche_site = 0 ;
+        vm.afficherboutonModifunite_peche_site      = 0 ;
          vm.affichageMasqueunite_peche_site         = 0;
          var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
@@ -791,11 +791,11 @@
         } 
         
         var datas = $.param({
-                supprimer:suppression,
-                id:getId,      
+                supprimer:            suppression,
+                id:                   getId,      
                 site_embarquement_id: vm.selectedItem.id,
-                unite_peche_id: unite_peche_site.unite_peche_id,
-                nbr_echantillon: unite_peche_site.nbr_echantillon              
+                unite_peche_id:       unite_peche_site.unite_peche_id,
+                nbr_echantillon:      unite_peche_site.nbr_echantillon              
         });
         
         //factory
@@ -809,13 +809,13 @@
           {               
               if(suppression==0)
               {
-                  vm.selectedItemunite_peche_site.unite_peche= up[0];
-                  vm.selectedItemunite_peche_site.nbr_echantillon=vm.unite_peche_site.nbr_echantillon;
-                  vm.afficherboutonModifSuprunite_peche_site = 0 ;
-                  vm.afficherboutonModifunite_peche_site = 0 ;
-                  vm.afficherboutonnouveauunite_peche_site = 1 ;
-                  vm.selectedItemunite_peche_site.$selected = false;
-                  vm.selectedItemunite_peche_site ={};
+                  vm.selectedItemunite_peche_site.unite_peche     = up[0];
+                  vm.selectedItemunite_peche_site.nbr_echantillon = vm.unite_peche_site.nbr_echantillon;
+                  vm.afficherboutonModifSuprunite_peche_site      = 0 ;
+                  vm.afficherboutonModifunite_peche_site          = 0 ;
+                  vm.afficherboutonnouveauunite_peche_site        = 1 ;
+                  vm.selectedItemunite_peche_site.$selected       = false;
+                  vm.selectedItemunite_peche_site                 = {};
 
               } 
               else
@@ -831,16 +831,16 @@
               var item = 
               {
                   id:String(data.response) ,
-                  unite_peche: up[0],
-                  type_engin: up[0].type_engin,
-                  type_canoe: up[0].type_canoe,
-                  nbr_echantillon:vm.unite_peche_site.nbr_echantillon 
+                  unite_peche:     up[0],
+                  type_engin:      up[0].type_engin,
+                  type_canoe:      up[0].type_canoe,
+                  nbr_echantillon: vm.unite_peche_site.nbr_echantillon 
               };   
                        
                   vm.allunite_peche_site.push(item);
                
-                  vm.unite_peche_site={};                 
-                  NouvelItemunite_peche_site=false;
+                  vm.unite_peche_site = {};                 
+                  NouvelItemunite_peche_site = false;
           }
           vm.affichageMasqueunite_peche_site = 0 ;
         }).error(function (data) {

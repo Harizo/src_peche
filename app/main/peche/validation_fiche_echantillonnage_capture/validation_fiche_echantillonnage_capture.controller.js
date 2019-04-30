@@ -171,7 +171,7 @@
           });
           vm.checkboxPAB = true;
           vm.checkboxCAB = false;
-          vm.step1=true;  
+          vm.step1       = true;  
       };
       $scope.$watch('vm.selectedItem', function()
       {
@@ -280,17 +280,17 @@
       vm.ajouter = function () 
       {           
           vm.selectedItem.$selected = false;
-          vm.step1=false;
-          vm.step2=false;
-          vm.step3=false;
-          vm.affichageMasque = 1 ;
-          vm.afficherboutonfiltre = 0;
-          vm.afficherboutonModifSupr=0;
-          vm.afficherboutonModif    = 0 ;
-          vm.fiche_echantillonnage_capture={};
-          NouvelItem = true ;
-          vm.enqueteur = false;
-          vm.fiche_echantillonnage_capture.date=vm.date_now;
+          vm.step1 = false;
+          vm.step2 = false;
+          vm.step3=  false;
+          vm.affichageMasque          = 1 ;
+          vm.afficherboutonfiltre     = 0;
+          vm.afficherboutonModifSupr  =0;
+          vm.afficherboutonModif      = 0 ;
+          vm.fiche_echantillonnage_capture = {};
+          NouvelItem    = true ;
+          vm.enqueteur =   false;
+          vm.fiche_echantillonnage_capture.date = vm.date_now;
       };
 
     function ajout(fiche_echantillonnage_capture,suppression,validation)   
@@ -344,14 +344,14 @@
 //add
         var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;' }};
 
-        var getId = 0;
-        var userId = vm.allutilisateur.id;
-        var codeunique='';
+        var getId      = 0;
+        var userId     = vm.allutilisateur.id;
+        var codeunique = '';
         if (NouvelItem==false) 
         {
-          getId = vm.selectedItem.id;
-          userId = vm.selectedItem.user.id;
-          codeunique= vm.selectedItem.code_unique;         
+          getId       = vm.selectedItem.id;
+          userId      = vm.selectedItem.user.id;
+          codeunique  = vm.selectedItem.code_unique;         
         } 
        
           var date = new Date(fiche_echantillonnage_capture.date);
@@ -569,9 +569,9 @@
               });
             vm.checkboxCAB=true; 
           }
-          vm.affichageMasqueEchantillon = 0;
-          vm.afficherboutonnouveauEchantillon=1;
-          vm.afficherboutonModifEchantillon=0;
+          vm.affichageMasqueEchantillon       = 0;
+          vm.afficherboutonnouveauEchantillon =1;
+          vm.afficherboutonModifEchantillon   =0;
           vm.afficherboutonModifSuprEchantillon=0;  
       }
       vm.recuperationCab = function(cab){
@@ -592,22 +592,22 @@
             });
             vm.checkboxPAB=true; 
         }
-        vm.affichageMasqueEchantillon = 0;
-        vm.afficherboutonnouveauEchantillon=1;
-        vm.afficherboutonModifEchantillon=0;
+        vm.affichageMasqueEchantillon       = 0;
+        vm.afficherboutonnouveauEchantillon =1;
+        vm.afficherboutonModifEchantillon   =0;
         vm.afficherboutonModifSuprEchantillon=0;
       }
       
 
     vm.selectionechantillon= function (item)
     {
-        vm.selectedItemEchantillon = item;
-        vm.nouvelItemEchantillon = item;
-        currentItemEchantillon = vm.selectedItemEchantillon;
-        vm.afficherboutonModifSuprEchantillon = 1 ;
-        vm.afficherboutonModifEchantillon = 1 ;
-        vm.afficherboutonnouveauEspece_capture = 1 ;
-        vm.affichageMasqueEchantillon = 0 ;
+        vm.selectedItemEchantillon  = item;
+        vm.nouvelItemEchantillon    = item;
+        currentItemEchantillon      = vm.selectedItemEchantillon;
+        vm.afficherboutonModifSuprEchantillon   = 1 ;
+        vm.afficherboutonModifEchantillon       = 1 ;
+        vm.afficherboutonnouveauEspece_capture  = 1 ;
+        vm.affichageMasqueEchantillon           = 0 ;
         
         //find espece_capture where id echantillon item.id  
         apiFactory.getFils("espece_capture/index",item.id).then(function(result)
@@ -670,30 +670,30 @@
 
     vm.annulerEchantillon = function() 
     {
-        vm.selectedItemEchantillon = {} ;
-        vm.selectedItemEchantillon.$selected = false;
-        vm.affichageMasqueEchantillon = 0 ;
-        vm.afficherboutonnouveauEchantillon = 1 ;
+        vm.selectedItemEchantillon            = {} ;
+        vm.selectedItemEchantillon.$selected  = false;
+        vm.affichageMasqueEchantillon         = 0 ;
+        vm.afficherboutonnouveauEchantillon   = 1 ;
         vm.afficherboutonModifSuprEchantillon = 0 ;
-        vm.afficherboutonModifEchantillon = 0 ;
-        NouvelItemEchantillon = false;
+        vm.afficherboutonModifEchantillon     = 0 ;
+        NouvelItemEchantillon                 = false;
         vm.prix = false;
     };
 
     vm.ajouterEchantillon = function () 
     {         
         vm.selectedItemEchantillon.$selected = false;
-        vm.prix = false;
-        vm.step2=false;
-        vm.step3=false;
-        vm.affichageMasqueEchantillon = 1 ;
-        vm.affichageMasque = 0 ;
-        vm.affichageMasqueEspece_capture = 0 ;
+        vm.prix   = false;
+        vm.step2  = false;
+        vm.step3  = false;
+        vm.affichageMasqueEchantillon     = 1 ;
+        vm.affichageMasque                = 0 ;
+        vm.affichageMasqueEspece_capture  = 0 ;
         vm.echantillon={};
         NouvelItemEchantillon = true ;
-        vm.afficherboutonnouveauEchantillon=1;
-        vm.afficherboutonModifEchantillon=0;
-        vm.afficherboutonModifSuprEchantillon=0;
+        vm.afficherboutonnouveauEchantillon   = 1;
+        vm.afficherboutonModifEchantillon     = 0;
+        vm.afficherboutonModifSuprEchantillon =0;
         var effort_p=[];
         if(vm.checkboxPAB)
         {
@@ -842,15 +842,15 @@
   {          
       //add
       var config = {headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
-      var getIdEchantillon = 0;
-      var total_captur=0;
-      var userId = vm.allutilisateur.id;
+      var getIdEchantillon  = 0;
+      var total_captur      = 0;
+      var userId            = vm.allutilisateur.id;
       var effort_p=[];
-      var uniquecode='';     
+      var uniquecode        ='';     
       if (NouvelItemEchantillon==false) 
       {
-          getIdEchantillon = vm.selectedItemEchantillon.id;             
-          userId = vm.selectedItemEchantillon.user.id;
+          getIdEchantillon  = vm.selectedItemEchantillon.id;             
+          userId            = vm.selectedItemEchantillon.user.id;
           uniquecode = vm.selectedItemEchantillon.unique_code;
       }
       else
@@ -867,7 +867,7 @@
       }
       else
       {
-        var effort_p= vm.alldata_collect.filter(function(obj)
+        var effort_p = vm.alldata_collect.filter(function(obj)
         {
             return obj.id == echantillon.data_collect_id;
         });
@@ -939,11 +939,11 @@
                   vm.selectedItemEchantillon.date_modification = date_dujour;
                       
                   vm.afficherboutonModifSuprEchantillon = 0 ;
-                  vm.afficherboutonModifEchantillon = 0 ;
+                  vm.afficherboutonModifEchantillon     = 0 ;
                   vm.afficherboutonnouveauEchantillon   = 1 ;
-                  vm.selectedItemEchantillon.$selected = false;
+                  vm.selectedItemEchantillon.$selected  = false;
                   // console.log(vm.selectedItemEchantillon);
-                  vm.selectedItemEchantillon ={};
+                  vm.selectedItemEchantillon            = {};
               } 
               else 
               {    
@@ -1056,12 +1056,12 @@
   vm.selectionEspece_capture= function (item)
   {        
       vm.selectedItemEspece_capture = item;
-      vm.nouvelItemEspece_capture = item;
-      currentItemEspece_capture = vm.selectedItemEspece_capture;
-      vm.afficherboutonModifSuprEspece_capture = 1 ;
-      vm.afficherboutonModifEspece_capture = 1;
-      vm.affichageMasqueEspece_capture = 0 ; 
-      vm.step3=true;
+      vm.nouvelItemEspece_capture   = item;
+      currentItemEspece_capture     = vm.selectedItemEspece_capture;
+      vm.afficherboutonModifSuprEspece_capture  = 1 ;
+      vm.afficherboutonModifEspece_capture      = 1;
+      vm.affichageMasqueEspece_capture          = 0 ; 
+      vm.step3 = true;
   };
 
   $scope.$watch('vm.selectedItemEspece_capture', function()
@@ -1081,11 +1081,11 @@
       vm.affichageMasqueEchantillon            = 0 ;
       vm.affichageMasque                       = 0 ;
       vm.espece_capture.id                     = vm.selectedItemEspece_capture.id ;
-      vm.espece_capture.espece_id              =vm.selectedItemEspece_capture.espece.id ;
-      vm.espece_capture.capture                =parseFloat(vm.selectedItemEspece_capture.capture);
-      vm.espece_capture.prix                   =parseInt(vm.selectedItemEspece_capture.prix);
+      vm.espece_capture.espece_id              = vm.selectedItemEspece_capture.espece.id ;
+      vm.espece_capture.capture                = parseFloat(vm.selectedItemEspece_capture.capture);
+      vm.espece_capture.prix                   = parseInt(vm.selectedItemEspece_capture.prix);
   //    vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
-      vm.espece_capture.date_creation          =vm.selectedItemEspece_capture.date_creation;
+      vm.espece_capture.date_creation          = vm.selectedItemEspece_capture.date_creation;
       vm.afficherboutonModifSuprEspece_capture = 0;
       vm.afficherboutonModifEspece_capture     = 1;
       vm.afficherboutonnouveauEspece_capture   = 0;
@@ -1094,35 +1094,35 @@
   
   vm.annulerEspece_capture = function()
   {
-      vm.selectedItemEspece_capture = {} ;
-      vm.selectedItemEspece_capture.$selected = false;
-      vm.affichageMasqueEspece_capture = 0 ;
-      vm.afficherboutonnouveauEspece_capture = 1 ;
-      vm.afficherboutonModifSuprEspece_capture = 0 ;
-      vm.afficherboutonModifEspece_capture = 0;          
-      NouvelItemEspece_capture = false;
+      vm.selectedItemEspece_capture             = {} ;
+      vm.selectedItemEspece_capture.$selected   = false;
+      vm.affichageMasqueEspece_capture          = 0 ;
+      vm.afficherboutonnouveauEspece_capture    = 1 ;
+      vm.afficherboutonModifSuprEspece_capture  = 0 ;
+      vm.afficherboutonModifEspece_capture      = 0;          
+      NouvelItemEspece_capture                  = false;
   };
 
   vm.ajouterEspece_capture = function ()
   {
       vm.selectedItemEspece_capture.$selected = false;
-      vm.prix=false;
-      vm.step3=false;
-      vm.affichageMasqueEspece_capture = 1 ;
-      vm.affichageMasque = 0 ;
-      vm.affichageMasqueEchantillon = 0 ;
-      vm.espece_capture = {} ;
-      NouvelItemEspece_capture = true ;
-      vm.afficherboutonModifEspece_capture = 0;
-      vm.afficherboutonModifSuprEspece_capture = 0;
-      vm.afficherboutonnouveauEspece_capture = 1;
+      vm.prix   = false;
+      vm.step3  = false;
+      vm.affichageMasqueEspece_capture  = 1 ;
+      vm.affichageMasque                = 0 ;
+      vm.affichageMasqueEchantillon     = 0 ;
+      vm.espece_capture                 = {} ;
+      NouvelItemEspece_capture           = true ;
+      vm.afficherboutonModifEspece_capture      = 0;
+      vm.afficherboutonModifSuprEspece_capture  = 0;
+      vm.afficherboutonnouveauEspece_capture    = 1;
   };
 
   vm.supprimerEspece_capture = function()
   {
-      vm.affichageMasqueEspece_capture = 0 ;
-      vm.afficherboutonModifSuprEspece_capture = 0 ;
-      vm.afficherboutonModifEspece_capture = 0;
+      vm.affichageMasqueEspece_capture          = 0 ;
+      vm.afficherboutonModifSuprEspece_capture  = 0 ;
+      vm.afficherboutonModifEspece_capture      = 0;
       var confirm = $mdDialog.confirm().title('Etes-vous sûr de supprimer cet enregistrement ?')
                                       .textContent('')
                                       .ariaLabel('Lucky day')
@@ -1157,18 +1157,18 @@
         //add
         var config ={headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}};
         var getIdEspece_capture = 0;
-        var userId = vm.allutilisateur.id;
+        var userId              = vm.allutilisateur.id;
         if (NouvelItemEspece_capture == false) 
         {
             getIdEspece_capture = vm.selectedItemEspece_capture.id;
-            userId = vm.selectedItemEspece_capture.user.id;                
+            userId              = vm.selectedItemEspece_capture.user.id;                
         }
 
         var datas = $.param(
         {
-            supprimer:                        suppression,
-            id:                               getIdEspece_capture,
-            espece_id:                        espece_capture.espece_id,
+            supprimer:                         suppression,
+            id:                                getIdEspece_capture,
+            espece_id:                         espece_capture.espece_id,
             fiche_echantillonnage_capture_id:  vm.selectedItem.id,
             echantillon_id:                    vm.selectedItemEchantillon.id,
             capture:                           espece_capture.capture,
@@ -1232,13 +1232,13 @@
             {                
                 var item =
                 {
-                  espece:                           espece[0],
-                  capture:                          espece_capture.capture,
-                  prix:                             espece_capture.prix,                        
-                  user:                             vm.allutilisateur,
-                  date_creation:                    date_dujour,
-                  date_modification:                date_dujour,
-                  id:                               String(data.response) 
+                  espece:            espece[0],
+                  capture:           espece_capture.capture,
+                  prix:              espece_capture.prix,                        
+                  user:              vm.allutilisateur,
+                  date_creation:     date_dujour,
+                  date_modification: date_dujour,
+                  id:                String(data.response) 
                 };
                 
                 vm.allespece_capture.push(item);                          
@@ -1274,7 +1274,7 @@
         {
             supprimer:                        0,
             typeeffort:                       typeeffort,
-            id:vm.selectedItemEchantillon.id,
+            id:                               vm.selectedItemEchantillon.id,
             fiche_echantillonnage_capture_id: vm.selectedItem.id,
             peche_hier:                       vm.selectedItemEchantillon.peche_hier,
             peche_avant_hier:                 vm.selectedItemEchantillon.peche_avant_hier,
@@ -1354,8 +1354,8 @@
         {
           if (dat) 
           {
-            var date = new Date(dat);
-            var mois = date.getMonth()+1;
+            var date  = new Date(dat);
+            var mois  = date.getMonth()+1;
             var dates = (date.getDate()+"-"+mois+"-"+date.getFullYear());
             return dates;
           }            
@@ -1366,9 +1366,9 @@
       {   
         if(date)
           {
-              var d = new Date(date);
-              var jour = d.getDate();
-              var mois = d.getMonth()+1;
+              var d     = new Date(date);
+              var jour  = d.getDate();
+              var mois  = d.getMonth()+1;
               var annee = d.getFullYear();
               if(mois <10)
               {

@@ -85,13 +85,13 @@
                     // Update or delete: id exclu                 
                     if(suppression==0)
                     {
-                        vm.selectedItem.nom = vm.region.nom;
-                        vm.selectedItem.code = vm.region.code;
-                        vm.selectedItem.pays = pay[0];
+                        vm.selectedItem.nom        = vm.region.nom;
+                        vm.selectedItem.code       = vm.region.code;
+                        vm.selectedItem.pays       = pay[0];
                         vm.afficherboutonModifSupr = 0 ;
-                        vm.afficherboutonModif = 0 ;
-                        vm.afficherboutonnouveau = 1 ;
-                        vm.selectedItem.$selected = false;
+                        vm.afficherboutonModif     = 0 ;
+                        vm.afficherboutonnouveau   = 1 ;
+                        vm.selectedItem.$selected  = false;
                         vm.selectedItem ={};
                     }
                     else 
@@ -105,9 +105,9 @@
                 else
                 {
                     var item = {
-                                  nom: region.nom,
+                                  nom:  region.nom,
                                   code: region.code,
-                                  id:String(data.response) ,
+                                  id:   String(data.response) ,
                                   pays: pay[0],
                                 };                
                     vm.allregion.push(item);
@@ -120,12 +120,12 @@
         vm.selection= function (item)
         {
             vm.selectedItem = item;
-            vm.nouvelItem = item;
-            currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+            vm.nouvelItem   = item;
+            currentItem     = JSON.parse(JSON.stringify(vm.selectedItem));
             vm.afficherboutonModifSupr = 1 ;
             vm.afficherboutonModif     = 1 ;
-            vm.affichageMasque = 0 ;
-            vm.afficherboutonnouveau = 1 ;
+            vm.affichageMasque         = 0 ;
+            vm.afficherboutonnouveau   = 1 ;
         };
         $scope.$watch('vm.selectedItem', function()
         {
@@ -140,36 +140,36 @@
         vm.ajouter = function ()
         {
           vm.selectedItem.$selected = false;
-          vm.affichageMasque = 1 ;
-          vm.region={};
+          vm.affichageMasque        = 1 ;
+          vm.region  ={};
           NouvelItem = true ;
           vm.afficherboutonModifSupr = 0;
-          vm.afficherboutonModif  = 0;
-          vm.afficherboutonnouveau = 1;
+          vm.afficherboutonModif     = 0;
+          vm.afficherboutonnouveau   = 1;
             
         };
         vm.annuler = function()
         {
-              vm.selectedItem = {} ;
-              vm.selectedItem.$selected = false;
-              vm.affichageMasque = 0 ;
-              vm.afficherboutonnouveau = 1 ;
+              vm.selectedItem            = {} ;
+              vm.selectedItem.$selected  = false;
+              vm.affichageMasque         = 0 ;
+              vm.afficherboutonnouveau   = 1 ;
               vm.afficherboutonModifSupr = 0 ;
-              vm.afficherboutonModif = 0 ;
-              NouvelItem = false;
+              vm.afficherboutonModif     = 0 ;
+              NouvelItem                 = false;
         };
         
         vm.modifier = function()
         {
             NouvelItem = false ;
-            vm.affichageMasque = 1 ;
-            vm.region.id = vm.selectedItem.id ;
-            vm.region.code = vm.selectedItem.code ;
-            vm.region.nom = vm.selectedItem.nom ;
-            vm.region.pays_id = vm.selectedItem.pays.id ;
+            vm.affichageMasque  = 1 ;
+            vm.region.id        = vm.selectedItem.id ;
+            vm.region.code      = vm.selectedItem.code ;
+            vm.region.nom       = vm.selectedItem.nom ;
+            vm.region.pays_id   = vm.selectedItem.pays.id ;
             vm.afficherboutonModifSupr = 0;
-            vm.afficherboutonModif  = 1;
-            vm.afficherboutonnouveau = 0;  
+            vm.afficherboutonModif     = 1;
+            vm.afficherboutonnouveau   = 0;  
         };
         
         vm.supprimer = function()
@@ -211,21 +211,6 @@
                          vm.affichageMasque = 0;
                       }
                 }
-               /* vm.allregion.forEach(function(reg)
-                {               
-                   if (reg.id==item.id) 
-                   {
-                      if((reg.nom!=item.nom) || (reg.code!=item.code) || (reg.pays.id!=item.pays_id))
-                      {
-                          insert_in_base(item,suppression);
-                         vm.affichageMasque = 0 ;
-                      } 
-                      else 
-                      {
-                           vm.affichageMasque = 0 ;
-                      }
-                   }
-                });*/
             } else
                   insert_in_base(item,suppression);
         }

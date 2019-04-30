@@ -7,16 +7,14 @@
         .controller('Nbr_jrs_mois_unite_pecheController', Nbr_jrs_mois_unite_pecheController);
     /** @ngInject */
     function Nbr_jrs_mois_unite_pecheController($mdDialog, $scope, apiFactory, $state)  {
-		var vm = this;
-		vm.ajout = ajout ;
-		var NouvelItem=false;
+		var vm          = this;
+		vm.ajout        = ajout ;
+		var NouvelItem  = false;
 		var currentItem;
 		vm.selectedItem = {} ;
-    vm.unite_peche=[];    
-		//variale affichage bouton nouveau
+    vm.unite_peche  = [];
 		vm.afficherboutonnouveau = 1 ;
-		//variable cache masque de saisie
-		vm.affichageMasque = 0 ;
+		vm.affichageMasque       = 0 ;
 		//style
 		vm.dtOptions = {
 			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -63,10 +61,10 @@
         } 
         
         var datas = $.param({
-                supprimer:suppression,
-                id:getId,
+                supprimer:      suppression,
+                id:             getId,
                 unite_peche_id: nbr_jrs_mois_unite_peche.unite_peche_id,
-                max_jrs_peche: nbr_jrs_mois_unite_peche.max_jrs_peche              
+                max_jrs_peche:  nbr_jrs_mois_unite_peche.max_jrs_peche              
         });
         
         //factory
@@ -82,13 +80,13 @@
           {               
               if(suppression==0)
               {
-                  vm.selectedItem.unite_peche= up[0];
-                  vm.selectedItem.max_jrs_peche=vm.nbr_jrs_mois_unite_peche.max_jrs_peche;
-      						vm.afficherboutonModifSupr = 0 ;
-                  vm.afficherboutonModif = 0 ;
-      						vm.afficherboutonnouveau = 1 ;
-      						vm.selectedItem.$selected = false;
-      						vm.selectedItem ={};
+                  vm.selectedItem.unite_peche   = up[0];
+                  vm.selectedItem.max_jrs_peche = vm.nbr_jrs_mois_unite_peche.max_jrs_peche;
+      						vm.afficherboutonModifSupr    = 0 ;
+                  vm.afficherboutonModif        = 0 ;
+      						vm.afficherboutonnouveau      = 1 ;
+      						vm.selectedItem.$selected     = false;
+      						vm.selectedItem               = {};
 
               } 
               else
@@ -103,13 +101,13 @@
           {
               var item = 
               {
-                  id:String(data.response) ,
-                  unite_peche: up[0],
-                  max_jrs_peche:vm.nbr_jrs_mois_unite_peche.max_jrs_peche 
+                  id:            String(data.response) ,
+                  unite_peche:   up[0],
+                  max_jrs_peche: vm.nbr_jrs_mois_unite_peche.max_jrs_peche 
               };                
                   vm.allnbr_jrs_mois_unite_peche.push(item);
-                  vm.nbr_jrs_mois_unite_peche={};                 
-                  NouvelItem=false;
+                  vm.nbr_jrs_mois_unite_peche = {};                 
+                  NouvelItem = false;
 				  }
 					vm.affichageMasque = 0 ;
         }).error(function (data) {
@@ -120,12 +118,12 @@
     vm.selection= function (item)
     {
   			vm.selectedItem = item;
-  			vm.nouvelItem = item;
-  			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+  			vm.nouvelItem   = item;
+  			currentItem     = JSON.parse(JSON.stringify(vm.selectedItem));
   			vm.afficherboutonModifSupr = 1 ;
-        vm.afficherboutonModif = 1 ;
-  			vm.affichageMasque = 0 ;
-  			vm.afficherboutonnouveau = 1 ;
+        vm.afficherboutonModif     = 1 ;
+  			vm.affichageMasque         = 0 ;
+  			vm.afficherboutonnouveau   = 1 ;
 		};
 		$scope.$watch('vm.selectedItem', function()
     {
@@ -140,44 +138,44 @@
     
     vm.ajouter = function ()
     {
-  			vm.selectedItem.$selected = false;
-  			vm.affichageMasque = 1 ;
-        vm.nbr_jrs_mois_unite_peche={}; 
-  			NouvelItem = true ;
-        vm.afficherboutonnouveau = 1 ;
-        vm.afficherboutonModifSupr = 0 ;
-        vm.afficherboutonModif     = 0 ;
+  			vm.selectedItem.$selected   = false;
+  			vm.affichageMasque          = 1 ;
+        vm.nbr_jrs_mois_unite_peche = {}; 
+  			NouvelItem                  = true ;
+        vm.afficherboutonnouveau    = 1 ;
+        vm.afficherboutonModifSupr  = 0 ;
+        vm.afficherboutonModif      = 0 ;
     };
     
     vm.annuler = function()
     {
-        vm.selectedItem = {} ;
-        vm.selectedItem.$selected = false;
-        vm.affichageMasque = 0 ;
-        vm.afficherboutonnouveau = 1 ;
-        vm.afficherboutonModifSupr = 0 ;
-        vm.afficherboutonModif     = 0 ;
-        NouvelItem = false;
+        vm.selectedItem             = {} ;
+        vm.selectedItem.$selected   = false;
+        vm.affichageMasque          = 0 ;
+        vm.afficherboutonnouveau    = 1 ;
+        vm.afficherboutonModifSupr  = 0 ;
+        vm.afficherboutonModif      = 0 ;
+        NouvelItem                  = false;
     };
     
     vm.modifier = function()
     {
-        NouvelItem = false ;
+        NouvelItem         = false ;
         vm.affichageMasque = 1 ;
           
-        vm.nbr_jrs_mois_unite_peche.id = vm.selectedItem.id ;
+        vm.nbr_jrs_mois_unite_peche.id             = vm.selectedItem.id ;
         vm.nbr_jrs_mois_unite_peche.unite_peche_id = vm.selectedItem.unite_peche.id ; 
-        vm.nbr_jrs_mois_unite_peche.max_jrs_peche = parseInt(vm.selectedItem.max_jrs_peche) ;
-        vm.afficherboutonModifSupr = 0;
-        vm.afficherboutonModif = 1;
-        vm.afficherboutonnouveau = 0;
+        vm.nbr_jrs_mois_unite_peche.max_jrs_peche  = parseInt(vm.selectedItem.max_jrs_peche) ;
+        vm.afficherboutonModifSupr                 = 0;
+        vm.afficherboutonModif                     = 1;
+        vm.afficherboutonnouveau                   = 0;
     };
     
     vm.supprimer = function()
     {
-        vm.affichageMasque = 0 ;
+        vm.affichageMasque         = 0 ;
         vm.afficherboutonModifSupr = 0 ;
-        vm.afficherboutonModif = 0 ;
+        vm.afficherboutonModif     = 0 ;
         var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -215,22 +213,7 @@
                          vm.affichageMasque = 0;
                       }
                 }
-           /* vm.allnbr_jrs_mois_unite_peche.forEach(function(nbr_jours)
-            {               
-                if (nbr_jours.id==item.id)
-                {
-                    if((nbr_jours.unite_peche.id!=item.unite_peche_id)
-                      || (nbr_jours.max_jrs_peche!=item.max_jrs_peche))
-                    {
-                        insert_in_base(item,suppression);
-                        vm.affichageMasque = 0 ;
-        						} 
-                    else 
-                    {
-        							vm.affichageMasque = 0 ;
-        						}
-                }
-            });*/
+
         }  else
               insert_in_base(item,suppression);
     }

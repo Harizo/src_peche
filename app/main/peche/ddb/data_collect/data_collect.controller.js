@@ -17,7 +17,7 @@
   		vm.alldata_collect = [] ;
       vm.affichageMasque = 0 ;          //variable cache masque de saisie
   		vm.afficherboutonnouveau = 1 ;    //variale affichage bouton nouveau 	
-  	
+      vm.titrepage='';
 //style
       vm.dtOptions =
       {
@@ -132,6 +132,7 @@
   			vm.affichageMasque        = 1 ;
   			vm.data_collect           = {} ;
   			NouvelItem                = true ;
+        vm.titrepage="Ajout d'effort de pêche"
       };
       
       vm.annuler = function()
@@ -152,7 +153,8 @@
           vm.data_collect.code       = vm.selectedItem.code ;
           vm.data_collect.libelle    = vm.selectedItem.libelle ;		 
           vm.afficherboutonModifSupr = 0;
-          vm.afficherboutonnouveau   = 0;  
+          vm.afficherboutonnouveau   = 0;
+          vm.titrepage="modification d'effort de pêche"  
       };
         vm.supprimer = function()
         {

@@ -65,12 +65,12 @@
 
 /*********** ************************Debut fi fiche_echantillonnage_capture  *******************************************/
      
-      var date_today  = new Date();
-      vm.filtrepardate = {} ;
+      var date_today            = new Date();
+      vm.filtrepardate          = {} ;
       vm.filtrepardate.date_fin = date_today ;
-      vm.max_date = date_today ;
-      var date_dujour= convertionDate(date_today);
-      var validation = 1;
+      vm.max_date               = date_today ;
+      var date_dujour           = convertionDate(date_today);
+      var validation            = 1;
       apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation).then(function(result)
       {
         vm.allfiche_echantillonnage_capture = result.data.response;
@@ -128,8 +128,8 @@
    
     vm.recherchefiltrepardate= function (filtrepardate)
     {
-        var date_debut=convertionDate(filtrepardate.date_debut);
-        var date_fin=convertionDate(filtrepardate.date_fin);
+        var date_debut = convertionDate(filtrepardate.date_debut);
+        var date_fin   = convertionDate(filtrepardate.date_fin);
         var validation = 1;
         apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation).then(function(result)
         {
@@ -146,15 +146,15 @@
     function convertionDate(date)
     {   if(date)
         {
-            var d = new Date(date);
-            var jour = d.getDate();
-            var mois = d.getMonth()+1;
+            var d     = new Date(date);
+            var jour  = d.getDate();
+            var mois  = d.getMonth()+1;
             var annee = d.getFullYear();
             if(mois <10)
             {
                 mois = '0' + mois;
             }
-            var date_final= annee+"-"+mois+"-"+jour;
+            var date_final = annee+"-"+mois+"-"+jour;
             return date_final
         }      
     }
@@ -177,7 +177,7 @@
               {
                   return obj.data_collect.code == 'CAB';
               });
-            vm.checkboxCAB=true; 
+            vm.checkboxCAB = true; 
           }
           vm.affichageMasqueEchantillon = 0;  
       }
@@ -212,8 +212,8 @@
         {
             vm.allespece_capture = result.data.response;            
         });
-            vm.step2=true;
-            vm.step3=false;         
+            vm.step2 = true;
+            vm.step3 = false;         
     };
 
     $scope.$watch('vm.selectedItemEchantillon', function()
@@ -249,8 +249,8 @@
   {
       if (dat) 
       {
-          var date = new Date(dat);
-          var mois = date.getMonth()+1;
+          var date  = new Date(dat);
+          var mois  = date.getMonth()+1;
           var dates = (date.getDate()+"-"+mois+"-"+date.getFullYear());
           return dates;
       }            
