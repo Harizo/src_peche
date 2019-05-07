@@ -54,8 +54,8 @@
     function EspeceController($mdDialog, $scope, apiFactory, $state,cookieService,apiUrl,$http,apiUrlserver,$window)
     { var vm                   = this;
   		vm.ajout                 = ajout;
-      vm.apiUrlimage          =apiUrlserver;
-  		var NouvelItem           =false;
+      vm.apiUrlimage           = apiUrlserver;
+  		var NouvelItem           = false;
   		var currentItem;
   		vm.selectedItem          = {} ;
   		vm.allespece             = [] ;
@@ -65,7 +65,7 @@
   		vm.afficherboutonnouveau = 1 ;
   		//variable cache masque de saisie
   		vm.affichageMasque       = 0 ;
-      vm.affichageMasqueImage  = 0;
+      //vm.affichageMasqueImage  = 0;
   		//style
   		vm.dtOptions =
       {
@@ -102,9 +102,9 @@
       $scope.uploadFile = function(event)
        {
          // console.dir(event);
-          var files =event.target.files;
-          vm.myFile=files;
-          vm.espece.url_image=vm.myFile[0].name;
+          var files = event.target.files;
+          vm.myFile = files;
+          vm.espece.url_image = vm.myFile[0].name;
         }  
       
       function insert_in_base(espece,suppression)
@@ -130,19 +130,19 @@
             //factory
         apiFactory.add("espece/index",datas, config).success(function (data)
         { 
-            var file = vm.myFile[0];
+            var file       = vm.myFile[0];
             var repertoire = 'espece/';
-            var uploadUrl = apiUrl + "importerfichier/save_upload_file";
-            var getIdurl=0;
+            var uploadUrl  = apiUrl + "importerfichier/save_upload_file";
+            var getIdurl   = 0;
             
             if (NouvelItem==false)
             {
               getIdurl = vm.selectedItem.id;
 
             }else{ 
-             getIdurl=String(data.response);
+             getIdurl = String(data.response);
             }
-            var name_image=espece.code+'_'+getIdurl;
+            var name_image = espece.code+'_'+getIdurl;
             
             var fd = new FormData();
             fd.append('file', file);
@@ -226,6 +226,7 @@
                 vm.selectedItem.code             = vm.espece.code;
                 vm.selectedItem.url_image        = vm.espece.url_image;
                 vm.afficherboutonModifSupr       = 0;
+                vm.afficherboutonModif           = 0;
                 vm.afficherboutonnouveau         = 1;
                 vm.selectedItem.$selected        = false;
                 vm.selectedItem                  ={};            
@@ -258,6 +259,7 @@
   		vm.nouvelItem                          = item;
   		currentItem                            = JSON.parse(JSON.stringify(vm.selectedItem));
   		vm.afficherboutonModifSupr             = 1;
+      vm.afficherboutonModif                 = 1;
   		vm.affichageMasque                     = 0;
   		vm.afficherboutonnouveau               = 1;
 		};
@@ -277,19 +279,23 @@
   		vm.affichageMasque        = 1;
       vm.espece                 = {};
   		NouvelItem                = true;
+      vm.afficherboutonModifSupr             = 0;
+      vm.afficherboutonModif                 = 0;
+      vm.afficherboutonnouveau               = 1;
     };
-    vm.ajouterImage = function ()
+    /*vm.ajouterImage = function ()
     { vm.affichageMasqueImage        = 1;  
-    };
+    };*/
 
     vm.annuler = function()
     { vm.selectedItem            = {};
       vm.selectedItem.$selected  = false;
       vm.affichageMasque         = 0;
       vm.afficherboutonnouveau   = 1;
-      vm.afficherboutonModifSupr = 0;          
+      vm.afficherboutonModifSupr = 0;
+      vm.afficherboutonModif     = 0;          
       NouvelItem                 = false;
-      vm.affichageMasqueImage    = 0;
+     // vm.affichageMasqueImage    = 0;
       document.getElementById('fileid').value = null;
     };
 
@@ -301,6 +307,7 @@
       vm.espece.nom_local        = vm.selectedItem.nom_local ;
       vm.espece.nom_scientifique = vm.selectedItem.nom_scientifique ;
       vm.espece.url_image        = vm.selectedItem.url_image;
+      vm.afficherboutonModif     = 1;
       vm.afficherboutonModifSupr = 0;
       vm.afficherboutonnouveau   = 0;
      
@@ -309,6 +316,7 @@
     vm.supprimer = function()
     { vm.affichageMasque         = 0;
       vm.afficherboutonModifSupr = 0;
+      vm.afficherboutonModif     = 0;
       var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -351,38 +359,10 @@
                 vm.affichageMasque = 0;
             }
           }
-        } 
-        /*vm.allespece.forEach(function(esp)
-          { if (esp.id==item.id)
-            { if((esp.code!=item.code)
-                ||(esp.nom_local!=item.nom_local)
-                ||(esp.nom_scientifique!=item.nom_scientifique)
-                ||(esp.url_image!=item.url_image))
-              {
-                insert_in_base(item,suppression);
-                vm.affichageMasque = 0;
-              }
-              else
-              {
-                vm.affichageMasque = 1;
-              }
-						}
-					});*/
+        }
       }
       else
           insert_in_base(item,suppression);
     }
-
-/*vm.changelocalhost = function (localhoste)
-{
-  if (localhoste) 
-  {
-    var urlencien=localhoste;
-    var urlnew= urlencien.toString().replace('http://localhost/assets/ddb/',apiUrlserver);
-  
-    return urlnew;
-  }
-   
-}*/
     }
 })();

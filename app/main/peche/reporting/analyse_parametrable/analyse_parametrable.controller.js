@@ -9,15 +9,15 @@
     /** @ngInject */
     function Analyse_parametrableController($mdDialog, $scope, apiFactory, $state, apiUrlserver)
     {
-      var vm = this;
-      vm.apiUrlimage = apiUrlserver;
-      vm.filtre = {} ;
-      vm.now_date = new Date();
-      vm.annee = vm.now_date.getFullYear();
-      vm.filtre.date_fin = vm.now_date ;
-      vm.annees = [] ;
-      vm.datas = [] ;
-      vm.affiche_load = false ;
+      var vm          = this;
+      vm.apiUrlimage  = apiUrlserver;
+      vm.filtre       = {} ;
+      vm.now_date     = new Date();
+      vm.annee        = vm.now_date.getFullYear();
+      vm.filtre.date_fin  = vm.now_date ;
+      vm.annees           = [] ;
+      vm.datas            = [] ;
+      vm.affiche_load     = false ;
       for (var i = 2012; i <= vm.annee; i++) {
         vm.annees.push(i);
       }
@@ -55,20 +55,20 @@
 
       apiFactory.getAll("district/index").then(function(result)
       {
-          vm.alldistrict = result.data.response;
-          vm.districts = vm.alldistrict ;
+          vm.alldistrict  = result.data.response;
+          vm.districts    = vm.alldistrict ;
       });
 
       apiFactory.getAll("site_embarquement/index").then(function(result)
       {
-          vm.allsite= result.data.response;
-          vm.sites= result.data.response;
+          vm.allsite  = result.data.response;
+          vm.sites    = result.data.response;
       });
 
       apiFactory.getAll("unite_peche/index").then(function(result)
       {
-          vm.allunite_peche= result.data.response;
-          vm.unite_peches= result.data.response;
+          vm.allunite_peche = result.data.response;
+          vm.unite_peches   = result.data.response;
       });
 
       apiFactory.getAll("espece/index").then(function(result)
@@ -81,8 +81,8 @@
 
       vm.filtre_district = function()
       {
-          vm.filtre.id_district ="*";
-          vm.filtre.id_site_embarquement ="*";
+          vm.filtre.id_district           ="*";
+          vm.filtre.id_site_embarquement  ="*";
           var ds = vm.alldistrict ;
           if (vm.filtre.id_region != "*") 
           {
@@ -146,9 +146,9 @@
             "id_espece",filtres.id_espece,"pivot",filtres.pivot).then(function(result)
           {
             vm.affiche_load = false ;
-            vm.datas = result.data.response;
+            vm.datas  = result.data.response;
             vm.totals = result.data.total;
-            var data = result.data.response;
+            var data  = result.data.response;
            
           });        
       }

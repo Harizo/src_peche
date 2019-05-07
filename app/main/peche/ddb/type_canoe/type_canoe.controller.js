@@ -39,17 +39,14 @@
     {
     	var vm           = this;
     	vm.ajout         = ajout;
-      vm.Urlimage   = apiUrlserver;
+      vm.Urlimage      = apiUrlserver;
     	var NouvelItem   =false;
     	var currentItem;
     	vm.selectedItem  = {} ;
     	vm.alltype_canoe = [] ;
-        vm.myFile        ={};     
-    	//variale affichage bouton nouveau
+        vm.myFile      ={};
     	vm.afficherboutonnouveau = 1 ;
-    	//variable cache masque de saisie
     	vm.affichageMasque = 0 ;
-    	//style
     	vm.dtOptions = {
     		dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
     		pagingType: 'simple',
@@ -79,8 +76,8 @@
 
         $scope.uploadFile = function(event)
         {   
-          var files =event.target.files;
-          vm.myFile=files;
+          var files = event.target.files;
+          vm.myFile = files;
           vm.type_canoe.url_image=vm.myFile[0].name;
         }
             
@@ -95,29 +92,29 @@
             }
  
             var datas = $.param({
-                    supprimer:suppression,
-                    id:getId,      
-                    code: type_canoe.code,
-                    nom: type_canoe.nom,
+                    supprimer: suppression,
+                    id:        getId,      
+                    code:      type_canoe.code,
+                    nom:       type_canoe.nom,
                     url_image: type_canoe.url_image,  
              });
             
             //factory
             apiFactory.add("type_canoe/index",datas, config).success(function (data)
             { 
-                var file = vm.myFile[0];
-                var repertoire = 'type_canoe/';
-                var uploadUrl = apiUrl + "importerfichier/save_upload_file";
-                var getIdurl=0;
+                var file        = vm.myFile[0];
+                var repertoire  = 'type_canoe/';
+                var uploadUrl   = apiUrl + "importerfichier/save_upload_file";
+                var getIdurl    = 0;
                 if (NouvelItem==false)
                 {
                   getIdurl = vm.selectedItem.id;
 
                 }else{ 
-                 getIdurl=String(data.response);
+                 getIdurl = String(data.response);
                 }
                 
-                var name_image=type_canoe.code+'_'+getIdurl;                
+                var name_image = type_canoe.code+'_'+getIdurl;                
                 var fd = new FormData();
                 fd.append('file', file);
                 fd.append('repertoire',repertoire);
@@ -125,13 +122,13 @@
 
                 if(file)
                 { 
-                    var upl= $http.post(uploadUrl, fd,{transformRequest: angular.identity,
+                    var upl = $http.post(uploadUrl, fd,{transformRequest: angular.identity,
                         headers: {'Content-Type': undefined}, repertoire: repertoire
                         }).success(function(data)
                     {
                         if(data['erreur'])
                         {
-                            var msg = data['erreur'].error.replace(/<[^>]*>/g, '');
+                            var msg   = data['erreur'].error.replace(/<[^>]*>/g, '');
                             var alert = $mdDialog.alert({title: 'Notification',textContent: msg,ok: 'Fermé'});                  
                             $mdDialog.show( alert ).finally(function()
                             {
@@ -159,11 +156,11 @@
                             type_canoe.url_image = repertoire+data['nomImage'];                 
                             var dataurl = $.param(
                             {
-                                supprimer:        suppression,
-                                id:               getIdurl,      
-                                code:             type_canoe.code,
-                                nom:              type_canoe.nom,
-                                url_image:        type_canoe.url_image,                              
+                                supprimer: suppression,
+                                id:        getIdurl,      
+                                code:      type_canoe.code,
+                                nom:       type_canoe.nom,
+                                url_image: type_canoe.url_image,                              
                             });
                             apiFactory.add("type_canoe/index",dataurl,config).success(function(data)
                             {
@@ -200,9 +197,10 @@
                     vm.selectedItem.code       = vm.type_canoe.code;
                     vm.selectedItem.url_image  = vm.type_canoe.url_image;
                     vm.afficherboutonModifSupr = 0 ;
+                    vm.afficherboutonModif     = 0 ;
                     vm.afficherboutonnouveau   = 1 ;
                     vm.selectedItem.$selected  = false;
-                    vm.selectedItem ={};
+                    vm.selectedItem            = {};
                 } 
                 else
                 {    
@@ -223,18 +221,19 @@
                       };                
                 vm.alltype_canoe.push(item);
                 vm.type_canoe = {} ;                   
-                NouvelItem=false;
+                NouvelItem    = false;
             }                
             vm.affichageMasque = 0 ;
         }
     		vm.selection= function (item)
         {
-      			vm.selectedItem = item;
-      			vm.nouvelItem = item;
-      			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+      			vm.selectedItem  = item;
+      			vm.nouvelItem    = item;
+      			currentItem      = JSON.parse(JSON.stringify(vm.selectedItem));
       			vm.afficherboutonModifSupr = 1 ;
-      			vm.affichageMasque = 0 ;
-      			vm.afficherboutonnouveau = 1 ;
+            vm.afficherboutonModif     = 1 ;
+      			vm.affichageMasque         = 0 ;
+      			vm.afficherboutonnouveau   = 1 ;
     		};
     		$scope.$watch('vm.selectedItem', function()
         {
@@ -249,39 +248,45 @@
         //function cache masque de saisie
         vm.ajouter = function ()
         {
-      			vm.selectedItem.$selected = false;
-      			vm.affichageMasque = 1 ;
-      			vm.type_canoe = {} ;
-      			NouvelItem = true ;
+      			vm.selectedItem.$selected  = false;
+      			vm.affichageMasque         = 1 ;
+      			vm.type_canoe              = {} ;
+      			NouvelItem                 = true ;
+            vm.afficherboutonModifSupr = 0;
+            vm.afficherboutonModif     = 0 ;
+            vm.afficherboutonnouveau   = 1;
         };
         
         vm.annuler = function()
         {
-            vm.selectedItem = {} ;
-            vm.selectedItem.$selected = false;
-            vm.affichageMasque = 0 ;
-            vm.afficherboutonnouveau = 1 ;
-            vm.afficherboutonModifSupr = 0 ;
-            NouvelItem = false;
+            vm.selectedItem             = {} ;
+            vm.selectedItem.$selected   = false;
+            vm.affichageMasque          = 0 ;
+            vm.afficherboutonnouveau    = 1 ;
+            vm.afficherboutonModifSupr  = 0 ;
+            vm.afficherboutonModif      = 0 ;
+            NouvelItem                  = false;
             document.getElementById('fileid').value = null;
         };
         
         vm.modifier = function()
         {
-            NouvelItem = false ;
-            vm.affichageMasque = 1 ;
-            vm.type_canoe.id = vm.selectedItem.id ;
-            vm.type_canoe.code = vm.selectedItem.code ;
-            vm.type_canoe.nom = vm.selectedItem.nom ;
-            vm.type_canoe.url_image = vm.selectedItem.url_image;
+            NouvelItem          = false ;
+            vm.affichageMasque  = 1 ;
+            vm.type_canoe.id    = vm.selectedItem.id ;
+            vm.type_canoe.code  = vm.selectedItem.code ;
+            vm.type_canoe.nom   = vm.selectedItem.nom ;
+            vm.type_canoe.url_image    = vm.selectedItem.url_image;
             vm.afficherboutonModifSupr = 0;
-            vm.afficherboutonnouveau = 0; 
+            vm.afficherboutonModif     = 1 ;
+            vm.afficherboutonnouveau   = 0; 
         };
         
         vm.supprimer = function()
         {
-            vm.affichageMasque = 0 ;
+            vm.affichageMasque         = 0 ;
             vm.afficherboutonModifSupr = 0 ;
+            vm.afficherboutonModif     = 0 ;
              var confirm = $mdDialog.confirm()
                     .title('Etes-vous sûr de supprimer cet enregistrement ?')
                     .textContent('')
@@ -339,8 +344,8 @@
         {
             if (localhoste) 
             {
-              var urlencien=localhoste;
-              var urlnew= urlencien.toString().replace('http://localhost/assets/ddb/',apiUrlserver);
+              var urlencien = localhoste;
+              var urlnew    = urlencien.toString().replace('http://localhost/assets/ddb/',apiUrlserver);
             
               return urlnew;
             }

@@ -15,10 +15,8 @@
     vm.allsite_embarquement = []; 
     vm.allenqueteur         = [];
     vm.allunite_peche       = []; 
-    vm.allnbr_echantillon_enqueteur = [];   
-		//variale affichage bouton nouveau
+    vm.allnbr_echantillon_enqueteur = [];
 		vm.afficherboutonnouveau = 1 ;
-		//variable cache masque de saisie
 		vm.affichageMasque       = 0 ;
     //affichage md-select
     vm.site_embarquement     =false;
@@ -72,9 +70,9 @@
                 supprimer:suppression,
                 id:getId,      
                 site_embarquement_id: nbr_echantillon_enqueteur.site_embarquement_id,
-                enqueteur_id: nbr_echantillon_enqueteur.enqueteur_id,
-                unite_peche_id: nbr_echantillon_enqueteur.unite_peche_id,
-                nbr_max_echantillon: nbr_echantillon_enqueteur.nbr_max_echantillon              
+                enqueteur_id:         nbr_echantillon_enqueteur.enqueteur_id,
+                unite_peche_id:       nbr_echantillon_enqueteur.unite_peche_id,
+                nbr_max_echantillon:  nbr_echantillon_enqueteur.nbr_max_echantillon              
         });
         
         //factory
@@ -100,13 +98,14 @@
               if(suppression==0)
               {
       						vm.selectedItem.site_embarquement = site[0];
-                  vm.selectedItem.unite_peche= up[0];
-                  vm.selectedItem.enqueteur= enq[0];
-                  vm.selectedItem.nbr_max_echantillon=vm.nbr_echantillon_enqueteur.nbr_max_echantillon;
+                  vm.selectedItem.unite_peche = up[0];
+                  vm.selectedItem.enqueteur   = enq[0];
+                  vm.selectedItem.nbr_max_echantillon = vm.nbr_echantillon_enqueteur.nbr_max_echantillon;
       						vm.afficherboutonModifSupr = 0 ;
-      						vm.afficherboutonnouveau = 1 ;
-      						vm.selectedItem.$selected = false;
-      						vm.selectedItem ={};
+                  vm.afficherboutonModif     = 0 ;
+      						vm.afficherboutonnouveau   = 1 ;
+      						vm.selectedItem.$selected  = false;
+      						vm.selectedItem            = {};
 
               } 
               else
@@ -121,10 +120,10 @@
           {
               var item = 
               {
-                  id:String(data.response) ,
-                  site_embarquement: site[0],
-                  unite_peche: up[0],
-                  enqueteur: enq[0],
+                  id:                 String(data.response) ,
+                  site_embarquement:  site[0],
+                  unite_peche:        up[0],
+                  enqueteur:          enq[0],
                   nbr_max_echantillon:vm.nbr_echantillon_enqueteur.nbr_max_echantillon 
               };                
                   vm.allnbr_echantillon_enqueteur.push(item);
@@ -140,11 +139,12 @@
     vm.selection= function (item)
     {
   			vm.selectedItem = item;
-  			vm.nouvelItem = item;
-  			currentItem = JSON.parse(JSON.stringify(vm.selectedItem));
+  			vm.nouvelItem   = item;
+  			currentItem     = JSON.parse(JSON.stringify(vm.selectedItem));
   			vm.afficherboutonModifSupr = 1 ;
-  			vm.affichageMasque = 0 ;
-  			vm.afficherboutonnouveau = 1 ;
+        vm.afficherboutonModif     = 1 ;
+  			vm.affichageMasque         = 0 ;
+  			vm.afficherboutonnouveau   = 1 ;
 		};
 		$scope.$watch('vm.selectedItem', function()
     {
@@ -159,35 +159,42 @@
     
     vm.ajouter = function ()
     {
-  			vm.selectedItem.$selected = false;
-  			vm.affichageMasque = 1 ;
-        vm.nbr_echantillon_enqueteur={}; 
+  			vm.selectedItem.$selected    = false;
+  			vm.affichageMasque           = 1 ;
+        vm.nbr_echantillon_enqueteur ={}; 
   			NouvelItem = true ;
+        vm.afficherboutonModifSupr = 0;
+        vm.afficherboutonModif     = 0;
+        vm.afficherboutonnouveau   = 1;
+        vm.site_embarquement       = false;
+        vm.unite_peche             = false;
     };
     
     vm.annuler = function()
     {
-        vm.selectedItem = {} ;
-        vm.selectedItem.$selected = false;
-        vm.affichageMasque = 0 ;
-        vm.afficherboutonnouveau = 1 ;
+        vm.selectedItem            = {} ;
+        vm.selectedItem.$selected  = false;
+        vm.affichageMasque         = 0 ;
+        vm.afficherboutonnouveau   = 1 ;
         vm.afficherboutonModifSupr = 0 ;
-        NouvelItem = false;
+        vm.afficherboutonModif     = 0 ;
+        NouvelItem                 = false;
     };
     
     vm.modifier = function()
     {
-        NouvelItem = false ;
-        vm.affichageMasque = 1 ;
-        vm.site_embarquement =true;
-        vm.unite_peche=true;  
+        NouvelItem           = false ;
+        vm.affichageMasque   = 1 ;
+        vm.site_embarquement = true;
+        vm.unite_peche       = true;  
         vm.nbr_echantillon_enqueteur.id = vm.selectedItem.id ;
         vm.nbr_echantillon_enqueteur.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
-        vm.nbr_echantillon_enqueteur.unite_peche_id = vm.selectedItem.unite_peche.id ;
-        vm.nbr_echantillon_enqueteur.enqueteur_id = vm.selectedItem.enqueteur.id ; 
-        vm.nbr_echantillon_enqueteur.nbr_max_echantillon = parseInt(vm.selectedItem.nbr_max_echantillon) ;
+        vm.nbr_echantillon_enqueteur.unite_peche_id       = vm.selectedItem.unite_peche.id ;
+        vm.nbr_echantillon_enqueteur.enqueteur_id         = vm.selectedItem.enqueteur.id ; 
+        vm.nbr_echantillon_enqueteur.nbr_max_echantillon  = parseInt(vm.selectedItem.nbr_max_echantillon) ;
         vm.afficherboutonModifSupr = 0;
-        vm.afficherboutonnouveau = 0;
+        vm.afficherboutonModif     = 1;
+        vm.afficherboutonnouveau   = 0;
         apiFactory.getFils("site_enqueteur/index",vm.selectedItem.enqueteur.id).then(function(result)
         {
             vm.allsite_embarquement = result.data.response;
@@ -202,6 +209,7 @@
     {
         vm.affichageMasque = 0 ;
         vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
         var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')

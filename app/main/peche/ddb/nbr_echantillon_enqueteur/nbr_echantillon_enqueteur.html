@@ -19,62 +19,84 @@
     <!-- CONTENT -->
             <!-- LISTE TABLE -->
     <div class="content"layout="column">
-      <div class="form-wrapper">
-      <div style="widht:100%;">    
-          <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-              Nouveau
-          </md-button>
-          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-              Modifier
-          </md-button>
-          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-              Supprimer
-          </md-button>
-        </div>  
-        <div style="clear:both;"></div>
-                    <!-- BASIC FORM -->
-        <div class="white-bg md-whiteframe-4dp">            
-          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-            <md-tab label="Ajout nbr_echantillon_enqueteur">
-            
+      <div class="form-wrapper">                    
+        <div class="white-bg md-whiteframe-4dp">
+          <md-tabs md-dynamic-height>
+            <md-tab label="Listes">
+              <div style="widht:100%;">    
+                <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                    Nouveau
+                </md-button>
+                <md-button type="submit" ng-show="vm.afficherboutonModif==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                    Modifier
+                </md-button>
+                <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                    Supprimer
+                </md-button>
+              </div>
+
+<!-- BASIC FORM -->
+              <div ng-show="vm.affichageMasque==1">            
                 <form name="nbr_echantillon_enqueteurform" class="md-inline-form" novalidate>
                   <div layout="column" layout-gt-xs="row" flex>
                     <input type="hidden" ng-model="vm.nbr_echantillon_enqueteur.id"></input>
                       <md-input-container flex="100" flex-gt-xs="33">
                             <label>Enqueteur</label>
-                              <md-select ng-model="vm.nbr_echantillon_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.nbr_echantillon_enqueteur)">
+                              <md-select ng-model="vm.nbr_echantillon_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.nbr_echantillon_enqueteur)" required name="enqueteur_id">
                                 <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">{{enqueteur.nom}}
                                 </md-option>
                               </md-select>
+                              <div ng-messages="nbr_echantillon_enqueteurform.enqueteur_id.$error"
+                              role="alert">
+                              <div ng-message="required">
+                                <span>Enqueteur obligatoire.</span>
+                              </div>
+                            </div>
                       </md-input-container>
                       <md-input-container flex="100" flex-gt-xs="33">
                             <label>Site d'enquête</label>
-                              <md-select ng-model="vm.nbr_echantillon_enqueteur.site_embarquement_id" ng-change="vm.modifiersite_embarquement(vm.nbr_echantillon_enqueteur)" ng-disabled="!vm.site_embarquement">
+                              <md-select ng-model="vm.nbr_echantillon_enqueteur.site_embarquement_id" ng-change="vm.modifiersite_embarquement(vm.nbr_echantillon_enqueteur)" ng-disabled="!vm.site_embarquement" required name="site_embarquement_id">
                                 <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
                                   ({{site_embarquement.code}}) {{site_embarquement.libelle}}
                                 </md-option>
                               </md-select>
+                                <div ng-messages="nbr_echantillon_enqueteurform.site_embarquement_id.$error"
+                                  role="alert">
+                                  <div ng-message="required">
+                                    <span>Site d'enquête obligatoire.</span>
+                                  </div>
+                                </div>
                       </md-input-container>
                       <md-input-container flex="100" flex-gt-xs="33">
                             <label>unite_peche</label>
-                              <md-select ng-model="vm.nbr_echantillon_enqueteur.unite_peche_id" ng-change="vm.modifierunite_peche(vm.nbr_echantillon_enqueteur)" ng-disabled="!vm.unite_peche">
+                              <md-select ng-model="vm.nbr_echantillon_enqueteur.unite_peche_id" ng-change="vm.modifierunite_peche(vm.nbr_echantillon_enqueteur)" ng-disabled="!vm.unite_peche" required name="unite_peche_id">
                                 <md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
                                   {{unite_peche_site.unite_peche.libelle}}
 
                                 </md-option>
                               </md-select>
+                              <div ng-messages="nbr_echantillon_enqueteurform.unite_peche_id.$error"
+                                  role="alert">
+                                  <div ng-message="required">
+                                    <span>Site d'enquête obligatoire.</span>
+                                  </div>
+                                </div>
                       </md-input-container>
 
                       <md-input-container flex="100" flex-gt-xs="33">
                         <input type="number" name="nbr_max_echantillon" ng-model="vm.nbr_echantillon_enqueteur.nbr_max_echantillon"
                           placeholder="Nombre " ng-init="vm.nbr_echantillon_enqueteur.nbr_max_echantillon=''"
-                          >
+                           pattern="\d+" required>
                           <div ng-messages="nbr_echantillon_enqueteurform.nbr_max_echantillon.$error"
-                            role="alert">
+                            role="alert" ng-show="nbr_echantillon_enqueteurform.nbr_max_echantillon.$touched">
                             <div ng-message="required">
-                              <span>nombre maximum d'echantillon obligatoire.</span>
+                              <span>Nombre maximum d'echantillon obligatoire.</span>
+                            </div>
+                            <div ng-message="pattern">
+                              <span>Nombre entier seulement.</span>
                             </div>
                           </div>
+
                       </md-input-container>
 
                   </div>
@@ -85,16 +107,11 @@
                   <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
                     Annuler
                   </md-button>
-                </form>              
-         
-            </md-tab>
-          </md-tabs>
-        </div><br>
-         <!-- / BASIC FORM -->
-        <div class="white-bg md-whiteframe-4dp">
-          <md-tabs md-dynamic-height>
+                </form>
+                <md-divider ></md-divider><br>
+              </div>
+<!-- / BASIC FORM -->
 
-            <md-tab label="Listes">
               <table class="dataTable row-border hover" datatable="ng"
                 dt-options="vm.dtOptions">
                 <thead>

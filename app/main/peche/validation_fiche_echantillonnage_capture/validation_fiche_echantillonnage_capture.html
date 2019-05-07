@@ -16,13 +16,78 @@
 <!--FORM-->		
 		<div class="form-wrapper">			  
 			<div style="clear:both;"></div>
-	
-	<!--FORM FICHE ECHANTILLONNAGE CAPTURE -->
-			<div class="white-bg md-whiteframe-4dp ">
-				<md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-					<md-tab label="Ajout fiche echantillonnage capture" >					
-						<div class="simple-table-container md-whiteframe-4dp">				
-							<br>
+
+<!--STEP-->	
+			<div layout="row">
+	        	<ms-form-wizard flex>
+	                <md-tabs md-dynamic-height md-selected="msWizard.selectedIndex" md-center-tabs="true">
+	     
+	     <!--STEP1 FICHE ECHANTILLONNAGE CAPTURE-->               
+	                    <md-tab ng-click="removeBouton()">
+	                        <md-tab-label>
+	                            <span class="ms-form-wizard-step-label">
+	                                <span class="ms-form-wizard-step-number md-accent-bg"
+	                                      ng-if="vm.step1==false">1</span>
+	                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step1==true">
+	                                    <i class="icon-check s16"></i>
+	                                </span>
+	                                <span class="ms-form-wizard-step-text">Fiche echantillonnage capture</span>
+	                            </span>
+	                        </md-tab-label>
+
+	                       <md-tab-body ms-form-wizard-form>
+	                       		<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 1</md-button >
+								<div style="widht:100%;"> 
+									<md-button type="submit" ng-show="vm.afficherboutonfiltre==1" class="md-raised md-accent" aria-label="Filtre" ng-click="vm.formfiltrepardate()" style="width:10%;">
+										Filtre
+									</md-button>   
+									<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+										Nouveau
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModif==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+										Modifier
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+										Supprimer
+									</md-button>
+									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Valider" ng-click="vm.valider()" style="width:10%;">
+										Valider
+									</md-button>
+								</div>
+
+		<!--FORM FICHE ECHANTILLONNAGE CAPTURE -->
+		<!--FORM FILTRE PAR DATE --> 
+		    			<div ng-show="vm.affichageMasqueFiltrepardate == 1">
+		          
+		                  <form name="filtrepardateform" class="md-inline-form" novalidate >
+		                    <br>
+		                    <div layout="column" layout-gt-xs="row">
+		                    	<md-input-container>
+		                        <span>Date du</span>
+		                        </md-input-container>
+		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut"  md-max-date="vm.filtrepardate.date_fin" md-placeholder="Enter date de debut" required>                 		
+		                    	</md-datepicker>
+		                    	<md-input-container>
+		                        <span>&nbsp &nbsp jusqu'au &nbsp &nbsp</span>
+		                        </md-input-container>
+		                    	<md-datepicker ng-model="vm.filtrepardate.date_fin" md-placeholder="Enter date de fin"
+        								md-min-date="vm.filtrepardate.date_debut" md-max-date="vm.date_now" ng-disabled="!vm.filtrepardate.date_debut" required>        								
+        						</md-datepicker>
+		                    </div>
+		                    <div>
+		                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+		                          ng-disabled="filtrepardateform.$invalid" ng-click="vm.recherchefiltrepardate(vm.filtrepardate)">
+		                          Recherche
+		                    </md-button>
+		                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+		                      Annuler
+		                    </md-button>
+		                    </div>
+		                  </form>
+		    			</div> 
+		<!--/FORM FORM FILTRE PAR DATE -->
+								
+						<div ng-show="vm.affichageMasque==1">						
 							<form name="fiche_echantillonnage_captureform" class="md-inline-form "  novalidate>
 								<div layout="column" layout-gt-sm="row">
 									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id">
@@ -58,6 +123,8 @@
 											</md-option>
 										</md-select>
 									</md-input-container>
+									</div>
+									<div layout="column" layout-gt-sm="row">
 									<md-input-container flex-gt-sm>
 										<input type="text" name="latitude" ng-model="vm.fiche_echantillonnage_capture.latitude"
 										placeholder="Latitude " ng-init="vm.fiche_echantillonnage_capture.latitude=''">
@@ -90,19 +157,7 @@
 									</md-input-container>
 																		
 									<md-datepicker name="date" ng-model="vm.fiche_echantillonnage_capture.date" md-placeholder="Date" required>										
-									</md-datepicker>
-									<!--md-input-container flex="100" flex-gt-xs="33">
-										<input type="datetime" name="date" ng-model="vm.fiche_echantillonnage_capture.date"
-										placeholder="Date: AAAA-MM-JJ " ng-init="vm.fiche_echantillonnage_capture.date=''"
-										required>
-										<div ng-messages="fiche_echantillonnage_captureform.date.$error"
-											role="alert">
-											<div ng-message="required">
-												<span>Date obligatoire.</span>
-											</div>
-										</div>
-									</md-input-container-->
-									
+									</md-datepicker>									
 								</div>
 								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
 									ng-disabled="fiche_echantillonnage_captureform.$invalid " ng-click="vm.ajout(vm.fiche_echantillonnage_capture,0,0)">
@@ -112,264 +167,9 @@
 									Annuler
 								</md-button>
 							</form>
-					
-						</div>
-					
-					</md-tab>
-					</md-tabs>
-			</div>
+								<md-divider ></md-divider>
+			    			</div> <br>					
 	<!--/FORM FICHE ECHANTILLONNAGE CAPTURE -->
-
-	<!--FORM ECHANTILLON-->
-			<div class="white-bg md-whiteframe-4dp">	
-				<md-tabs md-dynamic-height ng-show="vm.affichageMasqueEchantillon==1">
-				<md-tab label="Ajout Echantillon">
-					<div class="simple-table-container md-whiteframe-4dp">
-				
-						<form name="echantillonform" class="md-inline-form"  novalidate>
-								<div layout="column" layout-gt-xs="row" flex>
-									<input type="hidden" ng-model="vm.echantillon.id">						
-									<md-input-container flex="100" flex-gt-xs="33">
-										<label>Effort de pêche</label>
-										<md-select ng-model="vm.echantillon.data_collect_id" disabled>
-											<md-option ng-repeat="data_collect in vm.alldata_collect" value="{{data_collect.id}}">
-												{{data_collect.code}}
-											</md-option>
-										</md-select>
-									</md-input-container>
-								</div>
-								<!--md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
-									<input type="number" name="peche_hier" ng-model="vm.echantillon.peche_hier"
-									placeholder="Peche hier " ng-init="vm.echantillon.peche_hier=''"
-									>
-									<div ng-messages="echantillonform.peche_hier.$error"
-										role="alert">
-										<div ng-message="required">
-											<span>Peche hier obligatoire.</span>
-										</div>
-									</div>
-								</md-input-container-->
-								<div layout="column" layout-gt-xs="row" flex ng-show="vm.checkboxPAB">
-									<md-checkbox ng-model="vm.echantillon.peche_hier" ng-change="vm.recuperationPechehier(vm.checkboxPechehier)"> Peche hier </md-checkbox>&nbsp&nbsp
-									<md-checkbox ng-model="vm.echantillon.peche_avant_hier" ng-change="vm.recuperationPecheavanthier(vm.checkboxPecheavanthier)"> Peche avant hier</md-checkbox>
-									 
-									<!--md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
-										<input type="number" name="peche_avant_hier" ng-model="vm.echantillon.peche_avant_hier"
-										placeholder="Peche avant hier " ng-init="vm.echantillon.peche_avant_hier=''"
-										>
-										<div ng-messages="echantillonform.peche_avant_hier.$error"
-											role="alert">
-											<div ng-message="required">
-												<span>Peche avant hier obligatoire.</span>
-											</div>
-										</div>
-									</md-input-container-->
-									</div>
-								<div layout="column" layout-gt-xs="row" flex>
-									<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
-										<input type="number" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
-										placeholder="nombre de jour de peche dernière semaine" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''" ng-max="7">
-										<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
-											role="alert">
-											<div ng-message="max">
-												<span>Nombre maximale autorisé à 7</span>
-											</div>
-										</div>
-									</md-input-container>
-								</div>
-								<div layout="column" layout-gt-xs="row" flex>
-									<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
-										<input type="number" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
-										placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''">
-									</md-input-container>
-									<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
-										<input type="number" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
-										placeholder="Total bateau ecn" ng-init="vm.echantillon.total_bateau_ecn=''">
-									</md-input-container>
-								</div>
-								<div layout="column" layout-gt-xs="row" flex>
-									<md-input-container flex="100" flex-gt-xs="33">
-										<label>Unite peche</label>
-										<md-select ng-model="vm.echantillon.unite_peche_id"  ng-change="vm.modifierunite_peche(vm.echantillon)" required>
-											<md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
-												{{unite_peche_site.unite_peche.libelle}}
-											</md-option>
-										</md-select>
-										<div ng-messages="echantillonform.unite_peche_id.$error"
-											role="alert">
-											<div ng-message="required">
-												<span>Unite de pêche obligatoire.</span>
-											</div>
-										</div>
-									</md-input-container>								
-								</div>
-							<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-								ng-disabled="echantillonform.$invalid " ng-click="vm.ajoutEchantillon(vm.echantillon,0)">
-								Enregistrer
-							</md-button>
-							<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerEchantillon()">
-								Annuler
-							</md-button>
-						</form>
-			
-					</div>
-				
-				</md-tab>
-			</div>
-	<!--/FORM ECHANTILLON -->
-
-	<!--FORM FICHE ESPACE CAPTURE --> 
-		    <div class="white-bg md-whiteframe-4dp espece"> 
-		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueEspece_capture==1">
-		            <md-tab label="Ajout Espece capture">
-		        
-		                  <form name="espece_captureform" class="md-inline-form" novalidate >
-		                    <br>
-		                    <div layout="column" layout-gt-xs="row">
-		                      <input type="hidden" ng-model="vm.espece_capture.id">
-		                      <md-input-container flex="100" flex-gt-xs="33">
-		                        <label>Espece</label>
-		                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" md-container-class="mySelect">
-		                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
-		                           <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
-		                          
-		                          </md-option>
-		                        </md-select>
-		                      </md-input-container>
-		                        <md-input-container flex="100" flex-gt-xs="33">
-		                          <input type="number" name="capture" ng-model="vm.espece_capture.capture"
-		                            placeholder="capture " ng-init="vm.espece_capture.capture=''" ng-change="vm.modif_capture()"
-		                            required>
-		                            <div ng-messages="espece_captureform.capture.$error"
-		                              role="alert">
-		                              <div ng-message="required">
-		                                <span>Capture obligatoire.</span>
-		                              </div>
-		                            </div>
-		                        </md-input-container>
-		                        <md-input-container flex="100" flex-gt-xs="33">
-		                          <input type="number" name="prix" ng-model="vm.espece_capture.prix"
-		                            placeholder="prix " ng-init="vm.espece_capture.prix=''"
-		                            ng-disabled="!vm.prix" required>
-		                            <div ng-messages="espece_captureform.prix.$error"
-		                              role="alert">
-		                              <div ng-message="required">
-		                                <span>Prix obligatoire.</span>
-		                              </div>
-		                            </div>
-		                        </md-input-container>
-		                    </div>
-		                    <div>
-		                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-		                          ng-disabled="espece_captureform.$invalid" ng-click="vm.ajoutEspece_capture(vm.espece_capture,0)">
-		                          Enregistrer
-		                    </md-button>
-		                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerEspece_capture()">
-		                      Annuler
-		                    </md-button>
-		                    </div>
-		                  </form>
-		         
-		            </md-tab>
-		        </md-tabs>
-		    </div> 
-	<!--/FORM FICHE ESPACE CAPTURE --> 
-	<!--FORM FILTRE PAR DATE --> 
-		    <div class="white-bg md-whiteframe-4dp"> 
-		         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueFiltrepardate==1">
-		            <md-tab label="Filtre par date">
-		          
-		                  <form name="filtrepardateform" class="md-inline-form" novalidate >
-		                    <br>
-		                    <div layout="column" layout-gt-xs="row">
-		                    	<md-input-container>
-		                        <span>Date du</span>
-		                        </md-input-container>
-		                    	<md-datepicker ng-model="vm.filtrepardate.date_debut"  md-max-date="vm.filtrepardate.date_fin" md-placeholder="Enter date de debut" required>                 		
-		                    	</md-datepicker>
-		                    	<md-input-container>
-		                        <span>&nbsp &nbsp jusqu'au &nbsp &nbsp</span>
-		                        </md-input-container>
-		                    	<md-datepicker ng-model="vm.filtrepardate.date_fin" md-placeholder="Enter date de fin"
-        								md-min-date="vm.filtrepardate.date_debut" md-max-date="vm.date_now" ng-disabled="!vm.filtrepardate.date_debut" required>        								
-        						</md-datepicker>
-		                        <!--md-input-container flex="100" flex-gt-xs="33">
-		                          <input type="text" name="date_debut" ng-model="vm.filtrepardate.date_debut"
-		                            placeholder="AAAA-MM-JJ " ng-init="vm.filtrepardate.date_debut=''"
-		                            required>
-		                            <div ng-messages="filtrepardateform.date_debut.$error"
-		                              role="alert">
-		                              <div ng-message="required">
-		                                <span>Date debut obligatoire.</span>
-		                              </div>
-		                            </div>
-		                        </md-input-container>
-		                        <md-input-container flex="100" flex-gt-xs="33">
-		                          <input type="text" name="date_fin" ng-model="vm.filtrepardate.date_fin"
-		                            placeholder="AAAA-MM-JJ " ng-init="vm.filtrepardate.date_fin=''"
-		                            required>
-		                            <div ng-messages="filtrepardateform.date_fin.$error"
-		                              role="alert">
-		                              <div ng-message="required">
-		                                <span>Date final obligatoire.</span>
-		                              </div>
-		                            </div>
-		                        </md-input-container-->
-		                    </div>
-		                    <div>
-		                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-		                          ng-disabled="filtrepardateform.$invalid" ng-click="vm.recherchefiltrepardate(vm.filtrepardate)">
-		                          Recherche
-		                    </md-button>
-		                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
-		                      Annuler
-		                    </md-button>
-		                    </div>
-		                  </form>
-		         
-		            </md-tab>
-		        </md-tabs>
-		    </div> 
-	<!--/FORM FORM FILTRE PAR DATE -->
-<!--/FORM-->
-
-<!--STEP-->	
-			<div layout="row">
-	        	<ms-form-wizard flex>
-	                <md-tabs md-dynamic-height md-selected="msWizard.selectedIndex" md-center-tabs="true">
-	     
-	     <!--STEP1 FICHE ECHANTILLONNAGE CAPTURE-->               
-	                    <md-tab ng-click="removeBouton()">
-	                        <md-tab-label>
-	                            <span class="ms-form-wizard-step-label">
-	                                <span class="ms-form-wizard-step-number md-accent-bg"
-	                                      ng-if="vm.step1==false">1</span>
-	                                <span class="ms-form-wizard-step-number md-accent-bg" ng-if="vm.step1==true">
-	                                    <i class="icon-check s16"></i>
-	                                </span>
-	                                <span class="ms-form-wizard-step-text">Fiche echantillonnage capture</span>
-	                            </span>
-	                        </md-tab-label>
-
-	                       <md-tab-body ms-form-wizard-form>
-	                       		<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 1</md-button >
-								<div style="widht:100%;"> 
-									<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Filtre" ng-click="vm.formfiltrepardate()" style="width:10%;">
-										Filtre
-									</md-button>   
-									<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-										Nouveau
-									</md-button>
-									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-										Modifier
-									</md-button>
-									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-										Supprimer
-									</md-button>
-									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Valider" ng-click="vm.valider()" style="width:10%;">
-										Valider
-									</md-button>
-								</div>
 								
 								<table class="dataTable row-border hover" datatable="ng"
 									dt-options="vm.dtOptions">
@@ -468,13 +268,123 @@
 									<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
 										Nouveau
 									</md-button>
-									<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEchantillon()" style="width:10%;">
+									<md-button type="submit" ng-show="vm.afficherboutonModifEchantillon==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEchantillon()" style="width:10%;">
 										Modifier
 									</md-button>
 									<md-button type="submit" ng-show="vm.afficherboutonModifSuprEchantillon==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEchantillon()" style="width:10%;">
 										Supprimer
 									</md-button>
 								</div>
+
+		<!--FORM ECHANTILLON-->
+								<div ng-show="vm.affichageMasqueEchantillon==1">
+							
+									<form name="echantillonform" class="md-inline-form"  novalidate>
+											<div layout="column" layout-gt-xs="row" flex>
+												<input type="hidden" ng-model="vm.echantillon.id">						
+												<md-input-container flex="100" flex-gt-xs="33">
+													<label>Effort de pêche</label>
+													<md-select ng-model="vm.echantillon.data_collect_id" disabled>
+														<md-option ng-repeat="data_collect in vm.alldata_collect" value="{{data_collect.id}}">
+															{{data_collect.code}}
+														</md-option>
+													</md-select>
+												</md-input-container>
+											</div>
+											<div layout="column" layout-gt-xs="row" flex ng-show="vm.checkboxPAB">
+												<md-checkbox ng-model="vm.echantillon.peche_hier" ng-change="vm.recuperationPechehier(vm.checkboxPechehier)"> Peche hier </md-checkbox>&nbsp&nbsp
+												<md-checkbox ng-model="vm.echantillon.peche_avant_hier" ng-change="vm.recuperationPecheavanthier(vm.checkboxPecheavanthier)"> Peche avant hier</md-checkbox>
+
+												</div>
+											<div layout="column" layout-gt-xs="row" flex>
+												<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
+													<input type="number" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
+													placeholder="nombre de jour de peche dernière semaine" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''" ng-max="7">
+													<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
+														role="alert">
+														<div ng-message="max">
+															<span>Nombre maximale autorisé à 7</span>
+														</div>
+													</div>
+												</md-input-container>
+												<md-input-container flex="100" flex-gt-xs="33" ng-if="vm.checkboxPAB">
+													<label>Unite peche</label>
+													<md-select ng-model="vm.echantillon.unite_peche_id"  ng-change="vm.modifierunite_peche(vm.echantillon)" required>
+														<md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
+															{{unite_peche_site.unite_peche.libelle}}
+														</md-option>
+													</md-select>
+													<div ng-messages="echantillonform.unite_peche_id.$error"
+														role="alert">
+														<div ng-message="required">
+															<span>Unite de pêche obligatoire.</span>
+														</div>
+													</div>
+												</md-input-container>
+											</div>
+											<div layout="column" layout-gt-xs="row" flex>
+												<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
+													<input type="number" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
+													placeholder="Nbr bateau actif " ng-init="vm.echantillon.nbr_bateau_actif=''" pattern="\d+">
+													<div ng-messages="echantillonform.nbr_bateau_actif.$error"
+														role="alert">
+														<div ng-message="pattern">
+															<span>Nombre entier seulement</span>
+														</div>
+													</div>
+												</md-input-container>
+												<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
+													<input type="number" name="total_bateau_ecn" ng-model="vm.echantillon.total_bateau_ecn"
+													placeholder="Total bateau ecn" ng-init="vm.echantillon.total_bateau_ecn=''" pattern="\d+">
+													<div ng-messages="echantillonform.total_bateau_ecn.$error"
+														role="alert">
+														<div ng-message="pattern">
+															<span>Nombre entier seulement</span>
+														</div>
+													</div>
+												</md-input-container>
+												<md-input-container flex="100" flex-gt-xs="33" ng-if="!vm.checkboxPAB">
+													<label>Unite peche</label>
+													<md-select ng-model="vm.echantillon.unite_peche_id"  ng-change="vm.modifierunite_peche(vm.echantillon)" required>
+														<md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
+															{{unite_peche_site.unite_peche.libelle}}
+														</md-option>
+													</md-select>
+													<div ng-messages="echantillonform.unite_peche_id.$error"
+														role="alert">
+														<div ng-message="required">
+															<span>Unite de pêche obligatoire.</span>
+														</div>
+													</div>
+												</md-input-container>
+											</div>
+											<!--div layout="column" layout-gt-xs="row" flex>
+												<md-input-container flex="100" flex-gt-xs="33">
+													<label>Unite peche</label>
+													<md-select ng-model="vm.echantillon.unite_peche_id"  ng-change="vm.modifierunite_peche(vm.echantillon)" required>
+														<md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
+															{{unite_peche_site.unite_peche.libelle}}
+														</md-option>
+													</md-select>
+													<div ng-messages="echantillonform.unite_peche_id.$error"
+														role="alert">
+														<div ng-message="required">
+															<span>Unite de pêche obligatoire.</span>
+														</div>
+													</div>
+												</md-input-container>								
+											</div-->
+										<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+											ng-disabled="echantillonform.$invalid " ng-click="vm.ajoutEchantillon(vm.echantillon,0)">
+											Enregistrer
+										</md-button>
+										<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerEchantillon()">
+											Annuler
+										</md-button>
+									</form>
+									<md-divider ></md-divider>
+			    				</div> <br>
+	<!--/FORM ECHANTILLON -->
 								
 								<table class="dataTable row-border hover" datatable="ng"
 								dt-options="vm.dtOptions">
@@ -581,13 +491,70 @@
 			                    <md-button type="submit" ng-show="vm.afficherboutonnouveauEspece_capture==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEspece_capture()" style="width:10%;">
 			                          Nouveau
 			                    </md-button>
-			                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEspece_capture()" style="width:10%;">
+			                    <md-button type="submit" ng-show="vm.afficherboutonModifEspece_capture==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEspece_capture()" style="width:10%;">
 			                          Modifier
 			                    </md-button>
 			                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEspece_capture()" style="width:10%;">
 			                          Supprimer
 			                    </md-button>
 			                </div> 
+
+		<!--FORM FICHE ESPACE CAPTURE --> 
+			    			<div ng-show="vm.affichageMasqueEspece_capture==1"> 
+			        
+			                  <form name="espece_captureform" class="md-inline-form" novalidate >
+			                    <br>
+			                    <div layout="column" layout-gt-xs="row">
+			                      <input type="hidden" ng-model="vm.espece_capture.id">
+			                      <md-input-container flex="100" flex-gt-xs="33">
+			                        <label>Espece</label>
+			                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" md-container-class="mySelect">
+			                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
+			                           <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
+			                          
+			                          </md-option>
+			                        </md-select>
+			                      </md-input-container>
+			                        <md-input-container flex="100" flex-gt-xs="33">
+			                          <input type="number" name="capture" ng-model="vm.espece_capture.capture"
+			                            placeholder="capture " ng-init="vm.espece_capture.capture=''" ng-change="vm.modif_capture()"
+			                            required>
+			                            <div ng-messages="espece_captureform.capture.$error"
+			                              role="alert">
+			                              <div ng-message="required">
+			                                <span>Capture obligatoire.</span>
+			                              </div>
+			                            </div>
+			                        </md-input-container>
+			                        <md-input-container flex="100" flex-gt-xs="33">
+			                          <input type="number" name="prix" ng-model="vm.espece_capture.prix"
+			                            placeholder="prix " ng-init="vm.espece_capture.prix=''"
+			                            ng-disabled="!vm.prix" required pattern="\d+">
+			                            <div ng-messages="espece_captureform.prix.$error"
+			                              role="alert" ng-show="espece_captureform.prix.$touched">
+			                              <div ng-message="required">
+			                                <span>Prix obligatoire.</span>
+			                              </div>
+			                              <div ng-message="pattern">
+			                                <span>Nombre entier seulement</span>
+			                              </div>
+			                            </div>
+			                        </md-input-container>
+			                    </div>
+			                    <div>
+			                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+			                          ng-disabled="espece_captureform.$invalid" ng-click="vm.ajoutEspece_capture(vm.espece_capture,0)">
+			                          Enregistrer
+			                    </md-button>
+			                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerEspece_capture()">
+			                      Annuler
+			                    </md-button>
+			                    </div>
+			                  </form>
+			                   <md-divider ></md-divider>
+			    			</div> <br>
+
+		<!--/FORM FICHE ESPACE CAPTURE -->
 
 			                 <table class="dataTable row-border hover" datatable="ng"
 			                      dt-options="vm.dtOptions">

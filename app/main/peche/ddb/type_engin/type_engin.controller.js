@@ -46,7 +46,7 @@
   		vm.afficherboutonnouveau= 1 ; //variale affichage bouton nouveau		
   		vm.affichageMasque      = 0 ; //variable cache masque de saisie
       vm.Urlimage   = apiUrlserver;
-  		vm.myFile     ={}; 
+  		vm.myFile     = {}; 
       //style
   		vm.dtOptions = {
   			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -63,8 +63,8 @@
       
       $scope.uploadFile = function(event)
       {   
-          var files =event.target.files;
-          vm.myFile=files;
+          var files = event.target.files;
+          vm.myFile = files;
           vm.type_engin.url_image=vm.myFile[0].name;
 
       }  
@@ -90,11 +90,11 @@
               getId = vm.selectedItem.id; 
           } 
           var datas = $.param({
-                supprimer:suppression,
-                id:getId,      
-                code: type_engin.code,
-                libelle: type_engin.libelle,
-                url_image: type_engin.url_image,                              
+                supprimer:  suppression,
+                id:         getId,      
+                code:       type_engin.code,
+                libelle:    type_engin.libelle,
+                url_image:  type_engin.url_image,                              
           });
           
         //factory
@@ -136,11 +136,11 @@
                             type_engin.url_image='';                 
                             var dataurl = $.param(
                             {
-                                supprimer:        suppression,
-                                id:               getIdurl,      
-                                code:             type_engin.code,
-                                libelle:          type_engin.libelle,
-                                url_image:        type_engin.url_image,                              
+                                supprimer: suppression,
+                                id:        getIdurl,      
+                                code:      type_engin.code,
+                                libelle:   type_engin.libelle,
+                                url_image: type_engin.url_image,                              
                             });
                             
                             apiFactory.add("type_engin/index",dataurl,config).success(function(data)
@@ -157,11 +157,11 @@
                         type_engin.url_image=repertoire+data['nomImage'];                 
                         var dataurl = $.param(
                         {
-                            supprimer:        suppression,
-                            id:               getIdurl,      
-                            code:             type_engin.code,
-                            libelle:          type_engin.libelle,
-                            url_image:        type_engin.url_image,                              
+                            supprimer:  suppression,
+                            id:         getIdurl,      
+                            code:       type_engin.code,
+                            libelle:    type_engin.libelle,
+                            url_image:  type_engin.url_image,                              
                         });
                         
                         apiFactory.add("type_engin/index",dataurl,config).success(function(data)
@@ -200,6 +200,7 @@
                 vm.selectedItem.code       = vm.type_engin.code;
                 vm.selectedItem.url_image  = vm.type_engin.url_image;
                 vm.afficherboutonModifSupr = 0 ;
+                vm.afficherboutonModif     = 0 ;
                 vm.afficherboutonnouveau   = 1 ;
                 vm.selectedItem.$selected  = false;
                 vm.selectedItem            ={};
@@ -233,6 +234,7 @@
   			vm.nouvelItem              = item;
   			currentItem                = JSON.parse(JSON.stringify(vm.selectedItem));
   			vm.afficherboutonModifSupr = 1 ;
+        vm.afficherboutonModif     = 1 ;
   			vm.affichageMasque         = 0 ;
   			vm.afficherboutonnouveau   = 1 ;
   	};
@@ -250,11 +252,14 @@
     //function cache masque de saisie
     vm.ajouter = function ()
     {
-  			vm.selectedItem.$selected = false;
-  			vm.affichageMasque = 1 ;
+  			vm.selectedItem.$selected  = false;
+  			vm.affichageMasque         = 1 ;
         //vm.table=0;
-  			vm.type_engin = {} ;
-  			NouvelItem = true ;
+  			vm.type_engin              = {} ;
+  			NouvelItem                 = true ;
+        vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
+        vm.afficherboutonnouveau   = 1 ;
     };
     
     vm.annuler = function()
@@ -264,6 +269,7 @@
         vm.affichageMasque         = 0 ;
         vm.afficherboutonnouveau   = 1 ;
         vm.afficherboutonModifSupr = 0 ;
+        vm.afficherboutonModif     = 0 ;
         NouvelItem                 = false;
     };
     
@@ -274,8 +280,9 @@
         vm.type_engin.id           = vm.selectedItem.id ;
         vm.type_engin.code         = vm.selectedItem.code ;
         vm.type_engin.libelle      = vm.selectedItem.libelle ;
-        vm.type_engin.url_image = vm.selectedItem.url_image;
+        vm.type_engin.url_image    = vm.selectedItem.url_image;
         vm.afficherboutonModifSupr = 0;
+        vm.afficherboutonModif     = 1 ;
         vm.afficherboutonnouveau   = 0;  
     };
     

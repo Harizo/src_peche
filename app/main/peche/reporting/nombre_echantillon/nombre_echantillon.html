@@ -122,6 +122,10 @@
                                 </md-input-container>
                             </div>
                             <div>
+                            <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                  ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.exportexcel(vm.filtre)">
+                                  Exporté en excel
+                            </md-button>
                              <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                                   ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.filtrer(vm.filtre)">
                                   Vérifier nombres d'échantillons

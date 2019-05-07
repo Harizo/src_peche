@@ -18,11 +18,22 @@
     <!-- LISTE TABLE -->
     <div class="content"layout="column">
       <div class="form-wrapper">
-        <div class="white-bg md-whiteframe-4dp">
-          <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
-              <md-tab label="{{vm.titrepage}}">
-                <div class="simple-table-container md-whiteframe-4dp">
-                 
+        <div class="white-bg md-whiteframe-4dp">          
+          <md-tabs md-dynamic-height>
+            <md-tab label="Liste District">
+
+                <div style="widht:100%;">    
+                  <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                      Nouveau
+                  </md-button>
+                  <md-button type="submit" ng-show="vm.afficherboutonModif==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                      Modifier
+                  </md-button>
+                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                      Supprimer
+                  </md-button>
+                </div>
+                <div ng-show="vm.affichageMasque==1">                 
                     <form name="districtform" class="md-inline-form"  novalidate>
                       <div layout="column" layout-gt-xs="row" flex>
                         <input type="hidden" ng-model="vm.district.id"></input>
@@ -65,26 +76,8 @@
                         Annuler
                       </md-button>
                     </form>
-                
+                <md-divider ></md-divider><br>
                 </div>
-              </md-tab>
-            </md-tabs>
-           <div> <br>
-      <div style="widht:100%;">    
-          <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-              Nouveau
-          </md-button>
-          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-              Modifier
-          </md-button>
-          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-              Supprimer
-          </md-button>
-        </div>  
-        <div style="clear:both;"></div>
-        <div class="white-bg md-whiteframe-4dp">
-          <md-tabs md-dynamic-height>
-            <md-tab label="Liste District">
                 <table class="dataTable row-border hover" datatable="ng"
                   dt-options="vm.dtOptions">
                   <thead>
@@ -112,7 +105,6 @@
     <!-- BASIC FORM -->
 
       <!-- / BASIC FORM -->
-      </div>
     </div>
 <!-- / CONTENT -->
 

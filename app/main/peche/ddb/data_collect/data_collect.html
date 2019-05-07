@@ -20,23 +20,11 @@
     <!-- CONTENT -->
             <!-- LISTE TABLE -->
     <div class="content"layout="column">
-      <div class="form-wrapper">
-      <div style="widht:100%;">    
-          <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-              Nouveau
-          </md-button>
-          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-              Modifier
-          </md-button>
-          <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-              Supprimer
-          </md-button>
-        </div>  
-        <div style="clear:both;"></div>
+      <div class="form-wrapper">       
                     <!-- BASIC FORM -->
         <div class="white-bg md-whiteframe-4dp">            
-            <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1" md-stretch-tabs="always">
-              <md-tab label="Ajout Data collect">
+            <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
+              <md-tab label="{{vm.titrepage}}">
                
                 </br>
                   <form name="data_collectform" class="md-inline-form" novalidate>
@@ -80,11 +68,22 @@
             </md-tabs>
         </div>
          <!-- / BASIC FORM -->
-         <dir><p></p></dir>
+         <br>
         <div class="white-bg md-whiteframe-4dp">
             <md-tabs md-dynamic-height>
 
-              <md-tab label="Liste">
+              <md-tab label="Liste d'effort de pêche">
+                <div style="widht:100%;">    
+                  <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                      Nouveau
+                  </md-button>
+                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                      Modifier
+                  </md-button>
+                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                      Supprimer
+                  </md-button>
+                </div>
                 <table class="dataTable row-border hover" datatable="ng"
                   dt-options="vm.dtOptions">
                   <thead>

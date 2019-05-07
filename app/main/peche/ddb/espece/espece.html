@@ -21,13 +21,25 @@
     <!-- CONTENT -->
             <!-- LISTE TABLE -->
     <div class="content"layout="column">
-    <div class="form-wrapper">    
-     <div style="clear:both;"></div> 
-     <!-- BASIC FORM --> 
-     <div class="white-bg md-whiteframe-4dp"> 
-         <md-tabs  md-dynamic-height ng-show="vm.affichageMasque==1">
-            <md-tab label="Ajout Espece">
-                
+    <div class="form-wrapper">
+    <div class="white-bg md-whiteframe-4dp" >
+        <md-tabs md-dynamic-height > 
+            <md-tab label="Liste Espece">
+
+                <div style="widht:100%;">    
+                  <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                    Nouveau
+                  </md-button>
+                  <md-button type="submit" ng-show="vm.afficherboutonModif==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                    Modifier
+                  </md-button>
+                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                    Supprimer
+                  </md-button>
+                </div>
+
+    <!-- BASIC FORM --> 
+                <div ng-show="vm.affichageMasque==1">                
                   <form name="especeform" class="md-inline-form" novalidate >
                     <div layout="column" layout-gt-xs="row"><P></P>
                     </div>
@@ -98,61 +110,16 @@
                     </md-button>
                     </div>
                   </form>
+                  
+                <md-divider></md-divider><br>
+                <!--div layout="column" layout-gt-xs="row" flex >
+                <md-icon md-font-icon="icon-chevron-up"  flex="1" ></md-icon> 
+                <md-divider  flex flex-gt-xs style="margin: auto"></md-divider>
                 
-            </md-tab>
-        </md-tabs>
-    </div> 
-    <!-- / BASIC FORM -->
-
-    <!-- BASIC FORM IMAGE--> 
-     <!--div class="white-bg md-whiteframe-4dp"> 
-         <md-tabs  md-dynamic-height ng-show="vm.affichageMasqueImage==1" >
-            <md-tab label="Ajout File">
-                <md-tab-body>
-                  <form name="imageform" class="md-inline-form" novalidate >
-                    <div layout="column" layout-gt-xs="row">
-                        <md-input-container flex="100" flex-gt-xs="33">
-                          <input type="file" file-upload name="myFile" aria-label="upload" accept="image/*" custom-on-change="uploadFile"  accept="image/*" >
-                            <div ng-messages="imageform.upload.$error"
-                              role="alert">
-                              <div ng-message="required">
-                                <span>File obligatoire.</span>
-                              </div>
-                            </div>
-                        </md-input-container>
-
-                    </div>
-                    <div>
-                     <md-button type="submit" class="md-raised md-accent"
-                          ng-disabled="imageform.$invalid" ng-click="vm.uploadFile()">
-                          Upload
-                    </md-button>
-                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
-                      Annuler
-                    </md-button>
-                    </div>
-                  </form>
-                </md-tab-body>
-            </md-tab>
-        </md-tabs>
-    </div--> 
-    <!-- / BASIC FORM  IMAGE-->
-
-    <div style="widht:100%;" style="position: fixed;right: 0px;top: 0px;">    
-      <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
-        Nouveau
-      </md-button>
-      <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
-        Modifier
-      </md-button>
-      <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
-        Supprimer
-      </md-button>
-    </div>
-   <br>
-    <div class="white-bg md-whiteframe-4dp" >
-        <md-tabs md-dynamic-height > 
-            <md-tab label="Liste Espece">              
+              </div-->
+              
+              </div> 
+      <!-- / BASIC FORM -->              
               
                 <div style="height: 500px; overflow-y: scroll;" id="">
                   <div class="price-tables" flex layout="row" layout-wrap style="padding:20px;">
