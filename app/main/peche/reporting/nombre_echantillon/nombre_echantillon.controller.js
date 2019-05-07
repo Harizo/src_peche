@@ -7,7 +7,7 @@
         .controller('Nombre_echantillonController', Nombre_echantillonController);
 
     /** @ngInject */
-    function Nombre_echantillonController($mdDialog, $scope, apiFactory, $state)
+    function Nombre_echantillonController($mdDialog, $scope, apiFactory, $state,apiUrlexcel)
     {
       var vm      = this;      
       vm.filtre   = {} ;
@@ -187,7 +187,31 @@
       }
 
   
+      vm.exportexcel = function(filtres)
+      {
+          vm.affiche_load = true ;
+          var repertoire = "nombre_echantillon/"
+          apiFactory.getAPIgeneraliserREST("reporting/index","menu","export_excel","annee",filtres.annee,
+            "id_unite_peche",filtres.id_unite_peche,"id_espece",filtres.id_espece,"id_region",filtres.id_region,"id_district",filtres.id_district,
+            "id_site_embarquement",filtres.id_site_embarquement,"repertoire",repertoire).then(function(result)
+          {
+            var status = result.data.status;
+            if(status)
+            {
+              var nom_fiche = result.data.nom_file;              
+              try
+                { 
+                  window.location = apiUrlexcel+"nombre_echantillon/"+nom_fiche ;
+                }catch(error)
+                {
 
+                }finally
+                {
+                  vm.affiche_load = false ;
+                }
+            }
+          });
+      }
      
 
     
