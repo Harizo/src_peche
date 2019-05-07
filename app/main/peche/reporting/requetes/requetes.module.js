@@ -28,7 +28,7 @@
         });
         // Navigation
         msNavigationServiceProvider.saveItem('peche.reporting.requetes', {
-            title: "Autres Requêtes",
+            title: "Requêtes",
             icon  : 'icon-check-circle',
             state: 'app.peche_reporting_requetes',
 			weight: 1

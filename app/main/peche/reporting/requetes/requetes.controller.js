@@ -85,8 +85,18 @@
 
       vm.pivots = [
         {titre:"Req 1 : CPUE journalière / Unité de pêche",id:"req_1"},
-        {titre:"Req2 :CPUEmoy par strate mineure/mois/année",id:"req_2"},
-        {titre:"Req3 : Erreur relative CPUEmoy par strate mineure/mois/année",id:"req_3"}
+        {titre:"Req 2 : CPUEmoy par strate mineure/mois/année",id:"req_2"},
+        {titre:"Req 3 : Erreur relative CPUEmoy par strate mineure/mois/année",id:"req_3"},
+        {titre:"Req 4.1 : Nombre unité de pêche par strate majeure/strate mineure /site",id:"req_4_1"},
+        {titre:"Req 4.2 : Nombre unité de pêche par strate majeure/strate mineure /site",id:"req_4_2"},
+        {titre:"Req 5.1 : PAB ou Probabilité d’Activité de Bateau (Echantillonnage horizontal)",id:"req_5_1"},
+        {titre:"Req 5.2 : PABmoy par l’unité de pêche /strate majeure/strate mineure/Mois/Année",id:"req_5_2"},
+        {titre:"Req 5.3 : Erreur relative PABmoy par unité de pêche par strate mineure/Mois/Année",id:"req_5_3"},
+        {titre:"Req 5.4 : Nombre de jour de pêche PAB par l’unité de pêche/Strate majeur/Strate mineure /Mois /Année",id:"req_5_4"},
+        {titre:"Req 6.1 : Total jour de pêche  annuelle par l’unité de pêche avec PAB",id:"req_6_1"},
+        {titre:"Req 7.1 : Capture par espèces par l’unité de pêche par strate majeure/strate mineure/Année / Mois",id:"req_7_1"},
+        {titre:"Req 7.2 : Total capture par espèces par l’unité de pêche /strate majeure/strate mineure/Année/Mois",id:"req_7_2"},
+        {titre:"Req 7.3 : Composition d’espèce par l’unité de pêche",id:"req_7_3"},
         
         
       ];
@@ -199,6 +209,20 @@
       {
         var float = parseFloat(int);
         var x = vm.replace_point(float.toFixed(2)) ;
+        return x ;
+      }
+
+      vm.parseFloat_0 = function(int)
+      {
+        var float = parseFloat(int);
+        var x = vm.replace_point(float.toFixed(0)) ;
+        return x ;
+      }
+
+      vm.parseFloat_1 = function(int)
+      {
+        var float = parseFloat(int);
+        var x = vm.replace_point(float.toFixed(1)) ;
         return x ;
       }
 
