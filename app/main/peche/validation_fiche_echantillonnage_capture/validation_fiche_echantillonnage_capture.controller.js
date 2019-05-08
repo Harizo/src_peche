@@ -1106,7 +1106,7 @@
               {                  
                   vm.enableUnitepeche = true;
               }
-              /*console.log(nbr_predefini);
+              /*
               console.log(nbr_actuel);
               console.log(nbr_enqueteur_predefini);
               console.log(nbr_enqueteur_actuel);
