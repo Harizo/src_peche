@@ -708,6 +708,7 @@
          vm.afficherboutonModifSuprunite_peche_site = 0;
          vm.afficherboutonModifunite_peche_site     = 0 ;
          vm.afficherboutonnouveauunite_peche_site   = 1;
+         
       };
       
       vm.annulerunite_peche_site = function() 
@@ -847,8 +848,7 @@
                     alert('Error');
           });                
       }
-
- 
+      
 
 /*********** ************************Fin unite_peche_site   *******************************************/     
          

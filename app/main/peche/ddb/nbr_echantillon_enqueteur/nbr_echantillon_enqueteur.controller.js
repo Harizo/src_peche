@@ -21,6 +21,7 @@
     //affichage md-select
     vm.site_embarquement     =false;
     vm.unite_peche           =false;
+    vm.max_nbEchantillon     =0;
 		//style
 		vm.dtOptions = {
 			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -203,6 +204,14 @@
         {
             vm.allunite_peche_site = result.data.response;
         });
+
+        apiFactory.getAPIgeneraliserREST("nbr_echantillon_enqueteur/index","menus","nbr_echantillon",
+          "id_unite_peche",vm.selectedItem.unite_peche.id,"id_site_embarquement",
+          vm.selectedItem.site_embarquement.id).then(function(result)
+      {
+        var nbr_predefini = parseInt(result.data.response.nbr_echantillon_predefini);           
+        vm.max_nbEchantillon = nbr_predefini;          
+      });
     };
     
     vm.supprimer = function()
@@ -275,6 +284,17 @@
               vm.allunite_peche_site = result.data.response;
           });
         }          
+    }
+
+    vm.modifierunite_peche = function (item)
+    {
+      apiFactory.getAPIgeneraliserREST("nbr_echantillon_enqueteur/index","menus","nbr_echantillon",
+          "id_unite_peche",item.unite_peche_id,"id_site_embarquement",
+      item.site_embarquement_id).then(function(result)
+      {
+        var nbr_predefini = parseInt(result.data.response.nbr_echantillon_predefini);           
+        vm.max_nbEchantillon = nbr_predefini;          
+      });
     }
   }
 })();
