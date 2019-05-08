@@ -88,7 +88,7 @@
                           placeholder="Nombre " ng-init="vm.nbr_echantillon_enqueteur.nbr_max_echantillon=''"
                            pattern="\d+" ng-max="vm.max_nbEchantillon" required>
                           <div ng-messages="nbr_echantillon_enqueteurform.nbr_max_echantillon.$error"
-                            role="alert" ng-show="nbr_echantillon_enqueteurform.nbr_max_echantillon.$dirty">
+                            role="alert" ng-show="nbr_echantillon_enqueteurform.nbr_max_echantillon.$dirty ">
                             <div ng-message="required">
                               <span>Nombre d'echantillon obligatoire.</span>
                             </div>

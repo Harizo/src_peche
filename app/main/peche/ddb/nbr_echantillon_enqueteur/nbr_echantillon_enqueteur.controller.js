@@ -293,7 +293,8 @@
       item.site_embarquement_id).then(function(result)
       {
         var nbr_predefini = parseInt(result.data.response.nbr_echantillon_predefini);           
-        vm.max_nbEchantillon = nbr_predefini;          
+        vm.max_nbEchantillon = nbr_predefini;
+        //console.log();          
       });
     }
   }
