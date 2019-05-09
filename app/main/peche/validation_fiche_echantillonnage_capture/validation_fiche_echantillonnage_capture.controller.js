@@ -36,6 +36,7 @@
       vm.currrentSite_embarquement           = [];
       vm.allunite_peche_site                 = [];
       vm.echantillon                         = [];
+      vm.allsite_embarquement                = [];
 
       //variale affichage bouton nouveau
       vm.afficherboutonnouveau               = 1;
@@ -151,7 +152,7 @@
           vm.afficherboutonnouveau            = 1 ;
           vm.afficherboutonfiltre             = 1;
           vm.afficherboutonnouveauEchantillon = 1 ;
-          
+          var effor = item.site_embarquement.type_effort_peche;
           //recuperation echantillon quand id_echantillon = item.id                  = [];
           apiFactory.getFils("echantillon/index",item.id).then(function(result)
           {
@@ -161,10 +162,37 @@
               }catch(e){
 
               }finally{
-                vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                if(effor == '0')
+                {
+                  vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
                   {
                       return obj.data_collect.code == 'PAB';
                   });
+                  vm.checkboxPAB = true;
+                  vm.checkboxCAB = false;
+                  vm.checkboxenable = false;
+                }
+                else if(effor == '1')
+                {
+                  vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                  {
+                      return obj.data_collect.code == 'CAB';
+                  });
+                  vm.checkboxPAB = false;
+                  vm.checkboxCAB = true;
+                  vm.checkboxenable = false;
+                }
+                else
+                {
+                  vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                  {
+                      return obj.data_collect.code == 'PAB';
+                  });
+                  vm.checkboxPAB = true;
+                  vm.checkboxCAB = false;
+                  vm.checkboxenable = true;
+                }
+                
               }
            });
           //recuperation unite_peche quand id_site_embarquement = item.site_embarquement.id
@@ -173,9 +201,11 @@
               vm.allunite_peche_site = result.data.response;
               
           });
-          vm.checkboxPAB = true;
-          vm.checkboxCAB = false;
-          vm.step1       = true;  
+          
+          vm.step1       = true;
+          vm.affichageMasque = 0;
+          vm.affichageMasqueEchantillon = 0;
+          vm.affichageMasqueEspece_capture = 0;  
       };
       $scope.$watch('vm.selectedItem', function()
       {
@@ -612,6 +642,8 @@
         vm.afficherboutonModifEchantillon       = 1 ;
         vm.afficherboutonnouveauEspece_capture  = 1 ;
         vm.affichageMasqueEchantillon           = 0 ;
+        vm.affichageMasque                      = 0;
+        vm.affichageMasqueEspece_capture        = 0;
         
         //find espece_capture where id echantillon item.id  
         apiFactory.getFils("espece_capture/index",item.id).then(function(result)
@@ -766,24 +798,9 @@
             }
             else
             {
-                $mdDialog.show(
-                    $mdDialog.alert()
-                      .clickOutsideToClose(true)
-                      .title('Impossible de supprimer')
-                      .textContent('Vous devrez suprimer l(es) echantillon(s) plus recent')
-                      .ariaLabel('Offscreen Demo')
-                      .parent(angular.element(document.body))
-                      .ok('Fermer')
-                      // Or you can specify the rect to do the transition from
-                      .openFrom({
-                        top: -50,
-                        width: 30,
-                        height: 80
-                      })
-                      .closeTo({
-                        left: 1500
-                      })
-                  );
+                  var titre = 'Impossible de supprimer';
+                  var msg = 'Vous devrez suprimer l(es) echantillon(s) plus recent';
+                  vm.dialog(msg,titre);
             }
           
         }, function()
@@ -1092,15 +1109,17 @@
               
               if (nbr_predefini==0 || nbr_enqueteur_predefini==0) 
               { 
-                  vm.enableUnitepeche = false;                  
+                  vm.enableUnitepeche = false;
+                  var titre = 'Selection impossible';                  
                   var msg = 'Le nombre de cet unite de pêche n\'est pas definie';
-                  vm.dialog(msg);
+                  vm.dialog(msg,titre);
               }
               else if (nbr_actuel>=nbr_predefini || nbr_enqueteur_actuel>=nbr_enqueteur_predefini)
               {
                   vm.enableUnitepeche = false;
-                  var msg = 'Nombre maximal atteint pour cet unité de peche'
-                  vm.dialog(msg);
+                  var titre = 'Selection impossible';
+                  var msg = 'Nombre maximal atteint pour cet unité de peche';
+                  vm.dialog(msg,titre);
               }
               else
               {                  
@@ -1123,12 +1142,12 @@
         
       }
 
-      vm.dialog = function(msg)
+      vm.dialog = function(msg,titre)
       {
         $mdDialog.show(
                     $mdDialog.alert()
                       .clickOutsideToClose(true)
-                      .title('Selection impossible')
+                      .title(titre)
                       .textContent(msg)
                       .ariaLabel('Offscreen Demo')
                       .parent(angular.element(document.body))
@@ -1155,7 +1174,9 @@
       currentItemEspece_capture     = vm.selectedItemEspece_capture;
       vm.afficherboutonModifSuprEspece_capture  = 1 ;
       vm.afficherboutonModifEspece_capture      = 1;
-      vm.affichageMasqueEspece_capture          = 0 ; 
+      vm.affichageMasqueEspece_capture          = 0 ;
+      vm.affichageMasque                        = 0;
+      vm.affichageMasqueEchantillon             = 0; 
       vm.step3 = true;
   };
 

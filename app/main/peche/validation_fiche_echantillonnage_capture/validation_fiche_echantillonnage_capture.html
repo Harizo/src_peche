@@ -261,8 +261,8 @@
 								<div style="clear:both;"></div>
 								<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 2</md-button >
 								<div style="padding: 10px">
-									<md-checkbox ng-model="vm.checkboxPAB" ng-change="vm.recuperationPab(vm.checkboxPAB)"> PAB </md-checkbox>		            
-						            <md-checkbox ng-model="vm.checkboxCAB" ng-change="vm.recuperationCab(vm.checkboxCAB)"> CAB </md-checkbox>
+									<md-checkbox ng-model="vm.checkboxPAB" ng-change="vm.recuperationPab(vm.checkboxPAB)" ng-disabled="!vm.checkboxenable"> PAB </md-checkbox>		            
+						            <md-checkbox ng-model="vm.checkboxCAB" ng-change="vm.recuperationCab(vm.checkboxCAB)"ng-disabled="!vm.checkboxenable"> CAB </md-checkbox>
 						        </div>
 								<div style="widht:100%;">    
 									<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
