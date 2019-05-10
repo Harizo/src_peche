@@ -698,7 +698,8 @@
         vm.afficherboutonModifSuprunite_peche_site = 0;
         vm.afficherboutonModifunite_peche_site     = 1;
         vm.afficherboutonnouveauunite_peche_site   = 0;
-        vm.enableUnitepeche                        = true;       
+        vm.enableUnitepeche                        = true; 
+            
       };
 
       vm.ajouterunite_peche_site = function () 
