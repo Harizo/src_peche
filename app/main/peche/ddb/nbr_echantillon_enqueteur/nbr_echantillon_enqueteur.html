@@ -104,7 +104,7 @@
 
                   </div>
                   <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                        ng-disabled="nbr_echantillon_enqueteurform.$invalid" ng-click="vm.ajout(vm.nbr_echantillon_enqueteur,0)">
+                        ng-disabled="nbr_echantillon_enqueteurform.$invalid || !vm.enableUnite_peche" ng-click="vm.ajout(vm.nbr_echantillon_enqueteur,0)">
                         Enregistrer
                   </md-button>
                   <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">

@@ -1494,9 +1494,32 @@
               return date_final
           }      
       }
-      vm.modif_capture = function()
-      {
-        vm.prix = true;
+      vm.modif_capture = function(espece)
+      { 
+        if (espece.capture == 0)
+        {
+          vm.espece_capture.prix = 0;
+          vm.prix = false;
+        }
+        else
+        { 
+          if(vm.espece_capture.prix==0)
+          {
+            vm.espece_capture.prix = '';
+          }          
+          vm.prix = true;
+        }
+        
+      }
+
+      vm.modif_prix = function(espece)
+      { 
+        if (espece.prix == 0)
+        {
+          vm.espece_capture.capture = 0;
+          vm.prix = false;
+        }
+        
       }
 
     }

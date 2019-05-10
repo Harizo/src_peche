@@ -703,14 +703,15 @@
       };
 
       vm.ajouterunite_peche_site = function () 
-      {  vm.selectedItemunite_peche_site.$selected  = false;
-         vm.affichageMasqueunite_peche_site         = 1 ;
-         vm.unite_peche_site = {} ;
-         NouvelItemunite_peche_site                 = true ;
-         vm.afficherboutonModifSuprunite_peche_site = 0;
-         vm.afficherboutonModifunite_peche_site     = 0;
-         vm.afficherboutonnouveauunite_peche_site   = 1;
-         vm.enableUnitepeche                        = false;
+      {  
+        vm.selectedItemunite_peche_site.$selected  = false;
+        vm.affichageMasqueunite_peche_site         = 1 ;
+        vm.unite_peche_site = {} ;
+        NouvelItemunite_peche_site                 = true ;
+        vm.afficherboutonModifSuprunite_peche_site = 0;
+        vm.afficherboutonModifunite_peche_site     = 0;
+        vm.afficherboutonnouveauunite_peche_site   = 1;
+        vm.enableUnitepeche                        = false;
          
       };
       
