@@ -361,6 +361,8 @@
                       {
                          insert_in_base(item,suppression);
                          vm.affichageMasque = 0;
+                         console.log('test');
+                         console.log(item);
                       }
                       else
                       {  
@@ -380,12 +382,12 @@
 
         var getId      = 0;
         var userId     = vm.allutilisateur.id;
-        var codeunique = '';
+        //var codeunique = '';
         if (NouvelItem==false) 
         {
           getId       = vm.selectedItem.id;
           userId      = vm.selectedItem.user.id;
-          codeunique  = vm.selectedItem.code_unique;         
+         // codeunique  = vm.selectedItem.code_unique;         
         } 
        
           var date = new Date(fiche_echantillonnage_capture.date);
@@ -396,7 +398,7 @@
           supprimer:            suppression,
           id:                   getId,
           date:                 date_fiche,
-          code_unique:          codeunique,
+         // code_unique:          codeunique,
           longitude:            fiche_echantillonnage_capture.longitude,
           latitude:             fiche_echantillonnage_capture.latitude,
           altitude:             fiche_echantillonnage_capture.altitude,
@@ -438,14 +440,14 @@
             {
               return obj.id == userId;
             });*/
-            
+            var code_unique=data.response.code_unique;
             if (NouvelItem == false) 
               {
                 // Update or delete: id exclu
                 //var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
                 if(suppression==0) 
                   { // vm.selectedItem ={};                    
-                    vm.selectedItem.code_unique       = codeunique;
+                    vm.selectedItem.code_unique       = code_unique;
                     vm.selectedItem.date              = date_fiche;
                     vm.selectedItem.date_creation     = vm.fiche_echantillonnage_capture.date_creation;
                     vm.selectedItem.date_modification = date_dujour;
@@ -479,7 +481,7 @@
               else
               { 
                 var id=data.response.id;
-                var code_unique=data.response.code_unique;
+                
 
                 var item = 
                 {
