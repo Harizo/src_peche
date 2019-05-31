@@ -97,6 +97,9 @@
         {titre:"Req 7.1 : Capture par espèces par l’unité de pêche par strate majeure/strate mineure/Année / Mois",id:"req_7_1"},
         {titre:"Req 7.2 : Total capture par espèces par l’unité de pêche /strate majeure/strate mineure/Année/Mois",id:"req_7_2"},
         {titre:"Req 7.3 : Composition d’espèce par l’unité de pêche",id:"req_7_3"},
+        {titre:"Req 8 : Prix PAB par espèces par l’unité de pêche/Strate majeure/Strate mineure/Année/Mois",id:"req_8"},
+        {titre:"Req 9 : Unité de pêche par site",id:"req_9"},
+        {titre:"Req 10 : Targeted Unité de pêche par strate mineure par Année / Mois",id:"req_10"},
         
         
       ];
