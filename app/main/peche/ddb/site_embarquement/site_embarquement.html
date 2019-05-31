@@ -33,7 +33,7 @@
 	                        </md-tab-label>
 
 	                       <md-tab-body ms-form-wizard-form>
-	                       		<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 1</md-button >
+	                       		<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Onglet 1</md-button >
 	                       		 <div style="widht:100%;">    
 									<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
 										Nouveau
@@ -217,7 +217,7 @@
 	                            </span>
 	                        </md-tab-label>
 	                        <md-tab-body ms-form-wizard-form>
-	                        	<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 2</md-button >
+	                        	<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Onglet 2: Liste enqueteur pour ce site</md-button >
 	                       		 <div style="widht:100%;">    
 									<md-button type="submit" ng-show="vm.afficherboutonnouveausite_enqueteur==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajoutersite_enqueteur()" style="width:10%;">
 										Nouveau
@@ -304,7 +304,7 @@
 	                            </span>
 	                        </md-tab-label>
 	                        <md-tab-body ms-form-wizard-form>
-	                        <md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 3</md-button >
+	                        <md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Onglet 3: Liste unite de pêche pour ce site</md-button >
 	                       		 <div style="widht:100%;">    
 									<md-button type="submit" ng-show="vm.afficherboutonnouveauunite_peche_site==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterunite_peche_site()" style="width:10%;">
 										Nouveau
@@ -333,9 +333,21 @@
 					                              </md-select>
 					                      </md-input-container>
 
+											<md-input-container flex="100" flex-gt-xs="33">
+												<input type="text" name="type_canoe" ng-model="vm.unite_peche_site.type_canoe"
+												placeholder="Type canoe" 
+												disabled>
+											</md-input-container>
+
+					                      <md-input-container flex="100" flex-gt-xs="33">
+												<input type="text" name="type_engin" ng-model="vm.unite_peche_site.type_engin"
+												placeholder="Type engin" 
+												disabled>
+											</md-input-container>
+
 					                      <md-input-container flex="100" flex-gt-xs="33">
 					                        <input type="number" name="nbr_echantillon" ng-model="vm.unite_peche_site.nbr_echantillon"
-					                          placeholder="Nombre " ng-init="vm.unite_peche_site.nbr_echantillon=''"
+					                          placeholder="Nombre echantillon" ng-init="vm.unite_peche_site.nbr_echantillon=''"
 					                          required>
 					                          <div ng-messages="unite_peche_siteform.nbr_echantillon.$error"
 					                            role="alert">
@@ -347,7 +359,7 @@
 
 					                  </div>
 					                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-					                        ng-disabled="unite_peche_siteform.$invalid" ng-click="vm.ajoutunite_peche_site(vm.unite_peche_site,0)">
+					                        ng-disabled="unite_peche_siteform.$invalid || !vm.enableUnitepeche" ng-click="vm.ajoutunite_peche_site(vm.unite_peche_site,0)">
 					                        Enregistrer
 					                  </md-button>
 					                  <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerunite_peche_site()">

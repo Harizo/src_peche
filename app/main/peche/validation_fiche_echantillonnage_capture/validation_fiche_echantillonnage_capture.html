@@ -261,8 +261,8 @@
 								<div style="clear:both;"></div>
 								<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 2</md-button >
 								<div style="padding: 10px">
-									<md-checkbox ng-model="vm.checkboxPAB" ng-change="vm.recuperationPab(vm.checkboxPAB)"> PAB </md-checkbox>		            
-						            <md-checkbox ng-model="vm.checkboxCAB" ng-change="vm.recuperationCab(vm.checkboxCAB)"> CAB </md-checkbox>
+									<md-checkbox ng-model="vm.checkboxPAB" ng-change="vm.recuperationPab(vm.checkboxPAB)" ng-disabled="!vm.checkboxenable"> PAB </md-checkbox>		            
+						            <md-checkbox ng-model="vm.checkboxCAB" ng-change="vm.recuperationCab(vm.checkboxCAB)"ng-disabled="!vm.checkboxenable"> CAB </md-checkbox>
 						        </div>
 								<div style="widht:100%;">    
 									<md-button type="submit" ng-show="vm.afficherboutonnouveauEchantillon==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEchantillon()" style="width:10%;">
@@ -371,11 +371,11 @@
 														<div ng-message="required">
 															<span>Unite de pêche obligatoire.</span>
 														</div>
-													</div>
+													</divv>
 												</md-input-container>								
-											</div-->
+											</div -->
 										<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-											ng-disabled="echantillonform.$invalid " ng-click="vm.ajoutEchantillon(vm.echantillon,0)">
+											ng-disabled="echantillonform.$invalid || !vm.enableUnitepeche " ng-click="vm.ajoutEchantillon(vm.echantillon,0)">
 											Enregistrer
 										</md-button>
 										<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerEchantillon()">
@@ -508,16 +508,23 @@
 			                      <input type="hidden" ng-model="vm.espece_capture.id">
 			                      <md-input-container flex="100" flex-gt-xs="33">
 			                        <label>Espece</label>
-			                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" md-container-class="mySelect">
+			                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" md-container-class="mySelect"
+			                        required>
 			                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
 			                           <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
 			                          
 			                          </md-option>
+			                          <div ng-messages="espece_captureform.espece_id.$error"
+			                              role="alert">
+			                              <div ng-message="required">
+			                                <span>Espece capture obligatoire.</span>
+			                              </div>
+			                            </div>
 			                        </md-select>
 			                      </md-input-container>
 			                        <md-input-container flex="100" flex-gt-xs="33">
 			                          <input type="number" name="capture" ng-model="vm.espece_capture.capture"
-			                            placeholder="capture " ng-init="vm.espece_capture.capture=''" ng-change="vm.modif_capture()"
+			                            placeholder="capture " ng-init="vm.espece_capture.capture=''" ng-change="vm.modif_capture(vm.espece_capture)"
 			                            required>
 			                            <div ng-messages="espece_captureform.capture.$error"
 			                              role="alert">
@@ -529,9 +536,9 @@
 			                        <md-input-container flex="100" flex-gt-xs="33">
 			                          <input type="number" name="prix" ng-model="vm.espece_capture.prix"
 			                            placeholder="prix " ng-init="vm.espece_capture.prix=''"
-			                            ng-disabled="!vm.prix" required pattern="\d+">
+			                            ng-disabled="!vm.prix" pattern="\d+" ng-change="vm.modif_prix(vm.espece_capture)" required>
 			                            <div ng-messages="espece_captureform.prix.$error"
-			                              role="alert" ng-show="espece_captureform.prix.$touched">
+			                              role="alert" ng-show="espece_captureform.prix.$dirty">
 			                              <div ng-message="required">
 			                                <span>Prix obligatoire.</span>
 			                              </div>

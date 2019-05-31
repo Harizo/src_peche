@@ -26,7 +26,9 @@
       vm.selectedItem                        = {};
       vm.selectedItem.$selected              = false;
       vm.selectedItemEchantillon             = {};
+      vm.selectedItemEchantillon.$selected   = false;
       vm.selectedItemEspece_capture          = {};
+      vm.selectedItemEspece_capture.$selected= false;
       
       vm.allfiche_echantillonnage_capture    = [];
       vm.allechantillon                      = [];
@@ -34,6 +36,7 @@
       vm.currrentSite_embarquement           = [];
       vm.allunite_peche_site                 = [];
       vm.echantillon                         = [];
+      vm.allsite_embarquement                = [];
 
       //variale affichage bouton nouveau
       vm.afficherboutonnouveau               = 1;
@@ -58,6 +61,7 @@
       vm.filtrepardate = {} ;
       vm.filtrepardate.date_fin = new Date() ;
       vm.num_dernier_code = 0;
+      vm.enableUnitepeche = false;
       
 //style
       vm.dtOptions =
@@ -140,6 +144,7 @@
             vm.step1 = false;
             vm.step2 = false;
             vm.step3 = false;
+            vm.enableUnitepeche = false;
           }
           currentItem = vm.selectedItem;
           vm.afficherboutonModifSupr          = 1 ;
@@ -147,7 +152,7 @@
           vm.afficherboutonnouveau            = 1 ;
           vm.afficherboutonfiltre             = 1;
           vm.afficherboutonnouveauEchantillon = 1 ;
-          
+          var effor = item.site_embarquement.type_effort_peche;
           //recuperation echantillon quand id_echantillon = item.id                  = [];
           apiFactory.getFils("echantillon/index",item.id).then(function(result)
           {
@@ -157,10 +162,37 @@
               }catch(e){
 
               }finally{
-                vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                if(effor == '0')
+                {
+                  vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
                   {
                       return obj.data_collect.code == 'PAB';
                   });
+                  vm.checkboxPAB = true;
+                  vm.checkboxCAB = false;
+                  vm.checkboxenable = false;
+                }
+                else if(effor == '1')
+                {
+                  vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                  {
+                      return obj.data_collect.code == 'CAB';
+                  });
+                  vm.checkboxPAB = false;
+                  vm.checkboxCAB = true;
+                  vm.checkboxenable = false;
+                }
+                else
+                {
+                  vm.echantillonfiltre = vm.allechantillon.filter(function(obj)
+                  {
+                      return obj.data_collect.code == 'PAB';
+                  });
+                  vm.checkboxPAB = true;
+                  vm.checkboxCAB = false;
+                  vm.checkboxenable = true;
+                }
+                
               }
            });
           //recuperation unite_peche quand id_site_embarquement = item.site_embarquement.id
@@ -169,9 +201,11 @@
               vm.allunite_peche_site = result.data.response;
               
           });
-          vm.checkboxPAB = true;
-          vm.checkboxCAB = false;
-          vm.step1       = true;  
+          
+          vm.step1       = true;
+          vm.affichageMasque = 0;
+          vm.affichageMasqueEchantillon = 0;
+          vm.affichageMasqueEspece_capture = 0;  
       };
       $scope.$watch('vm.selectedItem', function()
       {
@@ -327,6 +361,8 @@
                       {
                          insert_in_base(item,suppression);
                          vm.affichageMasque = 0;
+                         console.log('test');
+                         console.log(item);
                       }
                       else
                       {  
@@ -346,12 +382,12 @@
 
         var getId      = 0;
         var userId     = vm.allutilisateur.id;
-        var codeunique = '';
+        //var codeunique = '';
         if (NouvelItem==false) 
         {
           getId       = vm.selectedItem.id;
           userId      = vm.selectedItem.user.id;
-          codeunique  = vm.selectedItem.code_unique;         
+         // codeunique  = vm.selectedItem.code_unique;         
         } 
        
           var date = new Date(fiche_echantillonnage_capture.date);
@@ -362,7 +398,7 @@
           supprimer:            suppression,
           id:                   getId,
           date:                 date_fiche,
-          code_unique:          codeunique,
+         // code_unique:          codeunique,
           longitude:            fiche_echantillonnage_capture.longitude,
           latitude:             fiche_echantillonnage_capture.latitude,
           altitude:             fiche_echantillonnage_capture.altitude,
@@ -404,14 +440,14 @@
             {
               return obj.id == userId;
             });*/
-            
+            var code_unique=data.response.code_unique;
             if (NouvelItem == false) 
               {
                 // Update or delete: id exclu
                 //var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
                 if(suppression==0) 
                   { // vm.selectedItem ={};                    
-                    vm.selectedItem.code_unique       = codeunique;
+                    vm.selectedItem.code_unique       = code_unique;
                     vm.selectedItem.date              = date_fiche;
                     vm.selectedItem.date_creation     = vm.fiche_echantillonnage_capture.date_creation;
                     vm.selectedItem.date_modification = date_dujour;
@@ -445,7 +481,7 @@
               else
               { 
                 var id=data.response.id;
-                var code_unique=data.response.code_unique;
+                
 
                 var item = 
                 {
@@ -608,6 +644,8 @@
         vm.afficherboutonModifEchantillon       = 1 ;
         vm.afficherboutonnouveauEspece_capture  = 1 ;
         vm.affichageMasqueEchantillon           = 0 ;
+        vm.affichageMasque                      = 0;
+        vm.affichageMasqueEspece_capture        = 0;
         
         //find espece_capture where id echantillon item.id  
         apiFactory.getFils("espece_capture/index",item.id).then(function(result)
@@ -615,7 +653,8 @@
             vm.allespece_capture = result.data.response;            
         });
             vm.step2=true;
-            vm.step3=false; 
+            vm.step3=false;
+            vm.enableUnitepeche = false; 
 
     };
 
@@ -632,6 +671,7 @@
     vm.modifierEchantillon = function() 
     { 
         NouvelItemEchantillon = false ;
+        vm.enableUnitepeche = true;
         vm.affichageMasqueEchantillon    = 1 ;
         vm.affichageMasque               = 0 ;
         vm.affichageMasqueEspece_capture = 0 ;
@@ -669,20 +709,30 @@
     };
 
     vm.annulerEchantillon = function() 
-    {
-        vm.selectedItemEchantillon            = {} ;
-        vm.selectedItemEchantillon.$selected  = false;
-        vm.affichageMasqueEchantillon         = 0 ;
-        vm.afficherboutonnouveauEchantillon   = 1 ;
-        vm.afficherboutonModifSuprEchantillon = 0 ;
-        vm.afficherboutonModifEchantillon     = 0 ;
-        NouvelItemEchantillon                 = false;
-        vm.prix = false;
+    {   
+        try
+        {
+          vm.selectedItemEchantillon            = {} ;        
+          vm.affichageMasqueEchantillon         = 0 ;
+          vm.afficherboutonnouveauEchantillon   = 1 ;
+          vm.afficherboutonModifSuprEchantillon = 0 ;
+          vm.afficherboutonModifEchantillon     = 0 ;
+          NouvelItemEchantillon                 = false;
+          vm.prix = false;
+          vm.enableUnitepeche = false;
+        }catch(e){}
+        finally
+        {
+          vm.selectedItemEchantillon.$selected  = false;
+        }
+        
+        
     };
 
     vm.ajouterEchantillon = function () 
     {         
         vm.selectedItemEchantillon.$selected = false;
+        vm.enableUnitepeche = false;
         vm.prix   = false;
         vm.step2  = false;
         vm.step3  = false;
@@ -750,24 +800,9 @@
             }
             else
             {
-                $mdDialog.show(
-                    $mdDialog.alert()
-                      .clickOutsideToClose(true)
-                      .title('Impossible de supprimer')
-                      .textContent('Vous devrez suprimer l(es) echantillon(s) plus recent')
-                      .ariaLabel('Offscreen Demo')
-                      .parent(angular.element(document.body))
-                      .ok('Fermer')
-                      // Or you can specify the rect to do the transition from
-                      .openFrom({
-                        top: -50,
-                        width: 30,
-                        height: 80
-                      })
-                      .closeTo({
-                        left: 1500
-                      })
-                  );
+                  var titre = 'Impossible de supprimer';
+                  var msg = 'Vous devrez suprimer l(es) echantillon(s) plus recent';
+                  vm.dialog(msg,titre);
             }
           
         }, function()
@@ -1049,6 +1084,87 @@
 
 
 }*/
+    vm.modifierunite_peche = function(unite_peche)
+      { var year = vm.date_now.getFullYear();
+       // console.log(year);
+       var unite_peche_recent = 0;
+       
+       if (vm.selectedItemEchantillon.$selected)
+       {
+          unite_peche_recent= vm.selectedItemEchantillon.unite_peche.id;
+       }
+
+       // console.log(unite_peche_recent);
+       // console.log(unite_peche.unite_peche_id);
+        if (unite_peche_recent!=unite_peche.unite_peche_id)
+        {
+            apiFactory.getAPIgeneraliserREST("unite_peche_site/index","menus","nbr_echantillon",
+          "id_unite_peche",unite_peche.unite_peche_id,"id_site_embarquement",
+          vm.selectedItem.site_embarquement.id,"annee",year,"id_enqueteur",vm.selectedItem.enqueteur.id).then(function(result)
+          {
+            var nbr_predefini = parseInt(result.data.response.nbr_echantillon_predefini);
+            var nbr_actuel = parseInt(result.data.response.nbr_echantillon_actuel);
+
+            var nbr_enqueteur_predefini = parseInt(result.data.response.nbr_echantillon_enqueteur_predefini);
+            var nbr_enqueteur_actuel = parseInt(result.data.response.nbr_echantillon_enqueteur_actuel);
+
+              
+              if (nbr_predefini==0 || nbr_enqueteur_predefini==0) 
+              { 
+                  vm.enableUnitepeche = false;
+                  var titre = 'Selection impossible';                  
+                  var msg = 'Le nombre de cet unite de pêche n\'est pas definie';
+                  vm.dialog(msg,titre);
+              }
+              else if (nbr_actuel>=nbr_predefini || nbr_enqueteur_actuel>=nbr_enqueteur_predefini)
+              {
+                  vm.enableUnitepeche = false;
+                  var titre = 'Selection impossible';
+                  var msg = 'Nombre maximal atteint pour cet unité de peche';
+                  vm.dialog(msg,titre);
+              }
+              else
+              {                  
+                  vm.enableUnitepeche = true;
+              }
+              /*console.log(nbr_predefini);
+              console.log(nbr_actuel);
+              console.log(nbr_enqueteur_predefini);
+              console.log(nbr_enqueteur_actuel);
+              console.log(vm.enableUnitepeche);*/
+
+          });
+        }
+        else
+        {
+          vm.enableUnitepeche = true;
+          console.log(vm.selectedItemEchantillon);
+        }
+
+        
+      }
+
+      vm.dialog = function(msg,titre)
+      {
+        $mdDialog.show(
+                    $mdDialog.alert()
+                      .clickOutsideToClose(true)
+                      .title(titre)
+                      .textContent(msg)
+                      .ariaLabel('Offscreen Demo')
+                      .parent(angular.element(document.body))
+                      .ok('Fermer')
+                      // Or you can specify the rect to do the transition from
+                      .openFrom({
+                        top: -50,
+                        width: 30,
+                        height: 80
+                      })
+                      .closeTo({
+                        left: 1500
+                      })
+                  );
+      }
 
 /******************************************** Fin echantillon  ******************************************************/
 
@@ -1060,7 +1176,9 @@
       currentItemEspece_capture     = vm.selectedItemEspece_capture;
       vm.afficherboutonModifSuprEspece_capture  = 1 ;
       vm.afficherboutonModifEspece_capture      = 1;
-      vm.affichageMasqueEspece_capture          = 0 ; 
+      vm.affichageMasqueEspece_capture          = 0 ;
+      vm.affichageMasque                        = 0;
+      vm.affichageMasqueEchantillon             = 0; 
       vm.step3 = true;
   };
 
@@ -1378,9 +1496,32 @@
               return date_final
           }      
       }
-      vm.modif_capture = function()
-      {
-        vm.prix = true;
+      vm.modif_capture = function(espece)
+      { 
+        if (espece.capture == 0)
+        {
+          vm.espece_capture.prix = 0;
+          vm.prix = false;
+        }
+        else
+        { 
+          if(vm.espece_capture.prix==0)
+          {
+            vm.espece_capture.prix = '';
+          }          
+          vm.prix = true;
+        }
+        
+      }
+
+      vm.modif_prix = function(espece)
+      { 
+        if (espece.prix == 0)
+        {
+          vm.espece_capture.capture = 0;
+          vm.prix = false;
+        }
+        
       }
 
     }

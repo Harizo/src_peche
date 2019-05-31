@@ -104,10 +104,10 @@
            titre:"Libelle"
          },
          {
-           titre:'Type engin'
+           titre:"Type canoe"
          },
          {
-           titre:"Type canoe"
+           titre:'Type engin'
          },
          {
            titre:"Nombre echantillon"
@@ -547,8 +547,7 @@
           });
         };
         function test_existancesite_enqueteur (item,suppression) 
-        {
-           
+        {           
             if (suppression!=1) 
             {
                 vm.allsite_enqueteur.forEach(function(dist) {
@@ -668,15 +667,14 @@
 
 /*********** ************************Fin unite_peche_site  *******************************************/
       vm.selectionunite_peche_site= function (item)
-      {  vm.selectedItemunite_peche_site            = item;
+      {  
+        vm.selectedItemunite_peche_site            = item;
          vm.NouvelItemunite_peche_site              = item;
          currentItemunite_peche_site                = JSON.parse(JSON.stringify(vm.selectedItemunite_peche_site));
          vm.afficherboutonModifSuprunite_peche_site = 1 ;
          vm.afficherboutonModifunite_peche_site     = 1 ;
          vm.affichageMasqueunite_peche_site         = 0 ;
-         vm.afficherboutonnouveauunite_peche_site   = 1 ;   
-
-            
+         vm.afficherboutonnouveauunite_peche_site   = 1 ;         
       };
 
       $scope.$watch('vm.selectedItemunite_peche_site', function()
@@ -689,25 +687,32 @@
       });
 
       vm.modifierunite_peche_site = function() 
-      {  NouvelItemunite_peche_site             = false ;
-         vm.affichageMasqueunite_peche_site     = 1 ;
-         vm.unite_peche_site.id      = vm.selectedItemunite_peche_site.id; 
+      { NouvelItemunite_peche_site             = false ;
+        vm.affichageMasqueunite_peche_site     = 1 ;
+        vm.unite_peche_site.id                 = vm.selectedItemunite_peche_site.id; 
 
-        vm.unite_peche_site.unite_peche_id = vm.selectedItemunite_peche_site.unite_peche.id ; 
-        vm.unite_peche_site.nbr_echantillon = parseInt(vm.selectedItemunite_peche_site.nbr_echantillon) ;      
-         vm.afficherboutonModifSuprunite_peche_site = 0;
-         vm.afficherboutonModifunite_peche_site     = 1 ;
-         vm.afficherboutonnouveauunite_peche_site   = 0; 
+        vm.unite_peche_site.unite_peche_id  = vm.selectedItemunite_peche_site.unite_peche.id ; 
+        vm.unite_peche_site.nbr_echantillon = parseInt(vm.selectedItemunite_peche_site.nbr_echantillon) ;
+        vm.unite_peche_site.type_engin      = vm.selectedItemunite_peche_site.type_engin.libelle;
+        vm.unite_peche_site.type_canoe      = vm.selectedItemunite_peche_site.type_canoe.nom;      
+        vm.afficherboutonModifSuprunite_peche_site = 0;
+        vm.afficherboutonModifunite_peche_site     = 1;
+        vm.afficherboutonnouveauunite_peche_site   = 0;
+        vm.enableUnitepeche                        = true; 
+            
       };
 
       vm.ajouterunite_peche_site = function () 
-      {  vm.selectedItemunite_peche_site.$selected  = false;
-         vm.affichageMasqueunite_peche_site         = 1 ;
-         vm.unite_peche_site = {} ;
-         NouvelItemunite_peche_site                 = true ;
-         vm.afficherboutonModifSuprunite_peche_site = 0;
-         vm.afficherboutonModifunite_peche_site     = 0 ;
-         vm.afficherboutonnouveauunite_peche_site   = 1;
+      {  
+        vm.selectedItemunite_peche_site.$selected  = false;
+        vm.affichageMasqueunite_peche_site         = 1 ;
+        vm.unite_peche_site = {} ;
+        NouvelItemunite_peche_site                 = true ;
+        vm.afficherboutonModifSuprunite_peche_site = 0;
+        vm.afficherboutonModifunite_peche_site     = 0;
+        vm.afficherboutonnouveauunite_peche_site   = 1;
+        vm.enableUnitepeche                        = false;
+         
       };
       
       vm.annulerunite_peche_site = function() 
@@ -718,6 +723,7 @@
          vm.afficherboutonModifSuprunite_peche_site = 0 ;
          vm.afficherboutonModifunite_peche_site     = 0 ;
          NouvelItemunite_peche_site                 = false;
+         vm.enableUnitepeche                        = false;
       };
       vm.supprimerunite_peche_site = function() 
       {  vm.afficherboutonModifSuprunite_peche_site = 0;
@@ -743,17 +749,16 @@
       function test_existanceunite_peche_site (item,suppression) 
       {  if (suppression!=1) 
          {  
-            var unite_p = vm.allunite_peche_site.filter(function(obj)
+            var ups = vm.allunite_peche_site.filter(function(obj)
                 {
                    return obj.id == item.id;
                 });
-                if(unite_p[0])
+                if(ups[0])
                 {
-                   if((unite_p[0].type_canoe.id!=item.type_canoe_id)
-                    ||(unite_p[0].type_engin.id!=item.type_engin_id)
-                    ||(unite_p[0].libelle!=item.libelle))                    
+                   if((ups[0].unite_peche.id!=item.unite_peche_id)
+                      || (ups[0].nbr_echantillon!=item.nbr_echantillon))                    
                       { 
-                         insert_in_base(item,suppression);
+                         insert_in_baseunite_peche_site(item,suppression);
                          vm.affichageMasque = 0;
                       }
                       else
@@ -848,7 +853,65 @@
           });                
       }
 
- 
+      vm.modifierunite_peche = function (unite_peche)
+      {   
+          var unite_peche_recent = 0;
+          if(vm.selectedItemunite_peche_site.$selected)
+          {
+            unite_peche_recent = vm.selectedItemunite_peche_site.unite_peche.id;
+          }
+          if(unite_peche_recent!=unite_peche.unite_peche_id)
+          {
+            var unite_peche_site = vm.allunite_peche_site.filter(function(obj) 
+            {
+                return obj.unite_peche.id == unite_peche.unite_peche_id;
+            });
+            if(unite_peche_site[0])
+            {
+              vm.enableUnitepeche = false;
+              var msg = "Cet unité de pêche exist déjà";
+              var titre = "Selection impossible";
+              vm.dialog(msg,titre);
+            }
+            else
+            {
+              vm.enableUnitepeche = true;
+            }
+          }
+          else
+          {
+            vm.enableUnitepeche = true;
+          }
+          var unite_peche = vm.allunite_peche.filter(function(obj) 
+          {
+              return obj.id == unite_peche.unite_peche_id;
+          });
+
+          vm.unite_peche_site.type_engin = unite_peche[0].type_engin.libelle;
+          vm.unite_peche_site.type_canoe = unite_peche[0].type_canoe.nom;
+      }
+
+      vm.dialog = function(msg,titre)
+      {
+        $mdDialog.show(
+                    $mdDialog.alert()
+                      .clickOutsideToClose(true)
+                      .title(titre)
+                      .textContent(msg)
+                      .ariaLabel('Offscreen Demo')
+                      .parent(angular.element(document.body))
+                      .ok('Fermer')
+                      .openFrom({
+                        top: -50,
+                        width: 30,
+                        height: 80
+                      })
+                      .closeTo({
+                        left: 1500
+                      })
+                  );
+      }
+      
 
 /*********** ************************Fin unite_peche_site   *******************************************/     
          

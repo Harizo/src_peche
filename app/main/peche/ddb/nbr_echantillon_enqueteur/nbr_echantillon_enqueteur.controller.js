@@ -21,6 +21,7 @@
     //affichage md-select
     vm.site_embarquement     =false;
     vm.unite_peche           =false;
+    vm.max_nbEchantillon     =0;
 		//style
 		vm.dtOptions = {
 			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -168,6 +169,7 @@
         vm.afficherboutonnouveau   = 1;
         vm.site_embarquement       = false;
         vm.unite_peche             = false;
+        vm.enableUnite_peche       = false;
     };
     
     vm.annuler = function()
@@ -186,7 +188,8 @@
         NouvelItem           = false ;
         vm.affichageMasque   = 1 ;
         vm.site_embarquement = true;
-        vm.unite_peche       = true;  
+        vm.unite_peche       = true;
+        vm.enableUnite_peche = true;  
         vm.nbr_echantillon_enqueteur.id = vm.selectedItem.id ;
         vm.nbr_echantillon_enqueteur.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
         vm.nbr_echantillon_enqueteur.unite_peche_id       = vm.selectedItem.unite_peche.id ;
@@ -203,6 +206,14 @@
         {
             vm.allunite_peche_site = result.data.response;
         });
+
+        apiFactory.getAPIgeneraliserREST("nbr_echantillon_enqueteur/index","menus","nbr_echantillon",
+          "id_unite_peche",vm.selectedItem.unite_peche.id,"id_site_embarquement",
+          vm.selectedItem.site_embarquement.id).then(function(result)
+      {
+        var nbr_predefini = parseInt(result.data.response.nbr_echantillon_predefini);           
+        vm.max_nbEchantillon = nbr_predefini;          
+      });
     };
     
     vm.supprimer = function()
@@ -276,5 +287,70 @@
           });
         }          
     }
+
+    vm.modifierunite_peche = function (item)
+    {
+        var unite_peche_recent = 0;
+        if (vm.selectedItem.$selected) 
+        {
+          unite_peche_recent = vm.selectedItem.unite_peche.id;
+        }
+        if(unite_peche_recent!=item.unite_peche_id)
+        { 
+          var unite_peche_exist = vm.allnbr_echantillon_enqueteur.filter(function(obj)
+            {
+              return obj.unite_peche.id == item.unite_peche_id;
+            });
+            
+          if (unite_peche_exist[0]) 
+          {
+            vm.enableUnite_peche = false;
+            var msg = 'Cet unité de peche exist déjà'
+            var titre = 'Selection impossible'
+            vm.dialog(msg,titre);
+            
+          }
+          else
+          {
+            vm.enableUnite_peche = true;
+          }
+            
+        }
+        else
+        {
+          vm.enableUnite_peche = true;
+        }
+
+      apiFactory.getAPIgeneraliserREST("nbr_echantillon_enqueteur/index","menus","nbr_echantillon",
+          "id_unite_peche",item.unite_peche_id,"id_site_embarquement",
+      item.site_embarquement_id).then(function(result)
+      {
+        var nbr_predefini = parseInt(result.data.response.nbr_echantillon_predefini);           
+        vm.max_nbEchantillon = nbr_predefini;        
+                  
+      });
+    }
+
+    vm.dialog = function(msg,titre)
+      {
+        $mdDialog.show(
+                    $mdDialog.alert()
+                      .clickOutsideToClose(true)
+                      .title(titre)
+                      .textContent(msg)
+                      .ariaLabel('Offscreen Demo')
+                      .parent(angular.element(document.body))
+                      .ok('Fermer')
+                      // Or you can specify the rect to do the transition from
+                      .openFrom({
+                        top: -50,
+                        width: 30,
+                        height: 80
+                      })
+                      .closeTo({
+                        left: 1500
+                      })
+                  );
+      }
   }
 })();
