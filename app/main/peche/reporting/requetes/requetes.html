@@ -773,6 +773,60 @@
                               </th>
 
                             <!--FIN RQ 7.3 -->
+
+                            <!-- RQ 9 -->
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_9'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Année</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_9'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Site</span>
+                                </div>
+                              </th>
+                              
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_9'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Unité de<br> pêche</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_9'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Nombre <br> unité de pêche</span>
+                                </div>
+                              </th>
+                              
+                            <!--FIN RQ 9 -->
+
+                            <!-- RQ 10 -->
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_10'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Année</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_10'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Région</span>
+                                </div>
+                              </th>
+                              
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_10'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Unité de<br> pêche</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_10'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Nombre <br> unité de pêche</span>
+                                </div>
+                              </th>
+                              
+                            <!--FIN RQ 10 -->
                             
                           </tr>
                           </thead>
@@ -919,15 +973,31 @@
 
 
                                     <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.affiche_mois(d.mois)}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{d.libelle_unite_peche}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{d.l_id_unite}}</td>
                                     <td ng-show="vm.filtre.pivot == 'req_7_3'">{{d.code}}</td>                               
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.capture_par_espece)}} Kg</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.capture_total)}} Kg</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.somme_capture_par_espece)}} Kg</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.somme_capture_par_unite_peche)}} Kg</td> 
                                     <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.composition_espece)}} %</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.prix_unitaire_moyenne)}}</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.prix_moyenne)}}</td> 
 
 
                                   <!--FIN RQ 7.3 -->
+
+                                  <!-- RQ 9 -->
+                                    <td ng-show="vm.filtre.pivot == 'req_9'">{{d.annee}}</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_9'">{{d.libelle_site}}</td>  
+                                    <td ng-show="vm.filtre.pivot == 'req_9'">{{d.libelle_unite_peche}}</td> 
+                                    <td ng-show="(vm.filtre.pivot == 'req_9')">{{d.nbr}}</td>    
+
+                                  <!--FIN RQ 9 -->
+
+                                  <!-- RQ 10 -->
+                                    <td ng-show="vm.filtre.pivot == 'req_10'">{{d.annee}}</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_10'">{{d.libelle_region}}</td>  
+                                    <td ng-show="vm.filtre.pivot == 'req_10'">{{d.libelle_unite_peche}}</td> 
+                                    <td ng-show="(vm.filtre.pivot == 'req_10')">{{d.nbr}}</td>    
+
+                                  <!--FIN RQ 10 -->
                                    
 
                                                       
