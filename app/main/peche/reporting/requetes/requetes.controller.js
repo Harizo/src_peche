@@ -79,7 +79,7 @@
       vm.dtOptions = {
         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
         pagingType: 'simple_numbers',
-        autoWidth: true,
+        autoWidth: false,
         responsive: true
       };
 
@@ -94,13 +94,13 @@
         {titre:"Req 5.3 : Erreur relative PABmoy par unité de pêche par strate mineure/Mois/Année",id:"req_5_3"},
         {titre:"Req 5.4 : Nombre de jour de pêche PAB par l’unité de pêche/Strate majeur/Strate mineure /Mois /Année",id:"req_5_4"},
         {titre:"Req 6.1 : Total jour de pêche  annuelle par l’unité de pêche avec PAB",id:"req_6_1"},
+        {titre:"Req 6.2 : Prix PAB par espèces par l’unité de pêche /Strate majeure/Strate mineure/Année/Mois",id:"req_6_2"},
         {titre:"Req 7.1 : Capture par espèces par l’unité de pêche par strate majeure/strate mineure/Année / Mois",id:"req_7_1"},
         {titre:"Req 7.2 : Total capture par espèces par l’unité de pêche /strate majeure/strate mineure/Année/Mois",id:"req_7_2"},
         {titre:"Req 7.3 : Composition d’espèce par l’unité de pêche",id:"req_7_3"},
         {titre:"Req 8 : Prix PAB par espèces par l’unité de pêche/Strate majeure/Strate mineure/Année/Mois",id:"req_8"},
         {titre:"Req 9 : Unité de pêche par site",id:"req_9"},
         {titre:"Req 10 : Targeted Unité de pêche par strate mineure par Année / Mois",id:"req_10"},
-        
         
       ];
 
@@ -348,6 +348,16 @@
             vm.affiche_load = false ;
             
           });
+
+          /*apiFactory.getAPIgeneraliserREST("requetes_6/index","menu",vm.filtre.pivot,"annee",annee,"mois",mois,"date",date,
+            "id_unite_peche",filtres.id_unite_peche,"id_espece",filtres.id_espece,"id_region",filtres.id_region,"id_district",filtres.id_district,
+            "id_site_embarquement",filtres.id_site_embarquement).then(function(result)
+          {
+            console.log(result.data.response);
+            vm.datas = result.data.response;
+            vm.affiche_load = false ;
+            
+          });*/
         
 
        
