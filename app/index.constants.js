@@ -6,16 +6,16 @@
         .module("fuse")
 
     //Localhost
-		.constant("apiUrl", "http://localhost/2019/peche/api/index.php/api/")
+		/*.constant("apiUrl", "http://localhost/2019/peche/api/index.php/api/")
 		.constant("apiUrlbase", "http://localhost/2019/peche/api/")
 		.constant("apiUrlserver", "http://localhost/assets/ddb/")
-		.constant("apiUrlexcel", "http://localhost/assets/excel/");
+		.constant("apiUrlexcel", "http://localhost/assets/excel/");*/
 	//Localhost
 
 	//interne ASTRUM
-		/*.constant("apiUrl", "http://192.168.88.200/2019/peche/api/index.php/api/")
+		.constant("apiUrl", "http://192.168.88.200/2019/peche/api/index.php/api/")
 		.constant("apiUrlbase", "http://192.168.88.200/2019/peche/api/")
-		.constant("apiUrlserver", "http://192.168.88.200/assets/ddb/");*/
+		.constant("apiUrlserver", "http://192.168.88.200/assets/ddb/");
 	//interne ASTRUM
 
 	//externe ASTRUM
