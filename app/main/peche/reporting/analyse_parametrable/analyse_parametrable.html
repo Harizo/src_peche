@@ -192,17 +192,22 @@
                                         <td ng-show="vm.cacher_table('id_espece',vm.filtre.pivot)">{{data.espece_nom_scientifique}}</td>
                                         <td>{{vm.convertion_kg_tonne(data.capture)}}</td>
                                         <td>{{vm.formatMillier(data.prix)}} Ar</td>
-                                        <td>?</td>
-                                        <td>?</td>
+                                        <td>{{data.erreur_relative}}</td>
+                                        <td>{{data.erreur_rel_capture}}</td>
                                         
                                       </tr>
                                   </tbody>   
                                   <tfoot >
                                       <tr style="background-color: #00b6ff;">
-                                        <td ng-if="vm.totals">Total captures = {{vm.convertion_kg_tonne(vm.totals.total_capture)}}</td>
+                                        <td ng-if="vm.totals">Total captures = {{vm.convertion_kg_tonne(vm.totals.total_capture) }}</td>
                                         <td ng-if="!vm.totals"> Total captures = 0 Kg</td>
                                         <td ng-if="!vm.totals"> Total Prix = 0 Ar</td>
+                                        <td ng-if="!vm.totals"> Erreur Rel PUE 90% = 0 %</td>
+                                        <td ng-if="!vm.totals"> Erreur Rel Capture 90% = 0 %</td>
                                         <td ng-if="vm.totals">Total Prix = {{vm.formatMillier(vm.totals.total_prix)}} Ar <br> {{vm.formatMillier((vm.totals.total_prix)*5)}} Fmg</td>
+                                        <!--td ng-if="vm.totals">Erreur Rel PUE 90% = {{vm.totals.erreur_relative_total }}</td>
+                                        <td ng-if="vm.totals">Erreur Rel Capture 90% = {{vm.totals.erreur_relative_capture_total}}</td-->
+
                                       </tr>
                                   </tfoot>                      
                         </table>

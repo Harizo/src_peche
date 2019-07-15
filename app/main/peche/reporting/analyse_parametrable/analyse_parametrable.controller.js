@@ -56,7 +56,7 @@
       apiFactory.getAll("district/index").then(function(result)
       {
           vm.alldistrict  = result.data.response;
-          vm.districts    = vm.alldistrict ;
+          vm.districts    = vm.alldistrict ;;
       });
 
       apiFactory.getAll("site_embarquement/index").then(function(result)
@@ -149,37 +149,51 @@
             vm.datas  = result.data.response;
             vm.totals = result.data.total;
             var data  = result.data.response;
-           
+            vm.d  = result.data.d;
+           console.log(vm.datas);
+           console.log(vm.totals);
           });        
       }
 
       vm.convertion_kg_tonne = function(val)
-      {
+      { 
         if (val > 1000) 
         {
           var res = val/1000 ;
-          var res_virg = vm.replace_point(res) ;
+          var nbr=parseFloat(res).toFixed(3);
+          var res_virg = vm.replace_point(nbr) ;
 
           return res_virg+" t" ;
         }
         else
-        {
-          var res_virg = vm.replace_point(val) ;
+        { var nbr=parseFloat(val).toFixed(3);
+          var res_virg = vm.replace_point(nbr) ;
 
           return res_virg+" Kg" ;
         }
       }
 
-      vm.formatMillier = function (nombre) 
+      vm.convertion_point_virgule = function(val)
       {
-          if (typeof nombre != 'undefined' && parseInt(nombre) >= 0) {
-              nombre += '';
+        if (val) 
+        { var nbr=parseFloat(val).toFixed(3);
+          var res_virg = vm.replace_point(nbr) ;
+
+          return res_virg+" t" ;
+        }
+      }
+
+      vm.formatMillier = function (nombre) 
+      {   //var nbr = nombre.toFixed(0);
+        var nbr=parseFloat(nombre).toFixed(0);
+          if (typeof nbr != 'undefined' && parseInt(nbr) >= 0) {
+              nbr += '';
               var sep = ' ';
               var reg = /(\d+)(\d{3})/;
-              while (reg.test(nombre)) {
-                  nombre = nombre.replace(reg, '$1' + sep + '$2');
+              while (reg.test(nbr)) {
+                  nbr = nbr.replace(reg, '$1' + sep + '$2');
               }
-              return nombre;
+              return nbr;
           } else {
               return "";
           }
