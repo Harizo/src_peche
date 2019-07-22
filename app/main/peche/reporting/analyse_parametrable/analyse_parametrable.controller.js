@@ -48,7 +48,7 @@
         {titre:"L4.1&L4.2 Mois Espèce",id:"mois_and_id_espece"},
         {titre:"L4.3&L4.4 Mois,Unité de pêche et Espèce",id:"mois_id_unite_peche_and_id_espece"},
         {titre:"L4.5 Mois,Site,Unité de pêche et Espèce",id:"mois_id_site_embarquement_id_unite_peche_and_id_espece"},
-        {titre:"Site de débarquement",id:"id_site_embarquement"}        
+        {titre:"Essai",id:"essai"}        
         
       ];
 
