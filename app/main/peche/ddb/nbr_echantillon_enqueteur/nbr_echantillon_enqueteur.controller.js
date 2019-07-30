@@ -272,11 +272,52 @@
             apiFactory.getFils("site_enqueteur/index",item.enqueteur_id).then(function(result)
             {
                 vm.allsite_embarquement = result.data.response;
+
+                vm.nbr_echantillon_enqueteur.site_embarquement_id = vm.allsite_embarquement[0].id ;
+
+                if(vm.allsite_embarquement.length > 0)
+                {
+                    vm.unite_peche=true;
+
+                  apiFactory.getFils("unite_peche_site/index",vm.allsite_embarquement[0].id).then(function(result)
+                  {
+                      vm.allunite_peche_site = []   ;
+                      vm.nbr_echantillon_enqueteur.unite_peche_id = null ;
+                      vm.allunite_peche_site = result.data.response;
+                  });
+                } 
                // console.log(vm.allsite_embarquement);
             });
         }          
     }
-    vm.modifiersite_embarquement= function (item)
+
+    vm.test_existance_up_enqueteur = function()
+    {
+      if (vm.nbr_echantillon_enqueteur.enqueteur_id && vm.nbr_echantillon_enqueteur.unite_peche_id) 
+      {
+        apiFactory.getAPIgeneraliserREST("nbr_echantillon_enqueteur/index","test_existance_up",true,
+          "id_enqueteur",vm.nbr_echantillon_enqueteur.enqueteur_id,
+          "id_unite_peche",vm.nbr_echantillon_enqueteur.unite_peche_id).then(function(result)
+        {
+            var data = result.data.response;
+         
+            if (data[0].res.length > 0) 
+            {
+              vm.enableUnite_peche = false;
+              var msg = data[0].unite_peche+" existe dèja pour l'enquêteur "+data[0].enqueteur
+              var titre = 'Selection impossible'
+              vm.dialog(msg,titre);
+              
+            }
+            else
+            {
+              vm.enableUnite_peche = true;
+            }
+            
+        });
+      }
+    }
+/*    vm.modifiersite_embarquement= function (item)
     {
         if(item.site_embarquement_id)
         {
@@ -287,8 +328,8 @@
           });
         }          
     }
-
-    vm.modifierunite_peche = function (item)
+*/
+/*    vm.modifierunite_peche = function (item)
     {
         var unite_peche_recent = 0;
         if (vm.selectedItem.$selected) 
@@ -330,7 +371,7 @@
                   
       });
     }
-
+*/
     vm.dialog = function(msg,titre)
       {
         $mdDialog.show(

@@ -55,7 +55,7 @@
                       </md-input-container>
                       <md-input-container flex="100" flex-gt-xs="33">
                             <label>Site d'enquête</label>
-                              <md-select ng-model="vm.nbr_echantillon_enqueteur.site_embarquement_id" ng-change="vm.modifiersite_embarquement(vm.nbr_echantillon_enqueteur)" ng-disabled="!vm.site_embarquement" required name="site_embarquement_id">
+                              <md-select ng-model="vm.nbr_echantillon_enqueteur.site_embarquement_id"  ng-disabled="true" required name="site_embarquement_id" >
                                 <md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
                                   ({{site_embarquement.code}}) {{site_embarquement.libelle}}
                                 </md-option>
@@ -68,8 +68,8 @@
                                 </div>
                       </md-input-container>
                       <md-input-container flex="100" flex-gt-xs="33">
-                            <label>unite_peche</label>
-                              <md-select ng-model="vm.nbr_echantillon_enqueteur.unite_peche_id" ng-change="vm.modifierunite_peche(vm.nbr_echantillon_enqueteur)" ng-disabled="!vm.unite_peche" required name="unite_peche_id">
+                            <label>Unité de peche</label>
+                              <md-select ng-model="vm.nbr_echantillon_enqueteur.unite_peche_id" ng-change="vm.test_existance_up_enqueteur()" ng-disabled="!vm.nbr_echantillon_enqueteur.enqueteur_id" required name="unite_peche_id">
                                 <md-option ng-repeat="unite_peche_site in vm.allunite_peche_site" value="{{unite_peche_site.unite_peche.id}}">
                                   {{unite_peche_site.unite_peche.libelle}}
 
@@ -78,7 +78,7 @@
                               <div ng-messages="nbr_echantillon_enqueteurform.unite_peche_id.$error"
                                   role="alert">
                                   <div ng-message="required">
-                                    <span>Site d'enquête obligatoire.</span>
+                                    <span>Unité de pêche obligatoire.</span>
                                   </div>
                                 </div>
                       </md-input-container>
@@ -86,7 +86,7 @@
                       <md-input-container flex="100" flex-gt-xs="33">
                         <input type="number" name="nbr_max_echantillon" ng-model="vm.nbr_echantillon_enqueteur.nbr_max_echantillon"
                           placeholder="Nombre " ng-init="vm.nbr_echantillon_enqueteur.nbr_max_echantillon=''"
-                           pattern="\d+" ng-max="vm.max_nbEchantillon" required>
+                           pattern="\d+" ng-min="0" required>
                           <div ng-messages="nbr_echantillon_enqueteurform.nbr_max_echantillon.$error"
                             role="alert" ng-show="nbr_echantillon_enqueteurform.nbr_max_echantillon.$dirty ">
                             <div ng-message="required">
@@ -97,6 +97,10 @@
                             </div>
                             <div ng-message="max">
                               <span>Nombre doit être inférieur ou égale à {{vm.max_nbEchantillon}}</span>
+                            </div>
+
+                            <div ng-message="max">
+                              <span>Nombre doit être supérieur à 0</span>
                             </div>
                           </div>
 

@@ -38,7 +38,7 @@
 	                       <md-tab-body ms-form-wizard-form>
 	                       		<md-button class="md-raised md-primary" style="width:100%; margin:auto;border-radius:0;">Etape 1</md-button >
 								<div style="widht:100%;"> 
-									<md-button type="submit" ng-show="vm.afficherboutonfiltre==1" class="md-raised md-accent" aria-label="Filtre" ng-click="vm.formfiltrepardate()" style="width:10%;">
+									<md-button type="submit" ng-show="vm.afficherboutonfiltre==1" class="md-raised md-primary" aria-label="Filtre" ng-click="vm.formfiltrepardate()" style="width:10%;">
 										Filtre
 									</md-button>   
 									<md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
@@ -50,7 +50,7 @@
 									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
 										Supprimer
 									</md-button>
-									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Valider" ng-click="vm.valider()" style="width:10%;">
+									<md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-warn" aria-label="Valider" ng-click="vm.valider()" style="width:10%;">
 										Valider
 									</md-button>
 								</div>
@@ -89,7 +89,7 @@
 								
 						<div ng-show="vm.affichageMasque==1">						
 							<form name="fiche_echantillonnage_captureform" class="md-inline-form "  novalidate>
-								<div layout="column" layout-gt-sm="row">
+								<!--div layout="column" layout-gt-sm="row">
 									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id">
 									<md-input-container flex-gt-sm>
 										<label>Enqueteur</label>
@@ -123,11 +123,57 @@
 											</md-option>
 										</md-select>
 									</md-input-container>
+								</div-->
+								<div layout="column" layout-gt-xs="row">
+										<md-input-container>
+										<span>Date</span>
+										</md-input-container>
+										<md-datepicker name="date" ng-model="vm.fiche_echantillonnage_capture.date"   md-placeholder="Date" required>                       
+										</md-datepicker>
 									</div>
+								<div layout="column" layout-gt-sm="row">
+									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id">
+									<md-input-container flex-gt-sm>
+										<label>Region</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.region_id"  ng-change="vm.get_district_by_region()" >
+											<md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
+												{{region.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									<md-input-container flex-gt-sm>
+										<label>District</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.district_id"  ng-change="vm.get_site_by_district()" ng-disabled="!vm.fiche_echantillonnage_capture.region_id">
+											<md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
+												{{district.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+
+									<md-input-container flex-gt-sm>
+										<label>Site de débarquement</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.site_embarquement_id"  ng-change="vm.get_enqueteur_by_site()" ng-disabled="!vm.fiche_echantillonnage_capture.district_id" required>
+											<md-option ng-repeat="site_embarquement in vm.allsite_embarquement" value="{{site_embarquement.id}}">
+												{{site_embarquement.libelle}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+
+									<md-input-container flex-gt-sm>
+										<label>Enqueteur</label>
+										<md-select ng-model="vm.fiche_echantillonnage_capture.enqueteur_id" ng-disabled="!vm.fiche_echantillonnage_capture.district_id"  ng-change=""  md-container-class="my">
+											<md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}" >
+												{{enqueteur.nom}}
+											</md-option>
+										</md-select>
+									</md-input-container>
+									
+									
+								</div>
 									<div layout="column" layout-gt-sm="row">
 									<md-input-container flex-gt-sm>
 										<input type="text" name="latitude" ng-model="vm.fiche_echantillonnage_capture.latitude"
-										placeholder="Latitude " ng-init="vm.fiche_echantillonnage_capture.latitude=''">
+										placeholder="Latitude (Position de l'enqueteur)" ng-init="vm.fiche_echantillonnage_capture.latitude=''">
 										<div ng-messages="fiche_echantillonnage_captureform.latitude.$error"
 											role="alert">
 											<div ng-message="required">
@@ -137,7 +183,7 @@
 									</md-input-container>
 									<md-input-container flex-gt-sm>
 										<input type="text" name="longitude" ng-model="vm.fiche_echantillonnage_capture.longitude"
-										placeholder="Longitude " ng-init="vm.fiche_echantillonnage_capture.longitude=''">
+										placeholder="Longitude (Position de l'enqueteur)" ng-init="vm.fiche_echantillonnage_capture.longitude=''">
 										<div ng-messages="fiche_echantillonnage_captureform.longitude.$error"
 											role="alert">
 											<div ng-message="required">
@@ -156,8 +202,8 @@
 										</div>
 									</md-input-container>
 																		
-									<md-datepicker name="date" ng-model="vm.fiche_echantillonnage_capture.date" md-placeholder="Date" required>										
-									</md-datepicker>									
+									<!--md-datepicker name="date" ng-model="vm.fiche_echantillonnage_capture.date" md-placeholder="Date" required>										
+									</md-datepicker-->									
 								</div>
 								<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
 									ng-disabled="fiche_echantillonnage_captureform.$invalid " ng-click="vm.ajout(vm.fiche_echantillonnage_capture,0,0)">
@@ -299,11 +345,14 @@
 											<div layout="column" layout-gt-xs="row" flex>
 												<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
 													<input type="number" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
-													placeholder="nombre de jour de peche dernière semaine" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''" ng-max="7">
+													placeholder="nombre de jour de peche dernière semaine" ng-init="vm.echantillon.nbr_jrs_peche_dernier_sem=''" ng-max="7" ng-min="0">
 													<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
 														role="alert">
 														<div ng-message="max">
-															<span>Nombre maximale autorisé à 7</span>
+															<span>Doit être inférieur ou égale à 7</span>
+														</div>
+														<div ng-message="min">
+															<span>Doit être supérieur ou égale à 0</span>
 														</div>
 													</div>
 												</md-input-container>

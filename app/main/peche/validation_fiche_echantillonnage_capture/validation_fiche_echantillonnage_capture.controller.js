@@ -87,14 +87,48 @@
           {titre:"Date modification"}
       ];
    
-      apiFactory.getAll("enqueteur/index").then(function(result)
+     /* apiFactory.getAll("enqueteur/index").then(function(result)
       {vm.allenqueteur = result.data.response;});
    
       apiFactory.getAll("district/index").then(function(result)
-      {vm.alldistrict = result.data.response; vm.allcurrentdistrict=vm.alldistrict;});
+      {vm.alldistrict = result.data.response; vm.allcurrentdistrict=vm.alldistrict;});*/
 
       apiFactory.getAll("region/index").then(function(result)
-      {vm.allregion= result.data.response;});
+      {
+        vm.allregion= result.data.response;
+      });
+
+      vm.get_district_by_region = function()
+      {
+        apiFactory.getAPIgeneraliserREST("district/index","id_region",vm.fiche_echantillonnage_capture.region_id).then(function(result)
+        {
+          vm.fiche_echantillonnage_capture.district_id = null ;
+          vm.alldistrict = result.data.response; 
+          console.log(vm.alldistrict);
+        });
+      }
+
+      vm.get_site_by_district = function()
+      {
+        apiFactory.getAPIgeneraliserREST("site_embarquement/index","get_by_district",true,
+          "id_district",vm.fiche_echantillonnage_capture.district_id).then(function(result)
+        {
+          vm.fiche_echantillonnage_capture.site_embarquement_id = null ;
+          vm.allsite_embarquement = result.data.response; 
+          console.log(vm.allsite_embarquement);
+        });
+      }
+
+      vm.get_enqueteur_by_site = function()
+      {
+        apiFactory.getAPIgeneraliserREST("site_enqueteur/index","get_by_site",true,
+          "id_site_embarquement",vm.fiche_echantillonnage_capture.site_embarquement_id).then(function(result)
+        {
+          vm.fiche_echantillonnage_capture.enqueteur_id = null ;
+          vm.allenqueteur = result.data.response; 
+          console.log(vm.allenqueteur);
+        });
+      }
 
 
      /*apiFactory.getAll("site_embarquement/index").then(function(result)
@@ -416,25 +450,7 @@
         {
             //vm.allcurrentdistrict=vm.alldistrict;
            
-            var site_emba = vm.allsite_embarquement.filter(function(obj)
-            {
-              return obj.id == vm.fiche_echantillonnage_capture.site_embarquement_id;
-            });
-
-            var enqt = vm.allenqueteur.filter(function(obj)
-            {
-              return obj.id == vm.fiche_echantillonnage_capture.enqueteur_id;
-            });
-           // console.log(enqt[0]);
-            var reg = vm.allregion.filter(function(obj)
-            {
-              return obj.id == vm.fiche_echantillonnage_capture.region_id;
-            });
-
-            var dist = vm.alldistrict.filter(function(obj)
-            {
-              return obj.id == vm.fiche_echantillonnage_capture.district_id;
-            });
+            
             
           /*  var utili= vm.allutilisateur.filter(function(obj)
             {
@@ -446,7 +462,27 @@
                 // Update or delete: id exclu
                 //var current_date = new Date().toJSON("yyyy/MM/dd HH:mm");
                 if(suppression==0) 
-                  { // vm.selectedItem ={};                    
+                  { // vm.selectedItem ={}; 
+
+                    var site_emba = vm.allsite_embarquement.filter(function(obj)
+                    {
+                      return obj.id == vm.fiche_echantillonnage_capture.site_embarquement_id;
+                    });
+
+                    var enqt = vm.allenqueteur.filter(function(obj)
+                    {
+                      return obj.id == vm.fiche_echantillonnage_capture.enqueteur_id;
+                    });
+                   // console.log(enqt[0]);
+                    var reg = vm.allregion.filter(function(obj)
+                    {
+                      return obj.id == vm.fiche_echantillonnage_capture.region_id;
+                    });
+
+                    var dist = vm.alldistrict.filter(function(obj)
+                    {
+                      return obj.id == vm.fiche_echantillonnage_capture.district_id;
+                    });                   
                     vm.selectedItem.code_unique       = code_unique;
                     vm.selectedItem.date              = date_fiche;
                     vm.selectedItem.date_creation     = vm.fiche_echantillonnage_capture.date_creation;
@@ -481,6 +517,26 @@
               else
               { 
                 var id=data.response.id;
+
+                var site_emba = vm.allsite_embarquement.filter(function(obj)
+                {
+                  return obj.id == vm.fiche_echantillonnage_capture.site_embarquement_id;
+                });
+
+                var enqt = vm.allenqueteur.filter(function(obj)
+                {
+                  return obj.id == vm.fiche_echantillonnage_capture.enqueteur_id;
+                });
+               // console.log(enqt[0]);
+                var reg = vm.allregion.filter(function(obj)
+                {
+                  return obj.id == vm.fiche_echantillonnage_capture.region_id;
+                });
+
+                var dist = vm.alldistrict.filter(function(obj)
+                {
+                  return obj.id == vm.fiche_echantillonnage_capture.district_id;
+                });
                 
 
                 var item = 
