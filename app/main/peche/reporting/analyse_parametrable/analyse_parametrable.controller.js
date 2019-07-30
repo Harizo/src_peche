@@ -32,19 +32,23 @@
         responsive: true
       };
 
+        // natambatra @L2.3{titre:"L2.4 Mois Région Unité de pêche",id:"mois_and_id_unite_peche_and_id_region"},
       vm.pivots = [
         {titre:"L1.2 Région(= Strate Mineur)",id:"id_region"},
         {titre:"L1.4 Région et Unité de pêche",id:"id_region_and_id_unite_peche"},
         {titre:"L1.3&L1.6 Unité de pêche",id:"id_unite_peche"},
         {titre:"L1.5 Site de débarquement et Unité de pêche",id:"id_site_embarquement_and_id_unite_peche"},
         {titre:"L2.1&L2.2 Mois Strate majeur",id:"mois_strate_majeur"},
-        {titre:"L2.3 Mois Unité de pêche",id:"mois_and_id_unite_peche"},
-        {titre:"L2.4 Mois Région Unité de pêche",id:"mois_and_id_unite_peche_and_id_region"},
+        {titre:"L2.3&L2.4 Mois Unité de pêche",id:"mois_and_id_unite_peche"},
         {titre:"L2.5 Mois Site Unité de pêche",id:"mois_and_id_unite_peche_and_id_site_embarquement"},
         {titre:"L3.1&L3.2 Espèce",id:"id_espece"},
-        {titre:"L4.1 Mois Espèce",id:"mois_and_id_espece"},
-        {titre:"Site de débarquement",id:"id_site_embarquement"}
-        
+        {titre:"L3.3&L3.4 Unité de pêche et Espèce",id:"id_unite_peche_and_id_espece"},
+        {titre:"L3.5 Site,Unité de pêche et Espèce",id:"id_site_embarquement_id_unite_peche_and_id_espece"},
+        {titre:"L3.6 Unité de pêche,Espèce et Effort",id:"id_unite_peche_and_id_espece_and_cpue_effort"},
+        {titre:"L4.1&L4.2 Mois Espèce",id:"mois_and_id_espece"},
+        {titre:"L4.3&L4.4 Mois,Unité de pêche et Espèce",id:"mois_id_unite_peche_and_id_espece"},
+        {titre:"L4.5 Mois,Site,Unité de pêche et Espèce",id:"mois_id_site_embarquement_id_unite_peche_and_id_espece"},
+        //{titre:"Essai",id:"essai"}        
         
       ];
 
@@ -179,7 +183,7 @@
         { var nbr=parseFloat(val).toFixed(3);
           var res_virg = vm.replace_point(nbr) ;
 
-          return res_virg+" t" ;
+          return res_virg ;
         }
       }
 

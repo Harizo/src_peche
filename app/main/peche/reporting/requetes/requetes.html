@@ -168,7 +168,8 @@
 
                 <md-tabs md-dynamic-height>
                   <md-tab label="Résultat">
-                      <table class="dataTable row-border cell-border text-center" datatable="ng"
+                    <div class="table-responsive">
+                      <table class="dataTable row-border cell-border text-center display nowrap" datatable="ng"
                           dt-options="vm.dtOptions">
                           <thead>                          
                           <tr>
@@ -774,6 +775,87 @@
 
                             <!--FIN RQ 7.3 -->
 
+                            <!-- RQ 8 -->
+                              
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Mois</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Sit de<br> débarquement</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Unité de<br> pêche</span>
+                                </div>
+                              </th>
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Nbr_jrs_mensuel</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Total_nbr_jour</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Code3Alpha</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Rel_erreur_cpue</span>
+                                </div>
+                              </th>
+                             
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Rel_erreur_capture</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Nombre echantillon</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Capture total</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Composition <br> d'espèces</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Capture espèce</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Prix <br> moyenne</span>
+                                </div>
+                              </th>
+
+                              
+
+                            <!--FIN RQ 8 -->
+
                             <!-- RQ 9 -->
 
                               <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_9'">
@@ -983,6 +1065,25 @@
 
                                   <!--FIN RQ 7.3 -->
 
+                                  <!-- RQ 8 -->
+
+
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.mois}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.site_embarquement}}</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.unite_peche}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.nbr_jrs_peche_mensuel_pab}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.nbr_total_jrs_peche_mensuel}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.code}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.erreur_relative}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.erreur_rel_capture}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.nombre_echantillon}}</td>                               
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.somme_capture_par_espece}} Kg</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.somme_composition_par_espece}} Kg</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{vm.parseFloat(d.capture_espece)}} %</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{vm.parseFloat(d.prix_moyenne)}}</td> 
+
+                                  <!--FIN RQ 8 -->
+
                                   <!-- RQ 9 -->
                                     <td ng-show="vm.filtre.pivot == 'req_9'">{{d.annee}}</td> 
                                     <td ng-show="vm.filtre.pivot == 'req_9'">{{d.libelle_site}}</td>  
@@ -1004,6 +1105,7 @@
                               </tr>
                           </tbody>
                       </table>
+                    </div>  
                   </md-tab>
                 </md-tabs>
             </div> 

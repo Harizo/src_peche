@@ -169,6 +169,11 @@
                                             <span class="column-title">Valeur totales</span>
                                           </div>
                                     </th>
+                                    <th class="secondary-text" ng-show="vm.cacher_table('cpue_effort',vm.filtre.pivot)">
+                                          <div class="table-header">
+                                            <span class="column-title">CPUE(kg/jour)</span>
+                                          </div>
+                                    </th>
                                     <th class="secondary-text">
                                           <div class="table-header">
                                             <span class="column-title">Moy Erreur Rel PUE 90%</span>
@@ -192,6 +197,7 @@
                                         <td ng-show="vm.cacher_table('id_espece',vm.filtre.pivot)">{{data.espece_nom_scientifique}}</td>
                                         <td>{{vm.convertion_kg_tonne(data.capture)}}</td>
                                         <td>{{vm.formatMillier(data.prix)}} Ar</td>
+                                        <td ng-show="vm.cacher_table('cpue_effort',vm.filtre.pivot)">{{vm.convertion_point_virgule(data.cpue_effort)}}</td>
                                         <td>{{data.erreur_relative}}</td>
                                         <td>{{data.erreur_rel_capture}}</td>
                                         
@@ -205,8 +211,8 @@
                                         <td ng-if="!vm.totals"> Erreur Rel PUE 90% = 0 %</td>
                                         <td ng-if="!vm.totals"> Erreur Rel Capture 90% = 0 %</td>
                                         <td ng-if="vm.totals">Total Prix = {{vm.formatMillier(vm.totals.total_prix)}} Ar <br> {{vm.formatMillier((vm.totals.total_prix)*5)}} Fmg</td>
-                                        <!--td ng-if="vm.totals">Erreur Rel PUE 90% = {{vm.totals.erreur_relative_total }}</td>
-                                        <td ng-if="vm.totals">Erreur Rel Capture 90% = {{vm.totals.erreur_relative_capture_total}}</td-->
+                                        <td ng-if="vm.totals">Erreur Rel PUE 90% = {{vm.totals.erreur_relative_total }}</td>
+                                        <td ng-if="vm.totals">Erreur Rel Capture 90% = {{vm.totals.erreur_relative_capture_total}}</td>
 
                                       </tr>
                                   </tfoot>                      
