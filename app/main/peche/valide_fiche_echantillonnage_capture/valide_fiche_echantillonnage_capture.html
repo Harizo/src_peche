@@ -243,10 +243,10 @@
 									<tr ng-repeat="echantillon in vm.echantillonfiltre"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
 										<td>{{echantillon.unique_code}}</td>
 										<td>{{echantillon.data_collect.code}}</td>
-										<td ng-show="vm.checkboxPAB">{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
+										<td ng-show="vm.checkboxPAB">{{vm.affichage_bool(echantillon.peche_hier)}}<br/>{{vm.affichage_bool(echantillon.peche_avant_hier)}}</td>
 										
 										<td>{{echantillon.total_capture}} (kg)<br ng-if="vm.checkboxPAB">
-											<span ng-if="vm.checkboxPAB">{{echantillon.nbr_jrs_peche_dernier_sem}}</span>
+											<span ng-if="vm.checkboxPAB">{{echantillon.nbr_jrs_peche_dernier_sem}} jrs</span>
 										</td>
 										
 										<td ng-show="!vm.checkboxPAB">{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>

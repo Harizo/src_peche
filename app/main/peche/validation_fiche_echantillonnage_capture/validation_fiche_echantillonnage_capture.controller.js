@@ -86,6 +86,21 @@
           {titre:"Date creation"},
           {titre:"Date modification"}
       ];
+
+      vm.affichage_bool = function(int)
+      {
+        switch (int) {
+          case "1":
+            return "Oui" ;
+            break;
+          case "0":
+            return "Non" ;
+            break;
+          default:
+            // statements_def
+            break;
+        }
+      }
    
      /* apiFactory.getAll("enqueteur/index").then(function(result)
       {vm.allenqueteur = result.data.response;});

@@ -109,22 +109,22 @@
                 <md-tabs md-dynamic-height>
                     <md-tab label="Enquête cadre {{vm.annee}}">
                       <md-input-container flex="100" flex-gt-xs="33">
-                                <label>Année</label>
-                                <md-select ng-model="vm.annee" >
-                                    <md-option ng-repeat="year in vm.tab_year" value="{{year}}" >
-                                                   {{year}}
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                            <md-input-container>          
-                              <md-button  class="md-raised md-button md-ink-ripple" ng-click="vm.Filtrer()">Rafraichir</md-button>
-                            </md-input-container>
-                            <md-input-container >          
-                              <md-button ng-disabled="!vm.autorize_duplication" class="md-raised md-button md-ink-ripple" ng-click="vm.duplication()">Répéter la dernière enquête cadre?</md-button>
-                            </md-input-container>
-                     <table class="dataTable row-border hover" datatable="ng"
+                        <label>Année</label>
+                        <md-select ng-model="vm.annee" >
+                            <md-option ng-repeat="year in vm.tab_year" value="{{year}}" >
+                                           {{year}}
+                            </md-option>
+                        </md-select>
+                      </md-input-container>
+                      <md-input-container>          
+                        <md-button  class="md-raised md-button md-ink-ripple" ng-click="vm.Filtrer()">Rafraichir</md-button>
+                      </md-input-container>
+                      <md-input-container >          
+                        <md-button ng-disabled="!vm.autorize_duplication" class="md-raised md-button md-ink-ripple" ng-click="vm.duplication()">Répéter la dernière enquête cadre?</md-button>
+                      </md-input-container>
+                      <table class="dataTable row-border hover" datatable="ng"
                           dt-options="vm.dtOptions">
-                      <thead>
+                        <thead>
                         <tr>
                           <th class="secondary-text" ng-repeat="ec in ::vm.enquete_cadre_column">
                                 <div class="table-header">
@@ -132,7 +132,7 @@
                                 </div>
                           </th>
                         </tr>
-                      </thead>
+                        </thead>
                         <tbody>
                             <tr ng-repeat="enquete_cadre in vm.allenquete_cadre" ng-class="{selected: enquete_cadre.$selected}" ng-click="vm.selection(enquete_cadre)">
                               <td>{{enquete_cadre.annee}}</td>

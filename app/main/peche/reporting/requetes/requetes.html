@@ -18,12 +18,7 @@
     <!-- / HEADER -->
     <!-- CONTENT -->
     <div class="content"layout="column">
-        <div class="form-wrapper">            
-            <div style="clear:both;"></div>
-            
-            <div class="white-bg md-whiteframe-4dp"> 
-
-              
+       
                   <md-progress-circular ng-if="vm.affiche_load" class="md-accent" aria-label="Rating" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
                   <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
                       Chargement,veuillez patienter s'il vous plait ...
@@ -33,8 +28,7 @@
                     <md-tab label="Filtre">
                         <md-tab-body>
                           <form name="filtrepardateform" class="md-inline-form" novalidate >
-                            <br>
-
+                      
                             <div layout="column" layout-gt-xs="row">
                               <md-input-container flex="100" flex-gt-xs="10">
                               
@@ -168,8 +162,8 @@
 
                 <md-tabs md-dynamic-height>
                   <md-tab label="Résultat">
-                    <div class="table-responsive">
-                      <table class="dataTable row-border cell-border text-center display nowrap" datatable="ng"
+                    <div class="table-responsive" >
+                      <table class="dataTable row-border cell-border text-center" id="table1"  ms-responsive-table datatable="ng"
                           dt-options="vm.dtOptions">
                           <thead>                          
                           <tr>
@@ -1013,21 +1007,21 @@
                                   <!--FIN RQ 6.1 -->
 
                                   <!-- RQ 6.2 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.mois}}</td> <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.site_embarquement}}</td>   
+                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.affiche_mois(d.mois)}}</td> <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.site_embarquement}}</td>   
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.unite_peche_libelle}}</td> 
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.nbr_unite_peche}}</td>
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat_0(d.nbr_jrs_peche_mensuel_pab)}}</td>
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.cpue_moyenne)}}</td>    
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.stDevCPUE)}}</td>    
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.nombre_echantillon_cpue}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.erreur_relative_90_cpue)}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.erreur_relative_90_cpue)}} %</td>
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.moy_pax_pab)}}</td>    
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.max_cpue)}}</td>
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.jour_mensuel}}</td>     
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.captures_totales_t)}} </td>    
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.max_captures_totales)}}</td>    
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.cl_captures_totales)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.erreur_relative_capture_total_90)}}</td>  
+                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.erreur_relative_capture_total_90)}} %</td>  
                                   <!--FIN RQ 6.2 -->
 
                                   <!-- RQ 7.1 -->
@@ -1108,9 +1102,7 @@
                     </div>  
                   </md-tab>
                 </md-tabs>
-            </div> 
-        </div> 
-            
+         
     </div>
     <!-- / CONTENT -->
 

@@ -76,6 +76,22 @@
         vm.allfiche_echantillonnage_capture = result.data.response;
       });
 
+      vm.affichage_bool = function(int)
+      {
+        console.log(int);
+        switch (int) {
+          case "1":
+            return "Oui" ;
+            break;
+          case "0":
+            return "Non" ;
+            break;
+          default:
+            
+            break;
+        }
+      }
+
           //selection sur la liste
       vm.selection= function (item)
       {        

@@ -500,10 +500,10 @@
 									<tr ng-repeat="echantillon in vm.echantillonfiltre"  ng-class="{selected: echantillon.$selected}" ng-click="vm.selectionechantillon(echantillon)">
 										<td>{{echantillon.unique_code}}</td>
 										<td>{{echantillon.data_collect.code}}</td>
-										<td ng-show="vm.checkboxPAB">{{echantillon.peche_hier}}<br/>{{echantillon.peche_avant_hier}}</td>
+										<td ng-show="vm.checkboxPAB">{{vm.affichage_bool(echantillon.peche_hier)}}<br/>{{vm.affichage_bool(echantillon.peche_avant_hier)}}</td>
 										
 										<td>{{echantillon.total_capture}} (kg)<br ng-if="vm.checkboxPAB">
-											<span ng-if="vm.checkboxPAB">{{echantillon.nbr_jrs_peche_dernier_sem}}</span>
+											<span ng-if="vm.checkboxPAB">{{echantillon.nbr_jrs_peche_dernier_sem}} jrs</span>
 										</td>
 										
 										<td ng-show="!vm.checkboxPAB">{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
@@ -573,7 +573,7 @@
 			                      </md-input-container>
 			                        <md-input-container flex="100" flex-gt-xs="33">
 			                          <input type="number" name="capture" ng-model="vm.espece_capture.capture"
-			                            placeholder="capture " ng-init="vm.espece_capture.capture=''" ng-change="vm.modif_capture(vm.espece_capture)"
+			                            placeholder="capture (Kg)" ng-init="vm.espece_capture.capture=''" ng-change="vm.modif_capture(vm.espece_capture)"
 			                            required>
 			                            <div ng-messages="espece_captureform.capture.$error"
 			                              role="alert">
@@ -584,7 +584,7 @@
 			                        </md-input-container>
 			                        <md-input-container flex="100" flex-gt-xs="33">
 			                          <input type="number" name="prix" ng-model="vm.espece_capture.prix"
-			                            placeholder="prix " ng-init="vm.espece_capture.prix=''"
+			                            placeholder="prix (Ar/Kg)" ng-init="vm.espece_capture.prix=''"
 			                            ng-disabled="!vm.prix" pattern="\d+" ng-change="vm.modif_prix(vm.espece_capture)" required>
 			                            <div ng-messages="espece_captureform.prix.$error"
 			                              role="alert" ng-show="espece_captureform.prix.$dirty">

@@ -83,6 +83,8 @@
 
       
 
+      
+
       vm.filtre_district = function()
       {
           vm.filtre.id_district           ="*";
