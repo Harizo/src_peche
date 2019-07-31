@@ -603,27 +603,41 @@
                                 <div class="table-header">
                                     <span class="column-title text-center">Nombre <br> de jour de pêche <br> mensuel PAB</span>
                                 </div>
+                              </th>                              
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Nombre de jour<br>total de pêche <br> mensuel PAB</span>
+                                </div>
                               </th>
+
                               <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
                                 <div class="table-header">
                                     <span class="column-title text-center">CPUE <br> moyenne</span>
                                 </div>
                               </th>
 
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
+                              <!--th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
                                 <div class="table-header">
                                     <span class="column-title text-center">stDev <br> CPUE</span>
+                                </div>
+                              </th-->
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Capture <br>totales(t)</span>
+                                </div>
+                              </th>
+
+                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
+                                <div class="table-header">
+                                    <span class="column-title text-center">Erreur <br> relative <br>90 % CPUE</span>
                                 </div>
                               </th>
 
                               <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
                                 <div class="table-header">
                                     <span class="column-title text-center">Nombre <br> d’échantillon <br>CPUE</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Erreur <br> relative <br>90 % CPUE</span>
                                 </div>
                               </th>
 
@@ -641,13 +655,7 @@
 
                               <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
                                 <div class="table-header">
-                                    <span class="column-title text-center">Jours mensuels</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Capture <br>totales(t)</span>
+                                    <span class="column-title text-center">Jour mensuel</span>
                                 </div>
                               </th>
 
@@ -1011,14 +1019,16 @@
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.unite_peche_libelle}}</td> 
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.nbr_unite_peche}}</td>
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat_0(d.nbr_jrs_peche_mensuel_pab)}}</td>
+                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.nbr_total_jrs_peche_mensuel}}</td>
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.cpue_moyenne)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.stDevCPUE)}}</td>    
+                                    <!--td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.stDevCPUE)}}</td-->
+                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.captures_totales_t)}} </td>
+                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.erreur_relative_90_cpue)}} %</td>      
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.nombre_echantillon_cpue}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.erreur_relative_90_cpue)}} %</td>
+                                    
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.moy_pax_pab)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.max_cpue)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.jour_mensuel}}</td>     
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.captures_totales_t)}} </td>    
+                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.max_cpue)}}</td>                                         
+                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.jrs_mensuel}}</td> 
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.max_captures_totales)}}</td>    
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.cl_captures_totales)}}</td>    
                                     <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.erreur_relative_capture_total_90)}} %</td>  
@@ -1071,10 +1081,10 @@
                                     <td ng-show="vm.filtre.pivot == 'req_8'">{{d.erreur_relative}}</td>
                                     <td ng-show="vm.filtre.pivot == 'req_8'">{{d.erreur_rel_capture}}</td>
                                     <td ng-show="vm.filtre.pivot == 'req_8'">{{d.nombre_echantillon}}</td>                               
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.somme_capture_par_espece}} Kg</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.somme_composition_par_espece}} Kg</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{vm.parseFloat(d.capture_espece)}} %</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{vm.parseFloat(d.prix_moyenne)}}</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.capture}} Kg</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.composition_espece}} %</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.capture_espece}} Kg</td> 
+                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{vm.parseFloat(d.prix)}}</td> 
 
                                   <!--FIN RQ 8 -->
 

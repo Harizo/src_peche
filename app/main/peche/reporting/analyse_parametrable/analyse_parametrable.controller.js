@@ -27,9 +27,7 @@
      vm.dtOptions =
       {
         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-        pagingType: 'simple',
-        autoWidth: false,
-        responsive: true
+        pagingType: 'simple'
       };
 
         // natambatra @L2.3{titre:"L2.4 Mois Région Unité de pêche",id:"mois_and_id_unite_peche_and_id_region"},
