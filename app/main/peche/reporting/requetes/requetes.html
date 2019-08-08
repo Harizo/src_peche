@@ -19,56 +19,48 @@
     <!-- CONTENT -->
     <div class="content"layout="column">
        
-                  <md-progress-circular ng-if="vm.affiche_load" class="md-accent" aria-label="Rating" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
-                  <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
+        <md-progress-circular ng-if="vm.affiche_load" class="md-accent" aria-label="Rating" md-mode="indeterminate" md-diameter="64"></md-progress-circular> 
+        <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
                       Chargement,veuillez patienter s'il vous plait ...
-                  </div>
+        </div>
              
-                 <md-tabs  md-dynamic-height>
-                    <md-tab label="Filtre">
-                        <md-tab-body>
-                          <form name="filtrepardateform" class="md-inline-form" novalidate >
+        <md-tabs  md-dynamic-height>
+          <md-tab label="Filtre">
+            <md-tab-body>
+              <form name="filtrepardateform" class="md-inline-form" novalidate >
                       
-                            <div layout="column" layout-gt-xs="row">
-                              <md-input-container flex="100" flex-gt-xs="10">
+                <div layout="column" layout-gt-xs="row">
+                  <md-input-container flex="100" flex-gt-xs="10">
                               
-                                  <label>Requête</label>
-                                    <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load"  required>
+                    <label>Requête</label>
+                      <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load"  required>
                                      
-                                      <md-option ng-repeat="piv in vm.pivots" value="{{piv.id}}" >
-                                        {{piv.titre}}
-                                      </md-option>
+                        <md-option ng-repeat="piv in vm.pivots" value="{{piv.id}}" > {{piv.titre}}
+                        </md-option>
+                      </md-select>
+                  </md-input-container>
+                  <md-input-container flex="100" flex-gt-xs="90">
+                  </md-input-container>
+                </div>
+                
+                <div layout="column" layout-gt-xs="row">
+                  <md-input-container flex="100" flex-gt-xs="10" >
+                    <label>Année</label>
+                    <md-select ng-model="vm.filtre.annee" >
+                      <md-option  value="*">*</md-option>
+                      <md-option ng-repeat="a in vm.annees" value="{{a}}" >{{a}}
+                      </md-option>
+                    </md-select>
+                  </md-input-container>
 
-                                    </md-select>
-
-                                </md-input-container>
-                                <md-input-container flex="100" flex-gt-xs="90">
-                                </md-input-container>
-                              
-                            </div>
-                            <div layout="column" layout-gt-xs="row">
-
-                              <md-input-container flex="100" flex-gt-xs="10" >
-                                  <label>Année</label>
-                                    <md-select ng-model="vm.filtre.annee" >
-                                      <md-option  value="*">*</md-option>
-                                      <md-option ng-repeat="a in vm.annees" value="{{a}}" >
-                                        {{a}}
-                                      </md-option>
-
-                                    </md-select>
-                              </md-input-container>
-
-                              <md-input-container flex="100" flex-gt-xs="10" ng-show="vm.filtre.pivot != 'req_4_1'">
-                                  <label>Mois</label>
-                                    <md-select ng-model="vm.filtre.mois" >
-                                      <md-option  value="*">*</md-option>
-                                      <md-option ng-repeat="m in vm.listes_mois" value="{{m}}" >
-                                        {{vm.affiche_mois(m)}}
-                                      </md-option>
-
-                                    </md-select>
-                              </md-input-container>
+                  <md-input-container flex="100" flex-gt-xs="10" ng-show="vm.filtre.pivot != 'req_4_1'">
+                    <label>Mois</label>
+                    <md-select ng-model="vm.filtre.mois" >
+                      <md-option  value="*">*</md-option>
+                      <md-option ng-repeat="m in vm.listes_mois" value="{{m}}" >{{vm.affiche_mois(m)}}
+                      </md-option>
+                    </md-select>
+                  </md-input-container>
                                 
                                 <!--div flex="100" flex-gt-xs="10" ng-if="vm.filtre.pivot == 'req_1'">
                                     <u>  Date du:</u>
@@ -78,8 +70,7 @@
                                     </md-datepicker>
                                 </div-->
 
-                                <md-input-container flex="100" flex-gt-xs="60">
-                                </md-input-container>
+                  <md-input-container flex="100" flex-gt-xs="60"></md-input-container>
                                 <!--div flex="100" flex-gt-xs="10" ng-if="vm.affichage_date_fin">
                                     <u>  Jusqu'au:</u>
                                     <md-datepicker md-min-date="vm.filtre.date_debut" md-max-date="vm.now_date" ng-model="vm.filtre.date_fin" md-placeholder="Date fin" name="date_fin"  required>
@@ -89,1029 +80,594 @@
                            
                                 
                               
-                            </div>
-                            <div layout="column" layout-gt-xs="row" flex>
-                                <md-input-container flex="100" flex-gt-xs="90">
-                                  <label>Région(= Strate Mineur)</label>
-                                    <md-select ng-model="vm.filtre.id_region" name="region" ng-change="vm.filtre_district()" required>
-                                      <md-option  value="*">*</md-option>
-                                      <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" >
-                                        {{region.nom}}
-                                      </md-option>
-
-                                    </md-select>
-                                    <div ng-messages="filtrepardateform.region.$error"
-                                      role="alert">
-                                      <div ng-message="required">
-                                        <span>Région/Strate Mineur obligatoire</span>
-                                      </div>
-                                    </div>
-                                </md-input-container>
-                                <md-input-container flex="100" flex-gt-xs="90">
-                                  <label>District</label>
-                                    <md-select ng-model="vm.filtre.id_district" ng-disabled="!vm.filtre.id_region" ng-change="vm.filtre_site()">
-                                      <md-option  value="*">*</md-option>
-                                      <md-option ng-repeat="d in vm.districts" value="{{d.id}}">
-                                        {{d.nom}}
-                                      </md-option>
+                </div>
+                
+                <div layout="column" layout-gt-xs="row" flex>
+                  <md-input-container flex="100" flex-gt-xs="90">
+                    <label>Région(= Strate Mineur)</label>
+                    <md-select ng-model="vm.filtre.id_region" name="region" ng-change="vm.filtre_district()" required>
+                      <md-option  value="*">*</md-option>
+                      <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" > {{region.nom}}</md-option>
+                    </md-select>
+                    <div ng-messages="filtrepardateform.region.$error" role="alert">
+                      <div ng-message="required"><span>Région/Strate Mineur obligatoire</span></div>
+                    </div>
+                  </md-input-container>
+                  
+                  <md-input-container flex="100" flex-gt-xs="90">
+                    <label>District</label>
+                    <md-select ng-model="vm.filtre.id_district" ng-disabled="!vm.filtre.id_region" ng-change="vm.filtre_site()">
+                      <md-option  value="*">*</md-option>
+                      <md-option ng-repeat="d in vm.districts" value="{{d.id}}"> {{d.nom}}</md-option>
                                   
-                                    </md-select>
-                                </md-input-container>
-                                <md-input-container flex="100" flex-gt-xs="90">
-                                  <label>Site de débarquement</label>
-                                    <md-select ng-model="vm.filtre.id_site_embarquement" ng-disabled="!vm.filtre.id_district">
-                                      <md-option  value="*">*</md-option>
-                                      <md-option ng-repeat="s in vm.sites" value="{{s.id}}">
-                                        {{s.libelle}}
-                                      </md-option>
-                                  
-                                    </md-select>
-                                </md-input-container>
-                                <md-input-container flex="100" flex-gt-xs="90">
-                                  <label>Unité de pêche</label>
-                                    <md-select ng-model="vm.filtre.id_unite_peche" >
-                                      <md-option  value="*">*</md-option>
-                                      <md-option ng-repeat="up in vm.unite_peches" value="{{up.id}}">
-                                        {{up.libelle}}
-                                      </md-option>
-                                     
-                                </md-input-container>
-                                <md-input-container flex="100" flex-gt-xs="90" ng-show="(vm.filtre.pivot != 'req_4_1')&&(vm.filtre.pivot != 'req_5_1')">
-                                  <label>Espèce</label>
-                                    <md-select ng-model="vm.filtre.id_espece" >
-                                      <md-option  value="*">*</md-option>
-                                      <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
-                                       <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > ({{espece.code}}){{espece.nom_local}}
-                                      
-                                      </md-option>                                   
-                                </md-input-container>
-                            </div>
-                            <div>
-                             <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                  ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.filtrer(vm.filtre)">
-                                  Actualiser
-                            </md-button>
+                     </md-select>
+                  </md-input-container>
+                  
+                  <md-input-container flex="100" flex-gt-xs="90">
+                    <label>Site de débarquement</label>
+                    <md-select ng-model="vm.filtre.id_site_embarquement" ng-disabled="!vm.filtre.id_district">
+                      <md-option  value="*">*</md-option>
+                      <md-option ng-repeat="s in vm.sites" value="{{s.id}}"> {{s.libelle}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                  
+                  <md-input-container flex="100" flex-gt-xs="90">
+                    <label>Unité de pêche</label>
+                    <md-select ng-model="vm.filtre.id_unite_peche" >
+                      <md-option  value="*">*</md-option>
+                      <md-option ng-repeat="up in vm.unite_peches" value="{{up.id}}"> {{up.libelle}}
+                      </md-option>
+                  </md-input-container>
+                  
+                  <md-input-container flex="100" flex-gt-xs="90" ng-show="(vm.filtre.pivot != 'req_4_1')&&(vm.filtre.pivot != 'req_5_1')">
+                    <label>Espèce</label>
+                      <md-select ng-model="vm.filtre.id_espece" >
+                        <md-option  value="*">*</md-option>
+                        <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
+                          <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > ({{espece.code}}){{espece.nom_local}}
+                         </md-option>                                   
+                  </md-input-container>
+                </div>
+                
+                <div>
+                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.filtrer(vm.filtre)"> Actualiser
+                  </md-button>
                             <!--md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
                               Annuler
                             </md-button-->
-                            </div>
-                          </form>
-                        </md-tab-body>
-                    </md-tab>
-                </md-tabs>
+                </div>
+              </form>
+            </md-tab-body>
+          </md-tab>
+        </md-tabs>
 
-                <md-tabs md-dynamic-height>
-                  <md-tab label="Résultat">
-                    <div class="table-responsive" >
-                      <table class="dataTable row-border cell-border text-center" id="table1"  ms-responsive-table datatable="ng"
-                          dt-options="vm.dtOptions">
-                          <thead>                          
-                          <tr>
+         <md-tabs md-dynamic-height>
+            <md-tab label="Résultat">
+              <div class="table-responsive" >
+                <table class="dataTable row-border cell-border text-center" id="table1"  ms-responsive-table datatable="ng" dt-options="vm.dtOptions">
+                  <thead>                          
+                    <tr>
+                      <th class="secondary-text" ng-show="!vm.filtre.pivot">
+                        <div class="table-header">
+                          <span class="column-title text-center">Le Champ requête est obligatoire</span>
+                        </div>
+                      </th>                            
+                      
+                      <!-- RQ 10 9 6.1 4.2 4.1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('annee',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Année</span>
+                        </div>
+                      </th>
 
-                            <th class="secondary-text" ng-show="!vm.filtre.pivot">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Le Champ requête est obligatoire</span>
-                                </div>
-                            </th>
+                      <!-- RQ 5.1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('codeteteuniq',vm.filtre.pivot)">
+                        <div class="table-header">
+                           <span class="column-title text-center">Code<br> unique en-tête / <br> Code unique <br>Echantillon</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 7.3 7.1 7.2 6.2 5.4-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('moi',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Mois</span>
+                        </div>
+                      </th>
 
-                            <!-- RQ 1 -->
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Site de <br> débarquement</span>
-                                </div>
-                              </th>
+                      <!-- RQ 6.2 5.4-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('jrmensuel',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Jours mensuels</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 10 8 -->
+                      <th class="secondary-text" ng-show="vm.cacher_table('region',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Région</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 9 8 6.2 5.1 4.1 1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('site',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Site de <br> débarquement</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 10 9 8 7.3 7.2 7.1 6.2 6.1 5.4 5.3 5.2 4.2 4.1 3 2 1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('unite',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Unité de<br> pêche</span>
+                        </div>
+                      </th>
 
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Date</span>
-                                </div>
-                              </th>
+                      <!-- RQ 5.1 1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('date',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Date</span>
+                        </div>
+                      </th>
 
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
+                      <!-- RQ 5.1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('phier',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Pêche<br> hier</span>
+                        </div>
+                      </th>
 
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Total <br> Capture (Kg)</span>
-                                </div>
-                              </th>
+                      <!-- RQ 5.1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('pavanthier',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Pêche <br>avant<br> hier</span>
+                        </div>
+                      </th>
 
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">CPUE</span>
-                                </div>
-                              </th>
+                      <!-- RQ 5.1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('nbrjrssemdern',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Nombre de jours<br> de pêche  <br>la semaine dernière</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('pabs',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">PAB</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 10 9 6.2 4.2 4.1 -->
+                      <th class="secondary-text" ng-show="vm.cacher_table('nbrunite',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Nombre <br> unité de pêche</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.4 5.3 5.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('pabmoy',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">PAB Moy</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.3-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('maxpab',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Max<br>PAB</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.3 5.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('stdevpab',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">StdevPAB</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('nbrechantilonpab',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Nbr <br>Echantillon<br> PAB</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('nbrjrpeche',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Nbr <br>jrs <br>de pêche</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 6.2 5.4-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('jrpechemenspab',vm.filtre.pivot)">
+                       <div class="table-header">
+                          <span class="column-title text-center">Nombre <br> de jour de pêche <br> mensuel PAB</span>
+                         </div>
+                      </th>
+                      
+                      <!-- RQ 8 6.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('jrtotalmensuel',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Nombre de jour<br>total de pêche <br> mensuel PAB</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 6.2 3 2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('cpuemoy',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">CPUE <br> moyenne</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 3 2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('stdevcpue',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">stDev <br> CPUE</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 3 2 5.3 5.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('sqr',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">SQR(n)</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.3 5.2 2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('degre',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">DégréesLibertes</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.3 3-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('fractil90',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">90 % <br> Fractile</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 3-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('clcpue',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">CLCPUE</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 7.3 7.1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('code3Al',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Code3Alpha</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 6.2 5.3 3-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('erelative',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Erreur <br> relative <br>90 %</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 6.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('erelcapttot',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Erreur relative<br>  <br>capture totales 90 %</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 6.2 3 2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('nbrechantillon',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Nombre <br> d’échantillon <br>CPUE</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 6.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('capturtotal',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Captures <br>totales(t)</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('capturet',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Total <br> Capture (Kg)</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 7.2 7.1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('caapture',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Capture(Kg)</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 7.3-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('captureunite',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Capture total</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.3-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('clpab',vm.filtre.pivot)">
+                        <div class="table-header">
+                            <span class="column-title text-center">CLPAB</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 6.2 5.4-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('moymaxxpab',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Moyenne <br> Max<br>PAB</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.4-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('moynmaxxpabcor',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Moy MaxPAB <br> correcte </span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 5.4-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('maxjrpechemensupab',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Max Nombre <br> jour de pêche <br> mensuel PAB </span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 6.2 3-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('maxcpue',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Max <br> CPUE</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 1-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('cpues',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">CPUE</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 6.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('maxcapttot',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Max capture <br>totales(t)</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 6.2-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('clcapt',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">CL capture <br>totales(t)</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 7.3-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('composi',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Composition <br> d'espèces</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 7.3 -->
+                      <th class="secondary-text" ng-show="vm.cacher_table('captureespece',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Captures totales <br> par espèce</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 7.3-->
+                      <th class="secondary-text" ng-show="vm.cacher_table('prixmoy',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Prix moyenne</span>
+                        </div>
+                      </th>
+                      
+                      <!-- RQ 8 -->
+                      <th class="secondary-text" ng-show="vm.cacher_table('pprix',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Prix</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 7.1 -->
+                      <th class="secondary-text" ng-show="vm.cacher_table('prixunitmoy',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Prix moyenne</span>
+                        </div>
+                      </th>
+
+                      <!-- RQ 6.1 -->
+                      <th class="secondary-text" ng-show="vm.cacher_table('totalannuel',vm.filtre.pivot)">
+                        <div class="table-header">
+                          <span class="column-title text-center">Total annuel</span>
+                        </div>
+                      </th>
+
+
+                              
+                               
+                              
+                              
+                              
+                              
+                                                            
+                              
+                              
+                              
+                              
+                              
+                               
+                              
+                              
+                              
+                              
+                              
+                              
+
+                              
                             <!--FIN RQ 1 -->
+                    </tr>
+                  </thead>
+                <tbody>
+                  <tr ng-repeat="d in vm.datas"  ng-class="{selected: unite_peche.$selected}">
+                    <td ng-show="!vm.filtre.pivot">Le Champ requête est obligatoire</td>
+
+                    <!-- RQ 10 9 6.1 4.2 4.1-->
+                    <td ng-show="vm.cacher_table('annee',vm.filtre.pivot)">{{d.annee}}</td>
+
+                    <!-- RQ 5.1 --> 
+                    <td ng-show="vm.cacher_table('codeteteuniq',vm.filtre.pivot)">{{(d.code_unique_fiche)}} <br> {{(d.code_unique_echantillon)}}</td>
+
+                    <!-- RQ 8 7.3 7.1 7.2 6.2 5.4--> 
+                    <td ng-show="vm.cacher_table('moi',vm.filtre.pivot)">{{d.mois}}</td>
+
+                    <!-- RQ 6.2 5.4-->
+                    <td ng-show="vm.cacher_table('jrmensuel',vm.filtre.pivot)">{{d.nbr_jour_mois}}</td>
+
+                    <!-- RQ 10 8 -->
+                    <td ng-show="vm.cacher_table('region',vm.filtre.pivot)">{{d.libelle_region}}</td>
+                    
+                    <!-- RQ 9 8 6.2 5.1 4.1 1-->
+                    <td ng-show="vm.cacher_table('site',vm.filtre.pivot)">{{d.libelle}}</td>
+                    
+                    <!-- RQ 10 9 8 7.3 7.2 7.1 6.2 6.1 5.4 5.3 5.2 4.2 4.1 3 2 1-->
+                    <td ng-show="vm.cacher_table('unite',vm.filtre.pivot)">{{d.libelle_unite_peche}}</td>
 
-                            <!-- RQ 2 -->
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Mois</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">CPUE <br> moyenne</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">stDev <br> CPUE</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> d’échantillon <br>CPUE</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">SQR(n)</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">DégréesLibertes</span>
-                                </div>
-                              </th>
-                       
-                            <!--FIN RQ 2 -->
-
-                            <!-- RQ 3 -->
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Mois</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">CPUE <br> moyenne</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">stDev <br> CPUE</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> d’échantillon <br>CPUE</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">SQR(n)</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">90 % <br> 
-                                    Fractile</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">CLCPUE</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Erreur <br> relative <br>90 %</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Max <br> CPUE</span>
-                                </div>
-                              </th>                              
-                            
-                            <!--FIN RQ 3 -->
-
-                            <!-- RQ 4.1 -->
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_4_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Année</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_4_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Site de <br> débarquement</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_4_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_4_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> unité de pêche</span>
-                                </div>
-                              </th>
-                                
-
-                            <!--FIN RQ 4.1 -->
-
-                              
-
-                            <!-- RQ 4.2 -->
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_4_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Année</span>
-                                </div>
-                              </th>
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_4_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_4_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> unité de pêche</span>
-                                </div>
-                              </th>
-                              
-                            <!--FIN RQ 4.2 -->
-                             
-
-                            <!-- RQ 5.1 -->
-                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_5_1')">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Code<br> unique en-tête / <br> Code unique <br>Echantillon</span>
-                                </div>
-                              </th>
-
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Site de <br> débarquement</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Date</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_5_1')">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Pêche<br> hier</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_5_1')">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Pêche <br>avant<br> hier</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_5_1')">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre de jours<br> de pêche  <br>la semaine dernière</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="(vm.filtre.pivot == 'req_5_1')">
-                                <div class="table-header">
-                                    <span class="column-title text-center">PAB</span>
-                                </div>
-                              </th>
-                              
-                            <!--FIN RQ 5.1 -->
-
-
-
-                            <!-- RQ 5.2 -->
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">PAB Moy</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">StdevPAB</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nbr <br>Echantillon<br> PAB</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nbr <br>jrs <br>de pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">DégréesLibertes</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">SQR(n)</span>
-                                </div>
-                              </th>
-                              
-                            <!-- FIN RQ 5.2 -->
-
-                            <!-- RQ 5.3 -->
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-
-                              
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">PAB Moy</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Max<br>PAB</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">StdevPAB</span>
-                                </div>
-                              </th>
-                              
-                              
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">SQR(n)</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">90 %<br>Fractile</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Erreur relative<br>90% PAB</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">CLPAB</span>
-                                </div>
-                              </th>
-
-
-                              
-                            <!-- FIN RQ 5.3 -->
-
-                            <!-- RQ 5.4 -->
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_4'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Mois</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_4'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Jours mensuels</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_4'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-
-                              
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_4'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">PAB Moy</span>
-                                </div>
-                              </th>
-
-                              
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_4'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> de jour de pêche <br> mensuel PAB</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_4'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Moyenne <br> Max<br>PAB</span>
-                                </div>
-                              </th>
-                              
-                              
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_4'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Moy MaxPAB <br> correcte </span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_5_4'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Max Nombre <br> jour de pêche <br> mensuel PAB </span>
-                                </div>
-                              </th>
-
-                              
-
-                              
-                            <!-- FIN RQ 5.4 -->
-
-                            <!-- RQ 6.1 -->
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Année</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Total annuel</span>
-                                </div>
-                              </th>
-                            <!--FIN RQ 6.1 -->
-                            <!-- RQ 6.2 -->
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Mois</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Site d'enquête</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> unité de pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> de jour de pêche <br> mensuel PAB</span>
-                                </div>
-                              </th>                              
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre de jour<br>total de pêche <br> mensuel PAB</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">CPUE <br> moyenne</span>
-                                </div>
-                              </th>
-
-                              <!--th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">stDev <br> CPUE</span>
-                                </div>
-                              </th-->
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Capture <br>totales(t)</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Erreur <br> relative <br>90 % CPUE</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> d’échantillon <br>CPUE</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Moyenne <br> Max<br>PAB</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Max <br> CPUE</span>
-                                </div>
-                              </th>                              
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Jour mensuel</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Max capture <br>totales(t)</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">CL capture <br>totales(t)</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_6_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Erreur relative<br>  <br>capture totales 90 %</span>
-                                </div>
-                              </th>                              
-                            
-                            <!--FIN RQ 6.2 -->
-
-                            <!-- RQ 7.1 -->
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Mois</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Code3Alpha</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Capture(Kg)</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_1'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Prix moyenne</span>
-                                </div>
-                              </th>
-                            <!--FIN RQ 7.1 -->
-
-                            <!-- RQ 7.2 -->
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Mois</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                             
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_2'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Capture(Kg)</span>
-                                </div>
-                              </th>
-
-                            <!--FIN RQ 7.2 -->
-
-                            <!-- RQ 7.3 -->
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Mois</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Code3Alpha</span>
-                                </div>
-                              </th>
-                             
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Capture espèce</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Capture total</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Composition <br> d'espèces</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_7_3'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Prix <br> moyenne</span>
-                                </div>
-                              </th>
-
-                            <!--FIN RQ 7.3 -->
-
-                            <!-- RQ 8 -->
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Mois</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Sit de<br> débarquement</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nbr_jrs_mensuel</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Total_nbr_jour</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Code3Alpha</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Rel_erreur_cpue</span>
-                                </div>
-                              </th>
-                             
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Rel_erreur_capture</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre echantillon</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Capture total</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Composition <br> d'espèces</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Capture espèce</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_8'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Prix <br> moyenne</span>
-                                </div>
-                              </th>
-
-                              
-
-                            <!--FIN RQ 8 -->
-
-                            <!-- RQ 9 -->
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_9'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Année</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_9'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Site</span>
-                                </div>
-                              </th>
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_9'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_9'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> unité de pêche</span>
-                                </div>
-                              </th>
-                              
-                            <!--FIN RQ 9 -->
-
-                            <!-- RQ 10 -->
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_10'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Année</span>
-                                </div>
-                              </th>
-
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_10'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Région</span>
-                                </div>
-                              </th>
-                              
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_10'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Unité de<br> pêche</span>
-                                </div>
-                              </th>
-                              <th class="secondary-text" ng-show="vm.filtre.pivot == 'req_10'">
-                                <div class="table-header">
-                                    <span class="column-title text-center">Nombre <br> unité de pêche</span>
-                                </div>
-                              </th>
-                              
-                            <!--FIN RQ 10 -->
-                            
-                          </tr>
-                          </thead>
-                          <tbody>
-                              <tr ng-repeat="d in vm.datas"  ng-class="{selected: unite_peche.$selected}">
-                                  <td ng-show="!vm.filtre.pivot">Le Champ requête est obligatoire</td> 
-                                  <!-- RQ 1 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_1'">{{d.libelle}}</td>  
-                                    <td ng-show="vm.filtre.pivot == 'req_1'">{{vm.formatDateListe(d.date)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_1'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_1'">{{d.capture}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_1'">{{vm.parseFloat(d.cpue)}}</td>  
-                                  <!--FIN RQ 1 -->
-
-                                  <!-- RQ 2 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_2'">{{d.mois}}</td>  
-                                    <td ng-show="vm.filtre.pivot == 'req_2'">{{d.libelle_unite_peche}}</td>   
-                                    <td ng-show="vm.filtre.pivot == 'req_2'">{{vm.parseFloat(d.moyenne)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_2'">{{d.ecart_type}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_2'">{{d.nombre}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_2'">{{d.sqrt}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_2'">{{d.degree}}</td>  
-                                  <!--FIN RQ 2 -->
-
-                                  <!-- RQ 3 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{d.mois}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{vm.parseFloat(d.moyenne)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{d.ecart_type}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{d.nombre}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{d.sqrt}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{vm.parseFloat(d.distribution_90)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{d.clcpue}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{d.erreur_relative}} %</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_3'">{{d.max_cpue}}</td>  
-                                  <!--FIN RQ 3 -->
-
-                                  <!-- RQ 4.1 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_4_1'">{{d.annee}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_4_1'">{{d.libelle}}</td>  
-                                    <td ng-show="vm.filtre.pivot == 'req_4_1'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="(vm.filtre.pivot == 'req_4_1')">{{d.nbr_unite_peche}}</td>    
-
-                                  <!--FIN RQ 4.1 -->
-
-                                  <!-- RQ 4.2 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_4_2'">{{d.annee}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_4_2'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_4_2'">{{d.nbr_unite_peche}}</td> 
-                                  <!--FIN RQ 4.2 -->
-
-                                  <!-- RQ 5.1 -->
-                                    <td ng-show="(vm.filtre.pivot == 'req_5_1')">{{(d.code_unique_fiche)}} <br> {{(d.code_unique_echantillon)}}</td>  
-                                    <td ng-show="vm.filtre.pivot == 'req_5_1'">{{d.libelle}}</td>  
-                                    <td ng-show="vm.filtre.pivot == 'req_5_1'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="(vm.filtre.pivot == 'req_5_1')">{{vm.formatDateListe(d.date)}}</td> 
-                                    <td ng-show="(vm.filtre.pivot == 'req_5_1')">{{(d.peche_hier)}}</td>    
-                                    <td ng-show="(vm.filtre.pivot == 'req_5_1')">{{(d.peche_avant_hier)}}</td>      
-                                    <td ng-show="(vm.filtre.pivot == 'req_5_1')">{{(d.nbr_jrs_peche_dernier_sem)}}</td>      
-                                    <td ng-show="(vm.filtre.pivot == 'req_5_1')">{{vm.parseFloat(d.pab)}}</td>
-                                  <!--FIN RQ 5.1 -->
-
-                                  <!-- RQ 5.2 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_5_2'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_5_2'">{{vm.parseFloat(d.pab_moy)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_2'">{{vm.parseFloat(d.ecart_type)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_2'">{{d.nombre_echantillon}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_2'">{{vm.parseFloat_0(d.nbr_jrs_peche_mois)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_2'">{{vm.parseFloat(d.degree)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_2'">{{vm.parseFloat(d.sqrt)}}</td>
-                                  <!-- FIN RQ 5.2 -->
-
-                                  <!-- RQ 5.3 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_5_3'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_5_3'">{{vm.parseFloat(d.pab_moy)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_3'">{{vm.parseFloat(d.max_pab)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_3'">{{vm.parseFloat(d.ecart_type)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_3'">{{vm.parseFloat(d.sqrt)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_3'">{{vm.parseFloat(d.distribution_90)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_3'">{{vm.parseFloat(d.erreur_relative_90)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_3'">{{vm.parseFloat(d.clpab)}}</td>
-                                  <!-- FIN RQ 5.3 -->
-
-                                  <!-- RQ 5.4 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_5_4'">{{d.mois}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_5_4'">{{d.nbr_jour_mois}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_5_4'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_5_4'">{{vm.parseFloat(d.pab_moy)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_4'">{{vm.parseFloat_0(d.nbr_jrs_peche_mensuel_pab)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_4'">{{vm.parseFloat(d.max_pab)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_4'">{{vm.parseFloat(d.moy_pax_pab_correcte)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_5_4'">{{vm.parseFloat_0(d.max_nbr_jrs_peche_mensuel_pab)}}</td>
-                                  <!-- FIN RQ 5.4 -->
-
-                                  <!-- RQ 6.1 -->
-
-                                    <td ng-show="vm.filtre.pivot == 'req_6_1'">{{d.annee}}</td> 
-
-                                    <td ng-show="vm.filtre.pivot == 'req_6_1'">{{d.libelle_unite_peche}}</td> 
-
-                                    <td ng-show="vm.filtre.pivot == 'req_6_1'">{{d.somme}}</td> 
-                                  <!--FIN RQ 6.1 -->
-
-                                  <!-- RQ 6.2 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.affiche_mois(d.mois)}}</td> <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.site_embarquement}}</td>   
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.unite_peche_libelle}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.nbr_unite_peche}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat_0(d.nbr_jrs_peche_mensuel_pab)}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.nbr_total_jrs_peche_mensuel}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.cpue_moyenne)}}</td>    
-                                    <!--td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.stDevCPUE)}}</td-->
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.captures_totales_t)}} </td>
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.erreur_relative_90_cpue)}} %</td>      
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.nombre_echantillon_cpue}}</td>    
-                                    
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.moy_pax_pab)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.max_cpue)}}</td>                                         
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{d.jrs_mensuel}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.max_captures_totales)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.cl_captures_totales)}}</td>    
-                                    <td ng-show="vm.filtre.pivot == 'req_6_2'">{{vm.parseFloat(d.erreur_relative_capture_total_90)}} %</td>  
-                                  <!--FIN RQ 6.2 -->
-
-                                  <!-- RQ 7.1 -->
-
-
-                                    <td ng-show="vm.filtre.pivot == 'req_7_1'">{{vm.affiche_mois(d.mois)}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_1'">{{d.libelle_unite_peche}}</td> 
-
-                                    <td ng-show="vm.filtre.pivot == 'req_7_1'">{{d.code}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_1'">{{vm.parseFloat(d.capture_par_espece)}}</td> 
-
-                                    <td ng-show="vm.filtre.pivot == 'req_7_1'">{{vm.parseFloat(d.prix_unitaire_moyenne)}}</td> 
-                                  <!--FIN RQ 7.1 -->
-
-                                  <!-- RQ 7.2 -->
-
-
-                                    <td ng-show="vm.filtre.pivot == 'req_7_2'">{{vm.affiche_mois(d.mois)}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_2'">{{d.libelle_unite_peche}}</td>                               
-                                    <td ng-show="vm.filtre.pivot == 'req_7_2'">{{vm.parseFloat(d.capture_par_espece)}}</td> 
-
-                                  <!--FIN RQ 7.2 -->
-
-                                  <!-- RQ 7.3 -->
-
-
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.affiche_mois(d.mois)}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{d.l_id_unite}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{d.code}}</td>                               
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.somme_capture_par_espece)}} Kg</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.somme_capture_par_unite_peche)}} Kg</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.composition_espece)}} %</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_7_3'">{{vm.parseFloat(d.prix_moyenne)}}</td> 
-
-
-                                  <!--FIN RQ 7.3 -->
-
-                                  <!-- RQ 8 -->
-
-
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.mois}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.site_embarquement}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.unite_peche}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.nbr_jrs_peche_mensuel_pab}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.nbr_total_jrs_peche_mensuel}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.code}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.erreur_relative}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.erreur_rel_capture}}</td>
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.nombre_echantillon}}</td>                               
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.capture}} Kg</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.composition_espece}} %</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{d.capture_espece}} Kg</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_8'">{{vm.parseFloat(d.prix)}}</td> 
-
-                                  <!--FIN RQ 8 -->
-
-                                  <!-- RQ 9 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_9'">{{d.annee}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_9'">{{d.libelle_site}}</td>  
-                                    <td ng-show="vm.filtre.pivot == 'req_9'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="(vm.filtre.pivot == 'req_9')">{{d.nbr}}</td>    
-
-                                  <!--FIN RQ 9 -->
-
-                                  <!-- RQ 10 -->
-                                    <td ng-show="vm.filtre.pivot == 'req_10'">{{d.annee}}</td> 
-                                    <td ng-show="vm.filtre.pivot == 'req_10'">{{d.libelle_region}}</td>  
-                                    <td ng-show="vm.filtre.pivot == 'req_10'">{{d.libelle_unite_peche}}</td> 
-                                    <td ng-show="(vm.filtre.pivot == 'req_10')">{{d.nbr}}</td>    
-
-                                  <!--FIN RQ 10 -->
-                                   
-
-                                                      
-                              </tr>
-                          </tbody>
-                      </table>
-                    </div>  
-                  </md-tab>
-                </md-tabs>
+                    <!-- RQ 5.1 1-->
+                    <td ng-show="vm.cacher_table('date',vm.filtre.pivot)">{{vm.formatDateListe(d.date)}}</td>
+
+                    <!-- RQ 5.1-->                                     
+                    <td ng-show="vm.cacher_table('phier',vm.filtre.pivot)">{{(d.peche_hier)}}</td>
+
+                    <!-- RQ 5.1-->    
+                    <td ng-show="vm.cacher_table('pavanthier',vm.filtre.pivot)">{{(d.peche_avant_hier)}}</td>
+
+                    <!-- RQ 5.1-->      
+                    <td ng-show="vm.cacher_table('nbrjrssemdern',vm.filtre.pivot)">{{(d.nbr_jrs_peche_dernier_sem)}}</td>
+
+                    <!-- RQ 5.1--> 
+                    <td ng-show="vm.cacher_table('pabs',vm.filtre.pivot)">{{vm.parseFloat(d.pab)}}</td>
+
+                    <!-- RQ 10 9 6.2 4.2 4.1 -->
+                    <td ng-show="vm.cacher_table('nbrunite',vm.filtre.pivot)">{{d.nbr_unite_peche}}</td>
+
+                    <!-- RQ 5.4 5.3 5.2-->
+                    <td ng-show="vm.cacher_table('pabmoy',vm.filtre.pivot)">{{vm.parseFloat(d.pab_moy)}}</td>
+
+                    <!-- RQ 5.3 -->
+                    <td ng-show="vm.cacher_table('maxpab',vm.filtre.pivot)">{{vm.parseFloat(d.max_pab)}}</td>
+
+                    <!-- RQ 5.3 5.2 -->
+                    <td ng-show="vm.cacher_table('stdevpab',vm.filtre.pivot)">{{vm.parseFloat(d.ecart_type)}}</td>
+
+                    <!-- RQ 5.2 -->
+                    <td ng-show="vm.cacher_table('nbrechantilonpab',vm.filtre.pivot)">{{d.nombre_echantillon}}</td>
+
+                    <!-- RQ 5.2 -->
+                    <td ng-show="vm.cacher_table('nbrjrpeche',vm.filtre.pivot)">{{vm.parseFloat_0(d.nbr_jrs_peche_mois)}}</td>
+                    
+                    <!-- RQ 8 6.2 5.4-->
+                    <td ng-show="vm.cacher_table('jrpechemenspab',vm.filtre.pivot)">{{vm.parseFloat_0(d.nbr_jrs_peche_mensuel_pab)}}</td>
+                    
+                    <!-- RQ 8 6.2-->
+                    <td ng-show="vm.cacher_table('jrtotalmensuel',vm.filtre.pivot)">{{d.nbr_total_jrs_peche_mensuel}}</td>
+
+                    <!-- RQ 6.2 3 2-->
+                    <td ng-show="vm.cacher_table('cpuemoy',vm.filtre.pivot)">{{vm.parseFloat(d.moyenne)}}</td>
+
+                    <!-- RQ 3 2-->
+                    <td ng-show="vm.cacher_table('stdevcpue',vm.filtre.pivot)">{{d.ecart_type}}</td>
+
+                    <!-- RQ 5.3 5.2  3 2-->
+                    <td ng-show="vm.cacher_table('sqr',vm.filtre.pivot)">{{d.sqrt}}</td>
+
+                    <!-- RQ 5.3 5.2 2-->
+                    <td ng-show="vm.cacher_table('degre',vm.filtre.pivot)">{{d.degree}}</td>
+
+                    <!-- RQ 5.3 3-->
+                    <td ng-show="vm.cacher_table('fractil90',vm.filtre.pivot)">{{vm.parseFloat(d.distribution_90)}}</td>
+
+                    <!-- RQ 3-->
+                    <td ng-show="vm.cacher_table('clcpue',vm.filtre.pivot)">{{d.clcpue}}</td> 
+                    
+                    <!-- RQ 8 7.3 7.1-->
+                    <td ng-show="vm.cacher_table('code3Al',vm.filtre.pivot)">{{d.code}}</td>
+                    
+                    <!-- RQ 8 6.2 5.3 3-->
+                    <td ng-show="vm.cacher_table('erelative',vm.filtre.pivot)">{{d.erreur_relative_90}} %</td>
+                    
+                    <!-- RQ 8 6.2-->
+                    <td ng-show="vm.cacher_table('erelcapttot',vm.filtre.pivot)">{{vm.parseFloat(d.erreur_relative_capture_total_90)}} %</td>
+                    
+                    <!-- RQ 8 6.2 3 2-->
+                    <td ng-show="vm.cacher_table('nbrechantillon',vm.filtre.pivot)">{{d.nombre}}</td>
+                    
+                    <!-- RQ 8 6.2-->
+                    <td ng-show="vm.cacher_table('capturtotal',vm.filtre.pivot)">{{vm.parseFloat(d.captures_totales_t)}} </td>
+
+                    <!-- RQ 1-->
+                    <td ng-show="vm.cacher_table('capturet',vm.filtre.pivot)">{{d.capture}}</td>
+
+                    <!-- RQ 7.2 7.1-->
+                    <td ng-show="vm.cacher_table('caapture',vm.filtre.pivot)">{{vm.parseFloat(d.capture_par_espece)}}</td>
+
+                    <!-- RQ 7.3-->
+                    <td ng-show="vm.cacher_table('captureunite',vm.filtre.pivot)">{{vm.parseFloat(d.somme_capture_par_unite_peche)}} Kg</td>
+
+                    <!-- RQ 5.3-->
+                    <td ng-show="vm.cacher_table('clpab',vm.filtre.pivot)">{{vm.parseFloat(d.clpab)}}</td>
+
+                    <!-- RQ 6.2 5.4-->
+                    <td ng-show="vm.cacher_table('moymaxxpab',vm.filtre.pivot)">{{vm.parseFloat(d.max_pab)}}</td>
+
+                    <!-- RQ 5.4-->
+                    <td ng-show="vm.cacher_table('moynmaxxpabcor',vm.filtre.pivot)">{{vm.parseFloat(d.moy_pax_pab_correcte)}}</td>
+
+                    <!-- RQ 5.4-->
+                    <td ng-show="vm.cacher_table('maxjrpechemensupab',vm.filtre.pivot)">{{vm.parseFloat_0(d.max_nbr_jrs_peche_mensuel_pab)}}</td>
+
+                    <!-- RQ 6.2 3-->
+                    <td ng-show="vm.cacher_table('maxcpue',vm.filtre.pivot)">{{vm.parseFloat(d.max_cpue)}}</td>
+
+                    <!-- RQ 1-->
+                    <td ng-show="vm.cacher_table('cpues',vm.filtre.pivot)">{{vm.parseFloat(d.cpue)}}</td>
+
+                    <!-- RQ 6.2-->
+                    <td ng-show="vm.cacher_table('maxcapttot',vm.filtre.pivot)">{{vm.parseFloat(d.max_captures_totales)}}</td>
+
+                    <!-- RQ 6.2-->
+                    <td ng-show="vm.cacher_table('clcapt',vm.filtre.pivot)">{{vm.parseFloat(d.cl_captures_totales)}}</td>
+                    
+                    <!-- RQ 8 7.3-->
+                    <td ng-show="vm.cacher_table('composi',vm.filtre.pivot)">{{vm.parseFloat(d.composition_espece)}} %</td>
+                    
+                    <!-- RQ 8 7.3-->
+                    <td ng-show="vm.cacher_table('captureespece',vm.filtre.pivot)">{{vm.parseFloat(d.somme_capture_par_espece)}} Kg</td>
+                    
+                    <!-- RQ 8 7.3-->
+                    <td ng-show="vm.cacher_table('prixmoy',vm.filtre.pivot)">{{vm.parseFloat(d.prix_moyenne)}}</td>
+                    
+                    <!-- RQ 8 -->
+                    <td ng-show="vm.cacher_table('pprix',vm.filtre.pivot)">{{vm.parseFloat(d.prix)}}</td>
+
+                    <!-- RQ 7.1 -->
+                    <td ng-show="vm.cacher_table('prixunitmoy',vm.filtre.pivot)">{{vm.parseFloat(d.prix_unitaire_moyenne)}}</td-->
+
+                    <!-- RQ 6.1 -->
+                    <td ng-show="vm.cacher_table('totalannuel',vm.filtre.pivot)">{{d.somme}}</td>
+                    <!--FIN RQ 1 --> 
+                  </tr>
+                </tbody>
+              </table>
+            </div>  
+          </md-tab>
+        </md-tabs>
          
     </div>
     <!-- / CONTENT -->
