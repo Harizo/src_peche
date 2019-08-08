@@ -370,7 +370,18 @@
 														</div>
 													</div>
 												</md-input-container>
+												<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
+													<input type="number" name="duree_mare" ng-model="vm.echantillon.duree_mare"
+													placeholder="Durée de marée" ng-init="vm.echantillon.duree_mare=''" required>
+													<div ng-messages="echantillonform.duree_mare.$error"
+														role="alert">
+														<div ng-message="required">
+															<span>Durée de marée obligatoire</span>
+														</div>
+													</div>
+												</md-input-container>
 											</div>
+
 											<div layout="column" layout-gt-xs="row" flex>
 												<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
 													<input type="number" name="nbr_bateau_actif" ng-model="vm.echantillon.nbr_bateau_actif"
@@ -403,6 +414,16 @@
 														role="alert">
 														<div ng-message="required">
 															<span>Unite de pêche obligatoire.</span>
+														</div>
+													</div>
+												</md-input-container>
+												<md-input-container flex="100" flex-gt-xs="33" ng-show="!vm.checkboxPAB">
+													<input type="number" name="duree_mare" ng-model="vm.echantillon.duree_mare"
+													placeholder="Durée de marée" ng-init="vm.echantillon.duree_mare=''" required>
+													<div ng-messages="echantillonform.duree_mare.$error"
+														role="alert">
+														<div ng-message="required">
+															<span>Durée de marée obligatoire</span>
 														</div>
 													</div>
 												</md-input-container>
@@ -473,7 +494,7 @@
 										</th>										
 										<th class="secondary-text">
 											<div class="table-header">
-												<span class="column-title">Unite peche</span>
+												<span class="column-title">Unite peche<br/>Durée de marée</span>
 											</div>
 										</th>														
 										<th class="secondary-text">
@@ -508,7 +529,7 @@
 										
 										<td ng-show="!vm.checkboxPAB">{{echantillon.nbr_bateau_actif}}<br/>{{echantillon.total_bateau_ecn}}</td>
 
-										<td>{{echantillon.unite_peche.libelle}}</td>
+										<td>{{echantillon.unite_peche.libelle}}<br/>{{echantillon.duree_mare}}</td>
 										
 										<!--td>{{echantillon.type_canoe_nom}}</td-->
 										<!--td>{{echantillon.type_engin_nom}}</td-->

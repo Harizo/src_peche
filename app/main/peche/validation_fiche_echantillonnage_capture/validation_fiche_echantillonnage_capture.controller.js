@@ -647,6 +647,7 @@
         {
             vm.allfiche_echantillonnage_capture  = result.data.response;
             vm.affichageMasqueFiltrepardate = 0 ;
+            vm.afficherboutonnouveau        = 1;
         });
 
     }
@@ -759,7 +760,7 @@
         vm.echantillon.total_capture    = vm.selectedItemEchantillon.total_capture;
         vm.echantillon.nbr_bateau_actif = parseInt(vm.selectedItemEchantillon.nbr_bateau_actif) ;
         vm.echantillon.total_bateau_ecn = parseInt(vm.selectedItemEchantillon.total_bateau_ecn) ;
-        vm.echantillon.data_collect_id  = vm.selectedItemEchantillon.data_collect.id;
+        vm.echantillon.data_collect_id  = vm.selectedItemEchantillon.data_collect.id;        
         
         if(vm.selectedItemEchantillon.peche_hier==1)
         {vm.echantillon.peche_hier=true;}
@@ -772,6 +773,7 @@
         {vm.echantillon.peche_avant_hier=false;}
 
         vm.echantillon.nbr_jrs_peche_dernier_sem = parseInt(vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem);          
+        vm.echantillon.duree_mare       = vm.selectedItemEchantillon.duree_mare;
         
         vm.afficherboutonModifSuprEchantillon = 0;
         vm.afficherboutonModifEchantillon = 1;
@@ -886,20 +888,20 @@
   {   
       if(echantillon.peche_hier)
       {
-          echantillon.peche_hier=1;
+          echantillon.peche_hier='1';
       }
       else
       {
-          echantillon.peche_hier=0;
+          echantillon.peche_hier='0';
       }
 
       if(echantillon.peche_avant_hier)
       {
-          echantillon.peche_avant_hier=1;
+          echantillon.peche_avant_hier='1';
       }
       else
       {
-          echantillon.peche_avant_hier=0;
+          echantillon.peche_avant_hier='0';
       }
       if (NouvelItemEchantillon==false) 
       {
@@ -929,7 +931,8 @@
                 ||(echan[0].data_collect.id!=item.data_collect_id)
                 ||(echan[0].nbr_bateau_actif!=item.nbr_bateau_actif)
                 ||(echan[0].total_bateau_ecn!=item.total_bateau_ecn)
-                ||(echan[0].unite_peche.id!=item.unite_peche_id))                    
+                ||(echan[0].unite_peche.id!=item.unite_peche_id)
+                ||(echan[0].duree_mare!=item.duree_mare))                    
               {
                   insert_in_baseEchantillon(item,suppression);
                   vm.affichageMasqueEchantillon = 0 ;
@@ -993,7 +996,8 @@
           nbr_bateau_actif:                 echantillon.nbr_bateau_actif,
           total_bateau_ecn:                 echantillon.total_bateau_ecn,
           unite_peche_id:                   echantillon.unite_peche_id,
-          user_id:                          userId                
+          user_id:                          userId,
+          duree_mare:                       echantillon.duree_mare                
       });
            
       //factory
@@ -1025,7 +1029,7 @@
                       vm.selectedItemEchantillon.nbr_bateau_actif = vm.echantillon.nbr_bateau_actif;
                       vm.selectedItemEchantillon.total_bateau_ecn = vm.echantillon.total_bateau_ecn;
 
-                  }                   
+                  }                  
                   vm.selectedItemEchantillon.fiche_echantillonnage_capture_id = vm.selectedItem.id;
                   vm.selectedItemEchantillon.type_canoe_id   = vm.echantillon.type_canoe_id;
                   vm.selectedItemEchantillon.type_canoe_nom  = vm.echantillon.type_canoe_nom;
@@ -1043,12 +1047,13 @@
                       
                   vm.selectedItemEchantillon.date_creation = vm.echantillon.date_creation;
                   vm.selectedItemEchantillon.date_modification = date_dujour;
+                  vm.selectedItemEchantillon.duree_mare = vm.echantillon.duree_mare;
                       
                   vm.afficherboutonModifSuprEchantillon = 0 ;
                   vm.afficherboutonModifEchantillon     = 0 ;
                   vm.afficherboutonnouveauEchantillon   = 1 ;
                   vm.selectedItemEchantillon.$selected  = false;
-                  // console.log(vm.selectedItemEchantillon);
+                  //console.log(vm.selectedItemEchantillon);
                   vm.selectedItemEchantillon            = {};
               } 
               else 
@@ -1098,13 +1103,14 @@
                   user:                             vm.allutilisateur,
                   date_creation:                    date_dujour,
                   date_modification:                date_dujour,
-                  id:                               id 
+                  id:                               id,
+                  duree_mare:                       echantillon.duree_mare 
               };
                vm.allechantillon.push(item);
                vm.echantillonfiltre.push(item);
                vm.echantillon  ={};                  
                NouvelItemEchantillon=false;
-          }
+          }          
           vm.affichageMasqueEchantillon = 0 ;
           vm.num_dernier_code=0;
       }).error(function (data)
