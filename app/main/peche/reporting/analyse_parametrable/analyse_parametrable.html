@@ -115,6 +115,10 @@
                                   ng-disabled="filtreform.$invalid || vm.affiche_load" ng-click="vm.analysefiltrer(vm.filtre)">
                                   Actualiser
                             </md-button>
+                            <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                  ng-disabled="filtreform.$invalid || vm.affiche_load" ng-click="vm.exportExcel(vm.filtre)">
+                                  Export excel
+                            </md-button>
                             </div>
                           </form>                     
                     </md-tab>

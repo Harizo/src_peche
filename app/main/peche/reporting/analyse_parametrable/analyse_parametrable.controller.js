@@ -7,7 +7,7 @@
         .controller('Analyse_parametrableController', Analyse_parametrableController);
 
     /** @ngInject */
-    function Analyse_parametrableController($mdDialog, $scope, apiFactory, $state, apiUrlserver)
+    function Analyse_parametrableController($mdDialog, $scope, apiFactory, $state, apiUrlserver, apiUrlexcel)
     {
       var vm          = this;
       vm.apiUrlimage  = apiUrlserver;
@@ -159,6 +159,33 @@
           });        
       }
 
+      vm.exportExcel = function(filtres)
+      {
+        vm.affiche_load = true ;
+        var repertoire = 'analyse_parametrable';
+            apiFactory.getAPIgeneraliserREST("analyse_parametrable/index","menu","analyse_parametrable",
+            "menu_excel","excel_analyse_parametrable","annee",filtres.annee,
+            "id_unite_peche",filtres.id_unite_peche,"id_region",filtres.id_region,"id_district",filtres.id_district,
+            "id_site_embarquement",filtres.id_site_embarquement,
+            "id_espece",filtres.id_espece,"pivot",filtres.pivot,"repertoire",repertoire).then(function(result)
+          {
+            
+            vm.status    = result.data.status; 
+          
+            if(vm.status)
+            {
+                vm.nom_file = result.data.nom_file;            
+                window.location = apiUrlexcel+"analyse_parametrable/"+vm.nom_file ;
+                vm.affiche_load =false; 
+
+            }else{
+                vm.message=result.data.message;
+                vm.Alert('Export en excel',vm.message);
+                vm.affiche_load =false; 
+            }
+          });        
+      }
+
       vm.convertion_kg_tonne = function(val)
       { 
         if (val > 1000) 
@@ -225,6 +252,21 @@
         var str = ""+nbr ;
         var res = str.replace(".",",") ;
         return res ;
+      }
+
+      vm.Alert = function(titre,content)
+      {
+        $mdDialog.show(
+          $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(false)
+          .parent(angular.element(document.body))
+          .title(titre)
+          .textContent(content)
+          .ariaLabel('Alert')
+          .ok('Fermer')
+          .targetEvent()
+        );
       }
     }
 
