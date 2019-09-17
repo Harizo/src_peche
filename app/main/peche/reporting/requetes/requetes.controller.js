@@ -7,7 +7,7 @@
         .controller('requetesController', requetesController);
 
     /** @ngInject */
-    function requetesController($mdDialog, $scope, apiFactory, $state)
+    function requetesController($mdDialog, $scope, apiFactory, $state, apiUrlexcel)
     {
       var vm = this;
       
@@ -358,23 +358,53 @@
             vm.datas = result.data.response;
             vm.affiche_load = false ;
             
-          });*/
-        
-
-       
-        
-
-          
-        
+          });*/    
       }
 
-  
+      vm.export_excel = function(filtres)
+      {
+        vm.affiche_load = true ;
+        var annee = filtres.annee ;
+        var mois = filtres.mois ;
 
-     
+        var date = formatDateBDD(filtres.date_debut) ;
+        var repertoire = 'requetes';
 
-    
+          apiFactory.getAPIgeneraliserREST("requetes/index","menu",vm.filtre.pivot,"menu_excel","excel_requetes","annee",annee,"mois",mois,"date",date,
+            "id_unite_peche",filtres.id_unite_peche,"id_espece",filtres.id_espece,"id_region",filtres.id_region,"id_district",filtres.id_district,
+            "id_site_embarquement",filtres.id_site_embarquement,"repertoire",repertoire).then(function(result)
+          {
+            vm.status    = result.data.status; 
+          
+            if(vm.status)
+            {
+                vm.nom_file = result.data.nom_file;            
+                window.location = apiUrlexcel+"requetes/"+vm.nom_file ;
+                vm.affiche_load =false; 
 
+            }else{
+                vm.message=result.data.message;
+                vm.Alert('Export en excel',vm.message);
+                vm.affiche_load =false; 
+            }
+            
+          });   
+      }
 
+      vm.Alert = function(titre,content)
+      {
+        $mdDialog.show(
+          $mdDialog.alert()
+          .parent(angular.element(document.querySelector('#popupContainer')))
+          .clickOutsideToClose(false)
+          .parent(angular.element(document.body))
+          .title(titre)
+          .textContent(content)
+          .ariaLabel('Alert')
+          .ok('Fermer')
+          .targetEvent()
+        );
+      }
     }
 
 })();

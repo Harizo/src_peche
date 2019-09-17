@@ -132,6 +132,8 @@
                 <div>
                   <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.filtrer(vm.filtre)"> Actualiser
                   </md-button>
+                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.export_excel(vm.filtre)"> Export excel
+                  </md-button>
                             <!--md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
                               Annuler
                             </md-button-->
@@ -633,7 +635,7 @@
                     <td ng-show="vm.cacher_table('maxjrpechemensupab',vm.filtre.pivot)">{{vm.parseFloat_0(d.max_nbr_jrs_peche_mensuel_pab)}}</td>
 
                     <!-- RQ 6.2 3-->
-                    <td ng-show="vm.cacher_table('maxcpue',vm.filtre.pivot)">{{vm.parseFloat(d.max_cpue)}}</td>
+                    <td ng-show="vm.cacher_table('maxcpue',vm.filtre.pivot)">{{d.max_cpue}}</td>
 
                     <!-- RQ 1-->
                     <td ng-show="vm.cacher_table('cpues',vm.filtre.pivot)">{{vm.parseFloat(d.cpue)}}</td>
