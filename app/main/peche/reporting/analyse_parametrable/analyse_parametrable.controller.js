@@ -20,6 +20,7 @@
       vm.affiche_load     = false ;
       for (var i = 2012; i <= vm.annee; i++) {
         vm.annees.push(i);
+        
       }
       vm.filtre.annee = vm.annee ;
 
