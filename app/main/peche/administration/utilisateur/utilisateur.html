@@ -128,16 +128,28 @@
                                         Données validées
                                     </md-checkbox>
 
-                                    <md-checkbox ng-model="vm.user.rpt" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Reporting/Analyse
-                                    </md-checkbox>
+                                    
                                     
 
                                     
                                 
                             </fieldset>
+                        <fieldset class="standard" >
+                          <legend><code>Reporting/Analyse</code></legend>
+
+                            <md-checkbox ng-model="vm.user.rpt" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Requêtes
+                            </md-checkbox>
+
+                            <md-checkbox ng-model="vm.user.als" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Analyses paramétrables
+                            </md-checkbox>
+
+                            <md-checkbox ng-model="vm.user.nbr" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Nombres d'échantillon
+                            </md-checkbox>
                   
-                        
+                        </fieldset>
                         <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                           ng-disabled="userForm.$invalid" ng-click="vm.ajout(vm.user,0)">
                           Enregistrer

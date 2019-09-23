@@ -242,6 +242,18 @@
                       break;
                   }
 
+                  case 'ALS':
+                  {
+                      vm.user.als = true ;
+                      break;
+                  }
+
+                  case 'NBR':
+                  {
+                      vm.user.nbr = true ;
+                      break;
+                  }
+
                   default:
                   {
                       break ;
@@ -287,6 +299,10 @@
               if(key == 'vld' && value == true)
                 tab.push(key.toUpperCase());
               if(key == 'rpt' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'als' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'nbr' && value == true)
                 tab.push(key.toUpperCase());
               
           });

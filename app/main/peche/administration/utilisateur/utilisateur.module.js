@@ -32,7 +32,7 @@
         
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.administration.utilisateurs.user', {
+        msNavigationServiceProvider.saveItem('peche.administration.utilisateurs', {
             title: 'Gestion Utilisateur',
             icon  : 'icon-account-key',
             state: 'app.population_admin_utilisateur',

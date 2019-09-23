@@ -25,11 +25,11 @@
             }
         });
 
-        msNavigationServiceProvider.saveItem('peche.administration.utilisateurs', {
+        /*msNavigationServiceProvider.saveItem('peche.administration.utilisateurs', {
             title: 'Utilisateurs',
             icon  : 'icon-account-multiple'
             //state: 'app.population_administration_secteur'
-        });
+        });*/
     }
 
     function testPermission(loginService,$cookieStore,apiFactory)

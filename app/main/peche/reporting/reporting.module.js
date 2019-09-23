@@ -41,7 +41,7 @@
             {
                 var user = result.data.response;
                 var permission = user.roles;
-                var permissions = ["RPT"];
+                var permissions = ["RPT","ALS","NBR"];
                 var x =  loginService.gestionMenu(permissions,permission);        
                 vs = x ;
               
