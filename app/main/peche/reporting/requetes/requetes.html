@@ -53,7 +53,7 @@
                     </md-select>
                   </md-input-container>
 
-                  <md-input-container flex="100" flex-gt-xs="10" ng-show="vm.filtre.pivot != 'req_4_1'">
+                  <md-input-container flex="100" flex-gt-xs="10" ng-show="vm.filtre.pivot != 'req_4_1_annee_site_unite_nbrunite'">
                     <label>Mois</label>
                     <md-select ng-model="vm.filtre.mois" >
                       <md-option  value="*">*</md-option>
@@ -119,7 +119,7 @@
                       </md-option>
                   </md-input-container>
                   
-                  <md-input-container flex="100" flex-gt-xs="90" ng-show="(vm.filtre.pivot != 'req_4_1')&&(vm.filtre.pivot != 'req_5_1')">
+                  <md-input-container flex="100" flex-gt-xs="90" ng-show="(vm.filtre.pivot != 'req_4_1_annee_site_unite_nbrunite')&&(vm.filtre.pivot != 'req_5_1_codeteteuniq_site_unite_date_phier_pavanthier_nbrjrssemdern_pabs')&&(vm.filtre.pivot != 'req_9_annee_site_unite_nbrunite')&&(vm.filtre.pivot != 'req_10_annee_region_unite_nbrunite')">
                     <label>Espèce</label>
                       <md-select ng-model="vm.filtre.id_espece" >
                         <md-option  value="*">*</md-option>
@@ -131,6 +131,8 @@
                 
                 <div>
                   <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.filtrer(vm.filtre)"> Actualiser
+                  </md-button>
+                  <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="filtrepardateform.$invalid||vm.affiche_load" ng-click="vm.export_excel(vm.filtre)"> Export excel
                   </md-button>
                             <!--md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
                               Annuler
@@ -633,7 +635,7 @@
                     <td ng-show="vm.cacher_table('maxjrpechemensupab',vm.filtre.pivot)">{{vm.parseFloat_0(d.max_nbr_jrs_peche_mensuel_pab)}}</td>
 
                     <!-- RQ 6.2 3-->
-                    <td ng-show="vm.cacher_table('maxcpue',vm.filtre.pivot)">{{vm.parseFloat(d.max_cpue)}}</td>
+                    <td ng-show="vm.cacher_table('maxcpue',vm.filtre.pivot)">{{d.max_cpue}}</td>
 
                     <!-- RQ 1-->
                     <td ng-show="vm.cacher_table('cpues',vm.filtre.pivot)">{{vm.parseFloat(d.cpue)}}</td>
