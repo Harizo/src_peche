@@ -62,6 +62,9 @@
       vm.filtrepardate.date_fin = new Date() ;
       vm.num_dernier_code = 0;
       vm.enableUnitepeche = false;
+
+      vm.id_region_user = 0;
+      vm.isADMIN = false;
       
 //style
       vm.dtOptions =
@@ -178,9 +181,20 @@
       var date_today  = new Date();
       var date_dujour = convertionDate(date_today);
       var validation = 0;
-      apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation).then(function(result)
+      apiFactory.getOne("utilisateurs/index", $cookieStore.get('id')).then(function(result) 
       {
-        vm.allfiche_echantillonnage_capture = result.data.response;
+          var utilisateur = result.data.response;
+          vm.id_region_user = utilisateur.id_region;
+          if(utilisateur.roles.indexOf("ADMIN")!= -1)
+          {
+            vm.isADMIN = true;
+            //console.log(vm.isADMIN);
+          }           
+          apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation,vm.id_region_user).then(function(result)
+          {
+            vm.allfiche_echantillonnage_capture = result.data.response;
+            //console.log(vm.allfiche_echantillonnage_capture);
+          });
       });
 
           //selection sur la liste
@@ -201,6 +215,7 @@
           vm.afficherboutonnouveau            = 1 ;
           vm.afficherboutonfiltre             = 1;
           vm.afficherboutonnouveauEchantillon = 1 ;
+          NouvelItem                 = false;
           var effor = item.site_embarquement.type_effort_peche;
           //recuperation echantillon quand id_echantillon = item.id                  = [];
           apiFactory.getFils("echantillon/index",item.id).then(function(result)
@@ -374,6 +389,13 @@
           NouvelItem    = true ;
           vm.enqueteur =   false;
           vm.fiche_echantillonnage_capture.date = vm.date_now;
+
+          vm.fiche_echantillonnage_capture.region_id = vm.id_region_user;
+          apiFactory.getAPIgeneraliserREST("district/index","id_region",vm.id_region_user).then(function(result)
+          {
+            vm.fiche_echantillonnage_capture.district_id = null ;
+            vm.alldistrict = result.data.response;
+          });
       };
 
     function ajout(fiche_echantillonnage_capture,suppression,validation)   
@@ -643,7 +665,7 @@
         var date_debut= convertionDate(filtrepardate.date_debut);
         var date_fin= convertionDate(filtrepardate.date_fin);
         var validation = 0;
-        apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation).then(function(result)
+        apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation,vm.id_region_user).then(function(result)
         {
             vm.allfiche_echantillonnage_capture  = result.data.response;
             vm.affichageMasqueFiltrepardate = 0 ;
@@ -718,6 +740,7 @@
         vm.affichageMasqueEchantillon           = 0 ;
         vm.affichageMasque                      = 0;
         vm.affichageMasqueEspece_capture        = 0;
+        NouvelItemEchantillon = false ;
         
         //find espece_capture where id echantillon item.id  
         apiFactory.getFils("espece_capture/index",item.id).then(function(result)
@@ -803,46 +826,66 @@
     };
 
     vm.ajouterEchantillon = function () 
-    {         
-        vm.selectedItemEchantillon.$selected = false;
-        vm.enableUnitepeche = false;
-        vm.prix   = false;
-        vm.step2  = false;
-        vm.step3  = false;
-        vm.affichageMasqueEchantillon     = 1 ;
-        vm.affichageMasque                = 0 ;
-        vm.affichageMasqueEspece_capture  = 0 ;
-        vm.echantillon={};
-        NouvelItemEchantillon = true ;
-        vm.afficherboutonnouveauEchantillon   = 1;
-        vm.afficherboutonModifEchantillon     = 0;
-        vm.afficherboutonModifSuprEchantillon =0;
-        var effort_p=[];
-        if(vm.checkboxPAB)
-        {
-          effort_p= vm.alldata_collect.filter(function(obj)
-          {
-                return obj.code == 'PAB';
-          });
-        }
-        else
-        {
-          effort_p= vm.alldata_collect.filter(function(obj)
-          {
-                return obj.code == 'CAB';
-          });
-        }
-        vm.echantillon.data_collect_id=effort_p[0].id;
+    { 
+      var last_id_echantillon = Math.max.apply(Math, vm.echantillonfiltre.map(function(o)
+      { 
+        return o.id;
+      }));
 
-
-      var nbrEchantillon = vm.allechantillon.length;
-      if(nbrEchantillon)
+      apiFactory.getAPIgeneraliserREST("espece_capture/index",'menus','count','id_echantillon',last_id_echantillon).then(function(result)
       {
-          var code=vm.allechantillon[nbrEchantillon-1].unique_code;
-          var numcode=code.split(' ')[1];
-          vm.num_dernier_code=numcode;
-      }
-      
+          var espece_capt = result.data.response;
+          if (parseInt(espece_capt['count'])>0)
+          {
+              vm.selectedItemEchantillon.$selected = false; 
+              vm.enableUnitepeche = false;
+              vm.prix   = false;
+              vm.step2  = false;
+              vm.step3  = false;
+              vm.affichageMasqueEchantillon     = 1 ;
+              vm.affichageMasque                = 0 ;
+              vm.affichageMasqueEspece_capture  = 0 ;
+              vm.echantillon={};
+              NouvelItemEchantillon = true ;
+              vm.afficherboutonnouveauEchantillon   = 1;
+              vm.afficherboutonModifEchantillon     = 0;
+              vm.afficherboutonModifSuprEchantillon =0;
+              var effort_p=[];
+              
+              if(vm.checkboxPAB)
+              {
+                effort_p= vm.alldata_collect.filter(function(obj)
+                {
+                      return obj.code == 'PAB';
+                });
+              }
+              else
+              {
+                effort_p= vm.alldata_collect.filter(function(obj)
+                {
+                      return obj.code == 'CAB';
+                });
+              }
+              vm.echantillon.data_collect_id=effort_p[0].id;
+
+
+              var nbrEchantillon = vm.allechantillon.length;
+
+              if(nbrEchantillon)
+              {
+                  var code=vm.allechantillon[nbrEchantillon-1].unique_code;
+                  var numcode=code.split(' ')[1];
+                  vm.num_dernier_code=numcode;
+              };
+          }
+          else
+          { 
+            var msg = 'Le dernier echantillon n\'etait pas detaillé';
+            var titre = 'ajout réfusé';
+            vm.dialog(msg,titre)
+          }
+                     
+      });
     };
 
     vm.supprimerEchantillon = function() 
@@ -861,21 +904,23 @@
         {   
            var nbr_echantion_recent=0;
             vm.allechantillon.forEach(function(item)
-            { if(item.id>vm.selectedItemEchantillon.id)
+            { 
+              if(parseInt(item.id) > parseInt(vm.selectedItemEchantillon.id))
               {
-                nbr_echantion_recent=nbr_echantion_recent+1;
+                nbr_echantion_recent=nbr_echantion_recent+1;               
               }
                 
             });
+
             if(nbr_echantion_recent==0)
             {
                 ajoutEchantillon(vm.selectedItemEchantillon,1); 
             }
             else
             {
-                  var titre = 'Impossible de supprimer';
-                  var msg = 'Vous devrez suprimer l(es) echantillon(s) plus recent';
-                  vm.dialog(msg,titre);
+                var titre = 'Impossible de supprimer';
+                var msg = 'Vous devrez suprimer l(es) echantillon(s) plus recent';
+                vm.dialog(msg,titre);
             }
           
         }, function()

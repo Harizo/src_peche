@@ -18,6 +18,7 @@
       vm.annees           = [] ;
       vm.datas            = [] ;
       vm.affiche_load     = false ;
+      vm.req3_6           =false;
       for (var i = 2012; i <= vm.annee; i++) {
         vm.annees.push(i);
         
@@ -154,9 +155,12 @@
             vm.datas  = result.data.response;
             vm.totals = result.data.total;
             var data  = result.data.response;
-            vm.d  = result.data.d;
-           console.log(vm.datas);
-           console.log(vm.totals);
+            if(filtres.pivot=='id_unite_peche_and_id_espece_and_cpue_effort')
+            {
+              vm.req3_6 = true;
+            }
+            console.log(vm.datas);
+            console.log(vm.totals);
           });        
       }
 

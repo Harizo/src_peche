@@ -29,8 +29,8 @@
           getFilsEnqueteur: function(controller, cle_site) {
             return $http.get(apiUrl+controller+"?cle_site="+cle_site);
           },
-          getEchantillonnageByDate: function(controller, date_debut, date_fin,validation) {
-            return $http.get(apiUrl+controller+"?date_debut="+date_debut+"&date_fin="+date_fin+"&validation="+validation);
+          getEchantillonnageByDate: function(controller, date_debut, date_fin,validation,id_region) {
+            return $http.get(apiUrl+controller+"?date_debut="+date_debut+"&date_fin="+date_fin+"&validation="+validation+"&id_region="+id_region);
           },
           getEchantillonnageByValidation: function(controller, validation) {
             return $http.get(apiUrl+controller+"?validation="+validation);
