@@ -135,7 +135,7 @@
 									<input type="hidden" ng-model="vm.fiche_echantillonnage_capture.id">
 									<md-input-container flex-gt-sm>
 										<label>Region</label>
-										<md-select ng-model="vm.fiche_echantillonnage_capture.region_id"  ng-change="vm.get_district_by_region()" >
+										<md-select ng-model="vm.fiche_echantillonnage_capture.region_id"  ng-change="vm.get_district_by_region()" ng-disabled="!vm.isADMIN">
 											<md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
 												{{region.nom}}
 											</md-option>
