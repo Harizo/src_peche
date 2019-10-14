@@ -7,7 +7,7 @@
         .controller('Analyse_parametrableController', Analyse_parametrableController);
 
     /** @ngInject */
-    function Analyse_parametrableController($mdDialog, $scope, apiFactory, $state, apiUrlserver, apiUrlexcel)
+    function Analyse_parametrableController($cookieStore,$mdDialog, $scope, apiFactory, $state, apiUrlserver, apiUrlexcel)
     {
       var vm          = this;
       vm.apiUrlimage  = apiUrlserver;
@@ -24,6 +24,8 @@
         
       }
       vm.filtre.annee = vm.annee ;
+
+      vm.isADMIN = false;
 
       //style
      vm.dtOptions =
@@ -81,6 +83,16 @@
           
       });
 
+      apiFactory.getOne("utilisateurs/index", $cookieStore.get('id')).then(function(result) 
+      {
+          var utilisateur = result.data.response;
+          vm.filtre.id_region = result.data.response.id_region;
+          if(utilisateur.roles.indexOf("ADMIN")!= -1)
+          {
+            vm.isADMIN = true;          
+          }           
+          
+      });
       
 
       

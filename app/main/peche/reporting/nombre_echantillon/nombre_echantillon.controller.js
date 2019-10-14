@@ -7,7 +7,7 @@
         .controller('Nombre_echantillonController', Nombre_echantillonController);
 
     /** @ngInject */
-    function Nombre_echantillonController($mdDialog, $scope, apiFactory, $state,apiUrlexcel)
+    function Nombre_echantillonController($cookieStore,$mdDialog, $scope, apiFactory, $state,apiUrlexcel)
     {
       var vm      = this;      
       vm.filtre   = {} ;
@@ -21,6 +21,8 @@
         vm.annees.push(i);
       }
       vm.filtre.annee = vm.annee ;
+
+      vm.isADMIN = false;
 
       //style
       vm.dtOptions = {
@@ -80,6 +82,17 @@
           }
           
       }
+
+      apiFactory.getOne("utilisateurs/index", $cookieStore.get('id')).then(function(result) 
+      {
+          var utilisateur = result.data.response;
+          vm.filtre.id_region = result.data.response.id_region;
+          if(utilisateur.roles.indexOf("ADMIN")!= -1)
+          {
+            vm.isADMIN = true;          
+          }           
+          
+      });
 
       vm.filtre_site = function()
       {

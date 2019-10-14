@@ -85,7 +85,7 @@
                 <div layout="column" layout-gt-xs="row" flex>
                   <md-input-container flex="100" flex-gt-xs="90">
                     <label>Région(= Strate Mineur)</label>
-                    <md-select ng-model="vm.filtre.id_region" name="region" ng-change="vm.filtre_district()" required>
+                    <md-select ng-model="vm.filtre.id_region" name="region" ng-change="vm.filtre_district()" required ng-disabled="!vm.isADMIN">
                       <md-option  value="*">*</md-option>
                       <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" > {{region.nom}}</md-option>
                     </md-select>
