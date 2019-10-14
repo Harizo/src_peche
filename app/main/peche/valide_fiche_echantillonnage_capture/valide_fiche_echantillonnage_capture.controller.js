@@ -26,6 +26,9 @@
       vm.step1                               = false;
       vm.step2                               = false;
       vm.step3                               = false;
+
+      vm.id_region_user = 0;
+      vm.isADMIN = false;
       
 //style
       vm.dtOptions =
@@ -71,9 +74,26 @@
       vm.max_date               = date_today ;
       var date_dujour           = convertionDate(date_today);
       var validation            = 1;
-      apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation).then(function(result)
+      apiFactory.getOne("utilisateurs/index", $cookieStore.get('id')).then(function(result) 
       {
-        vm.allfiche_echantillonnage_capture = result.data.response;
+          var utilisateur = result.data.response;
+          vm.id_region_user = result.data.response.id_region;
+          if(utilisateur.roles.indexOf("ADMIN")!= -1)
+          {
+            vm.isADMIN = true;
+            apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation,'*').then(function(result)
+            {
+              vm.allfiche_echantillonnage_capture = result.data.response;
+              console.log(vm.allfiche_echantillonnage_capture);
+            });
+          }else
+          {          
+            apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation,vm.id_region_user).then(function(result)
+            {
+              vm.allfiche_echantillonnage_capture = result.data.response;
+            });
+          }           
+          
       });
 
       vm.affichage_bool = function(int)
@@ -147,11 +167,23 @@
         var date_debut = convertionDate(filtrepardate.date_debut);
         var date_fin   = convertionDate(filtrepardate.date_fin);
         var validation = 1;
-        apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation).then(function(result)
+        if (vm.isADMIN)
         {
-            vm.allfiche_echantillonnage_capture  = result.data.response;
-            vm.affichageMasqueFiltrepardate = 0 ;
-        });
+          apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation,'*').then(function(result)
+          {
+              vm.allfiche_echantillonnage_capture  = result.data.response;
+              vm.affichageMasqueFiltrepardate = 0 ;
+              vm.afficherboutonnouveau        = 1;
+          });
+        }else
+        {
+          apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation,vm.id_region_user).then(function(result)
+          {
+              vm.allfiche_echantillonnage_capture  = result.data.response;
+              vm.affichageMasqueFiltrepardate = 0 ;
+              vm.afficherboutonnouveau        = 1;
+          });
+        }
     }
 
     $scope.removeBouton = function()
@@ -174,6 +206,11 @@
             return date_final
         }      
     }
+    vm.annuler = function() 
+      { 
+          vm.afficherboutonfiltre    = 1;
+          vm.affichageMasqueFiltrepardate = 0 ;
+      };
 
 /************************************ Fin fiche_echantillonnage_capture  ***********************************************/
   

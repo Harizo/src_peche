@@ -7,7 +7,7 @@
         .controller('requetesController', requetesController);
 
     /** @ngInject */
-    function requetesController($mdDialog, $scope, apiFactory, $state, apiUrlexcel)
+    function requetesController($cookieStore,$mdDialog, $scope, apiFactory, $state, apiUrlexcel)
     {
       var vm = this;
       
@@ -21,6 +21,8 @@
       vm.listes_mois = [] ;
       vm.datas = [] ;
       vm.affiche_load = false ;
+
+      vm.isADMIN = false;
       
       for (var i = 2012; i <= vm.annee; i++) {
         vm.annees.push(i);
@@ -135,6 +137,16 @@
       apiFactory.getAll("espece/index").then(function(result)
       {
           vm.allespece = result.data.response;
+          
+      });
+      apiFactory.getOne("utilisateurs/index", $cookieStore.get('id')).then(function(result) 
+      {
+          var utilisateur = result.data.response;
+          vm.filtre.id_region = result.data.response.id_region;
+          if(utilisateur.roles.indexOf("ADMIN")!= -1)
+          {
+            vm.isADMIN = true;          
+          }           
           
       });
 

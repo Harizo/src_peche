@@ -189,12 +189,20 @@
           {
             vm.isADMIN = true;
             //console.log(vm.isADMIN);
+            apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation,'*').then(function(result)
+            {
+              vm.allfiche_echantillonnage_capture = result.data.response;
+              //console.log(vm.allfiche_echantillonnage_capture);
+            });
+          }else
+          {          
+            apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation,vm.id_region_user).then(function(result)
+            {
+              vm.allfiche_echantillonnage_capture = result.data.response;
+              //console.log(vm.allfiche_echantillonnage_capture);
+            });
           }           
-          apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_dujour,date_dujour,validation,vm.id_region_user).then(function(result)
-          {
-            vm.allfiche_echantillonnage_capture = result.data.response;
-            //console.log(vm.allfiche_echantillonnage_capture);
-          });
+          
       });
 
           //selection sur la liste
@@ -665,12 +673,24 @@
         var date_debut= convertionDate(filtrepardate.date_debut);
         var date_fin= convertionDate(filtrepardate.date_fin);
         var validation = 0;
-        apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation,vm.id_region_user).then(function(result)
+        if (vm.isADMIN)
         {
-            vm.allfiche_echantillonnage_capture  = result.data.response;
-            vm.affichageMasqueFiltrepardate = 0 ;
-            vm.afficherboutonnouveau        = 1;
-        });
+          apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation,'*').then(function(result)
+          {
+              vm.allfiche_echantillonnage_capture  = result.data.response;
+              vm.affichageMasqueFiltrepardate = 0 ;
+              vm.afficherboutonnouveau        = 1;
+          });
+        }else
+        {
+          apiFactory.getEchantillonnageByDate("fiche_echantillonnage_capture/index",date_debut,date_fin,validation,vm.id_region_user).then(function(result)
+          {
+              vm.allfiche_echantillonnage_capture  = result.data.response;
+              vm.affichageMasqueFiltrepardate = 0 ;
+              vm.afficherboutonnouveau        = 1;
+          });
+        }
+        
 
     }
 
@@ -831,61 +851,107 @@
       { 
         return o.id;
       }));
-
-      apiFactory.getAPIgeneraliserREST("espece_capture/index",'menus','count','id_echantillon',last_id_echantillon).then(function(result)
+      console.log(vm.echantillonfiltre.length);
+      if (vm.echantillonfiltre.length!=0)
       {
-          var espece_capt = result.data.response;
-          if (parseInt(espece_capt['count'])>0)
+          apiFactory.getAPIgeneraliserREST("espece_capture/index",'menus','count','id_echantillon',last_id_echantillon).then(function(result)
           {
-              vm.selectedItemEchantillon.$selected = false; 
-              vm.enableUnitepeche = false;
-              vm.prix   = false;
-              vm.step2  = false;
-              vm.step3  = false;
-              vm.affichageMasqueEchantillon     = 1 ;
-              vm.affichageMasque                = 0 ;
-              vm.affichageMasqueEspece_capture  = 0 ;
-              vm.echantillon={};
-              NouvelItemEchantillon = true ;
-              vm.afficherboutonnouveauEchantillon   = 1;
-              vm.afficherboutonModifEchantillon     = 0;
-              vm.afficherboutonModifSuprEchantillon =0;
-              var effort_p=[];
-              
-              if(vm.checkboxPAB)
+              var espece_capt = result.data.response;
+              if (parseInt(espece_capt['count'])>0)
               {
-                effort_p= vm.alldata_collect.filter(function(obj)
-                {
-                      return obj.code == 'PAB';
-                });
+                  vm.selectedItemEchantillon.$selected = false; 
+                  vm.enableUnitepeche = false;
+                  vm.prix   = false;
+                  vm.step2  = false;
+                  vm.step3  = false;
+                  vm.affichageMasqueEchantillon     = 1 ;
+                  vm.affichageMasque                = 0 ;
+                  vm.affichageMasqueEspece_capture  = 0 ;
+                  vm.echantillon={};
+                  NouvelItemEchantillon = true ;
+                  vm.afficherboutonnouveauEchantillon   = 1;
+                  vm.afficherboutonModifEchantillon     = 0;
+                  vm.afficherboutonModifSuprEchantillon =0;
+                  var effort_p=[];
+                  
+                  if(vm.checkboxPAB)
+                  {
+                    effort_p= vm.alldata_collect.filter(function(obj)
+                    {
+                          return obj.code == 'PAB';
+                    });
+                  }
+                  else
+                  {
+                    effort_p= vm.alldata_collect.filter(function(obj)
+                    {
+                          return obj.code == 'CAB';
+                    });
+                  }
+                  vm.echantillon.data_collect_id=effort_p[0].id;
+
+
+                  var nbrEchantillon = vm.allechantillon.length;
+
+                  if(nbrEchantillon)
+                  {
+                      var code=vm.allechantillon[nbrEchantillon-1].unique_code;
+                      var numcode=code.split(' ')[1];
+                      vm.num_dernier_code=numcode;
+                  };
               }
               else
-              {
-                effort_p= vm.alldata_collect.filter(function(obj)
-                {
-                      return obj.code == 'CAB';
-                });
+              { 
+                var msg = 'Le dernier echantillon n\'etait pas detaillé';
+                var titre = 'ajout réfusé';
+                vm.dialog(msg,titre)
               }
-              vm.echantillon.data_collect_id=effort_p[0].id;
+                         
+          });
+      } else 
+      {
+        vm.selectedItemEchantillon.$selected = false; 
+        vm.enableUnitepeche = false;
+        vm.prix   = false;
+        vm.step2  = false;
+        vm.step3  = false;
+        vm.affichageMasqueEchantillon     = 1 ;
+        vm.affichageMasque                = 0 ;
+        vm.affichageMasqueEspece_capture  = 0 ;
+        vm.echantillon={};
+        NouvelItemEchantillon = true ;
+        vm.afficherboutonnouveauEchantillon   = 1;
+        vm.afficherboutonModifEchantillon     = 0;
+        vm.afficherboutonModifSuprEchantillon =0;
+        var effort_p=[];
+                  
+        if(vm.checkboxPAB)
+        {
+          effort_p= vm.alldata_collect.filter(function(obj)
+          {
+            return obj.code == 'PAB';
+          });
+        }
+        else
+        {
+          effort_p= vm.alldata_collect.filter(function(obj)
+          {
+            return obj.code == 'CAB';
+          });
+        }
+        vm.echantillon.data_collect_id=effort_p[0].id;
 
 
-              var nbrEchantillon = vm.allechantillon.length;
+        var nbrEchantillon = vm.allechantillon.length;
 
-              if(nbrEchantillon)
-              {
-                  var code=vm.allechantillon[nbrEchantillon-1].unique_code;
-                  var numcode=code.split(' ')[1];
-                  vm.num_dernier_code=numcode;
-              };
-          }
-          else
-          { 
-            var msg = 'Le dernier echantillon n\'etait pas detaillé';
-            var titre = 'ajout réfusé';
-            vm.dialog(msg,titre)
-          }
-                     
-      });
+        if(nbrEchantillon)
+        {
+          var code=vm.allechantillon[nbrEchantillon-1].unique_code;
+          var numcode=code.split(' ')[1];
+          vm.num_dernier_code=numcode;
+        };
+      }
+      
     };
 
     vm.supprimerEchantillon = function() 
