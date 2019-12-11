@@ -29,6 +29,7 @@
       vm.selectedItemEchantillon.$selected   = false;
       vm.selectedItemEspece_capture          = {};
       vm.selectedItemEspece_capture.$selected= false;
+      //vm.selectedItemEspece                  = [];      
       
       vm.allfiche_echantillonnage_capture    = [];
       vm.allechantillon                      = [];
@@ -37,6 +38,7 @@
       vm.allunite_peche_site                 = [];
       vm.echantillon                         = [];
       vm.allsite_embarquement                = [];
+      vm.alldistrict                         = [];
 
       //variale affichage bouton nouveau
       vm.afficherboutonnouveau               = 1;
@@ -109,7 +111,8 @@
       {vm.allenqueteur = result.data.response;});
    
       apiFactory.getAll("district/index").then(function(result)
-      {vm.alldistrict = result.data.response; vm.allcurrentdistrict=vm.alldistrict;});*/
+      {vm.currentdistrictall = result.data.response; 
+        vm.alldistrict = vm.currentdistrict;});*/
 
       apiFactory.getAll("region/index").then(function(result)
       {
@@ -121,8 +124,7 @@
         apiFactory.getAPIgeneraliserREST("district/index","id_region",vm.fiche_echantillonnage_capture.region_id).then(function(result)
         {
           vm.fiche_echantillonnage_capture.district_id = null ;
-          vm.alldistrict = result.data.response; 
-          console.log(vm.alldistrict);
+          vm.alldistrict = result.data.response;
         });
       }
 
@@ -132,8 +134,7 @@
           "id_district",vm.fiche_echantillonnage_capture.district_id).then(function(result)
         {
           vm.fiche_echantillonnage_capture.site_embarquement_id = null ;
-          vm.allsite_embarquement = result.data.response; 
-          console.log(vm.allsite_embarquement);
+          vm.allsite_embarquement = result.data.response;
         });
       }
 
@@ -143,8 +144,7 @@
           "id_site_embarquement",vm.fiche_echantillonnage_capture.site_embarquement_id).then(function(result)
         {
           vm.fiche_echantillonnage_capture.enqueteur_id = null ;
-          vm.allenqueteur = result.data.response; 
-          console.log(vm.allenqueteur);
+          vm.allenqueteur = result.data.response;
         });
       }
 
@@ -225,6 +225,28 @@
           vm.afficherboutonnouveauEchantillon = 1 ;
           NouvelItem                 = false;
           var effor = item.site_embarquement.type_effort_peche;
+          
+          //recuperation districtpour item.region.id
+          apiFactory.getAPIgeneraliserREST("district/index","id_region",item.region.id).then(function(result)
+          {
+            vm.alldistrict = result.data.response;             
+          });
+
+          //recuperation enqueteur pour item.site.id
+          apiFactory.getAPIgeneraliserREST("site_enqueteur/index","get_by_site",true,
+          "id_site_embarquement",item.site_embarquement.id).then(function(result)
+          {
+            vm.allenqueteur = result.data.response;
+            console.log(vm.allenqueteur);
+          });
+
+          //recuperation site pour item.district.id
+          apiFactory.getAPIgeneraliserREST("site_embarquement/index","get_by_district",true,
+          "id_district",item.district.id).then(function(result)
+          {
+            vm.allsite_embarquement = result.data.response;
+          });
+
           //recuperation echantillon quand id_echantillon = item.id                  = [];
           apiFactory.getFils("echantillon/index",item.id).then(function(result)
           {
@@ -306,7 +328,7 @@
           vm.fiche_echantillonnage_capture.district_id     = vm.selectedItem.district.id ;
           vm.fiche_echantillonnage_capture.enqueteur_id    =vm.selectedItem.enqueteur.id ;
           vm.fiche_echantillonnage_capture.site_embarquement_id = vm.selectedItem.site_embarquement.id ;
-          
+          console.log(vm.selectedItem);          
           //liste site_embarquement quand id enqueteur vm.selectedItem.enqueteur.id 
           apiFactory.getFils("site_enqueteur/index",vm.selectedItem.enqueteur.id).then(function(result)
           {
@@ -765,7 +787,7 @@
         //find espece_capture where id echantillon item.id  
         apiFactory.getFils("espece_capture/index",item.id).then(function(result)
         {
-            vm.allespece_capture = result.data.response;            
+            vm.allespece_capture = result.data.response;console.log(vm.allespece_capture);            
         });
             vm.step2=true;
             vm.step3=false;
@@ -1363,7 +1385,7 @@
       vm.nouvelItemEspece_capture   = item;
       currentItemEspece_capture     = vm.selectedItemEspece_capture;
       vm.afficherboutonModifSuprEspece_capture  = 1 ;
-      vm.afficherboutonModifEspece_capture      = 1;
+      //vm.afficherboutonModifEspece_capture      = 1;
       vm.affichageMasqueEspece_capture          = 0 ;
       vm.affichageMasque                        = 0;
       vm.affichageMasqueEchantillon             = 0; 
@@ -1387,7 +1409,7 @@
       vm.affichageMasqueEchantillon            = 0 ;
       vm.affichageMasque                       = 0 ;
       vm.espece_capture.id                     = vm.selectedItemEspece_capture.id ;
-      vm.espece_capture.espece_id              = vm.selectedItemEspece_capture.espece.id ;
+      //vm.espece_capture.espece_id              = vm.selectedItemEspece_capture.espece.id ;
       vm.espece_capture.capture                = parseFloat(vm.selectedItemEspece_capture.capture);
       vm.espece_capture.prix                   = parseInt(vm.selectedItemEspece_capture.prix);
   //    vm.espece_capture.id_user                =vm.selectedItemEspece_capture.user.id;
@@ -1396,6 +1418,7 @@
       vm.afficherboutonModifEspece_capture     = 1;
       vm.afficherboutonnouveauEspece_capture   = 0;
       vm.prix=true;
+      vm.espece_capture.espece = vm.selectedItemEspece_capture.espece
   };
   
   vm.annulerEspece_capture = function()
@@ -1405,8 +1428,10 @@
       vm.affichageMasqueEspece_capture          = 0 ;
       vm.afficherboutonnouveauEspece_capture    = 1 ;
       vm.afficherboutonModifSuprEspece_capture  = 0 ;
-      vm.afficherboutonModifEspece_capture      = 0;          
+      //vm.afficherboutonModifEspece_capture      = 0;          
       NouvelItemEspece_capture                  = false;
+      vm.espece_capture                         = {} ;
+      vm.espece_capture.espece                  = [] ;
   };
 
   vm.ajouterEspece_capture = function ()
@@ -1419,9 +1444,10 @@
       vm.affichageMasqueEchantillon     = 0 ;
       vm.espece_capture                 = {} ;
       NouvelItemEspece_capture           = true ;
-      vm.afficherboutonModifEspece_capture      = 0;
+      //vm.afficherboutonModifEspece_capture      = 0;
       vm.afficherboutonModifSuprEspece_capture  = 0;
       vm.afficherboutonnouveauEspece_capture    = 1;
+      vm.espece_capture.espece                  = [] ;
   };
 
   vm.supprimerEspece_capture = function()
@@ -1446,7 +1472,7 @@
   };
 
   function ajoutEspece_capture(espece_capture,suppression)
-  {
+  {console.log(espece_capture);
       if (NouvelItemEspece_capture==false)
       {
         test_existanceEspece_capture (espece_capture,suppression); 
@@ -1474,7 +1500,7 @@
         {
             supprimer:                         suppression,
             id:                                getIdEspece_capture,
-            espece_id:                         espece_capture.espece_id,
+            espece_id:                         espece_capture.espece.id,
             fiche_echantillonnage_capture_id:  vm.selectedItem.id,
             echantillon_id:                    vm.selectedItemEchantillon.id,
             capture:                           espece_capture.capture,
@@ -1487,7 +1513,7 @@
         {
             var espece= vm.allespece.filter(function(obj)
             {
-                return obj.id == vm.espece_capture.espece_id;
+                return obj.id == vm.espece_capture.espece.id;
             });
             
             /*var utili= vm.allutilisateur.filter(function(obj)
@@ -1632,7 +1658,7 @@
           });
           if(esp[0])
           {
-              if((esp[0].espece.id!=item.espece_id)
+              if((esp[0].espece.id!=item.espece.id)
                     ||(esp[0].capture!=item.capture)
                     ||(esp[0].prix!=item.prix))                   
               {
@@ -1711,6 +1737,44 @@
         }
         
       }*/
+      
+    vm.simulateQuery = false;
+    vm.isDisabled    = false;
+    // list of `state` value/display objects
+   // vm.states        = loadAll();
+    vm.querySearch   = querySearch;
+    vm.selectedItemChange = selectedItemChange;
+    vm.searchTextChange   = searchTextChange;
+    vm.match = true;
+
+    function querySearch (query) {
+     var results = query ? vm.allespece.filter( createFilterFor(query) ) : vm.allespece,
+          deferred; 
+       if (vm.simulateQuery) {
+        deferred = $q.defer();
+        $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
+        return deferred.promise;
+      } else {
+        return results;
+      }
+    }
+    function searchTextChange(text) {
+     // $log.info('Text changed to ' + text);
+      console.log('Text changed to ' + text);
+    }
+    function selectedItemChange(item) {
+     // $log.info('Item changed to ' + JSON.stringify(item));
+      console.log('Item changed to ' + JSON.stringify(item));
+      //vm.selectedItemEspece = item;
+      console.log(item);
+    }
+    function createFilterFor(query) {
+      var lowercaseQuery = angular.lowercase(query);
+
+      return function filterFn(state) {
+        return (state.nom_local.toLowerCase().indexOf(lowercaseQuery) === 0);
+      };
+    }
 
     }
 })();
