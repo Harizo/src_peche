@@ -605,26 +605,43 @@
 			                    <br>
 			                    <div layout="column" layout-gt-xs="row">
 			                      <input type="hidden" ng-model="vm.espece_capture.id">
-			                      <md-input-container flex="100" flex-gt-xs="33">
-			                        <label>Espece</label>
-			                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" md-container-class="mySelect"
-			                        required>
+			                      <md-autocomplete required
+								          md-input-name="autocompleteField"
+								          ng-disabled="vm.isDisabled"
+								          md-no-cache="vm.noCache"
+								          md-selected-item="vm.espece_capture.espece"
+								          md-search-text-change="vm.searchTextChange(vm.searchText)"
+								          md-search-text="vm.searchText"
+								          md-selected-item-change="vm.selectedItemChange(item)"
+								          md-items="item in vm.querySearch(vm.searchText)"
+								          md-item-text="item.nom_local"
+								          md-min-length="0"
+								          placeholder="Espece"
+								          md-floating-label="Espece"
+								          md-require-match= "vm.match"
+								          md-clear-button= "vm.match"
+								          flex="100" flex-gt-xs="33">
+								        <md-item-template >
 
-			                          
-
-			                         
-			                          <md-option ng-repeat="espece in vm.allespece | orderBy : 'nom_local'" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
-			                           <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
-			                          
-			                          </md-option>
-			                          <div ng-messages="espece_captureform.espece_id.$error"
-			                              role="alert">
+								          <!--span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{item.nom_local}}</span-->
+								          <span class="item-title" layout="row" style="padding: 1px; ">
+								          	<span flex="33" style="  background-color: black;padding: 1px; margin-right: 2px"> <img src="{{vm.apiUrlimage}}{{item.url_image}}" >
+								          	</span>
+								            <span flex="66" style="padding-left: 5px"> {{item.nom_local}} </span>
+								          </span><md-divider md-inset></md-divider>
+								        </md-item-template>
+								        <md-not-found>
+								          Aucun resultat correspondant à "{{vm.searchText}}".         
+								        </md-not-found>
+								        <div ng-messages="espece_captureform.autocompleteField.$error"
+			                              role="alert" ng-if="espece_captureform.autocompleteField.$touched">
 			                              <div ng-message="required">
-			                                <span>Espece capture obligatoire.</span>
+			                                <span>Capture obligatoire.</span>
 			                              </div>
+			                              
 			                            </div>
-			                        </md-select>
-			                      </md-input-container>
+								      </md-autocomplete>
+			                     
 			                        <md-input-container flex="100" flex-gt-xs="33">
 			                          <input type="number" name="capture" ng-model="vm.espece_capture.capture"
 			                            placeholder="capture (Kg)" ng-min="0.000001"
