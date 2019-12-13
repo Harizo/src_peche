@@ -591,7 +591,7 @@
 			                    <md-button type="submit" ng-show="vm.afficherboutonnouveauEspece_capture==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouterEspece_capture()" style="width:10%;">
 			                          Nouveau
 			                    </md-button>
-			                    <md-button type="submit" ng-show="vm.afficherboutonModifEspece_capture==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEspece_capture()" style="width:10%;">
+			                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifierEspece_capture()" style="width:10%;">
 			                          Modifier
 			                    </md-button>
 			                    <md-button type="submit" ng-show="vm.afficherboutonModifSuprEspece_capture==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimerEspece_capture()" style="width:10%;">
@@ -610,6 +610,10 @@
 			                        <label>Espece</label>
 			                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" md-container-class="mySelect"
 			                        required>
+
+			                          
+
+			                          <md-option ng-repeat="espece in vm.allespece | orderBy: 'nom_local'" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
 			                          <md-option ng-repeat="espece in vm.allespece | orderBy : 'nom_local'" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
 			                           <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
 			                          
@@ -624,7 +628,7 @@
 			                      </md-input-container>
 			                        <md-input-container flex="100" flex-gt-xs="33">
 			                          <input type="number" name="capture" ng-model="vm.espece_capture.capture"
-			                            placeholder="capture (Kg)" ng-min="1"
+			                            placeholder="capture (Kg)" ng-min="0.000001"
 			                            required>
 			                            <div ng-messages="espece_captureform.capture.$error"
 			                              role="alert">
