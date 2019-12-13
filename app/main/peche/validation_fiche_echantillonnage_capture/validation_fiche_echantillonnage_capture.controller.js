@@ -16,6 +16,7 @@
       vm.ajoutEspece_capture                 = ajoutEspece_capture;
       
       var NouvelItem                         = false;
+      
       var NouvelItemEchantillon              = false;
       var NouvelItemEspece_capture           = false;
       
