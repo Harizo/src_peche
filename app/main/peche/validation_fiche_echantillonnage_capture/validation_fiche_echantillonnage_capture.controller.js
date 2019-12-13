@@ -16,7 +16,7 @@
       vm.ajoutEspece_capture                 = ajoutEspece_capture;
       
       var NouvelItem                         = false;
-      
+
       var NouvelItemEchantillon              = false;
       var NouvelItemEspece_capture           = false;
       
@@ -1391,6 +1391,7 @@
       vm.affichageMasque                        = 0;
       vm.affichageMasqueEchantillon             = 0; 
       vm.step3 = true;
+      console.log(item);
   };
 
   $scope.$watch('vm.selectedItemEspece_capture', function()
@@ -1452,7 +1453,7 @@
   };
 
   vm.supprimerEspece_capture = function()
-  {
+  {console.log(vm.selectedItemEspece_capture);
       vm.affichageMasqueEspece_capture          = 0 ;
       vm.afficherboutonModifSuprEspece_capture  = 0 ;
       vm.afficherboutonModifEspece_capture      = 0;
@@ -1473,7 +1474,7 @@
   };
 
   function ajoutEspece_capture(espece_capture,suppression)
-  {console.log(espece_capture);
+  {
       if (NouvelItemEspece_capture==false)
       {
         test_existanceEspece_capture (espece_capture,suppression); 
@@ -1514,7 +1515,7 @@
         {
             var espece= vm.allespece.filter(function(obj)
             {
-                return obj.id == vm.espece_capture.espece.id;
+                return obj.id == espece_capture.espece.id;
             });
             
             /*var utili= vm.allutilisateur.filter(function(obj)
@@ -1551,10 +1552,10 @@
                     vm.selectedItemEspece_capture ={};
                 } 
                 else 
-                {    
+                {   console.log('tafa'); 
                   vm.allespece_capture = vm.allespece_capture.filter(function(obj)              
                   {
-                    return obj.id !== currentItemEspece_capture.id;
+                    return obj.id !== vm.selectedItemEspece_capture.id;
                   });
                   var tot_cap=parseFloat(vm.selectedItemEchantillon.total_capture)- parseFloat(currentItemEspece_capture.capture) ;                 
                   console.log(tot_cap)
