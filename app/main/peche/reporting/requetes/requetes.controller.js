@@ -388,6 +388,9 @@
             "id_site_embarquement",filtres.id_site_embarquement,"repertoire",repertoire).then(function(result)
           {
             vm.status    = result.data.status; 
+
+            console.log(result.data);
+
           
             if(vm.status)
             {
