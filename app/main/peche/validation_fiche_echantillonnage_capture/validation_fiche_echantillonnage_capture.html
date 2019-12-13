@@ -610,7 +610,7 @@
 			                        <label>Espece</label>
 			                        <md-select ng-model="vm.espece_capture.espece_id"  ng-change="vm.modifierespece(vm.espece_capture)" md-container-class="mySelect"
 			                        required>
-			                          <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
+			                          <md-option ng-repeat="espece in vm.allespece | orderBy : 'nom_local'" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
 			                           <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > {{espece.nom_local}}
 			                          
 			                          </md-option>

@@ -43,7 +43,7 @@
                       <md-input-container flex="100" flex-gt-xs="33">
                             <label>Enqueteur</label>
                               <md-select ng-model="vm.nbr_echantillon_enqueteur.enqueteur_id" ng-change="vm.modifierenqueteur(vm.nbr_echantillon_enqueteur)" required name="enqueteur_id">
-                                <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">{{enqueteur.nom}}
+                                <md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}">{{enqueteur.nom}} {{enqueteur.prenom}}
                                 </md-option>
                               </md-select>
                               <div ng-messages="nbr_echantillon_enqueteurform.enqueteur_id.$error"
