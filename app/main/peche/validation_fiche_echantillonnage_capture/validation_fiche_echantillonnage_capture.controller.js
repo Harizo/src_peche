@@ -1512,7 +1512,9 @@
           
       //factory
         apiFactory.add("espece_capture/index",datas, config).success(function (data)
-        {
+        { 
+            var maj_total_capture = 0;
+
             var espece= vm.allespece.filter(function(obj)
             {
                 return obj.id == espece_capture.espece.id;
@@ -1543,23 +1545,25 @@
                               
                     vm.afficherboutonModifSuprEspece_capture          = 0 ;
                     vm.afficherboutonnouveauEspece_capture            = 1 ;
-                    vm.selectedItemEspece_capture.$selected           = false;                   
-                           
-                    var tot_cap1=parseFloat(vm.selectedItemEchantillon.total_capture)- parseFloat(total_capture_selected) ;
-                    var tot_cap=parseFloat(tot_cap1)+parseFloat(vm.espece_capture.capture);
-                 
-                    majtotal_captureEchantillon(tot_cap,config);
+                    vm.selectedItemEspece_capture.$selected           = false;
+
+                    maj_total_capture = parseFloat(vm.selectedItemEchantillon.total_capture)-parseFloat(total_capture_selected)+parseFloat(espece_capture.capture);                    
+                    vm.selectedItemEchantillon.total_capture = parseFloat(parseFloat(maj_total_capture).toFixed(3));                    
+                    
+                    majtotal_captureEchantillon(config);
                     vm.selectedItemEspece_capture ={};
                 } 
                 else 
-                {   console.log('tafa'); 
+                {
                   vm.allespece_capture = vm.allespece_capture.filter(function(obj)              
                   {
                     return obj.id !== vm.selectedItemEspece_capture.id;
                   });
-                  var tot_cap=parseFloat(vm.selectedItemEchantillon.total_capture)- parseFloat(currentItemEspece_capture.capture) ;                 
-                  console.log(tot_cap)
-                  majtotal_captureEchantillon(tot_cap,config);
+                                  
+                  maj_total_capture = parseFloat(vm.selectedItemEchantillon.total_capture)-parseFloat(vm.selectedItemEspece_capture.capture);
+                  
+                  vm.selectedItemEchantillon.total_capture = parseFloat(parseFloat(maj_total_capture).toFixed(3));
+                  majtotal_captureEchantillon(config);
                 }
             }
             else
@@ -1574,10 +1578,10 @@
                   date_modification: date_dujour,
                   id:                String(data.response) 
                 };
-                
+                maj_total_capture = parseFloat(vm.selectedItemEchantillon.total_capture) + parseFloat(espece_capture.capture) ;
                 vm.allespece_capture.push(item);                          
-                var tot_cap=parseFloat(vm.selectedItemEchantillon.total_capture)+ parseFloat(espece_capture.capture);
-                majtotal_captureEchantillon(tot_cap,config);
+                vm.selectedItemEchantillon.total_capture = parseFloat(parseFloat(maj_total_capture).toFixed(3));
+                majtotal_captureEchantillon(config);
                 vm.espece_capture={};                         
                 NouvelItemEspece_capture=false;
             }
@@ -1590,10 +1594,9 @@
                 
     }
 
-
 //Mise à jour echantillon (total-capture) lors nouvelle insertion espece_capture      
-    function majtotal_captureEchantillon(tot_cap,config)
-    { 
+    function majtotal_captureEchantillon(config)
+    { console.log('tonga')
         var typeeffort='';
         if(vm.selectedItemEchantillon.data_collect.code=='PAB')
         {
@@ -1613,7 +1616,7 @@
             peche_hier:                       vm.selectedItemEchantillon.peche_hier,
             peche_avant_hier:                 vm.selectedItemEchantillon.peche_avant_hier,
             nbr_jrs_peche_dernier_sem:        vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem,
-            total_capture:                    tot_cap,
+            total_capture:                    vm.selectedItemEchantillon.total_capture,
             unique_code:                      vm.selectedItemEchantillon.unique_code,
             data_collect_id:                  vm.selectedItemEchantillon.data_collect.id,
             nbr_bateau_actif:                 vm.selectedItemEchantillon.nbr_bateau_actif,
@@ -1631,7 +1634,7 @@
             vm.selectedItemEchantillon.peche_hier                 = vm.selectedItemEchantillon.peche_hier;
             vm.selectedItemEchantillon.peche_avant_hier           = vm.selectedItemEchantillon.peche_avant_hier;
             vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem  = vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem; 
-            vm.selectedItemEchantillon.total_capture              = tot_cap;
+            vm.selectedItemEchantillon.total_capture              = vm.selectedItemEchantillon.total_capture;
             vm.selectedItemEchantillon.unique_code                = vm.selectedItemEchantillon.unique_code;
                           
             vm.selectedItemEchantillon.data_collect.id            = vm.selectedItemEchantillon.data_collect.id;
