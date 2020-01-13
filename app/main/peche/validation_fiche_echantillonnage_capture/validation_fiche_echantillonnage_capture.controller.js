@@ -1622,7 +1622,8 @@
             nbr_bateau_actif:                 vm.selectedItemEchantillon.nbr_bateau_actif,
             total_bateau_ecn:                 vm.selectedItemEchantillon.total_bateau_ecn,
             unite_peche_id:                   vm.selectedItemEchantillon.unite_peche.id,
-            user_id:                          vm.selectedItemEchantillon.user.id                        
+            user_id:                          vm.selectedItemEchantillon.user.id,
+            duree_mare:                       vm.selectedItemEchantillon.duree_mare                         
         });
         
 //factory
@@ -1646,6 +1647,7 @@
                           
             vm.selectedItemEchantillon.date_creation              = vm.selectedItemEchantillon.date_creation;
             vm.selectedItemEchantillon.date_modification          = date_dujour;
+            vm.selectedItemEchantillon.duree_mare                = vm.selectedItemEchantillon.duree_mare;
           
         }).error(function (data)
             {
