@@ -180,12 +180,14 @@
         					<td>{{user.nom}}</td>
         					<td>{{user.prenom}}</td>
         					<td>{{user.email}}</td>
-        					<td>{{vm.testEnabled(user.enabled)}}</td>
+                  <td>{{vm.testEnabled(user.enabled)}}</td>
+        					
                   <td>
                     <span style="font-size: 12px;" ng-repeat="s in user.roles">
                       {{"- "+s}}
                     </span>
                   </td>
+                  <td>{{user.region}}</td>
                 </tr>
               </tbody>
             </table>

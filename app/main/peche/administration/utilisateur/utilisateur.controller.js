@@ -17,7 +17,7 @@
       vm.infoAssuj = {} ;
 
       vm.column = [{"titre":"Nom"},{"titre":"Prénom"},{"titre":"Email"},
-      {"titre":"Etat"},{"titre":"Privilège"}];
+      {"titre":"Etat"},{"titre":"Privilège"},{"titre":"Région"}];
 
       vm.dtOptions = {
         dom       : '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
