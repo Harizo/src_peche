@@ -144,10 +144,13 @@
       {
          vm.alltype_engin= result.data.response;
       });*/
-       apiFactory.getAll("unite_peche/index").then(function(result)
+    /*apiFactory.getAll("unite_peche/index").then(function(result)
     {
-        vm.allunite_peche = result.data.response;
-    });
+      vm.allunite_peche = result.data.response;
+    });*/
+
+
+
 /*********** ************************Debut site d'embarquement  *******************************************/     
         
         function ajout(site_embarquement,suppression)   
@@ -275,6 +278,13 @@
       //selection sur la liste
       vm.selection= function (item) {
   //      vm.modifiercategorie(item);
+
+          //get unite de peche enquete cadre
+          apiFactory.getAPIgeneraliserREST("Enquete_cadre/index","id_site_embarquement",item.id).then(function(result)
+          {
+            vm.allunite_peche = result.data.response;
+          });
+          //fin get unite de peche enquete cadre
            if(currentItem != vm.selectedItem)
           {
             vm.step1 = false;
@@ -300,6 +310,8 @@
           apiFactory.getFilsSiteCanoeEngin("unite_peche_site/index",item.id).then(function(result)
           {
               vm.allunite_peche_site = result.data.response;
+
+             
                          
           });
           vm.step1=true;
@@ -668,6 +680,8 @@
 /*********** ************************Fin unite_peche_site  *******************************************/
       vm.selectionunite_peche_site= function (item)
       {  
+
+
         vm.selectedItemunite_peche_site            = item;
          vm.NouvelItemunite_peche_site              = item;
          currentItemunite_peche_site                = JSON.parse(JSON.stringify(vm.selectedItemunite_peche_site));
@@ -833,12 +847,15 @@
           } 
           else
           {
+              
               var item = 
               {
                   id:String(data.response) ,
                   unite_peche:     up[0],
                   type_engin:      up[0].type_engin,
+                
                   type_canoe:      up[0].type_canoe,
+                  
                   nbr_echantillon: vm.unite_peche_site.nbr_echantillon 
               };   
                        
@@ -886,6 +903,7 @@
           {
               return obj.id == unite_peche.unite_peche_id;
           });
+         
 
           vm.unite_peche_site.type_engin = unite_peche[0].type_engin.libelle;
           vm.unite_peche_site.type_canoe = unite_peche[0].type_canoe.nom;

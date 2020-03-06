@@ -122,7 +122,7 @@
 									<tbody>
 										<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
 											<td>{{fiche_echantillonnage_capture.code_unique}}</td>
-											<td>{{fiche_echantillonnage_capture.enqueteur.nom}}</td>
+											<td>{{fiche_echantillonnage_capture.enqueteur.nom}} <br>{{fiche_echantillonnage_capture.enqueteur.prenom}}</td>
 											<td>												 
 												-{{fiche_echantillonnage_capture.region.nom}}<br/>
 												-{{fiche_echantillonnage_capture.district.nom}}<br/>

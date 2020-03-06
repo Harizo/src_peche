@@ -177,7 +177,7 @@
 										<label>Enqueteur</label>
 										<md-select ng-model="vm.fiche_echantillonnage_capture.enqueteur_id" ng-disabled="!vm.fiche_echantillonnage_capture.district_id"  ng-change=""  md-container-class="my" required>
 											<md-option ng-repeat="enqueteur in vm.allenqueteur" value="{{enqueteur.id}}" >
-												{{enqueteur.nom}}
+												{{enqueteur.nom}} {{enqueteur.prenom}}
 											</md-option>
 										</md-select>
 										<div ng-messages="fiche_echantillonnage_captureform.enqueteur_id.$error"role="alert">
@@ -283,7 +283,7 @@
 									<tbody>
 										<tr ng-repeat="fiche_echantillonnage_capture in vm.allfiche_echantillonnage_capture"  ng-class="{selected: fiche_echantillonnage_capture.$selected}" ng-click="vm.selection(fiche_echantillonnage_capture)">
 											<td>{{fiche_echantillonnage_capture.code_unique}}</td>
-											<td>{{fiche_echantillonnage_capture.enqueteur.nom}}</td>
+											<td>{{fiche_echantillonnage_capture.enqueteur.nom}} <br>{{fiche_echantillonnage_capture.enqueteur.prenom}}</td>
 											<td>
 												 
 												-{{fiche_echantillonnage_capture.region.nom}}<br/>

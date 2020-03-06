@@ -519,7 +519,6 @@
             //vm.allcurrentdistrict=vm.alldistrict;
            
             
-            
           /*  var utili= vm.allutilisateur.filter(function(obj)
             {
               return obj.id == userId;
@@ -551,7 +550,7 @@
                     {
                       return obj.id == vm.fiche_echantillonnage_capture.district_id;
                     });                   
-                    vm.selectedItem.code_unique       = code_unique;
+                    vm.selectedItem.code_unique       = vm.selectedItem.code_unique;
                     vm.selectedItem.date              = date_fiche;
                     vm.selectedItem.date_creation     = vm.fiche_echantillonnage_capture.date_creation;
                     vm.selectedItem.date_modification = date_dujour;
