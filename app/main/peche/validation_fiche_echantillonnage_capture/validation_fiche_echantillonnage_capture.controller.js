@@ -209,6 +209,8 @@
           //selection sur la liste
       vm.selection= function (item)
       {        
+
+          console.log(item);
           vm.selectedItem = item;
           vm.nouvelItem   = item;
           if(currentItem != vm.selectedItem)
@@ -238,7 +240,7 @@
           "id_site_embarquement",item.site_embarquement.id).then(function(result)
           {
             vm.allenqueteur = result.data.response;
-            console.log(vm.allenqueteur);
+            
           });
 
           //recuperation site pour item.district.id
@@ -1294,56 +1296,65 @@
 
 
 }*/
-    vm.modifierunite_peche = function(unite_peche)
-      { var year = vm.date_now.getFullYear();
-       // console.log(year);
-       var unite_peche_recent = 0;
-       
-       if (vm.selectedItemEchantillon.$selected)
-       {
-          unite_peche_recent= vm.selectedItemEchantillon.unite_peche.id;
-       }
+      vm.modifierunite_peche = function(unite_peche)
+      { 
+        //var year = vm.date_now.getFullYear();
+        var date_fiche = vm.selectedItem.date.split("-");
 
-       // console.log(unite_peche_recent);
-       // console.log(unite_peche.unite_peche_id);
+        var year = date_fiche[0];
+        var mois = date_fiche[1];
+       
+        var unite_peche_recent = 0;
+
+        if (vm.selectedItemEchantillon.$selected)
+        {
+          unite_peche_recent= vm.selectedItemEchantillon.unite_peche.id;
+        }
+
+        // console.log(unite_peche_recent);
+        // console.log(unite_peche.unite_peche_id);
         if (unite_peche_recent!=unite_peche.unite_peche_id)
         {
             apiFactory.getAPIgeneraliserREST("unite_peche_site/index","menus","nbr_echantillon",
-          "id_unite_peche",unite_peche.unite_peche_id,"id_site_embarquement",
-          vm.selectedItem.site_embarquement.id,"annee",year,"id_enqueteur",vm.selectedItem.enqueteur.id).then(function(result)
-          {
-            var nbr_predefini = parseInt(result.data.response.nbr_echantillon_predefini);
-            var nbr_actuel = parseInt(result.data.response.nbr_echantillon_actuel);
+                                            "id_unite_peche",unite_peche.unite_peche_id,
+                                            "id_site_embarquement", vm.selectedItem.site_embarquement.id,
+                                            "annee",year,
+                                            "mois",mois,
+                                            "id_enqueteur",vm.selectedItem.enqueteur.id).then(function(result)
+            {
+              var nbr_echantillon_predefini = parseInt(result.data.response.nbr_echantillon_predefini);
+              var nbr_echantillon_actuel = parseInt(result.data.response.nbr_echantillon_actuel);
 
-            var nbr_enqueteur_predefini = parseInt(result.data.response.nbr_echantillon_enqueteur_predefini);
-            var nbr_enqueteur_actuel = parseInt(result.data.response.nbr_echantillon_enqueteur_actuel);
+              var nbr_echantillon_enqueteur_predefini = parseInt(result.data.response.nbr_echantillon_enqueteur_predefini);
+              var nbr_echantillon_enqueteur_actuel = parseInt(result.data.response.nbr_echantillon_enqueteur_actuel);
 
-              
-              if (nbr_predefini==0 || nbr_enqueteur_predefini==0) 
-              { 
-                  vm.enableUnitepeche = false;
-                  var titre = 'Selection impossible';                  
-                  var msg = 'Le nombre de cet unite de pêche n\'est pas definie';
-                  vm.dialog(msg,titre);
-              }
-              else if (nbr_actuel>=nbr_predefini || nbr_enqueteur_actuel>=nbr_enqueteur_predefini)
-              {
-                  vm.enableUnitepeche = false;
-                  var titre = 'Selection impossible';
-                  var msg = 'Nombre maximal atteint pour cet unité de peche';
-                  vm.dialog(msg,titre);
-              }
-              else
-              {                  
-                  vm.enableUnitepeche = true;
-              }
-              /*console.log(nbr_predefini);
-              console.log(nbr_actuel);
-              console.log(nbr_enqueteur_predefini);
-              console.log(nbr_enqueteur_actuel);
-              console.log(vm.enableUnitepeche);*/
+                
+                if ((nbr_echantillon_predefini == 0) || (nbr_echantillon_enqueteur_predefini == 0)) 
+                { 
+                    vm.enableUnitepeche = false;
+                    var titre = 'Selection impossible';                  
+                    var msg = "Le nombre de cet unite de pêche n'est pas definie";
+                    vm.dialog(msg,titre);
+                }
+               // else if (nbr_echantillon_actuel>=nbr_echantillon_predefini || nbr_echantillon_enqueteur_actuel>=nbr_echantillon_enqueteur_predefini)
+                else if ( nbr_echantillon_enqueteur_actuel >= nbr_echantillon_enqueteur_predefini)
+                {
+                    vm.enableUnitepeche = false;
+                    var titre = 'Selection impossible';
+                    var msg = 'Nombre maximal atteint pour cet unité de peche';
+                    vm.dialog(msg,titre);
+                }
+                else
+                {                  
+                    vm.enableUnitepeche = true;
+                }
+                /*console.log(nbr_predefini);
+                console.log(nbr_actuel);
+                console.log(nbr_enqueteur_predefini);
+                console.log(nbr_enqueteur_actuel);
+                console.log(vm.enableUnitepeche);*/
 
-          });
+            });
         }
         else
         {
