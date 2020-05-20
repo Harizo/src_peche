@@ -1,0 +1,194 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+       
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">S.I.P</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Produits Halieutiques</span>
+            </div>
+
+            <div class="title">Produits Halieutiques</div>
+        </div>
+    </div>		
+    <div class="content" layout="column">
+        <div class="form-wrapper">
+            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+            <div style="clear:both;"></div>
+            <md-tabs md-dynamic-height>
+                <md-tab label="Collecteur/Mareyeur">
+                    <md-tab-body>
+                        <div style="widht:100%;">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_mar()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Modifier" ng-click="vm.modif_col_mar()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Supprimer" ng-click="vm.supprimer_col_mar()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                        </div>  
+
+                        <!--FORM LISTES COLLECTEUR/MAREYEUR-->
+                            <div ng-show="vm.affichage_masque_collecteur_mareyeur">
+                      
+                              <form name="form_collecteur_mareyeur" class="md-inline-form" novalidate >
+
+                                <div layout="column" layout-gt-xs="row" flex>
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                      <input type="text" name="code" ng-model="vm.col_mar.code"
+                                        placeholder="Code " ng-init="vm.col_mar.code=''"
+                                        required>
+                                        <div ng-messages="form_collecteur_mareyeur.code.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Code obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                    <label>Type genre</label>
+                                    <md-select ng-model="vm.col_mar.type_genre" name="type_genre" required>
+                                        <md-option  value="Mr">Mr</md-option>
+                                        <md-option  value="Mme">Mme</md-option>
+                                        <md-option  value="Ste">Ste</md-option>
+                                    </md-select>
+                                    <div ng-messages="form_collecteur_mareyeur.type_genre.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Obligatoire.</span>
+                                          </div>
+                                        </div>
+                                </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="80">
+                                      <input type="text" name="nom" ng-model="vm.col_mar.nom"
+                                        placeholder="Nom" ng-init="vm.col_mar.nom=''"
+                                        required>
+                                        <div ng-messages="form_collecteur_mareyeur.nom.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Nom obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                </div>
+
+                                <div layout="column" layout-gt-xs="row" flex>
+                                    <md-input-container flex="100" flex-gt-xs="33">
+                                      <input type="text" name="adresse" ng-model="vm.col_mar.adresse"
+                                        placeholder="Adresse " ng-init="vm.col_mar.adresse=''"
+                                        required>
+                                        <div ng-messages="form_collecteur_mareyeur.adresse.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Adresse obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="33">
+                                      <input type="text" name="ref_autorisation" ng-model="vm.col_mar.ref_autorisation"
+                                        placeholder="Référence autorisation" ng-init="vm.col_mar.ref_autorisation=''"
+                                        required>
+                                        <div ng-messages="form_collecteur_mareyeur.ref_autorisation.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Référence autorisation obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                </div>
+
+                                <fieldset class="standard" >
+                                    <legend><code>Collecteur/Mareyeur</code></legend>
+
+                                    Mareyeur?<md-checkbox ng-init="vm.col_mar.is_mareyeur=false" ng-model="vm.col_mar.is_mareyeur" aria-label="Checkbox 1"  style="margin: 4px;">
+                                    {{vm.affichage_col_mar_bool(vm.col_mar.is_mareyeur)}}
+                                    </md-checkbox><br>
+
+
+                                    Collecteur marine?<md-checkbox ng-init="vm.col_mar.is_coll_marine=false" ng-model="vm.col_mar.is_coll_marine" aria-label="Checkbox 1"  style="margin: 4px;">
+                                    {{vm.affichage_col_mar_bool(vm.col_mar.is_coll_marine)}} 
+                                    </md-checkbox> <br>
+
+                             
+                                    Collecteur eau douce? <md-checkbox ng-init="vm.col_mar.is_coll_eau_douce=false" ng-model="vm.col_mar.is_coll_eau_douce"  aria-label="Checkbox 1"  style="margin: 4px; border-color: red;">
+                                    {{vm.affichage_col_mar_bool(vm.col_mar.is_coll_eau_douce)}} 
+                                    </md-checkbox>  
+                                    
+                                </fieldset>
+                               
+                                <div>
+                                 <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                  ng-disabled="form_collecteur_mareyeur.$invalid || (!vm.col_mar.is_coll_eau_douce&&!vm.col_mar.is_coll_marine&&!vm.col_mar.is_mareyeur)" ng-click="vm.save_in_bdd(vm.col_mar,0)">
+                                  Enregistrer
+                                </md-button>
+                                <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_mar()">
+                                  Annuler
+                                </md-button>
+                                </div>
+                              </form>
+                            </div> 
+                        <!--FORM LISTES COLLECTEUR/MAREYEUR-->
+                        <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
+                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions">
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_collecteur_mareyeur">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_collecteur_mareyeur"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_collecteur_mareyeur(cm)">                                       
+                                        <td>{{cm.code}}</td>
+                                        <td>{{cm.nom}}</td>
+                                        <td>{{cm.type_genre}}</td>
+                                        <td>{{cm.adresse}}</td>
+                                        <td>{{cm.ref_autorisation}}</td>
+                                        <td>
+                                            <x ng-if="vm.convert_int_to_boll(cm.is_mareyeur)">Mareyeur</x> <br>
+                                            <x ng-if="vm.convert_int_to_boll(cm.is_coll_marine)">Collecteur marine</x> <br>
+                                            <x ng-if="vm.convert_int_to_boll(cm.is_coll_eau_douce)">Collecteur eau douce</x> <br>
+                                        </td>
+                                        <!--td>{{vm.affichage_col_mar(cm.is_coll_marine)}}</td>
+                                        <td>{{vm.affichage_col_mar(cm.is_mareyeur)}}</td!-->
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
+                        
+                    </md-tab-body>
+                </md-tab>           
+                <md-tab label="Collecte"   ng-disabled="!vm.selected_collecteur_mareyeur.id">
+                    <md-tab-body>
+                    </md-tab-body>
+                </md-tab>  
+                <md-tab label="Permis"   ng-disabled="!vm.selected_collecteur_mareyeur.id">
+                    <md-tab-body>
+                    </md-tab-body>
+                </md-tab> 
+                <md-tab label="Commercialisation marine" ng-disabled="!vm.selected_collecteur_mareyeur.id">
+                    <md-tab-body>
+                    </md-tab-body>
+                </md-tab>  
+                <md-tab label="Commercialisation eau douce" ng-disabled="!vm.selected_collecteur_mareyeur.id">
+                    <md-tab-body>
+                    </md-tab-body>
+                </md-tab>  
+
+            </md-tabs>
+        </div>
+    </div>
+</div>

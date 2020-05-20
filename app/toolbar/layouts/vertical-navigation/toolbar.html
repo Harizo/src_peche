@@ -7,12 +7,12 @@
         </md-button>
 
         <!--ms-search-bar></ms-search-bar-->
-        <div style="width:  13%;">
-            <span ><img src="logo_swiofish.jpg"></span>
+        <div >
+            <span ><img style="height: 64px !important;" src="logo_swiofish.jpg"></span>
         </div>
         
                 
-        <div class="toolbar-separator"></div>
+        
 
 
         <md-progress-circular id="toolbar-progress" ng-if="$root.loadingProgress" class="md-accent"
@@ -34,7 +34,9 @@
                                      class="icon status s16">
                             </md-icon>
                         </div-->
-                        <span class="username" hide-xs> <u>Compte:</u>  {{ vm.userdetails.nom }} {{ vm.userdetails.prenom }}</span>
+                        <div class="toolbar-separator"></div>
+                        <md-icon md-font-icon="icon-account" class="s16"></md-icon>
+                        <span class="username" hide-xs>  <b>{{ vm.userdetails.nom }}</b> {{ vm.userdetails.prenom }}</span></span>
                         <md-icon md-font-icon="icon-chevron-down"
                                  class="icon s16" hide-xs></md-icon>
                     </div>
@@ -92,7 +94,7 @@
 
         <div class="toolbar-separator"></div>
 
-        <md-menu id="language-menu" md-offset="0 72" md-position-mode="target-right target">
+        <!--md-menu id="language-menu" md-offset="0 72" md-position-mode="target-right target">
             <md-button class="language-button" ng-click="$mdOpenMenu()"
                        aria-label="Language" md-menu-origin md-menu-align-target>
                 <div layout="row" layout-align="center center">
@@ -112,7 +114,7 @@
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
-        </md-menu>
+        </md-menu!-->
 
         <div class="toolbar-separator"></div>
 

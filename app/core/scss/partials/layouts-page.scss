@@ -10,6 +10,34 @@ $card-header-height: $header-height - $card-toolbar-height;
 $header-height-xs: 160px;
 $card-header-height-sm: $header-height-xs - $card-toolbar-height;
 
+.custum_button{ 
+    color: rgb(255,255,255) !important;
+    background-color: #8e00f4 !important;
+    width: auto !important;
+    font-size: 10px;
+}
+
+.custum_button_new{ 
+    color: rgb(255,255,255) !important;
+    background-color: #619b04 !important;
+    width: auto !important;
+    font-size: 10px;
+}
+
+.custum_button_del{ 
+    color: rgb(255,255,255) !important;
+    background-color: red !important;
+    width: auto !important;
+    font-size: 10px;
+}
+.page-layout.simple.fullwidth > .content{
+    padding: 1px !important;
+}
+
+md-tabs.md-default-theme .md-tab.md-active, md-tabs .md-tab.md-active {
+    color: #37a1d5 !important;
+}
+
 .page-layout {
     position: relative;
     overflow: hidden;
