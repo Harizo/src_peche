@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.peche.sip.produit_halieutiques', [])
+        .module('app.peche.sip.peche_artisanale', [])
        // .run(testPermission)        
         .config(config);
         var vs ;
@@ -12,27 +12,27 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_produit_halieutiques', {
-            url      : '/sip/produit_halieutiques',
+        $stateProvider.state('app.peche_reporting_peche_artisanale', {
+            url      : '/sip/peche_artisanale',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/sip/produit_halieutiques/produit_halieutiques.html',
-                    controller : 'produit_halieutiquesController as vm'
+                    templateUrl: 'app/main/peche/sip/peche_artisanale/peche_artisanale.html',
+                    controller : 'peche_artisanaleController as vm'
                 }
             },
-            bodyClass: 'produit_halieutiques',
+            bodyClass: 'peche_artisanale',
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "produit_halieutiques"
+              page: "peche_artisanale"
             }
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.sip.produit_halieutiques', {
-            title: "Produits halieutiques",
-            icon  : 'icon-numeric-1-box-multiple-outline',
-            state: 'app.peche_reporting_produit_halieutiques',
+        msNavigationServiceProvider.saveItem('peche.sip.peche_artisanale', {
+            title: "Pêche Artisanale",
+            icon  : 'icon-numeric-6-box-multiple-outline',
+            state: 'app.peche_reporting_peche_artisanale',
 			weight: 1/*,
             hidden: function()
             {

@@ -52,6 +52,9 @@
           },
           getimg: function(controller, data, config) {
             return $http.post(apiUrl+controller, data, config);
+          },
+          getParamsDynamic:function(params){
+            return $http.get(apiUrl+params);
           }
 
 

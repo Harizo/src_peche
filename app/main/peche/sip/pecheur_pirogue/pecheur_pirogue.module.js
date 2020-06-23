@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.peche.sip.produit_halieutiques', [])
+        .module('app.peche.sip.pecheur_pirogue', [])
        // .run(testPermission)        
         .config(config);
         var vs ;
@@ -12,27 +12,27 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_produit_halieutiques', {
-            url      : '/sip/produit_halieutiques',
+        $stateProvider.state('app.peche_reporting_pecheur_pirogue', {
+            url      : '/sip/pecheur_pirogue',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/sip/produit_halieutiques/produit_halieutiques.html',
-                    controller : 'produit_halieutiquesController as vm'
+                    templateUrl: 'app/main/peche/sip/pecheur_pirogue/pecheur_pirogue.html',
+                    controller : 'pecheur_pirogueController as vm'
                 }
             },
-            bodyClass: 'produit_halieutiques',
+            bodyClass: 'pecheur_pirogue',
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "produit_halieutiques"
+              page: "pecheur_pirogue"
             }
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.sip.produit_halieutiques', {
-            title: "Produits halieutiques",
-            icon  : 'icon-numeric-1-box-multiple-outline',
-            state: 'app.peche_reporting_produit_halieutiques',
+        msNavigationServiceProvider.saveItem('peche.sip.pecheur_pirogue', {
+            title: "Base de registre pêcheurs et pirogues",
+            icon  : 'icon-numeric-8-box-multiple-outline',
+            state: 'app.peche_reporting_pecheur_pirogue',
 			weight: 1/*,
             hidden: function()
             {

@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.peche.sip.produit_halieutiques', [])
+        .module('app.peche.sip.poisson_demersaux', [])
        // .run(testPermission)        
         .config(config);
         var vs ;
@@ -12,27 +12,27 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_produit_halieutiques', {
-            url      : '/sip/produit_halieutiques',
+        $stateProvider.state('app.peche_reporting_poisson_demersaux', {
+            url      : '/sip/poisson_demersaux',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/sip/produit_halieutiques/produit_halieutiques.html',
-                    controller : 'produit_halieutiquesController as vm'
+                    templateUrl: 'app/main/peche/sip/poisson_demersaux/poisson_demersaux.html',
+                    controller : 'poisson_demersauxController as vm'
                 }
             },
-            bodyClass: 'produit_halieutiques',
+            bodyClass: 'poisson_demersaux',
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "produit_halieutiques"
+              page: "poisson_demersaux"
             }
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.sip.produit_halieutiques', {
-            title: "Produits halieutiques",
-            icon  : 'icon-numeric-1-box-multiple-outline',
-            state: 'app.peche_reporting_produit_halieutiques',
+        msNavigationServiceProvider.saveItem('peche.sip.poisson_demersaux', {
+            title: "Poisson demersaux",
+            icon  : 'icon-numeric-5-box-multiple-outline',
+            state: 'app.peche_reporting_poisson_demersaux',
 			weight: 1/*,
             hidden: function()
             {

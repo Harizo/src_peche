@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.peche.sip.produit_halieutiques', [])
+        .module('app.peche.sip.peche_thoniere_etranger', [])
        // .run(testPermission)        
         .config(config);
         var vs ;
@@ -12,27 +12,27 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_produit_halieutiques', {
-            url      : '/sip/produit_halieutiques',
+        $stateProvider.state('app.peche_reporting_peche_thoniere_etranger', {
+            url      : '/sip/peche_thoniere_etranger',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/sip/produit_halieutiques/produit_halieutiques.html',
-                    controller : 'produit_halieutiquesController as vm'
+                    templateUrl: 'app/main/peche/sip/peche_thoniere_etranger/peche_thoniere_etranger.html',
+                    controller : 'peche_thoniere_etrangerController as vm'
                 }
             },
-            bodyClass: 'produit_halieutiques',
+            bodyClass: 'peche_thoniere_etranger',
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "produit_halieutiques"
+              page: "peche_thoniere_etranger"
             }
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.sip.produit_halieutiques', {
-            title: "Produits halieutiques",
-            icon  : 'icon-numeric-1-box-multiple-outline',
-            state: 'app.peche_reporting_produit_halieutiques',
+        msNavigationServiceProvider.saveItem('peche.sip.peche_thoniere_etranger', {
+            title: "Pêche thonière Etranger",
+            icon  : 'icon-numeric-4-box-multiple-outline',
+            state: 'app.peche_reporting_peche_thoniere_etranger',
 			weight: 1/*,
             hidden: function()
             {

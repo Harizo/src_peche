@@ -34,6 +34,10 @@ $card-header-height-sm: $header-height-xs - $card-toolbar-height;
     padding: 1px !important;
 }
 
+.selected {
+    background-color: #208abe !important;
+}
+
 md-tabs.md-default-theme .md-tab.md-active, md-tabs .md-tab.md-active {
     color: #37a1d5 !important;
 }

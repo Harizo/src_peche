@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.peche.sip.produit_halieutiques', [])
+        .module('app.peche.sip.vente_poissonnerie', [])
        // .run(testPermission)        
         .config(config);
         var vs ;
@@ -12,27 +12,27 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_produit_halieutiques', {
-            url      : '/sip/produit_halieutiques',
+        $stateProvider.state('app.peche_reporting_vente_poissonnerie', {
+            url      : '/sip/vente_poissonnerie',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/sip/produit_halieutiques/produit_halieutiques.html',
-                    controller : 'produit_halieutiquesController as vm'
+                    templateUrl: 'app/main/peche/sip/vente_poissonnerie/vente_poissonnerie.html',
+                    controller : 'vente_poissonnerieController as vm'
                 }
             },
-            bodyClass: 'produit_halieutiques',
+            bodyClass: 'vente_poissonnerie',
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "produit_halieutiques"
+              page: "vente_poissonnerie"
             }
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.sip.produit_halieutiques', {
-            title: "Produits halieutiques",
-            icon  : 'icon-numeric-1-box-multiple-outline',
-            state: 'app.peche_reporting_produit_halieutiques',
+        msNavigationServiceProvider.saveItem('peche.sip.vente_poissonnerie', {
+            title: "Vente poissonnerie",
+            icon  : 'icon-numeric-7-box-multiple-outline',
+            state: 'app.peche_reporting_vente_poissonnerie',
 			weight: 1/*,
             hidden: function()
             {

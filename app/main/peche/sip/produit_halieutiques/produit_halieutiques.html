@@ -36,110 +36,110 @@
                         <!--FORM LISTES COLLECTEUR/MAREYEUR-->
                             <div ng-show="vm.affichage_masque_collecteur_mareyeur">
                       
-                              <form name="form_collecteur_mareyeur" class="md-inline-form" novalidate >
+                                <form name="form_collecteur_mareyeur" class="md-inline-form" novalidate >
 
-                                <div layout="column" layout-gt-xs="row" flex>
-                                    <md-input-container flex="100" flex-gt-xs="10">
-                                      <input type="text" name="code" ng-model="vm.col_mar.code"
-                                        placeholder="Code " ng-init="vm.col_mar.code=''"
-                                        required>
-                                        <div ng-messages="form_collecteur_mareyeur.code.$error"
-                                          role="alert">
-                                          <div ng-message="required">
-                                            <span>Code obligatoire.</span>
-                                          </div>
-                                        </div>
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                          <input type="text" name="code" ng-model="vm.col_mar.code"
+                                            placeholder="Code " ng-init="vm.col_mar.code=''"
+                                            required>
+                                            <div ng-messages="form_collecteur_mareyeur.code.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Code obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                        <label>Type genre</label>
+                                        <md-select ng-model="vm.col_mar.type_genre" name="type_genre" required>
+                                            <md-option  value="Mr">Mr</md-option>
+                                            <md-option  value="Mme">Mme</md-option>
+                                            <md-option  value="Ste">Ste</md-option>
+                                        </md-select>
+                                        <div ng-messages="form_collecteur_mareyeur.type_genre.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Obligatoire.</span>
+                                              </div>
+                                            </div>
                                     </md-input-container>
 
-                                    <md-input-container flex="100" flex-gt-xs="10">
-                                    <label>Type genre</label>
-                                    <md-select ng-model="vm.col_mar.type_genre" name="type_genre" required>
-                                        <md-option  value="Mr">Mr</md-option>
-                                        <md-option  value="Mme">Mme</md-option>
-                                        <md-option  value="Ste">Ste</md-option>
-                                    </md-select>
-                                    <div ng-messages="form_collecteur_mareyeur.type_genre.$error"
-                                          role="alert">
-                                          <div ng-message="required">
-                                            <span>Obligatoire.</span>
-                                          </div>
-                                        </div>
-                                </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="80">
+                                          <input type="text" name="nom" ng-model="vm.col_mar.nom"
+                                            placeholder="Nom" ng-init="vm.col_mar.nom=''"
+                                            required>
+                                            <div ng-messages="form_collecteur_mareyeur.nom.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nom obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
 
-                                    <md-input-container flex="100" flex-gt-xs="80">
-                                      <input type="text" name="nom" ng-model="vm.col_mar.nom"
-                                        placeholder="Nom" ng-init="vm.col_mar.nom=''"
-                                        required>
-                                        <div ng-messages="form_collecteur_mareyeur.nom.$error"
-                                          role="alert">
-                                          <div ng-message="required">
-                                            <span>Nom obligatoire.</span>
-                                          </div>
-                                        </div>
-                                    </md-input-container>
+                                    </div>
 
-                                </div>
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="text" name="adresse" ng-model="vm.col_mar.adresse"
+                                            placeholder="Adresse " ng-init="vm.col_mar.adresse=''"
+                                            required>
+                                            <div ng-messages="form_collecteur_mareyeur.adresse.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Adresse obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
 
-                                <div layout="column" layout-gt-xs="row" flex>
-                                    <md-input-container flex="100" flex-gt-xs="33">
-                                      <input type="text" name="adresse" ng-model="vm.col_mar.adresse"
-                                        placeholder="Adresse " ng-init="vm.col_mar.adresse=''"
-                                        required>
-                                        <div ng-messages="form_collecteur_mareyeur.adresse.$error"
-                                          role="alert">
-                                          <div ng-message="required">
-                                            <span>Adresse obligatoire.</span>
-                                          </div>
-                                        </div>
-                                    </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="text" name="ref_autorisation" ng-model="vm.col_mar.ref_autorisation"
+                                            placeholder="Référence autorisation" ng-init="vm.col_mar.ref_autorisation=''"
+                                            >
+                                            <div ng-messages="form_collecteur_mareyeur.ref_autorisation.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Référence autorisation obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
 
-                                    <md-input-container flex="100" flex-gt-xs="33">
-                                      <input type="text" name="ref_autorisation" ng-model="vm.col_mar.ref_autorisation"
-                                        placeholder="Référence autorisation" ng-init="vm.col_mar.ref_autorisation=''"
-                                        required>
-                                        <div ng-messages="form_collecteur_mareyeur.ref_autorisation.$error"
-                                          role="alert">
-                                          <div ng-message="required">
-                                            <span>Référence autorisation obligatoire.</span>
-                                          </div>
-                                        </div>
-                                    </md-input-container>
+                                    </div>
 
-                                </div>
+                                    <fieldset class="standard" >
+                                        <legend><code>Collecteur/Mareyeur</code></legend>
 
-                                <fieldset class="standard" >
-                                    <legend><code>Collecteur/Mareyeur</code></legend>
-
-                                    Mareyeur?<md-checkbox ng-init="vm.col_mar.is_mareyeur=false" ng-model="vm.col_mar.is_mareyeur" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    {{vm.affichage_col_mar_bool(vm.col_mar.is_mareyeur)}}
-                                    </md-checkbox><br>
+                                        Mareyeur?<md-checkbox ng-init="vm.col_mar.is_mareyeur=false" ng-model="vm.col_mar.is_mareyeur" aria-label="Checkbox 1"  style="margin: 4px;">
+                                        {{vm.affichage_col_mar_bool(vm.col_mar.is_mareyeur)}}
+                                        </md-checkbox><br>
 
 
-                                    Collecteur marine?<md-checkbox ng-init="vm.col_mar.is_coll_marine=false" ng-model="vm.col_mar.is_coll_marine" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    {{vm.affichage_col_mar_bool(vm.col_mar.is_coll_marine)}} 
-                                    </md-checkbox> <br>
+                                        Collecteur marine?<md-checkbox ng-init="vm.col_mar.is_coll_marine=false" ng-model="vm.col_mar.is_coll_marine" aria-label="Checkbox 1"  style="margin: 4px;">
+                                        {{vm.affichage_col_mar_bool(vm.col_mar.is_coll_marine)}} 
+                                        </md-checkbox> <br>
 
-                             
-                                    Collecteur eau douce? <md-checkbox ng-init="vm.col_mar.is_coll_eau_douce=false" ng-model="vm.col_mar.is_coll_eau_douce"  aria-label="Checkbox 1"  style="margin: 4px; border-color: red;">
-                                    {{vm.affichage_col_mar_bool(vm.col_mar.is_coll_eau_douce)}} 
-                                    </md-checkbox>  
-                                    
-                                </fieldset>
-                               
-                                <div>
-                                 <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                  ng-disabled="form_collecteur_mareyeur.$invalid || (!vm.col_mar.is_coll_eau_douce&&!vm.col_mar.is_coll_marine&&!vm.col_mar.is_mareyeur)" ng-click="vm.save_in_bdd(vm.col_mar,0)">
-                                  Enregistrer
-                                </md-button>
-                                <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_mar()">
-                                  Annuler
-                                </md-button>
-                                </div>
-                              </form>
+                                 
+                                        Collecteur eau douce? <md-checkbox ng-init="vm.col_mar.is_coll_eau_douce=false" ng-model="vm.col_mar.is_coll_eau_douce"  aria-label="Checkbox 1"  style="margin: 4px; border-color: red;">
+                                        {{vm.affichage_col_mar_bool(vm.col_mar.is_coll_eau_douce)}} 
+                                        </md-checkbox>  
+                                        
+                                    </fieldset>
+                                   
+                                    <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_collecteur_mareyeur.$invalid || (!vm.col_mar.is_coll_eau_douce&&!vm.col_mar.is_coll_marine&&!vm.col_mar.is_mareyeur)" ng-click="vm.save_in_bdd(vm.col_mar,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_mar()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
                             </div> 
                         <!--FORM LISTES COLLECTEUR/MAREYEUR-->
                         <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
-                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions">
+                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
                                 <thead>
                                     <tr>
                                         <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_collecteur_mareyeur">
@@ -170,22 +170,1254 @@
                         <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
                         
                     </md-tab-body>
-                </md-tab>           
-                <md-tab label="Collecte"   ng-disabled="!vm.selected_collecteur_mareyeur.id">
+                </md-tab>        
+                <md-tab label="Permis de {{vm.selected_collecteur_mareyeur.nom}}"   ng-disabled="!vm.selected_collecteur_mareyeur.id" ng-click="vm.get_permis()">
                     <md-tab-body>
+                        <div style="widht:100%;">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_permis()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Modifier" ng-click="vm.modif_permis()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Supprimer" ng-click="vm.supprimer_permis()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                        </div>  
+
+                        <!--FORM PERMIS-->
+                            
+                            <div ng-show="vm.affichage_masque_permis">
+                      
+                                <form name="form_permis" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                        
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date quittance:</label>
+                                        <md-datepicker  ng-model="vm.permis.date_quittance" md-placeholder="Date quittance" md-max-date="vm.date_now" required>                       
+                                        </md-datepicker>
+                                        </div>
+                                        <md-input-container flex="100" flex-gt-xs="20">
+                                          <input type="text" name="numero_permis" ng-model="vm.permis.numero_permis" 
+                                            placeholder="Numero permis "  ng-init="vm.permis.numero_permis=''"
+                                            required>
+                                            <div ng-messages="form_permis.numero_permis.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Numero permis obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+
+
+                                        
+
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="80">
+                                            <label>Espèce</label>
+                                            <md-select ng-model="vm.permis.id_espece" name="id_espece" required>
+                                                <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}">
+                                                    {{espece.nom}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_permis.id_espece.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Espèce Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="20">
+                                            <label>Région</label>
+                                            <md-select ng-model="vm.permis.id_region" name="id_region" ng-change="vm.get_district()" required>
+                                                <md-option ng-repeat="r in vm.all_region" value="{{r.id}}">
+                                                    {{r.nom}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_permis.id_region.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Région Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="20" >
+                                            <label>District</label>
+                                            <md-select ng-model="vm.permis.id_district" name="id_district" ng-disabled="!vm.permis.id_region" required>
+                                                <md-option ng-repeat="cons in vm.all_district_by_region" value="{{cons.id}}">
+                                                    {{cons.nom}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_permis.id_district.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>District Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+                                        
+                                    </div>
+
+                                    
+
+                                   
+                                   
+                                    <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_permis.$invalid " ng-click="vm.save_in_bdd_permis(vm.permis,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_permis()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        
+                        <!--FIN FORM PERMIS-->
+                        <!--TABLE LISTES PERMIS-->
+                            <table ng-table="tablepermis" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_permis">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_permis"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_permis(cm)">                                       
+                                        <td>{{cm.numero_permis}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_quittance)}}</td>
+                                        <td>{{cm.nom_espece}}</td>
+                                        <td>{{cm.nom_region}}</td>
+                                        <td>{{cm.nom_district}}</td>
+                               
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES PERMIS-->
+                    </md-tab-body>
+                </md-tab>   
+                <md-tab label="Collecte permis n°: {{vm.selected_permis.numero_permis}} | Espèce: {{vm.selected_permis.nom_espece}}"   ng-disabled="!vm.selected_collecteur_mareyeur.id||!vm.selected_permis.id" ng-click="vm.get_collecte()">
+                    <md-tab-body>
+                            <div style="widht:100%;">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Modifier" ng-click="vm.modif_col()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Supprimer" ng-click="vm.supprimer_col()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                            </div>
+
+                        <!--FORM COLLECTE-->
+                            <div ng-show="vm.affichage_masque_collecte">
+                      
+                                <form name="form_collecte" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="5">
+                                          <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="annee" ng-model="vm.collecte.annee"
+                                            placeholder="Année "  md-maxlength="4"  ng-init="vm.collecte.annee=''"
+                                            required>
+                                            <div ng-messages="form_collecte.annee.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>annee obligatoire.</span>
+                                              </div>
+                                              <div ng-message="pattern" class="my-message">Valeur invalide 
+                                            </div>
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                            <label>Mois</label>
+                                            <md-select ng-model="vm.collecte.mois" name="mois" required>
+                                                <md-option  value="1">Janvier</md-option>
+                                                <md-option  value="2">Février</md-option>
+                                                <md-option  value="3">Mars</md-option>
+                                                <md-option  value="4">Avril</md-option>
+                                                <md-option  value="5">Mai</md-option>
+                                                <md-option  value="6">Juin</md-option>
+                                                <md-option  value="7">Juillet</md-option>
+                                                <md-option  value="8">Août</md-option>
+                                                <md-option  value="9">Septembre</md-option>
+                                                <md-option  value="10">Octobre</md-option>
+                                                <md-option  value="11">Novembre</md-option>
+                                                <md-option  value="12">Décembre</md-option>
+                                            </md-select>
+                                            <div ng-messages="form_collecte.mois.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Mois Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <!--md-input-container flex="100" flex-gt-xs="20">
+                                            <label>Espèce</label>
+                                            <md-select ng-model="vm.collecte.id_espece" name="id_espece" required>
+                                                <md-option ng-repeat="espece in vm.all_presentation" value="{{espece.id}}">
+                                                    {{espece.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_collecte.id_espece.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Espèce Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container!-->
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                            <label>Présentation</label>
+                                            <md-select ng-model="vm.collecte.id_presentation" name="id_presentation" required>
+                                                <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
+                                                    {{pres.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_collecte.id_presentation.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Présentation Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                            <label>Conservation</label>
+                                            <md-select ng-model="vm.collecte.id_conservation" name="id_conservation" required>
+                                                <md-option ng-repeat="cons in vm.all_conservation" value="{{cons.id}}">
+                                                    {{cons.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_collecte.id_conservation.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Conservation Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        
+
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                          <input  type="number" name="coefficiant_conservation" ng-model="vm.collecte.coefficiant_conservation"
+                                            placeholder="Coef conserv."    ng-init="vm.collecte.coefficiant_conservation=0"
+                                            required>
+                                            <div ng-messages="form_collecte.coefficiant_conservation.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Coef conserv. obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="quantite" ng-model="vm.collecte.quantite"
+                                            placeholder="Quantité(Kg)"    ng-init="vm.collecte.quantite=0"
+                                            required>
+                                            <div ng-messages="form_collecte.quantite.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Quantité obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="prix" ng-model="vm.collecte.prix"
+                                            placeholder="Prix(Ar/Kg)"    ng-init="vm.collecte.prix=0"
+                                            required>
+                                            <div ng-messages="form_collecte.prix.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Prix obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input ng-readonly="true"  type="number" name="valeur" ng-model="vm.collecte.valeur"
+                                            placeholder="Valeur(Ar)"    ng-init="vm.collecte.valeur=0"
+                                            required>
+                                            <div ng-messages="form_collecte.valeur.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Valeur obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+                                    </div>
+                                    
+
+                                   
+                                   
+                                    <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_collecte.$invalid" ng-click="vm.save_in_bdd_collecte(vm.collecte,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_collecte()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        <!--FIN FORM COLLECTE-->
+
+                        <!--TABLE LISTES COLLECTE-->
+                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_collecte">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_saisie_collecte_halieutique"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_collecte(cm)" >                                       
+                                        <td>{{cm.annee}}</td>
+                                        <td>{{vm.affichage_mois(cm.mois)}}</td>
+                                        <td>{{cm.libelle_presentation}}</td>
+                                        <td>{{cm.libelle_conservation}}</td>
+                                        <td>{{cm.coefficiant_conservation}}</td>
+                                        <td>{{vm.replace_point(cm.quantite)}} Kg</td>
+                                        <td>{{vm.formatMillier(cm.prix)}} Ar/Kg</td>
+                                        <td>{{vm.formatMillier(cm.valeur)}} Ar</td>
+                                        
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--FIN TABLE LISTES COLLECTE-->
                     </md-tab-body>
                 </md-tab>  
-                <md-tab label="Permis"   ng-disabled="!vm.selected_collecteur_mareyeur.id">
+                 
+                <md-tab label="Commercialisation marine permis n°: {{vm.selected_permis.numero_permis}} | Espèce: {{vm.selected_permis.nom_espece}}" ng-disabled="!vm.selected_collecteur_mareyeur.id||!vm.selected_permis.id" ng-click="vm.get_commerce_marine()">
                     <md-tab-body>
-                    </md-tab-body>
-                </md-tab> 
-                <md-tab label="Commercialisation marine" ng-disabled="!vm.selected_collecteur_mareyeur.id">
-                    <md-tab-body>
+
+                            <div style="widht:100%;">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_commerce_marine()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Modifier" ng-click="vm.modif_commerce_marine()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Supprimer" ng-click="vm.supprimer_commerce_marine()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                            </div>
+
+                        <!--FORM COMMERCE MARINE-->
+                            <div ng-show="vm.affichage_masque_commerce_marine">
+                      
+                                <form name="form_commerce_marine" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input  type="text" name="numero_visa" ng-model="vm.commerce_marine.numero_visa"
+                                            placeholder="N° Visa"    ng-init="vm.commerce_marine.numero_visa=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.numero_visa.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>N° Visa obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input  type="text" name="numero_cos" ng-model="vm.commerce_marine.numero_cos"
+                                            placeholder="N° Cos"    ng-init="vm.commerce_marine.numero_cos=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.numero_cos.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>N° Cos obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                          <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="annee" ng-model="vm.commerce_marine.annee"
+                                            placeholder="Année "  md-maxlength="4"  ng-init="vm.commerce_marine.annee=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.annee.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>annee obligatoire.</span>
+                                              </div>
+                                              <div ng-message="pattern" class="my-message">Valeur invalide 
+                                            </div>
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                            <label>Mois</label>
+                                            <md-select ng-model="vm.commerce_marine.mois" name="mois" required>
+                                                <md-option  value="1">Janvier</md-option>
+                                                <md-option  value="2">Février</md-option>
+                                                <md-option  value="3">Mars</md-option>
+                                                <md-option  value="4">Avril</md-option>
+                                                <md-option  value="5">Mai</md-option>
+                                                <md-option  value="6">Juin</md-option>
+                                                <md-option  value="7">Juillet</md-option>
+                                                <md-option  value="8">Août</md-option>
+                                                <md-option  value="9">Septembre</md-option>
+                                                <md-option  value="10">Octobre</md-option>
+                                                <md-option  value="11">Novembre</md-option>
+                                                <md-option  value="12">Décembre</md-option>
+                                            </md-select>
+                                            <div ng-messages="form_commerce_marine.mois.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Mois Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                       
+
+                                        
+
+                                        
+
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                            <label>Présentation</label>
+                                            <md-select ng-model="vm.commerce_marine.id_presentation" name="id_presentation" required>
+                                                <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
+                                                    {{pres.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_commerce_marine.id_presentation.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Présentation Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                            <label>Conservation</label>
+                                            <md-select ng-model="vm.commerce_marine.id_conservation" name="id_conservation" required>
+                                                <md-option ng-repeat="cons in vm.all_conservation" value="{{cons.id}}">
+                                                    {{cons.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_commerce_marine.id_conservation.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Conservation Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="20">
+                                          <input  type="number" name="coefficiant_conservation" ng-model="vm.commerce_marine.coefficiant_conservation"
+                                            placeholder="Coef conserv."    ng-init="vm.commerce_marine.coefficiant_conservation=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.coefficiant_conservation.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Coef conserv. obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                    </div>
+                                    
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="vl_qte" ng-model="vm.commerce_marine.vl_qte"
+                                            placeholder="VL Qté(Kg)"    ng-init="vm.commerce_marine.vl_qte=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.vl_qte.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>VL Qté obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input  type="number" name="vl_prix_par_kg" ng-model="vm.commerce_marine.vl_prix_par_kg"
+                                            placeholder="VL Prix(Ar/Kg)"    ng-init="vm.commerce_marine.vl_prix_par_kg=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.vl_prix_par_kg.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>VL Prix obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="vl_poids_vif" ng-model="vm.commerce_marine.vl_poids_vif"
+                                            placeholder="VL Poids vif(Kg)"    ng-init="vm.commerce_marine.vl_poids_vif=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.vl_poids_vif.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>VL Poids obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+                                    </div>
+
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="exp_qte" ng-model="vm.commerce_marine.exp_qte"
+                                            placeholder="EXP Qté(Kg)"    ng-init="vm.commerce_marine.exp_qte=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.exp_qte.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>EXP Qté obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input  type="number" name="exp_prix_par_kg" ng-model="vm.commerce_marine.exp_prix_par_kg"
+                                            placeholder="EXP Prix(Ar/Kg)"    ng-init="vm.commerce_marine.exp_prix_par_kg=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.exp_prix_par_kg.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>EXP Prix obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="exp_poids_vif" ng-model="vm.commerce_marine.exp_poids_vif"
+                                            placeholder="EXP Poids vif(Kg)"    ng-init="vm.commerce_marine.exp_poids_vif=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.exp_poids_vif.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>EXP Poids vif obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date expédition:</label>
+                                        <md-datepicker  ng-model="vm.commerce_marine.date_expedition" md-placeholder="Date expédition" md-max-date="vm.date_now" required>                       
+                                        </md-datepicker>
+                                        </div>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="text" name="exp_destination" ng-model="vm.commerce_marine.exp_destination"
+                                            placeholder="EXP Déstination"    ng-init="vm.commerce_marine.exp_destination=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.exp_destination.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>EXP Déstination obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                          <input  type="number" name="nbr_colis" ng-model="vm.commerce_marine.nbr_colis"
+                                            placeholder="Nombre colis"    ng-init="vm.commerce_marine.nbr_colis=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.nbr_colis.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nombre colis obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+                                    </div>
+
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input  type="text" name="nom_dest" ng-model="vm.commerce_marine.nom_dest"
+                                            placeholder="Nom Dést."    ng-init="vm.commerce_marine.nom_dest=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.nom_dest.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nom Dést. obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input  type="text" name="adresse_dest" ng-model="vm.commerce_marine.adresse_dest"
+                                            placeholder="Adresse Dést."    ng-init="vm.commerce_marine.adresse_dest=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.adresse_dest.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Adresse Dést. obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input  type="text" name="lieu_exped" ng-model="vm.commerce_marine.lieu_exped"
+                                            placeholder="Lieu expéd."    ng-init="vm.commerce_marine.lieu_exped=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.lieu_exped.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Lieu expéd. obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input  type="text" name="moyen_transport" ng-model="vm.commerce_marine.moyen_transport"
+                                            placeholder="Moyen de transport"    ng-init="vm.commerce_marine.moyen_transport=''"
+                                            required>
+                                            <div ng-messages="form_commerce_marine.moyen_transport.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Moyen de transport obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+                                    </div>
+                                   
+                                    <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_commerce_marine.$invalid" ng-click="vm.save_in_bdd_commerce_marine(vm.commerce_marine,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_commerce_marine()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        <!--FIN FORM COMMERCE MARINE-->
+                        <!--TABLE LISTES COMMERCE MARINE-->
+                            <table ng-table="table_collecte_marine" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_commerce_marine">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_commerce_marine"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_commerce_marine(cm)">                                       
+                                        <td>{{cm.numero_visa}}</td>
+                                        <td>{{cm.numero_cos}}</td>
+                                        <td>{{cm.annee}}</td>
+                                        <td>{{vm.affichage_mois(cm.mois)}}</td>
+                                        <td>{{cm.libelle_presentation}}</td>
+                                        <td>{{cm.libelle_conservation}}</td>
+                                        <td>{{cm.coefficiant_conservation}}</td>
+
+                                        <td>{{vm.replace_point(cm.vl_qte)}} Kg</td>
+                                        <td>{{vm.formatMillier(cm.vl_prix_par_kg)}} Ar/Kg</td>
+                                        <td>{{vm.replace_point(cm.vl_poids_vif)}} Kg</td>
+
+                                        <td>{{vm.replace_point(cm.exp_qte)}} Kg</td>
+                                        <td>{{vm.formatMillier(cm.exp_prix_par_kg)}} Ar/Kg</td>
+                                        <td>{{vm.replace_point(cm.exp_poids_vif)}} Kg</td>
+                                        <td>{{cm.exp_destination}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_expedition)}}</td>
+                                        
+                                        <td>{{cm.nbr_colis}}</td>
+                                        <td>{{cm.nom_dest}}</td>
+                                        <td>{{cm.adresse_dest}}</td>
+                                        <td>{{cm.lieu_exped}}</td>
+                                        <td>{{cm.moyen_transport}}</td>
+                               
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES COMMERCE MARINE-->
                     </md-tab-body>
                 </md-tab>  
-                <md-tab label="Commercialisation eau douce" ng-disabled="!vm.selected_collecteur_mareyeur.id">
+                <md-tab label="Commercialisation eau douce permis n°: {{vm.selected_permis.numero_permis}} | Espèce: {{vm.selected_permis.nom_espece}}" ng-disabled="!vm.selected_collecteur_mareyeur.id||!vm.selected_permis.id" ng-click="vm.get_commerce_eau_douce()">
                     <md-tab-body>
+                        <div style="widht:100%;">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_commerce_eau_douce()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Modifier" ng-click="vm.modif_commerce_eau_douce()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_collecteur_mareyeur.id" aria-label="Supprimer" ng-click="vm.supprimer_commerce_eau_douce()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                            </div>
+
+                        <!--FORM COMMERCE eau_douce-->
+                            <div ng-show="vm.affichage_masque_commerce_eau_douce">
+                      
+                                <form name="form_commerce_eau_douce" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input  type="text" name="numero_visa" ng-model="vm.commerce_eau_douce.numero_visa"
+                                            placeholder="N° Visa"    ng-init="vm.commerce_eau_douce.numero_visa=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.numero_visa.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>N° Visa obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input  type="text" name="numero_cos" ng-model="vm.commerce_eau_douce.numero_cos"
+                                            placeholder="N° Cos"    ng-init="vm.commerce_eau_douce.numero_cos=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.numero_cos.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>N° Cos obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                          <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="annee" ng-model="vm.commerce_eau_douce.annee"
+                                            placeholder="Année "  md-maxlength="4"  ng-init="vm.commerce_eau_douce.annee=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.annee.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>annee obligatoire.</span>
+                                              </div>
+                                              <div ng-message="pattern" class="my-message">Valeur invalide 
+                                            </div>
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                            <label>Mois</label>
+                                            <md-select ng-model="vm.commerce_eau_douce.mois" name="mois" required>
+                                                <md-option  value="1">Janvier</md-option>
+                                                <md-option  value="2">Février</md-option>
+                                                <md-option  value="3">Mars</md-option>
+                                                <md-option  value="4">Avril</md-option>
+                                                <md-option  value="5">Mai</md-option>
+                                                <md-option  value="6">Juin</md-option>
+                                                <md-option  value="7">Juillet</md-option>
+                                                <md-option  value="8">Août</md-option>
+                                                <md-option  value="9">Septembre</md-option>
+                                                <md-option  value="10">Octobre</md-option>
+                                                <md-option  value="11">Novembre</md-option>
+                                                <md-option  value="12">Décembre</md-option>
+                                            </md-select>
+                                            <div ng-messages="form_commerce_eau_douce.mois.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Mois Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                       
+
+                                        
+
+                                        
+
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                            <label>Présentation</label>
+                                            <md-select ng-model="vm.commerce_eau_douce.id_presentation" name="id_presentation" required>
+                                                <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
+                                                    {{pres.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_commerce_eau_douce.id_presentation.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Présentation Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                            <label>Conservation</label>
+                                            <md-select ng-model="vm.commerce_eau_douce.id_conservation" name="id_conservation" required>
+                                                <md-option ng-repeat="cons in vm.all_conservation" value="{{cons.id}}">
+                                                    {{cons.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_commerce_eau_douce.id_conservation.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Conservation Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="20">
+                                          <input  type="number" name="coefficiant_conservation" ng-model="vm.commerce_eau_douce.coefficiant_conservation"
+                                            placeholder="Coef conserv."    ng-init="vm.commerce_eau_douce.coefficiant_conservation=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.coefficiant_conservation.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Coef conserv. obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                    </div>
+                                    
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="vl_qte" ng-model="vm.commerce_eau_douce.vl_qte"
+                                            placeholder="VL Qté(Kg)"    ng-init="vm.commerce_eau_douce.vl_qte=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.vl_qte.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>VL Qté obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input  type="number" name="vl_prix_par_kg" ng-model="vm.commerce_eau_douce.vl_prix_par_kg"
+                                            placeholder="VL Prix(Ar/Kg)"    ng-init="vm.commerce_eau_douce.vl_prix_par_kg=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.vl_prix_par_kg.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>VL Prix obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="vl_poids_vif" ng-model="vm.commerce_eau_douce.vl_poids_vif"
+                                            placeholder="VL Poids vif(Kg)"    ng-init="vm.commerce_eau_douce.vl_poids_vif=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.vl_poids_vif.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>VL Poids obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+                                    </div>
+
+
+                                   
+                                    <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_commerce_eau_douce.$invalid" ng-click="vm.save_in_bdd_commerce_eau_douce(vm.commerce_eau_douce,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_commerce_eau_douce()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        <!--FIN FORM COMMERCE eau_douce-->
+                        <!--TABLE LISTES COMMERCE eau_douce-->
+                            <table ng-table="table_collecte_eau_douce" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_commerce_eau_douce">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_commerce_eau_douce"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_commerce_eau_douce(cm)">                                       
+                                        <td>{{cm.numero_visa}}</td>
+                                        <td>{{cm.numero_cos}}</td>
+                                        <td>{{cm.annee}}</td>
+                                        <td>{{vm.affichage_mois(cm.mois)}}</td>
+                                        <td>{{cm.libelle_presentation}}</td>
+                                        <td>{{cm.libelle_conservation}}</td>
+                                        <td>{{cm.coefficiant_conservation}}</td>
+
+                                        <td>{{vm.replace_point(cm.vl_qte)}} Kg</td>
+                                        <td>{{vm.formatMillier(cm.vl_prix_par_kg)}} Ar/Kg</td>
+                                        <td>{{vm.replace_point(cm.vl_poids_vif)}} Kg</td>
+                               
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES COMMERCE eau_douce-->
                     </md-tab-body>
+                </md-tab>  
+
+                <md-tab label="Arrivée fiche permis n°: {{vm.selected_permis.numero_permis}} " ng-disabled="!vm.selected_collecteur_mareyeur.id||!vm.selected_permis.id" ng-click="vm.get_arrivee_fiche()">
+
+                    <!--TABLE LISTES PERMIS-->
+
+                            <div class="price-table style-1 md-whiteframe-1dp" layout="column">
+                                <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                <div layout="row" layout-align="start">
+                                  
+                                  <div class="border-right" ng-if="!vm.selected_arrivee_fiche.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.ajouter()">
+                                      <md-icon md-font-icon="icon-plus-box"></md-icon>
+                                      <md-tooltip><span>Ajouter</span></md-tooltip>
+                                    </md-button>
+                                  </div> 
+                                  <div class="border-right" ng-if="vm.selected_arrivee_fiche.id&&!vm.selected_arrivee_fiche.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.modifier()">
+                                      <md-icon md-font-icon="icon-table-edit"></md-icon>
+                                      <md-tooltip><span>Modifier</span></md-tooltip>
+                                    </md-button>
+                                  </div>    
+                                  <div class="border-right" ng-if="vm.selected_arrivee_fiche.id&&!vm.selected_arrivee_fiche.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.supprimer()">
+                                      <md-icon md-font-icon="icon-delete"></md-icon>
+                                      <md-tooltip><span>Supprimer</span></md-tooltip>
+                                    </md-button>
+                                  </div>  
+
+                                  <div class="border-right" ng-if="vm.selected_arrivee_fiche.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.annuler()">
+                                      <md-icon md-font-icon="icon-cancel"></md-icon>
+                                      <md-tooltip><span>Annuler</span></md-tooltip>
+                                    </md-button>
+                                  </div>   
+
+                                  <div ng-if="vm.selected_arrivee_fiche.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.enregistrer(0)">
+                                      <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
+                                      <md-tooltip><span>Enregistrer</span></md-tooltip>
+                                    </md-button>
+                                  </div>                
+                                </div>
+                                </header>
+                                
+                            
+                            <table ng-table="tablepermis" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_arrivee_fiche">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_arrivee_fiche"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_arrivee_fiche(cm)">                                       
+                                        <td>
+                                            
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Année</label>
+                                                  <input name="annee" ng-pattern="/^[1-3]{1}[0-9]{3}$/" ng-model="cm.annee"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.annee}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Janvier</label>
+                                                  <input name="Janvier" ng-pattern="/^\d+$/" ng-model="cm.janvier"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.janvier}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Février</label>
+                                                  <input name="fevrier" ng-pattern="/^\d+$/" ng-model="cm.fevrier"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.fevrier}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Mars</label>
+                                                  <input name="mars" ng-pattern="/^\d+$/" ng-model="cm.mars"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.mars}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Avril</label>
+                                                  <input name="avril" ng-pattern="/^\d+$/" ng-model="cm.avril"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.avril}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Mai</label>
+                                                  <input name="mai" ng-pattern="/^\d+$/" ng-model="cm.mai"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.mai}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Juin</label>
+                                                  <input name="juin" ng-pattern="/^\d+$/" ng-model="cm.juin"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.juin}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Juillet</label>
+                                                  <input name="juillet" ng-pattern="/^\d+$/" ng-model="cm.juillet"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.juillet}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Août</label>
+                                                  <input name="aout" ng-pattern="/^\d+$/" ng-model="cm.aout"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.aout}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Septembre</label>
+                                                  <input name="septembre" ng-pattern="/^\d+$/" ng-model="cm.septembre"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.septembre}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Octobre</label>
+                                                  <input name="octobre" ng-pattern="/^\d+$/" ng-model="cm.octobre"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.octobre}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Novembre</label>
+                                                  <input name="novembre" ng-pattern="/^\d+$/" ng-model="cm.novembre"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.novembre}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Décembre</label>
+                                                  <input name="decembre" ng-pattern="/^\d+$/" ng-model="cm.decembre"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.decembre}}
+                                            </span>
+                                        </td>
+                               
+                                       
+                                    </tr>
+                                </tbody>
+                            </table></div>
+                        <!--TABLE LISTES PERMIS-->
                 </md-tab>  
 
             </md-tabs>

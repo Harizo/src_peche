@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.peche.sip.produit_halieutiques', [])
+        .module('app.peche.sip.peche_crevettiere', [])
        // .run(testPermission)        
         .config(config);
         var vs ;
@@ -12,27 +12,27 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_produit_halieutiques', {
-            url      : '/sip/produit_halieutiques',
+        $stateProvider.state('app.peche_reporting_peche_crevettiere', {
+            url      : '/sip/peche_crevettiere',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/sip/produit_halieutiques/produit_halieutiques.html',
-                    controller : 'produit_halieutiquesController as vm'
+                    templateUrl: 'app/main/peche/sip/peche_crevettiere/peche_crevettiere.html',
+                    controller : 'peche_crevettiereController as vm'
                 }
             },
-            bodyClass: 'produit_halieutiques',
+            bodyClass: 'peche_crevettiere',
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "produit_halieutiques"
+              page: "peche_crevettiere"
             }
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.sip.produit_halieutiques', {
-            title: "Produits halieutiques",
-            icon  : 'icon-numeric-1-box-multiple-outline',
-            state: 'app.peche_reporting_produit_halieutiques',
+        msNavigationServiceProvider.saveItem('peche.sip.peche_crevettiere', {
+            title: "Pêche crevettière",
+            icon  : 'icon-numeric-2-box-multiple-outline',
+            state: 'app.peche_reporting_peche_crevettiere',
 			weight: 1/*,
             hidden: function()
             {
