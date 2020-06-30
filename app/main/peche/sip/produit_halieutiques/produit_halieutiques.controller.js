@@ -1053,7 +1053,7 @@
 							vm.selected_commerce_marine.libelle_conservation = cons[0].libelle ;
 
 							vm.selected_commerce_marine.id_presentation = commerce_marine.id_presentation ;
-							vm.selected_commerce_marine.libelle_presentatio = pres[0].libelle ;
+							vm.selected_commerce_marine.libelle_presentation = pres[0].libelle ;
 
 							vm.selected_commerce_marine.coefficiant_conservation = commerce_marine.coefficiant_conservation ;
 

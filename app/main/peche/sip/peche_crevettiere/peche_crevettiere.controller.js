@@ -12,12 +12,14 @@
     	var vm = this ;
 
     	vm.affiche_load = true ;
+    	vm.date_now = new Date();
 
 
     	vm.dtOptions =
 		{
 			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
 			pagingType: 'simple_numbers',
+			/*retrieve: 'true',*/
 			order:[] 
 		};
 
@@ -126,6 +128,25 @@
 					break;
 			}
 		}
+
+		//clé étrangère
+			apiFactory.getParamsDynamic("SIP_espece/index?id_type_espece=2").then(function(result)
+			{
+				vm.all_espece = result.data.response;
+				console.log(vm.all_espece);
+				
+			});
+
+			apiFactory.getAll("SIP_presentation/index").then(function(result)
+			{
+				vm.all_presentation = result.data.response;
+			});
+
+			apiFactory.getAll("SIP_conservation/index").then(function(result)
+			{
+				vm.all_conservation = result.data.response;
+			});
+		//fin clé étrangère
 
     	//SOCIETE
 
@@ -299,7 +320,7 @@
 
     	//COMMERCIALISATION
     		var nouvelle_commerce = false ;
-    		vm.affichage_masque_commerce = false ;
+    		vm.affichage_masque_commerce = false ; 
     		vm.selected_commerce = {} ;
     		vm.commerce = {} ;
     		vm.entete_liste_commerce = 
@@ -322,6 +343,7 @@
 
 			vm.get_commerce = function()
 			{
+				vm.all_commerce = [];
 				vm.affiche_load = true ;
 				apiFactory.getParamsDynamic("SIP_commercialisation_crevette?id_societe_crevette="+vm.selected_societe_crevette.id).then(function(result)
 				{
@@ -333,6 +355,7 @@
 			vm.selection_commerce = function(item)
 			{
 				vm.selected_commerce = item ;
+				console.log(item);
 			}
 
 			$scope.$watch('vm.selected_commerce', function()
@@ -345,6 +368,245 @@
 				vm.selected_commerce.$selected = true;
 
 			});
+
+			vm.ajout_commerce_crevette = function()
+			{
+				vm.affichage_masque_commerce = true ;
+				nouvelle_commerce = true ;
+				vm.commerce_crevette = {} ;
+				vm.selected_commerce = {} ;
+			}
+
+			vm.modif_commerce_crevette = function()
+			{
+				nouvelle_commerce = false ;
+				vm.affichage_masque_commerce = true ;
+
+				vm.commerce_crevette.annee = vm.selected_commerce.annee ;
+				vm.commerce_crevette.mois = vm.selected_commerce.mois ;
+				vm.commerce_crevette.produit = vm.selected_commerce.id_produit ;
+				vm.commerce_crevette.id_presentation = vm.selected_commerce.id_presentation ;
+				vm.commerce_crevette.id_conservation = vm.selected_commerce.id_conservation ;
+				vm.commerce_crevette.qte_vl = Number(vm.selected_commerce.qte_vl) ;
+				vm.commerce_crevette.pum_vl = Number(vm.selected_commerce.pum_vl) ;
+				vm.commerce_crevette.val_vl = Number(vm.selected_commerce.val_vl) ;
+				vm.commerce_crevette.qte_exp = Number(vm.selected_commerce.qte_exp) ;
+				vm.commerce_crevette.pum_exp = Number(vm.selected_commerce.pum_exp) ;
+				vm.commerce_crevette.val_exp = Number(vm.selected_commerce.val_exp) ;
+				vm.commerce_crevette.dest_exp = vm.selected_commerce.dest_exp 
+			}
+
+			vm.supprimer_commerce_crevette = function()
+			{
+				vm.affichage_masque_commerce_marine = false ;
+				
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('Commercialisation société: '+vm.selected_societe_crevette.nom)
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('ok')
+				  .cancel('annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.save_in_bdd_commerce(vm.selected_commerce,1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.annuler_commerce = function()
+			{
+				nouvelle_commerce = false ;
+				vm.affichage_masque_commerce = false ;
+				vm.selected_commerce = {};
+			}
+
+			vm.save_in_bdd_commerce = function(data_masque, etat_suppression)
+			{
+				var config = {
+	                headers : {
+	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	                }
+	            };
+
+	            var id = 0 ;
+
+	            if (!nouvelle_commerce) 
+	            {
+	            	id = vm.selected_commerce.id ;
+	            }
+
+
+
+	            var datas = $.param(
+	            {
+	            	
+	                id:id,      
+	                supprimer:etat_suppression,
+	                id_societe_crevette:vm.selected_societe_crevette.id,
+	                annee:data_masque.annee,
+	                mois:data_masque.mois,
+	                produit:data_masque.produit,
+	                id_presentation:data_masque.id_presentation,
+	                id_conservation:data_masque.id_conservation,
+	                qte_vl:data_masque.qte_vl,
+	                pum_vl:data_masque.pum_vl,
+	                val_vl:data_masque.val_vl,
+	                qte_exp:data_masque.qte_exp,
+	                pum_exp:data_masque.pum_exp,
+	                val_exp:data_masque.val_exp,
+	                dest_exp:data_masque.dest_exp
+	                
+	                
+	            });
+
+	            apiFactory.add("SIP_commercialisation_crevette/index",datas, config).success(function (data)
+        		{
+        			var cons = vm.all_conservation.filter(function(obj)
+					{
+						return obj.id == data_masque.id_conservation;
+					});
+
+					var pres = vm.all_presentation.filter(function(obj)
+					{
+						return obj.id == data_masque.id_presentation;
+					});
+
+					var prod = vm.all_espece.filter(function(obj)
+					{
+						return obj.id == data_masque.produit;
+					});
+
+					if (!nouvelle_commerce) 
+        			{
+        				if (etat_suppression == 0) 
+        				{
+        					vm.selected_commerce.annee = data_masque.annee ;
+			                vm.selected_commerce.mois = data_masque.mois ;
+
+			                vm.selected_commerce.id_produit = data_masque.produit ;
+			                vm.selected_commerce.nom_produit = prod[0].nom  ;
+
+			                vm.selected_commerce.id_presentation = data_masque.id_presentation ;
+			                vm.selected_commerce.libelle_presentation = pres[0].libelle ;
+
+			                vm.selected_commerce.id_conservation = data_masque.id_conservation ;
+			                vm.selected_commerce.libelle_conservation = cons[0].libelle ;
+
+							
+
+			                vm.selected_commerce.qte_vl = data_masque.qte_vl ;
+			                vm.selected_commerce.pum_vl = data_masque.pum_vl ;
+			                vm.selected_commerce.val_vl = data_masque.val_vl ;
+			                vm.selected_commerce.qte_exp = data_masque.qte_exp ;
+			                vm.selected_commerce.pum_exp = data_masque.pum_exp ;
+			                vm.selected_commerce.val_exp = data_masque.val_exp ;
+			                vm.selected_commerce.dest_exp = data_masque.dest_exp ;
+        				}
+        				else 
+        				{
+        					vm.all_commerce = vm.all_commerce.filter(function(obj)
+							{
+								return obj.id !== vm.selected_commerce.id ;
+							});
+						
+        				}
+
+        			}
+        			else
+        			{
+        				var item =
+			            {
+							id:String(data.response) ,
+
+							id_societe_crevette:vm.selected_societe_crevette.id,
+
+							annee:data_masque.annee,
+							mois:data_masque.mois,
+
+							id_conservation:data_masque.id_conservation,
+							libelle_conservation:cons[0].libelle,
+
+							id_presentation:data_masque.id_presentation,
+							libelle_presentation:pres[0].libelle,
+
+							id_produit:data_masque.produit,
+							nom_produit:prod[0].nom,
+
+							qte_vl:data_masque.qte_vl,
+			                pum_vl:data_masque.pum_vl,
+			                val_vl:data_masque.val_vl,
+			                qte_exp:data_masque.qte_exp,
+			                pum_exp:data_masque.pum_exp,
+			                val_exp:data_masque.val_exp,
+			                dest_exp:data_masque.dest_exp
+			                            
+						}          
+			            vm.all_commerce.unshift(item);
+
+			            nouvelle_commerce = false ;
+
+        			}
+
+			        vm.affichage_masque_commerce = false ;
+        		})
+        		.error(function (data) {alert("Une erreur s'est produit");});
+			}
     	//FIN COMMERCIALISATION
+
+    	//EXPORTATION
+
+    		var nouvelle_exportation = false ;
+    		vm.affichage_masque_exportation = false ; 
+    		vm.selected_exportation = {} ;
+    		vm.exportation = {} ;
+
+    		vm.entete_liste_commerce = 
+	        [
+				{titre:"Année"},
+				{titre:"Mois"},
+				{titre:"Date VISA"},
+				{titre:"Numero VISA"},
+				{titre:"Date COS"},
+				{titre:"Numero COS"},
+				{titre:"Date EDRD"},
+				{titre:"Présentation"},
+				{titre:"Conservation"},
+				{titre:"Déstination Export"},
+				{titre:"Qté"},
+				{titre:"Valeur en Ar"},
+				{titre:"Valeur en Euro"},
+				{titre:"Valeur en USD"}
+	        ] ;
+
+    		vm.get_exportation = function()
+			{
+				vm.affiche_load = true ;
+				apiFactory.getParamsDynamic("SIP_exportation_crevette?id_societe_crevette="+vm.selected_societe_crevette.id).then(function(result)
+				{
+					vm.affiche_load = false ;
+					vm.all_exportation = result.data.response;
+				});
+			}
+
+			vm.selection_exportation = function(item)
+			{
+				vm.selected_exportation = item ;
+				console.log(item);
+			}
+
+			$scope.$watch('vm.selected_exportation', function()
+			{
+				if (!vm.all_exportation) return;
+				vm.all_exportation.forEach(function(item)
+				{
+					item.$selected = false;
+				});
+				vm.selected_exportation.$selected = true;
+
+			});
+    	//FIN EXPORTATION
     }
 })();

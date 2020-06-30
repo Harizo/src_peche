@@ -29,7 +29,7 @@
                             <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_societe_crevette.id" aria-label="Modifier" ng-click="vm.modif_societe_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
                               Modifier
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_societe_crevette.id" aria-label="Supprimer" ng-click="COMMERCEsupprimer_societe_crevette()" style="width:10%;">
+                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_societe_crevette.id" aria-label="Supprimer" ng-click="vm.supprimer_societe_crevette()" style="width:10%;">
                                 <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
                               Supprimer
                             </md-button>
@@ -181,6 +181,239 @@
                     <!--TABLE LISTES SOCIETE-->
                 </md-tab>
                 <md-tab label="Commercialisation | Société: {{vm.selected_societe_crevette.nom}}" ng-disabled="!vm.selected_societe_crevette.id" ng-click="vm.get_commerce()">
+                    <div style="widht:100%;">    
+                            <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_commerce_crevette()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                              Nouveau
+                            </md-button>
+                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_societe_crevette.id" aria-label="Modifier" ng-click="vm.modif_commerce_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                              Modifier
+                            </md-button>
+                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_societe_crevette.id" aria-label="Supprimer" ng-click="vm.supprimer_commerce_crevette()" style="width:10%;">
+                                <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                              Supprimer
+                            </md-button>
+                    </div>
+                    <!--FORM  commerce-->
+                     
+                        <div ng-show="vm.affichage_masque_commerce">
+                  
+                            <form name="form_commerce_crevette" class="md-inline-form" novalidate >
+
+                                <div layout="column" layout-gt-xs="row" flex>
+                                    <md-input-container flex="100" flex-gt-xs="5">
+                                        <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="annee" ng-model="vm.commerce_crevette.annee"
+                                        placeholder="Année"  md-maxlength="4"  ng-init="vm.commerce_crevette.annee=''"
+                                        required>
+                                        <div ng-messages="form_commerce_crevette.annee.$error"
+                                        role="alert">
+                                            <div ng-message="required">
+                                                <span>Année obligatoire.</span>
+                                            </div>
+                                            <div ng-message="pattern" class="my-message">
+                                                Valeur invalide 
+                                            </div>
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                            <label>Mois</label>
+                                            <md-select ng-model="vm.commerce_crevette.mois" name="mois" required>
+                                                <md-option  value="1">Janvier</md-option>
+                                                <md-option  value="2">Février</md-option>
+                                                <md-option  value="3">Mars</md-option>
+                                                <md-option  value="4">Avril</md-option>
+                                                <md-option  value="5">Mai</md-option>
+                                                <md-option  value="6">Juin</md-option>
+                                                <md-option  value="7">Juillet</md-option>
+                                                <md-option  value="8">Août</md-option>
+                                                <md-option  value="9">Septembre</md-option>
+                                                <md-option  value="10">Octobre</md-option>
+                                                <md-option  value="11">Novembre</md-option>
+                                                <md-option  value="12">Décembre</md-option>
+                                            </md-select>
+                                            <div ng-messages="form_commerce_crevette.mois.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Mois Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="35">
+                                            <label>Produit</label>
+                                            <md-select ng-model="vm.commerce_crevette.produit" name="produit" required>
+                                                <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}">
+                                                    {{espece.nom}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_commerce_crevette.produit.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Produit Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                            <label>Présentation</label>
+                                            <md-select ng-model="vm.commerce_crevette.id_presentation" name="id_presentation" required>
+                                                <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
+                                                    {{pres.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_commerce_crevette.id_presentation.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Présentation Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                            <label>Conservation</label>
+                                            <md-select ng-model="vm.commerce_crevette.id_conservation" name="id_conservation" required>
+                                                <md-option ng-repeat="cons in vm.all_conservation" value="{{cons.id}}">
+                                                    {{cons.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_commerce_crevette.id_conservation.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Conservation Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+                                </div>
+
+
+                                <div layout="column" layout-gt-xs="row" flex>
+                                    <md-input-container flex="100" flex-gt-xs="30">
+                                      <input  type="number" name="qte_vl" ng-model="vm.commerce_crevette.qte_vl"
+                                        placeholder="Qté VL"    ng-init="vm.commerce_crevette.qte_vl=0"
+                                        required>
+                                        <div ng-messages="form_commerce_crevette.qte_vl.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Quantité VL obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="30">
+                                      <input  type="number" name="pum_vl" ng-model="vm.commerce_crevette.pum_vl"
+                                        placeholder="PUM VL"    ng-init="vm.commerce_crevette.pum_vl=0"
+                                        required>
+                                        <div ng-messages="form_commerce_crevette.pum_vl.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>PUM VL obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="30">
+                                      <input  type="number" name="val_vl" ng-model="vm.commerce_crevette.val_vl"
+                                        placeholder="Val VL"    ng-init="vm.commerce_crevette.val_vl=0"
+                                        required>
+                                        <div ng-messages="form_commerce_crevette.val_vl.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Val obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+                                </div>
+
+
+                                <div layout="column" layout-gt-xs="row" flex>
+                                    <md-input-container flex="100" flex-gt-xs="25">
+                                      <input  type="number" name="qte_exp" ng-model="vm.commerce_crevette.qte_exp"
+                                        placeholder="Qté Exp"    ng-init="vm.commerce_crevette.qte_exp=0"
+                                        required>
+                                        <div ng-messages="form_commerce_crevette.qte_exp.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Quantité Exp obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="25">
+                                      <input  type="number" name="pum_exp" ng-model="vm.commerce_crevette.pum_exp"
+                                        placeholder="PUM Exp"    ng-init="vm.commerce_crevette.pum_exp=0"
+                                        required>
+                                        <div ng-messages="form_commerce_crevette.pum_exp.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>PUM Exp obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="25">
+                                      <input  type="number" name="val_exp" ng-model="vm.commerce_crevette.val_exp"
+                                        placeholder="Val Exp"    ng-init="vm.commerce_crevette.val_exp=0"
+                                        required>
+                                        <div ng-messages="form_commerce_crevette.val_exp.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Val Exp obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="25">
+                                      <input  type="text" name="dest_exp" ng-model="vm.commerce_crevette.dest_exp"
+                                        placeholder="Déstination Exp"    ng-init="vm.commerce_crevette.dest_exp=''"
+                                        required>
+                                        <div ng-messages="form_commerce_crevette.dest_exp.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Déstination Exp obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+                                </div>
+
+                               
+                                <div>
+                                    <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                        ng-disabled="form_commerce_crevette.$invalid " ng-click="vm.save_in_bdd_commerce(vm.commerce_crevette,0)">
+                                        Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_commerce()">
+                                        Annuler
+                                    </md-button>
+                                </div>
+                            </form>
+                        </div> 
+                    <!--FORM  commerce-->
                     <!--TABLE LISTES COMMERCE-->
                         <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
                             <thead>
@@ -213,7 +446,270 @@
                         </table>
                     <!--TABLE LISTES COMMERCE-->
                 </md-tab>
-                <md-tab label="Exportation" ng-disabled="!vm.selected_societe_crevette.id">
+                <md-tab label="Exportation | Société: {{vm.selected_societe_crevette.nom}}" ng-disabled="!vm.selected_societe_crevette.id" ng-click="vm.get_exportation()">
+
+                    <!--FORM  exportation-->
+                     
+                        <div ng-show="true">
+                        <!--div ng-show="vm.affichage_masque_exportation"!-->
+                  
+                            <form name="form_exportation_crevette" class="md-inline-form" novalidate >
+
+                                <div layout="column" layout-gt-xs="row" flex>
+                                    <md-input-container flex="100" flex-gt-xs="5">
+                                        <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="annee" ng-model="vm.exportation_crevette.annee"
+                                        placeholder="Année"  md-maxlength="4"  ng-init="vm.exportation_crevette.annee=''"
+                                        required>
+                                        <div ng-messages="form_exportation_crevette.annee.$error"
+                                        role="alert">
+                                            <div ng-message="required">
+                                                <span>Année obligatoire.</span>
+                                            </div>
+                                            <div ng-message="pattern" class="my-message">
+                                                Valeur invalide 
+                                            </div>
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                            <label>Mois</label>
+                                            <md-select ng-model="vm.exportation_crevette.mois" name="mois" required>
+                                                <md-option  value="1">Janvier</md-option>
+                                                <md-option  value="2">Février</md-option>
+                                                <md-option  value="3">Mars</md-option>
+                                                <md-option  value="4">Avril</md-option>
+                                                <md-option  value="5">Mai</md-option>
+                                                <md-option  value="6">Juin</md-option>
+                                                <md-option  value="7">Juillet</md-option>
+                                                <md-option  value="8">Août</md-option>
+                                                <md-option  value="9">Septembre</md-option>
+                                                <md-option  value="10">Octobre</md-option>
+                                                <md-option  value="11">Novembre</md-option>
+                                                <md-option  value="12">Décembre</md-option>
+                                            </md-select>
+                                            <div ng-messages="form_exportation_crevette.mois.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Mois Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                          <label>Date VISA:</label>
+                                          <md-datepicker  ng-model="vm.exportation_crevette.date_visa" md-placeholder="Date VISA" md-max-date="vm.date_now" required>                       
+                                          </md-datepicker>
+                                        </div>
+
+                                        <md-input-container flex="100" flex-gt-xs="50">
+                                          <input type="text" name="numero_visa" ng-model="vm.exportation_crevette.numero_visa"
+                                            placeholder="Numero VISA" ng-init="vm.exportation_crevette.numero_visa=''"
+                                            required>
+                                            <div ng-messages="form_exportation_crevette.numero_visa.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Numero VISA obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+
+                                        
+                                </div>
+
+
+
+
+                                <div layout="column" layout-gt-xs="row" flex>
+
+                                    <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                      <label>Date COS:</label>
+                                      <md-datepicker  ng-model="vm.exportation_crevette.date_cos" md-placeholder="Date COS" md-max-date="vm.date_now" required>                       
+                                      </md-datepicker>
+                                    </div>
+
+                                    <md-input-container flex="100" flex-gt-xs="50">
+                                      <input type="text" name="numero_cos" ng-model="vm.exportation_crevette.numero_cos"
+                                        placeholder="Numero COS" ng-init="vm.exportation_crevette.numero_cos=''"
+                                        required>
+                                        <div ng-messages="form_exportation_crevette.numero_cos.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Numero COS obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                      <label>Date ERDR:</label>
+                                      <md-datepicker  ng-model="vm.exportation_crevette.erdr" md-placeholder="Date ERDR" md-max-date="vm.date_now" required>                       
+                                      </md-datepicker>
+                                    </div>
+
+                                    
+                                </div>
+
+                                <div layout="column" layout-gt-xs="row" flex>
+
+                                    <md-input-container flex="100" flex-gt-xs="30">
+                                        <label>Présentation</label>
+                                        <md-select ng-model="vm.exportation_crevette.id_presentation" name="id_presentation" required>
+                                            <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
+                                                {{pres.libelle}}
+                                            </md-option>
+                                            
+                                        </md-select>
+                                        <div ng-messages="form_exportation_crevette.id_presentation.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Présentation Obligatoire.</span>
+                                              </div>
+                                            </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="30">
+                                        <label>Conservation</label>
+                                        <md-select ng-model="vm.exportation_crevette.id_conservation" name="id_conservation" required>
+                                            <md-option ng-repeat="cons in vm.all_conservation" value="{{cons.id}}">
+                                                {{cons.libelle}}
+                                            </md-option>
+                                            
+                                        </md-select>
+                                        <div ng-messages="form_exportation_crevette.id_conservation.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Conservation Obligatoire.</span>
+                                              </div>
+                                            </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="25">
+                                      <input  type="text" name="destination" ng-model="vm.exportation_crevette.destination"
+                                        placeholder="Déstination"    ng-init="vm.exportation_crevette.destination=''"
+                                        required>
+                                        <div ng-messages="form_exportation_crevette.destination.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Déstination Exp obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                    
+                                </div>
+
+                                <div layout="column" layout-gt-xs="row" flex>
+
+                                    <md-input-container flex="100" flex-gt-xs="25">
+                                      <input  type="Number" name="quantite" ng-model="vm.exportation_crevette.quantite"
+                                        placeholder="Qté"    ng-init="vm.exportation_crevette.quantite=0"
+                                        required>
+                                        <div ng-messages="form_exportation_crevette.quantite.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Qté Exp obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+                                    <md-input-container flex="100" flex-gt-xs="25">
+                                      <input  type="Number" name="valeur_ar" ng-model="vm.exportation_crevette.valeur_ar"
+                                        placeholder="Valeur en Ar"    ng-init="vm.exportation_crevette.valeur_ar=0"
+                                        required>
+                                        <div ng-messages="form_exportation_crevette.valeur_ar.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Valeur en Ar obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+                                    <md-input-container flex="100" flex-gt-xs="25">
+                                      <input  type="Number" name="valeur_euro" ng-model="vm.exportation_crevette.valeur_euro"
+                                        placeholder="Valeur en Euro"    ng-init="vm.exportation_crevette.valeur_euro=0"
+                                        required>
+                                        <div ng-messages="form_exportation_crevette.valeur_euro.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Valeur en Euro obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+                                    <md-input-container flex="100" flex-gt-xs="25">
+                                      <input  type="Number" name="valeur_usd" ng-model="vm.exportation_crevette.valeur_usd"
+                                        placeholder="Valeur en USD"    ng-init="vm.exportation_crevette.valeur_usd=0"
+                                        required>
+                                        <div ng-messages="form_exportation_crevette.valeur_usd.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Valeur en USD obligatoire.</span>
+                                          </div>
+                                          
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                </div>
+
+                               
+                                <div>
+                                    <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                        ng-disabled="form_exportation_crevette.$invalid " ng-click="vm.save_in_bdd_exportation(vm.exportation_crevette,0)">
+                                        Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_exportation()">
+                                        Annuler
+                                    </md-button>
+                                </div>
+                            </form>
+                        </div> 
+                    <!--FORM  exportation-->
+
+                    <!--TABLE LISTES exportation-->
+                        <table ng-table="tableexportation" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                            <thead>
+                                <tr>
+                                    <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_commerce">
+                                        <div class="table-header">
+                                            <span class="column-title text-center">{{c.titre}}</span>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cm in vm.all_exportation"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_exportation(cm)">                                       
+                                    <td>{{cm.annee}}</td>
+                                    <td>{{vm.affichage_mois(cm.mois)}}</td>
+                                    <td>{{vm.convert_to_date_html(cm.date_visa)}}</td>
+                                    <td>{{cm.numero_visa}}</td>
+                                    <td>{{vm.convert_to_date_html(cm.date_cos)}}</td>
+                                    <td>{{cm.numero_cos}}</td>
+                                    <td>{{vm.convert_to_date_html(cm.date_edrd)}}</td>
+                                    <td>{{cm.libelle_presentation}}</td>
+                                    <td>{{cm.libelle_conservation}}</td>
+                                    <td>{{cm.destination}}</td>
+                                    <td>{{cm.quantite}}</td>
+                                    <td>{{cm.valeur_ar}}</td>
+                                    <td>{{cm.valeur_euro}}</td>
+                                    <td>{{cm.valeur_usd}}</td>
+                                  
+                                   
+                                </tr>
+                            </tbody>
+                        </table>
+                    <!--TABLE LISTES exportation-->
                 </md-tab>
                 <md-tab label="Bateau" ng-disabled="!vm.selected_societe_crevette.id">
                 </md-tab>
