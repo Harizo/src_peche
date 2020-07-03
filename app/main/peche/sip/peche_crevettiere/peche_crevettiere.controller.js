@@ -19,7 +19,7 @@
 		{
 			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
 			pagingType: 'simple_numbers',
-			/*retrieve: 'true',*/
+			retrieve:'true',
 			order:[] 
 		};
 
@@ -343,7 +343,6 @@
 
 			vm.get_commerce = function()
 			{
-				vm.all_commerce = [];
 				vm.affiche_load = true ;
 				apiFactory.getParamsDynamic("SIP_commercialisation_crevette?id_societe_crevette="+vm.selected_societe_crevette.id).then(function(result)
 				{
@@ -398,7 +397,7 @@
 
 			vm.supprimer_commerce_crevette = function()
 			{
-				vm.affichage_masque_commerce_marine = false ;
+				vm.affichage_masque_commerce = false ;
 				
 				var confirm = $mdDialog.confirm()
 				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
@@ -563,7 +562,7 @@
     		vm.selected_exportation = {} ;
     		vm.exportation = {} ;
 
-    		vm.entete_liste_commerce = 
+    		vm.entete_liste_exportation = 
 	        [
 				{titre:"Année"},
 				{titre:"Mois"},
@@ -607,6 +606,729 @@
 				vm.selected_exportation.$selected = true;
 
 			});
+
+			vm.ajout_exportation_crevette = function()
+			{
+				vm.affichage_masque_exportation = true ;
+				nouvelle_exportation = true ;
+				vm.exportation_crevette = {} ;
+				vm.selected_exportation = {} ;
+			}
+
+			vm.modif_exportation_crevette = function()
+			{
+				nouvelle_exportation = false ;
+				vm.affichage_masque_exportation = true ;
+
+				vm.exportation_crevette.annee = vm.selected_exportation.annee ;
+				vm.exportation_crevette.mois = vm.selected_exportation.mois ;
+
+				vm.exportation_crevette.date_visa = new Date(vm.selected_exportation.date_visa) ;
+				vm.exportation_crevette.numero_visa = vm.selected_exportation.numero_visa ;
+				vm.exportation_crevette.date_cos = new Date(vm.selected_exportation.date_cos) ;
+				vm.exportation_crevette.numero_cos = vm.selected_exportation.numero_cos ;
+				vm.exportation_crevette.date_edrd = new Date(vm.selected_exportation.date_edrd) ;
+
+				vm.exportation_crevette.id_presentation = vm.selected_exportation.id_presentation ;
+				vm.exportation_crevette.id_conservation = vm.selected_exportation.id_conservation ;
+
+				vm.exportation_crevette.quantite = Number(vm.selected_exportation.quantite) ;
+				vm.exportation_crevette.valeur_ar = Number(vm.selected_exportation.valeur_ar) ;
+				vm.exportation_crevette.valeur_euro = Number(vm.selected_exportation.valeur_euro) ;
+				vm.exportation_crevette.valeur_usd = Number(vm.selected_exportation.valeur_usd) ;
+				vm.exportation_crevette.destination = vm.selected_exportation.destination 
+			}
+
+			vm.annuler_exportation = function()
+			{
+				nouvelle_exportation = false ;
+				vm.affichage_masque_exportation = false ;
+				vm.selected_exportation = {};
+			}
+
+			vm.supprimer_exportation_crevette = function()
+			{
+				vm.affichage_masque_exportation = false ;
+				
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('Exportation société: '+vm.selected_societe_crevette.nom)
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('ok')
+				  .cancel('annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.save_in_bdd_exportation(vm.selected_exportation,1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.save_in_bdd_exportation = function(data_masque, etat_suppression)
+			{
+				var config = {
+	                headers : {
+	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	                }
+	            };
+
+	            var id = 0 ;
+
+	            if (!nouvelle_exportation) 
+	            {
+	            	id = vm.selected_exportation.id ;
+	            }
+
+	            var datas = $.param(
+	            {
+	            	
+	                id:id,      
+	                supprimer:etat_suppression,
+	                id_societe_crevette:vm.selected_societe_crevette.id,
+	                annee:data_masque.annee,
+	                mois:data_masque.mois,
+
+	                date_visa:convert_to_date_sql(data_masque.date_visa),
+	                numero_visa:data_masque.numero_visa,
+	                date_cos:convert_to_date_sql(data_masque.date_cos),
+	                numero_cos:data_masque.numero_cos,
+	                date_edrd:convert_to_date_sql(data_masque.date_edrd),
+
+	                id_presentation:data_masque.id_presentation,
+	                id_conservation:data_masque.id_conservation,
+
+	                quantite:data_masque.quantite,
+	                valeur_ar:data_masque.valeur_ar,
+	                valeur_euro:data_masque.valeur_euro,
+	                valeur_usd:data_masque.valeur_usd,
+	                destination:data_masque.destination
+	                
+	                
+	            });
+
+	            apiFactory.add("SIP_exportation_crevette/index",datas, config).success(function (data)
+        		{
+        			var cons = vm.all_conservation.filter(function(obj)
+					{
+						return obj.id == data_masque.id_conservation;
+					});
+
+					var pres = vm.all_presentation.filter(function(obj)
+					{
+						return obj.id == data_masque.id_presentation;
+					});
+
+					if (!nouvelle_exportation) 
+        			{
+        				if (etat_suppression == 0) 
+        				{
+        					vm.selected_exportation.annee = data_masque.annee ;
+			                vm.selected_exportation.mois = data_masque.mois ;
+
+			                vm.selected_exportation.date_visa = convert_to_date_sql(data_masque.date_visa) ;
+			                vm.selected_exportation.numero_visa = data_masque.numero_visa ;
+			                vm.selected_exportation.date_cos = convert_to_date_sql(data_masque.date_cos) ;
+			                vm.selected_exportation.numero_cos = data_masque.numero_cos ;
+			                vm.selected_exportation.date_edrd = convert_to_date_sql(data_masque.date_edrd) ;
+
+
+			                vm.selected_exportation.id_presentation = data_masque.id_presentation ;
+			                vm.selected_exportation.libelle_presentation = pres[0].libelle ;
+
+			                vm.selected_exportation.id_conservation = data_masque.id_conservation ;
+			                vm.selected_exportation.libelle_conservation = cons[0].libelle ;
+
+							
+
+			                vm.selected_exportation.quantite = data_masque.quantite ;
+			                vm.selected_exportation.valeur_ar = data_masque.valeur_ar ;
+			                vm.selected_exportation.valeur_euro = data_masque.valeur_euro ;
+			                vm.selected_exportation.valeur_usd = data_masque.valeur_usd ;
+			                vm.selected_exportation.destination = data_masque.destination ;
+        				}
+        				else 
+        				{
+        					vm.all_exportation = vm.all_exportation.filter(function(obj)
+							{
+								return obj.id !== vm.selected_exportation.id ;
+							});
+						
+        				}
+        			}
+        			else
+        			{
+        				var item =
+			            {
+							id:String(data.response) ,
+
+							id_societe_crevette:vm.selected_societe_crevette.id,
+
+							annee:data_masque.annee,
+							mois:data_masque.mois,
+
+							date_visa:convert_to_date_sql(data_masque.date_visa),
+			                numero_visa:data_masque.numero_visa,
+			                date_cos:convert_to_date_sql(data_masque.date_cos),
+			                numero_cos:data_masque.numero_cos,
+			                date_edrd:convert_to_date_sql(data_masque.date_edrd),
+
+							id_conservation:data_masque.id_conservation,
+							libelle_conservation:cons[0].libelle,
+
+							id_presentation:data_masque.id_presentation,
+							libelle_presentation:pres[0].libelle,
+
+
+
+			                quantite:data_masque.quantite,
+			                valeur_ar:data_masque.valeur_ar,
+			                valeur_euro:data_masque.valeur_euro,
+			                valeur_usd:data_masque.valeur_usd,
+			                destination:data_masque.destination
+			                            
+						}          
+			            vm.all_exportation.unshift(item);
+
+			            nouvelle_exportation = false ;
+        			}
+
+        			vm.affichage_masque_exportation = false ;
+
+        		});
+			}
     	//FIN EXPORTATION
+
+    	//BATEAU
+    		var nouvelle_bateau = false ;
+    		vm.affichage_masque_bateau = false ; 
+    		vm.selected_bateau = {} ;
+    		
+    		vm.bateau_crevette = {} ;
+    	
+
+    		vm.entete_liste_bateau = 
+	        [
+				{titre:"immatriculation"},
+				{titre:"Nom"},
+				{titre:"Début validité"},
+				{titre:"Fin validité"},
+				{titre:"Segment"},
+				{titre:"Type"},
+				{titre:"Année d'acquisition"},
+				{titre:"Coût"},
+				{titre:"Numero license"},
+				{titre:"License 1"},
+				{titre:"License 2"}
+	        ] ;
+
+
+	        vm.get_bateau = function()
+			{
+				vm.affiche_load = true ;
+				apiFactory.getParamsDynamic("SIP_bateau_crevette?id_societe_crevette="+vm.selected_societe_crevette.id).then(function(result)
+				{
+					vm.affiche_load = false ;
+					vm.all_bateau = result.data.response;
+				});
+			}
+
+			vm.selection_bateau = function(item)
+			{
+				vm.selected_bateau = item ;
+				
+			}
+
+			$scope.$watch('vm.selected_bateau', function()
+			{
+				if (!vm.all_bateau) return;
+				vm.all_bateau.forEach(function(item)
+				{
+					item.$selected = false;
+				});
+				vm.selected_bateau.$selected = true;
+
+			});
+
+			vm.ajout_bateau_crevette = function()
+			{
+				vm.affichage_masque_bateau = true ;
+				nouvelle_bateau = true ;
+				vm.bateau_crevette = {} ;
+				vm.selected_bateau = {} ;
+			}
+
+			vm.modif_bateau_crevette = function()
+			{
+				nouvelle_bateau = false ;
+				vm.affichage_masque_bateau = true ;
+
+				vm.bateau_crevette.immatriculation = vm.selected_bateau.immatriculation ;
+				vm.bateau_crevette.nom = vm.selected_bateau.nom ;
+
+				vm.bateau_crevette.deb_validite = new Date(vm.selected_bateau.deb_validite) ;
+				vm.bateau_crevette.fin_validite = new Date(vm.selected_bateau.fin_validite) ;
+
+				vm.bateau_crevette.segment = vm.selected_bateau.segment ;
+				vm.bateau_crevette.type = vm.selected_bateau.type ;
+				vm.bateau_crevette.numero_license = vm.selected_bateau.numero_license ;
+				vm.bateau_crevette.license_1 = vm.selected_bateau.license_1 ;
+				vm.bateau_crevette.license_2 = vm.selected_bateau.license_2 ;
+				vm.bateau_crevette.an_acquis = vm.selected_bateau.an_acquis ;
+				vm.bateau_crevette.cout = Number(vm.selected_bateau.cout) ;
+			}
+
+			vm.supprimer_bateau_crevette = function()
+			{
+				vm.affichage_masque_bateau = false ;
+				
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('Bateau du société: '+vm.selected_societe_crevette.nom)
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('ok')
+				  .cancel('annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.save_in_bdd_bateau(vm.selected_bateau,1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.annuler_bateau = function()
+			{
+				nouvelle_bateau = false ;
+				vm.affichage_masque_bateau = false ;
+				vm.selected_bateau = {};
+			}
+
+			vm.save_in_bdd_bateau = function(data_masque, etat_suppression)
+			{
+				var config = {
+	                headers : {
+	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	                }
+	            };
+
+	            var id = 0 ;
+
+	            if (!nouvelle_bateau) 
+	            {
+	            	id = vm.selected_bateau.id ;
+	            }
+
+	            var datas = $.param(
+	            {
+	            	
+	                id:id,      
+	                supprimer:etat_suppression,
+	                id_societe_crevette:vm.selected_societe_crevette.id,
+	                immatriculation:data_masque.immatriculation,
+	                nom:data_masque.nom,
+	                deb_validite:convert_to_date_sql(data_masque.deb_validite),
+	                fin_validite:convert_to_date_sql(data_masque.fin_validite),
+	                segment:data_masque.segment,
+	                type:data_masque.type,
+	                numero_license:data_masque.numero_license,
+	                license_1:data_masque.license_1,
+	                license_2:data_masque.license_2,
+	                an_acquis:data_masque.an_acquis,
+	                cout:data_masque.cout
+	                
+	                
+	            });
+
+	            apiFactory.add("SIP_bateau_crevette/index",datas, config).success(function (data)
+        		{
+        			if (!nouvelle_bateau) 
+        			{
+        				if (etat_suppression == 0) 
+        				{
+        					
+
+			                vm.selected_bateau.immatriculation = data_masque.immatriculation ;
+			                vm.selected_bateau.nom = data_masque.nom ;
+			                vm.selected_bateau.deb_validite = convert_to_date_sql(data_masque.deb_validite) ;
+			                vm.selected_bateau.fin_validite = convert_to_date_sql(data_masque.fin_validite) ;
+			                vm.selected_bateau.segment = data_masque.segment ;
+			                vm.selected_bateau.type = data_masque.type ;
+			                vm.selected_bateau.numero_license = data_masque.numero_license ;
+			                vm.selected_bateau.license_1 = data_masque.license_1 ;
+			                vm.selected_bateau.license_2 = data_masque.license_2 ;
+			                vm.selected_bateau.an_acquis = data_masque.an_acquis ;
+			                vm.selected_bateau.cout = data_masque.cout ;
+        				}
+        				else 
+        				{
+        					vm.all_bateau = vm.all_bateau.filter(function(obj)
+							{
+								return obj.id !== vm.selected_bateau.id ;
+							});
+						
+        				}
+        			}
+        			else
+        			{
+        				var item =
+			            {
+							id:String(data.response) ,
+
+							id_societe_crevette:vm.selected_societe_crevette.id,
+
+							immatriculation:data_masque.immatriculation,
+			                nom:data_masque.nom,
+			                deb_validite:convert_to_date_sql(data_masque.deb_validite),
+			                fin_validite:convert_to_date_sql(data_masque.fin_validite),
+			                segment:data_masque.segment,
+			                type:data_masque.type,
+			                numero_license:data_masque.numero_license,
+			                license_1:data_masque.license_1,
+			                license_2:data_masque.license_2,
+			                an_acquis:data_masque.an_acquis,
+			                cout:data_masque.cout
+			                            
+						}          
+			            vm.all_bateau.unshift(item);
+
+			            nouvelle_bateau = false ;
+        			}
+
+        			vm.affichage_masque_bateau = false ;
+	            });
+
+			}
+    	//FIN BATEAU
+
+    	//PRODUCTION
+    		var nouvelle_production = false ;
+    		vm.affichage_masque_production = false ; 
+    		vm.selected_production = {} ;
+    		
+    		vm.production_crevette = {} ;
+    	
+
+    		vm.entete_liste_production = 
+	        [
+				{titre:"Zone de pêche"},
+				{titre:"Année"},
+				{titre:"Num marée"},
+				{titre:"Marée"},
+				{titre:"Qté crevette"},
+				{titre:"Nombre de fiche"}
+	        ] ;
+
+
+	        vm.get_production = function()
+			{
+				vm.affiche_load = true ;
+				apiFactory.getParamsDynamic("SIP_production_crevette?id_bateau_crevette="+vm.selected_bateau.id).then(function(result)
+				{
+					vm.affiche_load = false ;
+					vm.all_production = result.data.response;
+				});
+			}
+
+			vm.selection_production = function(item)
+			{
+				vm.selected_production = item ;
+				
+			}
+
+			$scope.$watch('vm.selected_production', function()
+			{
+				if (!vm.all_production) return;
+				vm.all_production.forEach(function(item)
+				{
+					item.$selected = false;
+				});
+				vm.selected_production.$selected = true;
+
+			});
+
+			vm.ajout_production_crevette = function()
+			{
+				vm.affichage_masque_production = true ;
+				nouvelle_production = true ;
+				vm.production_crevette = {} ;
+				vm.selected_production = {} ;
+			}
+
+			vm.modif_production_crevette = function()
+			{
+				nouvelle_production = false ;
+				vm.affichage_masque_production = true ;
+
+				vm.production_crevette.zone_peche = vm.selected_production.zone_peche ;
+				vm.production_crevette.annee = vm.selected_production.annee ;
+				vm.production_crevette.num_maree = vm.selected_production.num_maree ;
+				vm.production_crevette.maree = vm.selected_production.maree ;
+				vm.production_crevette.qte_crevette = Number(vm.selected_production.qte_crevette) ;
+				vm.production_crevette.nbr_fiche = Number(vm.selected_production.nbr_fiche) ;
+			}
+
+			vm.supprimer_production_crevette = function()
+			{
+				vm.affichage_masque_production = false ;
+				
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('Production du bateau: '+vm.selected_bateau.nom)
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('ok')
+				  .cancel('annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.save_in_bdd_production(vm.selected_production,1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.annuler_production = function()
+			{
+				nouvelle_production = false ;
+				vm.affichage_masque_production = false ;
+				vm.selected_production = {};
+			}
+
+			vm.save_in_bdd_production = function(data_masque, etat_suppression)
+			{
+				var config = {
+	                headers : {
+	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	                }
+	            };
+
+	            var id = 0 ;
+
+	            if (!nouvelle_production) 
+	            {
+	            	id = vm.selected_production.id ;
+	            }
+
+	            var datas = $.param(
+	            {
+	                id:id,      
+	                supprimer:etat_suppression,
+	                id_bateau_crevette:vm.selected_bateau.id,
+	                zone_peche:data_masque.zone_peche,
+	                annee:data_masque.annee,
+	                num_maree:data_masque.num_maree,
+	                maree:data_masque.maree,
+	                qte_crevette:data_masque.qte_crevette,
+	                nbr_fiche:data_masque.nbr_fiche
+	            });
+
+	            apiFactory.add("SIP_production_crevette/index",datas, config).success(function (data)
+        		{
+        			if (!nouvelle_production) 
+        			{
+        				if (etat_suppression == 0) 
+        				{
+        					vm.selected_production.zone_peche = data_masque.zone_peche ;
+			                vm.selected_production.annee = data_masque.annee ;
+			                vm.selected_production.num_maree = data_masque.num_maree ;
+			                vm.selected_production.maree = data_masque.maree ;
+			                vm.selected_production.qte_crevette = data_masque.qte_crevette ;
+			                vm.selected_production.nbr_fiche = data_masque.nbr_fiche ;
+        				}
+        				else 
+        				{
+        					vm.all_production = vm.all_production.filter(function(obj)
+							{
+								return obj.id !== vm.selected_production.id ;
+							});
+        				}
+
+        			}
+        			else
+        			{
+        				var item =
+			            {
+							id:String(data.response) ,
+							id_bateau_crevette:vm.selected_bateau.id,
+			                zone_peche:data_masque.zone_peche,
+			                annee:data_masque.annee,
+			                num_maree:data_masque.num_maree,
+			                maree:data_masque.maree,
+			                qte_crevette:data_masque.qte_crevette,
+			                nbr_fiche:data_masque.nbr_fiche
+			                            
+						}          
+			            vm.all_production.unshift(item);
+
+			            nouvelle_production = false ;
+
+        			}
+
+        			vm.affichage_masque_production = false ;
+	            });
+			}
+    	//FIN PRODUCTION
+
+    	//fiche_peche
+    		var nouvelle_fiche_peche = false ;
+    		vm.affichage_masque_fiche_peche = false ; 
+    		vm.selected_fiche_peche = {} ;
+    		
+    		vm.fiche_peche_crevette = {} ;
+    	
+
+    		vm.entete_liste_fiche_peche = 
+	        [
+				{titre:"Numero fiche"},
+				{titre:"Capitaine"},
+				{titre:"Date de départ"},
+				{titre:"Date de retour"}
+	        ] ;
+
+
+	        vm.get_fiche_peche = function()
+			{
+				vm.affiche_load = true ;
+				apiFactory.getParamsDynamic("SIP_fiche_peche_crevette?id_bateau_crevette="+vm.selected_bateau.id).then(function(result)
+				{
+					vm.affiche_load = false ;
+					vm.all_fiche_peche = result.data.response;
+				});
+			}
+
+			vm.selection_fiche_peche = function(item)
+			{
+				vm.selected_fiche_peche = item ;
+				
+			}
+
+			$scope.$watch('vm.selected_fiche_peche', function()
+			{
+				if (!vm.all_fiche_peche) return;
+				vm.all_fiche_peche.forEach(function(item)
+				{
+					item.$selected = false;
+				});
+				vm.selected_fiche_peche.$selected = true;
+
+			});
+
+			vm.ajout_fiche_peche_crevette = function()
+			{
+				vm.affichage_masque_fiche_peche = true ;
+				nouvelle_fiche_peche = true ;
+				vm.fiche_peche_crevette = {} ;
+				vm.selected_fiche_peche = {} ;
+			}
+
+			vm.modif_fiche_peche_crevette = function()
+			{
+				nouvelle_fiche_peche = false ;
+				vm.affichage_masque_fiche_peche = true ;
+
+				vm.fiche_peche_crevette.numfp = vm.selected_fiche_peche.numfp ;
+				vm.fiche_peche_crevette.nom_capitaine = vm.selected_fiche_peche.nom_capitaine ;
+				vm.fiche_peche_crevette.date_depart = new Date(vm.selected_fiche_peche.date_depart) ;
+				vm.fiche_peche_crevette.date_retour = new Date(vm.selected_fiche_peche.date_retour) ;
+			}
+
+			vm.supprimer_fiche_peche_crevette = function()
+			{
+				vm.affichage_masque_fiche_peche = false ;
+				
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('fiche_peche du bateau: '+vm.selected_bateau.nom)
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('ok')
+				  .cancel('annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.save_in_bdd_fiche_peche(vm.selected_fiche_peche,1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.annuler_fiche_peche = function()
+			{
+				nouvelle_fiche_peche = false ;
+				vm.affichage_masque_fiche_peche = false ;
+				vm.selected_fiche_peche = {};
+			}
+
+			vm.save_in_bdd_fiche_peche = function(data_masque, etat_suppression)
+			{
+				var config = {
+	                headers : {
+	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	                }
+	            };
+
+	            var id = 0 ;
+
+	            if (!nouvelle_fiche_peche) 
+	            {
+	            	id = vm.selected_fiche_peche.id ;
+	            }
+
+	            var datas = $.param(
+	            {
+	                id:id,      
+	                supprimer:etat_suppression,
+	                id_bateau_crevette:vm.selected_bateau.id,
+	                numfp:data_masque.numfp,
+	                nom_capitaine:data_masque.nom_capitaine,
+	                date_depart:convert_to_date_sql(data_masque.date_depart),
+	                date_retour:convert_to_date_sql(data_masque.date_retour)
+	            });
+
+	            apiFactory.add("SIP_fiche_peche_crevette/index",datas, config).success(function (data)
+        		{
+        			if (!nouvelle_fiche_peche) 
+        			{
+        				if (etat_suppression == 0) 
+        				{
+        					vm.selected_fiche_peche.numfp = data_masque.numfp ;
+			                vm.selected_fiche_peche.nom_capitaine = data_masque.nom_capitaine ;
+			                vm.selected_fiche_peche.date_depart = convert_to_date_sql(data_masque.date_depart) ;
+			                vm.selected_fiche_peche.date_retour = convert_to_date_sql(data_masque.date_retour) ;
+        				}
+        				else 
+        				{
+        					vm.all_fiche_peche = vm.all_fiche_peche.filter(function(obj)
+							{
+								return obj.id !== vm.selected_fiche_peche.id ;
+							});
+        				}
+
+        			}
+        			else
+        			{
+        				var item =
+			            {
+							id:String(data.response) ,
+							id_bateau_crevette:vm.selected_bateau.id,
+			                numfp:data_masque.numfp,
+			                nom_capitaine:data_masque.nom_capitaine,
+			                date_depart:convert_to_date_sql(data_masque.date_depart),
+			                date_retour:convert_to_date_sql(data_masque.date_retour)
+			                            
+						}          
+			            vm.all_fiche_peche.unshift(item);
+
+			            nouvelle_fiche_peche = false ;
+
+        			}
+
+        			vm.affichage_masque_fiche_peche = false ;
+	            });
+			}
+    	//FIN fiche_peche
     }
 })();
