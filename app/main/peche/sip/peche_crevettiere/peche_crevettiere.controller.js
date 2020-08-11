@@ -174,6 +174,8 @@
 			vm.selection_societe_crevette = function(item)
 			{
 				vm.selected_societe_crevette = item ;
+
+				vm.selected_bateau = {} ;
 			}
 
 			$scope.$watch('vm.selected_societe_crevette', function()
@@ -336,6 +338,10 @@
 				{titre:"Qté Exp"},
 				{titre:"PUM Exp"},
 				{titre:"Val Exp"},
+				{titre:"Déstination Exp"},
+				{titre:"Qté Export"},
+				{titre:"PUM Export"},
+				{titre:"Val Export"},
 				{titre:"Déstination Export"}
 	        ] ;
     		
@@ -368,6 +374,9 @@
 
 			});
 
+
+
+
 			vm.ajout_commerce_crevette = function()
 			{
 				vm.affichage_masque_commerce = true ;
@@ -392,7 +401,13 @@
 				vm.commerce_crevette.qte_exp = Number(vm.selected_commerce.qte_exp) ;
 				vm.commerce_crevette.pum_exp = Number(vm.selected_commerce.pum_exp) ;
 				vm.commerce_crevette.val_exp = Number(vm.selected_commerce.val_exp) ;
-				vm.commerce_crevette.dest_exp = vm.selected_commerce.dest_exp 
+				vm.commerce_crevette.dest_exp = vm.selected_commerce.dest_exp ;
+
+
+				vm.commerce_crevette.qte_export = Number(vm.selected_commerce.qte_export) ;
+				vm.commerce_crevette.pum_export = Number(vm.selected_commerce.pum_export) ;
+				vm.commerce_crevette.val_export = Number(vm.selected_commerce.val_export) ;
+				vm.commerce_crevette.dest_export = vm.selected_commerce.dest_export ;
 			}
 
 			vm.supprimer_commerce_crevette = function()
@@ -456,7 +471,12 @@
 	                qte_exp:data_masque.qte_exp,
 	                pum_exp:data_masque.pum_exp,
 	                val_exp:data_masque.val_exp,
-	                dest_exp:data_masque.dest_exp
+	                dest_exp:data_masque.dest_exp,
+
+	                qte_export:data_masque.qte_export,
+	                pum_export:data_masque.pum_export,
+	                val_export:data_masque.val_export,
+	                dest_export:data_masque.dest_export
 	                
 	                
 	            });
@@ -503,6 +523,12 @@
 			                vm.selected_commerce.pum_exp = data_masque.pum_exp ;
 			                vm.selected_commerce.val_exp = data_masque.val_exp ;
 			                vm.selected_commerce.dest_exp = data_masque.dest_exp ;
+
+
+			                vm.selected_commerce.qte_export = data_masque.qte_export ;
+			                vm.selected_commerce.pum_export = data_masque.pum_export ;
+			                vm.selected_commerce.val_export = data_masque.val_export ;
+			                vm.selected_commerce.dest_export = data_masque.dest_export ;
         				}
         				else 
         				{
@@ -540,7 +566,12 @@
 			                qte_exp:data_masque.qte_exp,
 			                pum_exp:data_masque.pum_exp,
 			                val_exp:data_masque.val_exp,
-			                dest_exp:data_masque.dest_exp
+			                dest_exp:data_masque.dest_exp,
+
+			                qte_export:data_masque.qte_export,
+			                pum_export:data_masque.pum_export,
+			                val_export:data_masque.val_export,
+			                dest_export:data_masque.dest_export
 			                            
 						}          
 			            vm.all_commerce.unshift(item);
@@ -571,6 +602,7 @@
 				{titre:"Date COS"},
 				{titre:"Numero COS"},
 				{titre:"Date EDRD"},
+				{titre:"Espèce"},
 				{titre:"Présentation"},
 				{titre:"Conservation"},
 				{titre:"Déstination Export"},
@@ -629,6 +661,7 @@
 				vm.exportation_crevette.numero_cos = vm.selected_exportation.numero_cos ;
 				vm.exportation_crevette.date_edrd = new Date(vm.selected_exportation.date_edrd) ;
 
+				vm.exportation_crevette.id_espece = vm.selected_exportation.id_espece ;
 				vm.exportation_crevette.id_presentation = vm.selected_exportation.id_presentation ;
 				vm.exportation_crevette.id_conservation = vm.selected_exportation.id_conservation ;
 
@@ -696,6 +729,7 @@
 	                numero_cos:data_masque.numero_cos,
 	                date_edrd:convert_to_date_sql(data_masque.date_edrd),
 
+	                id_espece:data_masque.id_espece,
 	                id_presentation:data_masque.id_presentation,
 	                id_conservation:data_masque.id_conservation,
 
@@ -720,6 +754,11 @@
 						return obj.id == data_masque.id_presentation;
 					});
 
+					var esp = vm.all_espece.filter(function(obj)
+					{
+						return obj.id == data_masque.id_espece;
+					});
+
 					if (!nouvelle_exportation) 
         			{
         				if (etat_suppression == 0) 
@@ -732,6 +771,9 @@
 			                vm.selected_exportation.date_cos = convert_to_date_sql(data_masque.date_cos) ;
 			                vm.selected_exportation.numero_cos = data_masque.numero_cos ;
 			                vm.selected_exportation.date_edrd = convert_to_date_sql(data_masque.date_edrd) ;
+
+			                vm.selected_exportation.id_espece = data_masque.id_espece ;
+							vm.selected_exportation.nom_espece = esp[0].nom ;
 
 
 			                vm.selected_exportation.id_presentation = data_masque.id_presentation ;
@@ -773,6 +815,9 @@
 			                date_cos:convert_to_date_sql(data_masque.date_cos),
 			                numero_cos:data_masque.numero_cos,
 			                date_edrd:convert_to_date_sql(data_masque.date_edrd),
+
+			                id_espece:data_masque.id_espece,
+							nom_espece:esp[0].nom,
 
 							id_conservation:data_masque.id_conservation,
 							libelle_conservation:cons[0].libelle,
@@ -1176,8 +1221,11 @@
     		var nouvelle_fiche_peche = false ;
     		vm.affichage_masque_fiche_peche = false ; 
     		vm.selected_fiche_peche = {} ;
+
+
     		
     		vm.fiche_peche_crevette = {} ;
+
     	
 
     		vm.entete_liste_fiche_peche = 
@@ -1186,6 +1234,18 @@
 				{titre:"Capitaine"},
 				{titre:"Date de départ"},
 				{titre:"Date de retour"}
+	        ] ;
+
+
+	        vm.entete_sequence_transbordement = 
+	        [
+				{titre:"Date"},
+				{titre:"HeureP"},
+				{titre:"MinuteP"},
+				{titre:"HeureT"},
+				{titre:"MinuteT"},
+				{titre:"Post latitude"},
+				{titre:"Post longitude"}
 	        ] ;
 
 
@@ -1199,9 +1259,52 @@
 				});
 			}
 
+
+			vm.generer_numero_fiche = function()
+			{	
+				vm.fiche_peche_crevette.date_depart =  vm.date_now;
+				vm.fiche_peche_crevette.date_retour =  vm.date_now;
+				var now_year = new Date().getFullYear();
+				apiFactory.getParamsDynamic("SIP_fiche_peche_crevette?annee="+now_year).then(function(result)
+				{
+					
+					var nbr = result.data.response.nbr;
+
+					var numero = Number(nbr) + 1;
+
+					if (nbr >= 1000) 
+					{
+						vm.fiche_peche_crevette.numfp = now_year+""+numero;
+					
+					}
+					if ((nbr >= 100) && (nbr <=999)) 
+					{
+						vm.fiche_peche_crevette.numfp = now_year+"0"+numero;
+					
+					}
+					if ((nbr >= 10) && (nbr <=99)) 
+					{
+						vm.fiche_peche_crevette.numfp = now_year+"00"+numero;
+					
+					}
+
+
+					if ((nbr >= 0) && (nbr <=9)) 
+					{
+						vm.fiche_peche_crevette.numfp = now_year+"000"+numero;
+					
+					}
+				});
+
+			}
+
+			
+
 			vm.selection_fiche_peche = function(item)
 			{
 				vm.selected_fiche_peche = item ;
+				vm.get_sequence_transbordement(item);
+
 				
 			}
 
@@ -1216,12 +1319,207 @@
 
 			});
 
+			//init transbordement
+    		vm.selected_sequence_transbordement = {} ;
+    		var current_selected_sequence_transbordement = {} ;
+    		var nouvelle_sequence_transbordement = false ;
+
+    		vm.get_sequence_transbordement = function(item)
+			{
+				vm.affiche_load = true ;
+				apiFactory.getParamsDynamic("SIP_sequence_transbordement?id_fiche_peche_crevette="+item.id).then(function(result)
+				{
+					vm.affiche_load = false ;
+					vm.all_sequence_transbordement = result.data.response;
+
+					console.log(vm.all_sequence_transbordement);
+				});
+			}
+
+			vm.selection_sequence_transbordement = function(item)
+			{
+				vm.selected_sequence_transbordement = item ;
+				console.log(item);
+
+				if (!vm.selected_sequence_transbordement.$edit) //si simple selection
+				{
+					nouvelle_sequence_transbordement = false ;	
+				}
+
+				
+
+				current_selected_sequence_transbordement = angular.copy(vm.selected_sequence_transbordement);
+
+
+			}
+
+			$scope.$watch('vm.selected_sequence_transbordement', function()
+			{
+				if (!vm.all_sequence_transbordement) return;
+				vm.all_sequence_transbordement.forEach(function(item)
+				{
+					item.$selected = false;
+				});
+				vm.selected_sequence_transbordement.$selected = true;
+
+			});
+
+			vm.ajouter_sequence_transbordement = function()
+			{
+				nouvelle_sequence_transbordement = true ;
+				var item = 
+					{
+						
+						$edit: true,
+						$selected: true,
+	              		id:'0',
+	              		date:new Date(),
+	              		heurep:'0',
+	              		minutep:'0',
+	              		heuret:'0',
+	              		minutet:'0',
+	              		postlatitude:'',
+	              		postlongitude:''
+					} ;
+
+				vm.all_sequence_transbordement.unshift(item);
+	            vm.all_sequence_transbordement.forEach(function(af)
+	            {
+	              if(af.$selected == true)
+	              {
+	                vm.selected_sequence_transbordement = af;
+	                
+	              }
+            	});
+			}
+
+			vm.modifier_sequence_transbordement = function()
+			{
+				nouvelle_sequence_transbordement = false ;
+				vm.selected_sequence_transbordement.$edit = true;
+				vm.selected_sequence_transbordement.date = new Date(vm.selected_sequence_transbordement.date);
+			}
+
+			vm.supprimer_sequence_transbordement = function()
+			{
+
+				
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('Cliquer sur OK pour confirmer')
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('OK')
+				  .cancel('Annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.enregistrer_sequence_transbordement(1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.annuler_sequence_transbordement = function()
+			{
+				if (nouvelle_sequence_transbordement) 
+				{
+					
+					vm.all_sequence_transbordement.shift();
+					vm.selected_sequence_transbordement = {} ;
+					nouvelle_sequence_transbordement = false ;
+				}
+				else
+				{
+					vm.selected_sequence_transbordement.$edit = false;
+					vm.selected_sequence_transbordement = {} ;
+				}
+			}
+
+			vm.enregistrer_sequence_transbordement = function(etat_suppression)
+			{
+				var config = {
+	                headers : {
+	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	                }
+	            };
+
+
+	            var datas = $.param(
+	            {
+	            	
+	                supprimer:etat_suppression,
+	                id_fiche_peche_crevette:vm.selected_fiche_peche.id,
+	                id:vm.selected_sequence_transbordement.id,
+
+	                date:convert_to_date_sql(vm.selected_sequence_transbordement.date),
+	                heurep:vm.selected_sequence_transbordement.heurep,
+	                minutep:vm.selected_sequence_transbordement.minutep,
+
+	                heuret:vm.selected_sequence_transbordement.heuret,
+	                minutet:vm.selected_sequence_transbordement.minutet,
+
+	                postlatitude:vm.selected_sequence_transbordement.postlatitude,
+	                postlongitude:vm.selected_sequence_transbordement.postlongitude
+	                
+	                
+	            });
+
+	            apiFactory.add("SIP_sequence_transbordement/index",datas, config).success(function (data)
+        		{
+        			if (!nouvelle_sequence_transbordement) 
+        			{
+        				if (etat_suppression == 0) 
+        				{
+        					vm.selected_sequence_transbordement.$edit = false ;
+        					vm.selected_sequence_transbordement.$selected = false ;
+        					vm.selected_sequence_transbordement = {} ;
+        				}
+        				else
+        				{
+        					vm.all_sequence_transbordement = vm.all_sequence_transbordement.filter(function(obj)
+							{
+								return obj.id !== vm.selected_sequence_transbordement.id;
+							});
+
+							vm.selected_sequence_transbordement = {} ;
+        				}
+
+        			}
+        			else
+        			{
+        				vm.selected_sequence_transbordement.$edit = false ;
+        				vm.selected_sequence_transbordement.$selected = false ;
+        				//vm.selected_arrivee_fiche.$selected = false ;
+        				vm.selected_sequence_transbordement.id = String(data.response) ;
+        				vm.selected_sequence_transbordement.id_fiche_peche_crevette = vm.selected_fiche_peche.id ;
+        				/*vm.selected_sequence_transbordement.heurep = vm.sequence_transbordement.heurep ;
+        				vm.selected_sequence_transbordement.minutep = vm.sequence_transbordement.minutep ;
+        				vm.selected_sequence_transbordement.heuret = vm.sequence_transbordement.heuret ;
+        				vm.selected_sequence_transbordement.minutet = vm.sequence_transbordement.minutet ;
+        				vm.selected_sequence_transbordement.postlatitude = vm.sequence_transbordement.postlatitude ;
+        				vm.selected_sequence_transbordement.postlongitude = vm.sequence_transbordement.postlongitude ;*/
+
+        				nouvelle_sequence_transbordement = false ;
+        				vm.selected_sequence_transbordement = {};
+
+        			}
+        		})
+        		.error(function (data) {alert("Une erreur s'est produit");});
+			}
+
+			
+
+			//fin sequence transbordement
+
 			vm.ajout_fiche_peche_crevette = function()
 			{
 				vm.affichage_masque_fiche_peche = true ;
 				nouvelle_fiche_peche = true ;
 				vm.fiche_peche_crevette = {} ;
 				vm.selected_fiche_peche = {} ;
+
+				vm.generer_numero_fiche();
 			}
 
 			vm.modif_fiche_peche_crevette = function()
@@ -1330,5 +1628,7 @@
 	            });
 			}
     	//FIN fiche_peche
+
+    	
     }
 })();

@@ -11,14 +11,14 @@
     {
       var vm = this;
 
-      vm.affiche_load = false ;
+      $rootScope.affiche_load = false ;
 
       //enregistrer
       vm.enregistrer = enregistrer;
 
       function enregistrer(data)
       {
-        vm.affiche_load = true ;
+        $rootScope.affiche_load = true ;
         loginService.sing_in(data);
       }
 

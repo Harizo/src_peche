@@ -12,7 +12,8 @@
             'app.peche.sip.poisson_demersaux',
             'app.peche.sip.peche_artisanale',
             'app.peche.sip.vente_poissonnerie',
-            'app.peche.sip.pecheur_pirogue'
+            'app.peche.sip.pecheur_pirogue',
+            'app.peche.sip.coefficient_conversion'
 
         ])
         .config(config);
