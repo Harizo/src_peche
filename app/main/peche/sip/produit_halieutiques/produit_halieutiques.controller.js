@@ -43,6 +43,12 @@
 				
 			});
 
+			apiFactory.getAll("espece/index").then(function(result)
+			{
+				vm.all_espece = result.data.response;
+				
+			});
+
 
 			//id_type_espece = 1 (halieutique)
 
@@ -402,7 +408,6 @@
 	        [
 				{titre:"Numero"},
 				{titre:"Date quittance"},
-				{titre:"Espèce"},
 				{titre:"Région"},
 				{titre:"District"}
 	        ] ;
@@ -431,6 +436,8 @@
 	        vm.selection_permis = function(permis)
 	        {
 	        	vm.selected_permis = permis ;
+
+	        	vm.get_especes_permis();
 	        	
 
 	        }
@@ -460,7 +467,7 @@
 				vm.affichage_masque_permis = true ;
 				vm.permis.date_quittance = new Date(vm.selected_permis.date_quittance) ;
 				vm.permis.numero_permis = vm.selected_permis.numero_permis ;
-				vm.permis.id_espece = vm.selected_permis.id_espece ;
+				//vm.permis.id_espece = vm.selected_permis.id_espece ;
 				vm.permis.id_region = vm.selected_permis.id_region ;
 
 				vm.get_district();
@@ -519,7 +526,7 @@
 	                id:id,      
 	                supprimer:etat_suppression,
 	                id_collecteur_mareyeur:vm.selected_collecteur_mareyeur.id,
-	                id_espece:permis.id_espece,
+	               // id_espece:permis.id_espece,
 	                id_district:permis.id_district,
 	                numero_permis:permis.numero_permis,
 	                date_quittance:convert_to_date_sql(permis.date_quittance)
@@ -529,10 +536,10 @@
 
 	            apiFactory.add("SIP_permis/index",datas, config).success(function (data)
         		{
-        			var esp = vm.all_espece.filter(function(obj)
+        			/*var esp = vm.all_espece.filter(function(obj)
 					{
 						return obj.id == permis.id_espece;
-					});
+					});*/
 
 					var reg = vm.all_region.filter(function(obj)
 					{
@@ -550,8 +557,8 @@
         					vm.selected_permis.date_quittance =  convert_to_date_sql(permis.date_quittance)   ;
         					vm.selected_permis.numero_permis =  permis.numero_permis ;
 
-        					vm.selected_permis.id_espece =  permis.id_espece ;
-        					vm.selected_permis.nom_espece =  esp[0].nom ;
+        					//vm.selected_permis.id_espece =  permis.id_espece ;
+        					//vm.selected_permis.nom_espece =  esp[0].nom ;
 
         					vm.selected_permis.id_region =  permis.id_region ;
         					vm.selected_permis.nom_region =  reg[0].nom ;
@@ -579,8 +586,8 @@
 			            {
 							id:String(data.response) ,
 
-							id_espece:permis.id_espece,
-							nom_espece:esp[0].nom,
+							/*id_espece:permis.id_espece,
+							nom_espece:esp[0].nom,*/
 
 			                id_district:permis.id_district,
 			                nom_district:dist[0].nom,
@@ -604,6 +611,196 @@
 
 
 		//FIN PERMIS
+
+		//ESPECE AUTORISE
+			vm.selected_especes_permis = {};
+			vm.especes_permis = {};
+
+
+			vm.get_especes_permis = function()
+			{
+
+				apiFactory.getAPIgeneraliserREST("SIP_especes_permis/index","id_permis",vm.selected_permis.id).then(function(result)
+				{
+					vm.all_especes_permis = result.data.response;
+
+					
+				});
+
+			}
+
+
+			var nouvel_especes_permis = false ;
+
+			vm.affichage_masque_especes_permis = false ;
+
+			vm.entete_liste_especes_permis = 
+	        [
+				{titre:"Nom"},
+				{titre:"Nom scientifique"},
+				{titre:"Nom francaise"},
+				{titre:"Nom local/vernaculaire"}
+	        ] ;
+
+	        vm.selection_especes_permis = function(especes_permis)
+			{
+				vm.selected_especes_permis = especes_permis ; 
+				console.log(especes_permis);
+			}
+
+			$scope.$watch('vm.selected_especes_permis', function()
+			{
+				if (!vm.all_especes_permis) return;
+				vm.all_especes_permis.forEach(function(item)
+				{
+					item.$selected = false;
+				});
+				vm.selected_especes_permis.$selected = true;
+
+			});
+
+			vm.ajout_especes_permis = function()
+			{
+				nouvel_especes_permis = true ;
+				vm.affichage_masque_especes_permis = true ;
+
+				vm.especes_permis = {} ;
+				vm.selected_especes_permis = {} ;
+			}
+
+
+			vm.modif_especes_permis = function()
+			{
+				nouvel_especes_permis = false ;
+				vm.affichage_masque_especes_permis = true ;
+
+				vm.especes_permis.id_espece = vm.selected_especes_permis.id_espece ;
+
+				
+
+
+			}
+
+
+			vm.supprimer_especes_permis = function()
+			{
+				vm.affichage_masque_especes_permis = false ;
+				
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('Espèce sur le permis: '+vm.selected_permis.numero_permis)
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('ok')
+				  .cancel('annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.save_in_bdd_especes_permis(vm.selected_especes_permis,1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.annuler_especes_permis = function()
+			{
+				nouvel_especes_permis = false ;
+				vm.affichage_masque_especes_permis = false ;
+			}
+
+
+			vm.save_in_bdd_especes_permis = function(especes_permis, etat_suppression)
+			{
+				var config = {
+	                headers : {
+	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	                }
+	            };
+
+	            var id = 0 ;
+
+	            if (!nouvel_especes_permis) 
+	            {
+	            	id = vm.selected_especes_permis.id ;
+	            }
+
+
+	            var datas = $.param(
+	            {
+	            	
+	                id:id,      
+	                supprimer:etat_suppression,
+	                id_permis:vm.selected_permis.id,
+
+	                id_espece:especes_permis.id_espece
+	                
+	                
+	            });
+
+	            apiFactory.add("SIP_especes_permis/index",datas, config).success(function (data)
+        		{
+        			var esp = vm.all_espece.filter(function(obj)
+					{
+						return obj.id == especes_permis.id_espece;
+					});
+
+					
+					if (!nouvel_especes_permis) 
+					{
+						if (etat_suppression == 0) 
+						{
+
+							
+							vm.selected_especes_permis.id_espece = especes_permis.id_espece ;
+							vm.selected_especes_permis.nom = esp[0].nom ;
+							vm.selected_especes_permis.nom_scientifique = esp[0].nom_scientifique ;
+							vm.selected_especes_permis.nom_francaise = esp[0].nom_francaise ;
+							vm.selected_especes_permis.nom_local = esp[0].nom_local ;
+
+						}
+						else
+						{
+							vm.all_especes_permis = vm.all_especes_permis.filter(function(obj)
+							{
+								return obj.id !== vm.selected_especes_permis.id;
+							});
+						}
+
+					}
+					else
+					{
+						var item =
+			            {
+							id:String(data.response) ,
+
+							id_permis:vm.selected_permis.id,
+
+						
+							id_espece:especes_permis.id_espece,
+							nom:esp[0].nom,
+							nom_scientifique:esp[0].nom_scientifique,
+							nom_francaise:esp[0].nom_francaise,
+							nom_local:esp[0].nom_local
+
+							
+
+			                            
+						}          
+			            vm.all_especes_permis.unshift(item);
+			            nouvel_especes_permis = false ;
+					}
+
+
+					vm.affichage_masque_especes_permis = false ;
+
+
+
+
+        		})
+        		.error(function (data) {alert("Une erreur s'est produit");}); 
+			}
+
+    	// FIN ESPECE AUTORISE
 
 
 		//COLLECTE
@@ -632,6 +829,7 @@
 	        [
 				{titre:"Année"},
 				{titre:"Mois"},
+				{titre:"Espèce"},
 				{titre:"Prés."},
 				{titre:"Conserv"},
 				{titre:"Coef.conv"},
@@ -677,9 +875,123 @@
 
 			});
 
+			$scope.$watch('vm.collecte.id_espece', function()
+			{
+				if (!vm.collecte.id_espece) return;
+
+				if (vm.collecte.id_espece && vm.collecte.id_presentation && vm.collecte.id_conservation) 
+				{
+					apiFactory.getAPIgeneraliserREST("SIP_coefficient_conversion/index",
+													"etat_get_by_pres_cons",1,
+													"id_espece",vm.collecte.id_espece,
+													"id_presentation",vm.collecte.id_presentation,
+													"id_conservation",vm.collecte.id_conservation
+													).then(function(result)
+					{
+						var reps = result.data.response;
+
+						
+
+						if(reps.length == 0)
+						{
+							info_coeff_cons();
+							vm.collecte.coefficiant_conservation = null;
+						}
+						else
+							vm.collecte.coefficiant_conservation = Number(reps.coefficient) ;
+
+						
+					});
+				}
+				
+
+			});
+
+			$scope.$watch('vm.collecte.id_presentation', function()
+			{
+				if (!vm.collecte.id_presentation) return;
+
+				if (vm.collecte.id_espece && vm.collecte.id_presentation && vm.collecte.id_conservation) 
+				{
+					apiFactory.getAPIgeneraliserREST("SIP_coefficient_conversion/index",
+													"etat_get_by_pres_cons",1,
+													"id_espece",vm.collecte.id_espece,
+													"id_presentation",vm.collecte.id_presentation,
+													"id_conservation",vm.collecte.id_conservation
+													).then(function(result)
+					{
+						var reps = result.data.response;
+
+						
+
+						if(reps.length == 0)
+						{
+							info_coeff_cons();
+							vm.collecte.coefficiant_conservation = null;
+						}
+						else
+							vm.collecte.coefficiant_conservation = Number(reps.coefficient) ;
+
+						
+					});
+				}
+				
+
+			});
+
+			$scope.$watch('vm.collecte.id_conservation', function()
+			{
+				if (!vm.collecte.id_conservation) return;
+
+				if (vm.collecte.id_espece && vm.collecte.id_presentation && vm.collecte.id_conservation) 
+				{
+					apiFactory.getAPIgeneraliserREST("SIP_coefficient_conversion/index",
+													"etat_get_by_pres_cons",1,
+													"id_espece",vm.collecte.id_espece,
+													"id_presentation",vm.collecte.id_presentation,
+													"id_conservation",vm.collecte.id_conservation
+													).then(function(result)
+					{
+						var reps = result.data.response;
+
+						
+
+						if(reps.length == 0)
+						{
+							info_coeff_cons();
+							vm.collecte.coefficiant_conservation = null;
+						}
+						else
+							vm.collecte.coefficiant_conservation = Number(reps.coefficient) ;
+						
+
+						
+					});
+				}
+				
+
+			});
+
+			function info_coeff_cons()
+			{
+				var confirm = $mdDialog.confirm()
+				  .title('Information!')
+				  .textContent("Cette combinaison d'éspèce,de présentation et de conservation n'existe pas dans la données de base 'Coefficient de conversion'")
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('ok');
+				$mdDialog.show(confirm).then(function() {
+
+				
+				}, function() {
+				//alert('rien');
+				});
+			}
+
 			vm.ajout_col = function()
 			{
-				vm.col = {};
+				vm.collecte = {};
 				vm.selected_collecte = {};
 				vm.affichage_masque_collecte = true ;
 				nouvel_collecte = true ;
@@ -692,6 +1004,7 @@
 
 				vm.collecte.annee = vm.selected_collecte.annee ;
 				vm.collecte.mois = vm.selected_collecte.mois ;
+				vm.collecte.id_espece = vm.selected_collecte.id_espece ;
 				vm.collecte.id_presentation = vm.selected_collecte.id_presentation ;
 				vm.collecte.id_conservation = vm.selected_collecte.id_conservation ;
 				vm.collecte.coefficiant_conservation = Number(vm.selected_collecte.coefficiant_conservation) ;
@@ -713,12 +1026,17 @@
 				  .parent(angular.element(document.body))
 				  .ok('ok')
 				  .cancel('annuler');
-				$mdDialog.show(confirm).then(function() {
+				$mdDialog.show(confirm)
+				.then(
+					function() 
+					{
+						vm.save_in_bdd_collecte(vm.selected_collecte,1);
+					}, 
+					function() 
+					{
 
-				vm.save_in_bdd_collecte(vm.selected_collecte,1);
-				}, function() {
-				//alert('rien');
-				});
+					}
+				);
 			}
 
 			vm.annuler_collecte = function()
@@ -750,6 +1068,7 @@
 	                supprimer:etat_suppression,
 	                annee:data_masque.annee,
 	                mois:data_masque.mois,
+	                id_espece:data_masque.id_espece,
 	                id_presentation:data_masque.id_presentation,
 	                id_conservation:data_masque.id_conservation,
 	                coefficiant_conservation:data_masque.coefficiant_conservation,
@@ -772,12 +1091,23 @@
 						return obj.id == data_masque.id_presentation;
 					});
 
+					var esp = vm.all_especes_permis.filter(function(obj)
+					{
+						return obj.id_espece == data_masque.id_espece;
+					});
+
         			if (!nouvel_collecte) 
         			{
         				if (etat_suppression == 0) 
         				{
         					vm.selected_collecte.annee = data_masque.annee ;
         					vm.selected_collecte.mois = data_masque.mois ;
+
+        					vm.selected_collecte.id_espece = data_masque.id_espece ;
+        					vm.selected_collecte.nom = esp[0].nom ;
+        					vm.selected_collecte.nom_scientifique = esp[0].nom_scientifique ;
+        					vm.selected_collecte.nom_francaise = esp[0].nom_francaise ;
+        					vm.selected_collecte.nom_local = esp[0].nom_local ;
 
         					vm.selected_collecte.id_presentation = data_masque.id_presentation ;
         					vm.selected_collecte.libelle_presentation = pres[0].libelle ;
@@ -809,6 +1139,12 @@
 							annee:data_masque.annee,
 							mois:data_masque.mois,
 
+							id_espece : data_masque.id_espece ,
+        					nom : esp[0].nom ,
+        					nom_scientifique : esp[0].nom_scientifique ,
+        					nom_francaise : esp[0].nom_francaise ,
+        					nom_local : esp[0].nom_local ,
+
 							id_conservation:data_masque.id_conservation,
 							libelle_conservation:cons[0].libelle,
 
@@ -836,6 +1172,7 @@
 
 		//COMMERCE MARINE
 			vm.selected_commerce_marine = {};
+			vm.commerce_marine = {};
 
 
 			var nouvel_commerce_marine = false ;
@@ -848,6 +1185,7 @@
 				{titre:"N° Cos"},
 				{titre:"Année"},
 				{titre:"Mois"},
+				{titre:"Espèce"},
 				{titre:"Présentation"},
 				{titre:"Conservation"},
 				{titre:"Coef cons"},
@@ -858,12 +1196,20 @@
 				{titre:"Exp Prix"},
 				{titre:"Exp poids vif"},
 				{titre:"Exp déstination"},
+
+				
+
 				{titre:"Date Expedition"},
 				{titre:"Nombre colis"},
 				{titre:"Nom Dést."},
 				{titre:"Adresse Dést."},
 				{titre:"Lieu Exped"},
-				{titre:"Moyen de transport"}
+				{titre:"Moyen de transport"},
+				
+				{titre:"Export Qté"},
+				{titre:"Export Prix"},
+				{titre:"Export poids vif"},
+				{titre:"Export déstination"}
 	        ] ;
 
 
@@ -875,6 +1221,19 @@
 					vm.all_commerce_marine = result.data.response;
 					
 				});
+
+			
+
+				apiFactory.getAPIgeneraliserREST("SIP_commercialisation_marine/index",
+												 "compte_nbr_fiche",1, 
+												 "id_permis",vm.selected_permis.id).then(function(result)
+				{
+					vm.all_arrivee_fiche_marine = result.data.response;
+
+					
+				});
+
+			
 
 			}
 
@@ -892,6 +1251,103 @@
 					item.$selected = false;
 				});
 				vm.selected_commerce_marine.$selected = true;
+
+			});
+
+			$scope.$watch('vm.commerce_marine.id_espece', function()
+			{
+				if (!vm.commerce_marine.id_espece) return;
+
+				if (vm.commerce_marine.id_espece && vm.commerce_marine.id_presentation && vm.commerce_marine.id_conservation) 
+				{
+					apiFactory.getAPIgeneraliserREST("SIP_coefficient_conversion/index",
+													"etat_get_by_pres_cons",1,
+													"id_espece",vm.commerce_marine.id_espece,
+													"id_presentation",vm.commerce_marine.id_presentation,
+													"id_conservation",vm.commerce_marine.id_conservation
+													).then(function(result)
+					{
+						var reps = result.data.response;
+
+						
+
+						if(reps.length == 0)
+						{
+							info_coeff_cons();
+							vm.commerce_marine.coefficiant_conservation = null;
+						}
+						else
+							vm.commerce_marine.coefficiant_conservation = Number(reps.coefficient) ;
+
+						
+					});
+				}
+				
+
+			});
+
+			$scope.$watch('vm.commerce_marine.id_presentation', function()
+			{
+				if (!vm.commerce_marine.id_presentation) return;
+
+				if (vm.commerce_marine.id_espece && vm.commerce_marine.id_presentation && vm.commerce_marine.id_conservation) 
+				{
+					apiFactory.getAPIgeneraliserREST("SIP_coefficient_conversion/index",
+													"etat_get_by_pres_cons",1,
+													"id_espece",vm.commerce_marine.id_espece,
+													"id_presentation",vm.commerce_marine.id_presentation,
+													"id_conservation",vm.commerce_marine.id_conservation
+													).then(function(result)
+					{
+						var reps = result.data.response;
+
+						
+
+						if(reps.length == 0)
+						{
+							info_coeff_cons();
+							vm.commerce_marine.coefficiant_conservation = null;
+						}
+						else
+							vm.commerce_marine.coefficiant_conservation = Number(reps.coefficient) ;
+
+						
+					});
+				}
+				
+
+			});
+
+			$scope.$watch('vm.commerce_marine.id_conservation', function()
+			{
+				if (!vm.commerce_marine.id_conservation) return;
+
+				if (vm.commerce_marine.id_espece && vm.commerce_marine.id_presentation && vm.commerce_marine.id_conservation) 
+				{
+					apiFactory.getAPIgeneraliserREST("SIP_coefficient_conversion/index",
+													"etat_get_by_pres_cons",1,
+													"id_espece",vm.commerce_marine.id_espece,
+													"id_presentation",vm.commerce_marine.id_presentation,
+													"id_conservation",vm.commerce_marine.id_conservation
+													).then(function(result)
+					{
+						var reps = result.data.response;
+
+						
+
+						if(reps.length == 0)
+						{
+							info_coeff_cons();
+							vm.commerce_marine.coefficiant_conservation = null;
+						}
+						else
+							vm.commerce_marine.coefficiant_conservation = Number(reps.coefficient) ;
+						
+
+						
+					});
+				}
+				
 
 			});
 
@@ -917,6 +1373,7 @@
 				vm.commerce_marine.annee = vm.selected_commerce_marine.annee ;
 				vm.commerce_marine.mois = vm.selected_commerce_marine.mois ;
 
+				vm.commerce_marine.id_espece = vm.selected_commerce_marine.id_espece ;
 				vm.commerce_marine.id_conservation = vm.selected_commerce_marine.id_conservation ;
 				
 
@@ -932,8 +1389,13 @@
                 vm.commerce_marine.exp_qte = Number(vm.selected_commerce_marine.exp_qte) ;
                 vm.commerce_marine.exp_prix_par_kg = Number(vm.selected_commerce_marine.exp_prix_par_kg) ;
                 vm.commerce_marine.exp_poids_vif = Number(vm.selected_commerce_marine.exp_poids_vif) ;
-
                 vm.commerce_marine.exp_destination = vm.selected_commerce_marine.exp_destination ;
+
+                vm.commerce_marine.export_qte = Number(vm.selected_commerce_marine.export_qte) ;
+                vm.commerce_marine.export_prix_par_kg = Number(vm.selected_commerce_marine.export_prix_par_kg) ;
+                vm.commerce_marine.export_poids_vif = Number(vm.selected_commerce_marine.export_poids_vif) ;
+                vm.commerce_marine.export_destination = vm.selected_commerce_marine.export_destination ;
+
                 vm.commerce_marine.date_expedition = new Date(vm.selected_commerce_marine.date_expedition) ;
                 vm.commerce_marine.nbr_colis = Number(vm.selected_commerce_marine.nbr_colis) ;
 
@@ -1001,6 +1463,7 @@
 	                annee:commerce_marine.annee,
 	                mois:commerce_marine.mois,
 
+	                id_espece:commerce_marine.id_espece,
 	                id_presentation:commerce_marine.id_presentation,
 	                id_conservation:commerce_marine.id_conservation,
 	                coefficiant_conservation:commerce_marine.coefficiant_conservation,
@@ -1012,8 +1475,13 @@
 	                exp_qte:commerce_marine.exp_qte,
 	                exp_prix_par_kg:commerce_marine.exp_prix_par_kg,
 	                exp_poids_vif:commerce_marine.exp_poids_vif,
-
 	                exp_destination:commerce_marine.exp_destination,
+
+	                export_qte:commerce_marine.export_qte,
+					export_prix_par_kg:commerce_marine.export_prix_par_kg,
+					export_poids_vif:commerce_marine.export_poids_vif,
+					export_destination:commerce_marine.export_destination,
+
 	                date_expedition:convert_to_date_sql(commerce_marine.date_expedition),
 	                nbr_colis:commerce_marine.nbr_colis,
 
@@ -1037,6 +1505,11 @@
 						return obj.id == commerce_marine.id_presentation;
 					});
 
+					var esp = vm.all_especes_permis.filter(function(obj)
+					{
+						return obj.id_espece == commerce_marine.id_espece;
+					});
+
 					if (!nouvel_commerce_marine) 
 					{
 						if (etat_suppression == 0) 
@@ -1048,6 +1521,12 @@
 
 							vm.selected_commerce_marine.annee = commerce_marine.annee ;
 							vm.selected_commerce_marine.mois = commerce_marine.mois ;
+
+							vm.selected_commerce_marine.id_espece = commerce_marine.id_espece ;
+        					vm.selected_commerce_marine.nom = esp[0].nom ;
+        					vm.selected_commerce_marine.nom_scientifique = esp[0].nom_scientifique ;
+        					vm.selected_commerce_marine.nom_francaise = esp[0].nom_francaise ;
+        					vm.selected_commerce_marine.nom_local = esp[0].nom_local ;
 
 							vm.selected_commerce_marine.id_conservation = commerce_marine.id_conservation ;
 							vm.selected_commerce_marine.libelle_conservation = cons[0].libelle ;
@@ -1064,8 +1543,13 @@
 			                vm.selected_commerce_marine.exp_qte = commerce_marine.exp_qte ;
 			                vm.selected_commerce_marine.exp_prix_par_kg = commerce_marine.exp_prix_par_kg ;
 			                vm.selected_commerce_marine.exp_poids_vif = commerce_marine.exp_poids_vif ;
-
 			                vm.selected_commerce_marine.exp_destination = commerce_marine.exp_destination ;
+
+			                vm.selected_commerce_marine.export_qte = commerce_marine.export_qte ;
+							vm.selected_commerce_marine.export_prix_par_kg = commerce_marine.export_prix_par_kg ;
+							vm.selected_commerce_marine.export_poids_vif = commerce_marine.export_poids_vif ;
+							vm.selected_commerce_marine.export_destination = commerce_marine.export_destination ;
+
 			                vm.selected_commerce_marine.date_expedition = convert_to_date_sql(commerce_marine.date_expedition) ;
 			                vm.selected_commerce_marine.nbr_colis = commerce_marine.nbr_colis ;
 
@@ -1079,6 +1563,14 @@
 						{
 							vm.all_commerce_marine = vm.all_commerce_marine.filter(function(obj)
 							{
+								apiFactory.getAPIgeneraliserREST("SIP_commercialisation_marine/index",
+												 "compte_nbr_fiche",1, 
+												 "id_permis",vm.selected_permis.id).then(function(result)
+								{
+									vm.all_arrivee_fiche_marine = result.data.response;
+
+									
+								});
 								return obj.id !== vm.selected_commerce_marine.id;
 							});
 						}
@@ -1098,6 +1590,12 @@
 							annee:commerce_marine.annee,
 							mois:commerce_marine.mois,
 
+							id_espece : commerce_marine.id_espece ,
+        					nom : esp[0].nom ,
+        					nom_scientifique : esp[0].nom_scientifique ,
+        					nom_francaise : esp[0].nom_francaise ,
+        					nom_local : esp[0].nom_local ,
+
 							id_conservation:commerce_marine.id_conservation,
 							libelle_conservation:cons[0].libelle,
 
@@ -1113,8 +1611,13 @@
 			                exp_qte:commerce_marine.exp_qte,
 			                exp_prix_par_kg:commerce_marine.exp_prix_par_kg,
 			                exp_poids_vif:commerce_marine.exp_poids_vif,
-
 			                exp_destination:commerce_marine.exp_destination,
+
+			                export_qte:commerce_marine.export_qte,
+							export_prix_par_kg:commerce_marine.export_prix_par_kg,
+							export_poids_vif:commerce_marine.export_poids_vif,
+							export_destination:commerce_marine.export_destination,
+
 			                date_expedition:convert_to_date_sql(commerce_marine.date_expedition),
 			                nbr_colis:commerce_marine.nbr_colis,
 
@@ -1127,6 +1630,14 @@
 						}          
 			            vm.all_commerce_marine.unshift(item);
 			            nouvel_commerce_marine = false ;
+			            apiFactory.getAPIgeneraliserREST("SIP_commercialisation_marine/index",
+												 "compte_nbr_fiche",1, 
+												 "id_permis",vm.selected_permis.id).then(function(result)
+						{
+							vm.all_arrivee_fiche_marine = result.data.response;
+
+							
+						});
 					}
 
 
@@ -1142,6 +1653,7 @@
 
 		//COMMERCE EAU DOUCE
 			vm.selected_commerce_eau_douce = {};
+			vm.commerce_eau_douce = {};
 
 			vm.all_commerce_eau_douce = [];
 
@@ -1156,6 +1668,7 @@
 				{titre:"N° Cos"},
 				{titre:"Année"},
 				{titre:"Mois"},
+				{titre:"Espèce"},
 				{titre:"Présentation"},
 				{titre:"Conservation"},
 				{titre:"Coef cons"},
@@ -1170,6 +1683,15 @@
 				apiFactory.getAPIgeneraliserREST("SIP_commercialisation_eau_douce/index","id_permis",vm.selected_permis.id).then(function(result)
 				{
 					vm.all_commerce_eau_douce = result.data.response;
+
+					
+				});
+
+				apiFactory.getAPIgeneraliserREST("SIP_commercialisation_eau_douce/index",
+												 "compte_nbr_fiche",1, 
+												 "id_permis",vm.selected_permis.id).then(function(result)
+				{
+					vm.all_arrivee_fiche_eau_douce = result.data.response;
 
 					
 				});
@@ -1190,6 +1712,103 @@
 					item.$selected = false;
 				});
 				vm.selected_commerce_eau_douce.$selected = true;
+
+			});
+
+			$scope.$watch('vm.commerce_eau_douce.id_espece', function()
+			{
+				if (!vm.commerce_eau_douce.id_espece) return;
+
+				if (vm.commerce_eau_douce.id_espece && vm.commerce_eau_douce.id_presentation && vm.commerce_eau_douce.id_conservation) 
+				{
+					apiFactory.getAPIgeneraliserREST("SIP_coefficient_conversion/index",
+													"etat_get_by_pres_cons",1,
+													"id_espece",vm.commerce_eau_douce.id_espece,
+													"id_presentation",vm.commerce_eau_douce.id_presentation,
+													"id_conservation",vm.commerce_eau_douce.id_conservation
+													).then(function(result)
+					{
+						var reps = result.data.response;
+
+						
+
+						if(reps.length == 0)
+						{
+							info_coeff_cons();
+							vm.commerce_eau_douce.coefficiant_conservation = null;
+						}
+						else
+							vm.commerce_eau_douce.coefficiant_conservation = Number(reps.coefficient) ;
+
+						
+					});
+				}
+				
+
+			});
+
+			$scope.$watch('vm.commerce_eau_douce.id_presentation', function()
+			{
+				if (!vm.commerce_eau_douce.id_presentation) return;
+
+				if (vm.commerce_eau_douce.id_espece && vm.commerce_eau_douce.id_presentation && vm.commerce_eau_douce.id_conservation) 
+				{
+					apiFactory.getAPIgeneraliserREST("SIP_coefficient_conversion/index",
+													"etat_get_by_pres_cons",1,
+													"id_espece",vm.commerce_eau_douce.id_espece,
+													"id_presentation",vm.commerce_eau_douce.id_presentation,
+													"id_conservation",vm.commerce_eau_douce.id_conservation
+													).then(function(result)
+					{
+						var reps = result.data.response;
+
+						
+
+						if(reps.length == 0)
+						{
+							info_coeff_cons();
+							vm.commerce_eau_douce.coefficiant_conservation = null;
+						}
+						else
+							vm.commerce_eau_douce.coefficiant_conservation = Number(reps.coefficient) ;
+
+						
+					});
+				}
+				
+
+			});
+
+			$scope.$watch('vm.commerce_eau_douce.id_conservation', function()
+			{
+				if (!vm.commerce_eau_douce.id_conservation) return;
+
+				if (vm.commerce_eau_douce.id_espece && vm.commerce_eau_douce.id_presentation && vm.commerce_eau_douce.id_conservation) 
+				{
+					apiFactory.getAPIgeneraliserREST("SIP_coefficient_conversion/index",
+													"etat_get_by_pres_cons",1,
+													"id_espece",vm.commerce_eau_douce.id_espece,
+													"id_presentation",vm.commerce_eau_douce.id_presentation,
+													"id_conservation",vm.commerce_eau_douce.id_conservation
+													).then(function(result)
+					{
+						var reps = result.data.response;
+
+						
+
+						if(reps.length == 0)
+						{
+							info_coeff_cons();
+							vm.commerce_eau_douce.coefficiant_conservation = null;
+						}
+						else
+							vm.commerce_eau_douce.coefficiant_conservation = Number(reps.coefficient) ;
+						
+
+						
+					});
+				}
+				
 
 			});
 
@@ -1215,6 +1834,7 @@
 				vm.commerce_eau_douce.annee = vm.selected_commerce_eau_douce.annee ;
 				vm.commerce_eau_douce.mois = vm.selected_commerce_eau_douce.mois ;
 
+				vm.commerce_eau_douce.id_espece = vm.selected_commerce_eau_douce.id_espece ;
 				vm.commerce_eau_douce.id_conservation = vm.selected_commerce_eau_douce.id_conservation ;
 				
 
@@ -1287,6 +1907,7 @@
 	                annee:commerce_eau_douce.annee,
 	                mois:commerce_eau_douce.mois,
 
+	                id_espece:commerce_eau_douce.id_espece,
 	                id_presentation:commerce_eau_douce.id_presentation,
 	                id_conservation:commerce_eau_douce.id_conservation,
 	                coefficiant_conservation:commerce_eau_douce.coefficiant_conservation,
@@ -1311,6 +1932,11 @@
 						return obj.id == commerce_eau_douce.id_presentation;
 					});
 
+					var esp = vm.all_especes_permis.filter(function(obj)
+					{
+						return obj.id_espece == commerce_eau_douce.id_espece;
+					});
+
 					if (!nouvel_commerce_eau_douce) 
 					{
 						if (etat_suppression == 0) 
@@ -1322,6 +1948,12 @@
 
 							vm.selected_commerce_eau_douce.annee = commerce_eau_douce.annee ;
 							vm.selected_commerce_eau_douce.mois = commerce_eau_douce.mois ;
+
+							vm.selected_commerce_eau_douce.id_espece = commerce_eau_douce.id_espece ;
+        					vm.selected_commerce_eau_douce.nom = esp[0].nom ;
+        					vm.selected_commerce_eau_douce.nom_scientifique = esp[0].nom_scientifique ;
+        					vm.selected_commerce_eau_douce.nom_francaise = esp[0].nom_francaise ;
+        					vm.selected_commerce_eau_douce.nom_local = esp[0].nom_local ;
 
 							vm.selected_commerce_eau_douce.id_conservation = commerce_eau_douce.id_conservation ;
 							vm.selected_commerce_eau_douce.libelle_conservation = cons[0].libelle ;
@@ -1340,6 +1972,14 @@
 						{
 							vm.all_commerce_eau_douce = vm.all_commerce_eau_douce.filter(function(obj)
 							{
+								apiFactory.getAPIgeneraliserREST("SIP_commercialisation_eau_douce/index",
+												 "compte_nbr_fiche",1, 
+												 "id_permis",vm.selected_permis.id).then(function(result)
+								{
+									vm.all_arrivee_fiche_eau_douce = result.data.response;
+
+									
+								});
 								return obj.id !== vm.selected_commerce_eau_douce.id;
 							});
 						}
@@ -1359,6 +1999,12 @@
 							annee:commerce_eau_douce.annee,
 							mois:commerce_eau_douce.mois,
 
+							id_espece : commerce_eau_douce.id_espece ,
+        					nom : esp[0].nom ,
+        					nom_scientifique : esp[0].nom_scientifique ,
+        					nom_francaise : esp[0].nom_francaise ,
+        					nom_local : esp[0].nom_local ,
+
 							id_conservation:commerce_eau_douce.id_conservation,
 							libelle_conservation:cons[0].libelle,
 
@@ -1375,6 +2021,15 @@
 						}          
 			            vm.all_commerce_eau_douce.unshift(item);
 			            nouvel_commerce_eau_douce = false ;
+
+			            apiFactory.getAPIgeneraliserREST("SIP_commercialisation_eau_douce/index",
+												 "compte_nbr_fiche",1, 
+												 "id_permis",vm.selected_permis.id).then(function(result)
+						{
+							vm.all_arrivee_fiche_eau_douce = result.data.response;
+
+							
+						});
 					}
 
 
@@ -1419,7 +2074,7 @@
 				{titre:"Décembre"}
 	        ] ;
 
-			vm.get_arrivee_fiche = function()
+			/*vm.get_arrivee_fiche = function()
 			{
 
 				apiFactory.getAPIgeneraliserREST("SIP_arrivee_fiche/index","id_permis",vm.selected_permis.id).then(function(result)
@@ -1429,7 +2084,9 @@
 					
 				});
 
-			}
+			}*/
+
+			
 
 			vm.selection_arrivee_fiche = function(arrivee_fiche)
 			{
@@ -1491,7 +2148,7 @@
 	                vm.selected_arrivee_fiche = af;
 	                
 	              }
-            });
+            	});
 			}
 
 

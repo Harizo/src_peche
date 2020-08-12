@@ -44,14 +44,14 @@
                        translate="LOGIN.FORGOT_PASSWORD">Forgot Password?</a>
                 </div-->
 
-                <md-button ng-if="!vm.affiche_load" type="submit" class="md-raised md-accent submit-button" aria-label="LOG IN"
+                <md-button ng-if="!affiche_load" type="submit" class="md-raised md-accent submit-button" aria-label="LOG IN"
                            ng-disabled="loginForm.$invalid || loginForm.$pristine"
                            translate="LOGIN.LOG_IN" translate-attr-aria-label="LOGIN.LOG_IN"
                            ng-click="vm.enregistrer(vm.login)">
                     LOG IN
                 </md-button>
-                <md-progress-circular ng-if="vm.affiche_load" class="md-accent" aria-label="Rating" md-mode="indeterminate" md-diameter="34"></md-progress-circular> 
-                                    <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
+                <md-progress-circular ng-if="affiche_load" class="md-accent" aria-label="Rating" md-mode="indeterminate" md-diameter="34"></md-progress-circular> 
+                                    <div ng-if="affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
                                         Connexion,veuillez patienter s'il vous plait ...
                                     </div> 
 

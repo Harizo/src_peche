@@ -92,7 +92,7 @@
     };
 
     /** @ngInject */
-    function loginService($http, apiUrl, $location, cookieService, storageService, $mdDialog, $state,$window)
+    function loginService($http, apiUrl, $location, cookieService, storageService, $mdDialog, $state, $window, $rootScope)
     {
       return{
         sing_in: function(utilisateur, ev){
@@ -112,7 +112,9 @@
           var pwd = utilisateur.password;
 
           $http.get(apiUrl+'utilisateurs?email='+email+'&pwd='+pwd)
-            .success(function(data){
+            .success(function(data)
+            {
+              $rootScope.affiche_load = false ;
               if(data.status == true)
                   {
                     cookieService.set('id',data.response.id);

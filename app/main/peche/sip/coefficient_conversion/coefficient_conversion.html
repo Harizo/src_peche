@@ -1,0 +1,168 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+       
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">S.I.P</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Coefficient de conversion</span>
+            </div>
+
+            <div class="title">Coefficient de conversion</div>
+        </div>
+    </div>	
+    <div class="content" layout="column">
+        <div class="form-wrapper">
+            <div class="white-bg md-whiteframe-4dp">
+
+                <div style="widht:100%;">    
+                        <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_coefficient_conversion()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                          Nouveau
+                        </md-button>
+                        <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_coefficient_conversion.id" aria-label="Modifier" ng-click="vm.modif_coefficient_conversion()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                          Modifier
+                        </md-button>
+                        <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_coefficient_conversion.id" aria-label="Supprimer" ng-click="vm.supprimer_coefficient_conversion()" style="width:10%;">
+                            <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                          Supprimer
+                        </md-button>
+                </div>
+                <!--FORM  commerce-->       
+                         
+                <form ng-show="vm.affichage_masque" name="form_coefficient_conservation" class="md-inline-form" novalidate >
+
+                    <div layout="column" layout-gt-xs="row" flex>
+                       
+
+                            <md-input-container flex="100" flex-gt-xs="30">
+                                <label>Espèce</label>
+                                <md-select ng-model="vm.coefficient_conservation.id_espece" name="espece" required>
+                                    <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}" style="padding: 60px 60px 60px 60px !important;">
+                                        
+                                                <!-- <span  ng-if="espece.code"><strong><u>Code</u></strong>: {{espece.code}}</span>
+                                                <span  ng-if="espece.nom"><strong><u>Espèce</u></strong>: {{espece.nom}}</span>
+                                                
+                                                <span ng-if="espece.nom_scientifique"><strong><u>Nom scientifique</u></strong>: {{espece.nom_scientifique}}</span>
+                                                <span ng-if="espece.nom_francaise"><strong><u>Nom francaise</u></strong>: {{espece.nom_francaise}}</span>
+                                                <span ng-if="espece.nom_local"><strong><u>Nom local</u></strong>: {{espece.nom_local}}</span> -->
+                                                <div layout="column" layout-align="start stretch ">
+                                                    <div  ><strong><u>Code</u></strong>: {{espece.code}}</div>
+                                                    <div  ><strong><u>Espèce</u></strong>: {{espece.nom}}</div>
+                                                    
+                                                    <div ><strong><u>Nom scientifique</u></strong>: {{espece.nom_scientifique}}</div>
+                                                    <div ><strong><u>Nom francaise</u></strong>: {{espece.nom_francaise}}</div>
+                                                    <div ><strong><u>Nom local</u></strong>: {{espece.nom_local}}</div>
+                                                    
+                                                </div>
+                                                <md-divider ></md-divider> 
+                                        
+                                        
+                                    </md-option>
+                                    
+                                </md-select>
+                                <div ng-messages="form_coefficient_conservation.espece.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Espèce Obligatoire.</span>
+                                      </div>
+                                    </div>
+                            </md-input-container>
+
+                            <md-input-container flex="100" flex-gt-xs="30">
+                                <label>Présentation</label>
+                                <md-select ng-model="vm.coefficient_conservation.id_presentation" name="id_presentation" >
+                                    <md-option value="0">-</md-option>
+                                    <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
+                                        {{pres.libelle}}
+                                    </md-option>
+                                    
+                                </md-select>
+                                <div ng-messages="form_coefficient_conservation.id_presentation.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Présentation Obligatoire.</span>
+                                      </div>
+                                    </div>
+                            </md-input-container>
+
+                            <md-input-container flex="100" flex-gt-xs="30">
+                                <label>Conservation</label>
+                                <md-select ng-model="vm.coefficient_conservation.id_conservation" name="id_conservation" >
+                                    <md-option value="0">-</md-option>
+                                    <md-option ng-repeat="cons in vm.all_conservation" value="{{cons.id}}">
+                                        {{cons.libelle}}
+                                    </md-option>
+                                    
+                                </md-select>
+                                <div ng-messages="form_coefficient_conservation.id_conservation.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Conservation Obligatoire.</span>
+                                      </div>
+                                    </div>
+                            </md-input-container>
+
+                            <md-input-container flex="100" flex-gt-xs="10">
+                              <input  type="number" name="coefficient" ng-model="vm.coefficient_conservation.coefficient"
+                                placeholder="Coefficient"    ng-init="vm.coefficient_conservation.coefficient=0"
+                                required>
+                                <div ng-messages="form_coefficient_conservation.coefficient.$error"
+                                  role="alert">
+                                  <div ng-message="required">
+                                    <span>Coefficient obligatoire.</span>
+                                  </div>
+                                  
+                                </div>
+
+                                
+                            </md-input-container>
+                    </div>
+
+
+                   
+
+
+                   
+                    <div>
+                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                            ng-disabled="form_coefficient_conservation.$invalid " ng-click="vm.teste_existance(vm.coefficient_conservation,0)">
+                            Enregistrer
+                        </md-button>
+                        <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                            Annuler
+                        </md-button>
+                    </div>
+                </form>
+                            
+                <!--FORM  commerce-->       
+                    
+                    
+                <!--TABLE LISTES -->
+                    <table ng-table="table_collecte_marine" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                        <thead>
+                            <tr>
+                                <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_coefficient_conversion">
+                                    <div class="table-header">
+                                        <span class="column-title text-center">{{c.titre}}</span>
+                                    </div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cm in vm.all_coefficient_conversion"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_coefficient_conversion(cm)">                                       
+                                <td>{{vm.affichage_espece(cm.id_espece)}}</td>
+                                <td>{{vm.affichage_presentation(cm.id_presentation)}}</td>
+                                <td>{{vm.affichage_conservation(cm.id_conservation)}}</td>
+                                <td>{{vm.replace_point(cm.coefficient)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <!--TABLE LISTES -->
+                    
+            </div>
+        </div>
+    </div>
+</div>
