@@ -17,7 +17,7 @@
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/peche/sip/peche_artisanale/peche_artisanale.html',
-                    controller : 'peche_artisanaleController as vm'
+                    controller : 'Peche_artisanaleController as vm'
                 }
             },
             bodyClass: 'peche_artisanale',

@@ -1,0 +1,210 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+       
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">S.I.P</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Pêche Artisanale</span>
+            </div>
+
+            <div class="title">Pêche Artisanale</div>
+        </div>
+    </div>		
+    <div class="content" layout="column">
+        <div class="form-wrapper">
+            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+            <div style="clear:both;"></div>
+            <md-tabs md-dynamic-height>
+                <md-tab label="PECHE ARTISANALE">
+                    <md-tab-body>
+                        <div style="widht:100%;">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_peche_artisanale()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_peche_artisanale.id" aria-label="Modifier" ng-click="vm.modifier_peche_artisanale()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_peche_artisanale.id" aria-label="Supprimer" ng-click="vm.supprimer_peche_artisanale()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                        </div>  
+
+                        <!--FORM LISTES PECHE ARTISANALE-->
+                            <div ng-show="vm.affichage_masque_peche_artisanale">
+                      
+                                <form name="form_peche_artisanale" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                            <label>Navire</label>
+                                            <md-select ng-model="vm.col_peche_artisanale.id_navire" name="id_navire" ng-change="vm.modifierNavire(vm.col_peche_artisanale)" required>
+                                                <md-option ng-repeat="navire in vm.all_navire" value="{{navire.id}}">
+                                                    {{navire.immatricule}} / {{navire.nom}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_peche_artisanale.id_navire.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Navire Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="text" name="nom_capitaine" ng-model="vm.col_peche_artisanale.nom_capitaine"
+                                            placeholder="Nom Capitaine" ng-init="vm.col_peche_artisanale.nom_capitaine=''"
+                                             required>
+                                            <div ng-messages="form_peche_artisanale.nom_capitaine.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nom Capitaine obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="text" name="port" ng-model="vm.col_peche_artisanale.port"
+                                            placeholder="Port" ng-init="vm.col_peche_artisanale.port=''" required>
+                                            <div ng-messages="form_peche_artisanale.port.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Port obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="text" name="num_maree" ng-model="vm.col_peche_artisanale.num_maree"
+                                            placeholder="N° marrée" ng-init="vm.col_peche_artisanale.num_maree=''" required>
+                                            <div ng-messages="form_peche_artisanale.num_maree.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>N° marrée obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date départ:</label>
+                                        <md-datepicker  ng-model="vm.col_peche_artisanale.date_depart" md-placeholder="Date départ" md-max-date="vm.date_now" required>                       
+                                        </md-datepicker>
+                                        </div>
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date d'arrivée:</label>
+                                        <md-datepicker  ng-model="vm.col_peche_artisanale.date_arrive" md-placeholder="Date d'arrivée" md-max-date="vm.date_now" required>                       
+                                        </md-datepicker>
+                                        </div>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="number" name="annee" ng-model="vm.col_peche_artisanale.annee"
+                                            placeholder="Année" ng-init="vm.col_peche_artisanale.annee=''" required>
+                                            <div ng-messages="form_peche_artisanale.annee.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Année obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                         <md-input-container flex="100" flex-gt-xs="15">
+                                            <label>Mois</label>
+                                            <md-select ng-model="vm.col_peche_artisanale.mois" name="mois" required>
+                                                <md-option  value="1">Janvier</md-option>
+                                                <md-option  value="2">Février</md-option>
+                                                <md-option  value="3">Mars</md-option>
+                                                <md-option  value="4">Avril</md-option>
+                                                <md-option  value="5">Mai</md-option>
+                                                <md-option  value="6">Juin</md-option>
+                                                <md-option  value="7">Juillet</md-option>
+                                                <md-option  value="8">Août</md-option>
+                                                <md-option  value="9">Septembre</md-option>
+                                                <md-option  value="10">Octobre</md-option>
+                                                <md-option  value="11">Novembre</md-option>
+                                                <md-option  value="12">Décembre</md-option>
+                                            </md-select>
+                                            <div ng-messages="form_peche_artisanale.mois.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Mois Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+                                   </div>                                   
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                            <label>Espèce</label>
+                                            <md-select ng-model="vm.col_peche_artisanale.id_espece" name="id_espece" ng-change="vm.modifierEspece(vm.col_peche_artisanale)" required>
+                                                <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}">
+                                                    {{esp.code}} / {{esp.nom}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_peche_artisanale.id_espece.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Espèce Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="number" name="quantite" ng-model="vm.col_peche_artisanale.quantite"
+                                            placeholder="Quantité" ng-init="vm.col_peche_artisanale.quantite=''"
+                                            required>
+                                            <div ng-messages="form_peche_artisanale.quantite.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Quantité obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                    </div>
+                                    <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_peche_artisanale.$invalid || (!vm.col_peche_artisanale.num_maree&&!vm.col_peche_artisanale.date_rapport&&!vm.col_peche_artisanale.annee)" ng-click="vm.save_peche_artisanale(vm.col_peche_artisanale,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_peche_artisanale()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        <!--FORM LISTES PECHE ARTISANALE-->
+                        <!--TABLE LISTES PECHE ARTISANALE-->
+                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table ng-show="vm.afficher_table">
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_peche_artisanale">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_peche_artisanale"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_peche_artisanale(cm)">                                       
+                                        <td>{{cm.immatricule}} / {{cm.nom_navire}}</td>
+                                        <td>{{cm.nom_capitaine}}</td>
+                                        <td>{{cm.port}}</td>
+                                        <td>{{cm.num_maree}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_depart)}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_arrive)}}</td>
+                                        <td>{{cm.annee}}</td>
+                                        <td>{{vm.affichage_mois(cm.mois)}}</td>
+                                        <td>{{cm.code_espece}} / {{cm.nom_espece}}</td>
+                                        <td>{{cm.quantite}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES PECHE ARTISANALE-->
+                    </md-tab-body>
+                </md-tab>        
+            </md-tabs>
+        </div>
+    </div>
+</div>

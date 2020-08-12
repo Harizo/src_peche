@@ -1,0 +1,209 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+       
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">S.I.P</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Pêche thonière Malagasy</span>
+            </div>
+
+            <div class="title">Pêche thonière Malagasy</div>
+        </div>
+    </div>		
+    <div class="content" layout="column">
+        <div class="form-wrapper">
+            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+            <div style="clear:both;"></div>
+            <md-tabs md-dynamic-height>
+                <md-tab label="PECHE THONIERE MALAGASY">
+                    <md-tab-body>
+                        <div style="widht:100%;">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_peche_thoniere_malagasy()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_peche_thoniere_malagasy.id" aria-label="Modifier" ng-click="vm.modifier_peche_thoniere_alagasy()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_peche_thoniere_malagasy.id" aria-label="Supprimer" ng-click="vm.supprimer_peche_thoniere_alagasy()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                        </div>  
+
+                        <!--FORM LISTES PECHE THONIERE MALAGASY-->
+                            <div ng-show="vm.affichage_masque_peche_thoniere_malagasy">
+                      
+                                <form name="form_peche_thoniere_malagasy" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                            <label>Navire</label>
+                                            <md-select ng-model="vm.col_peche_thoniere_malagasy.id_navire" name="id_navire" ng-change="vm.modifierNavire(vm.col_peche_thoniere_malagasy)" required>
+                                                <md-option ng-repeat="navire in vm.all_navire" value="{{navire.id}}">
+                                                    {{navire.immatricule}} / {{navire.nom}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_peche_thoniere_malagasy.id_navire.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Navire Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="text" name="numfp" ng-model="vm.col_peche_thoniere_malagasy.numfp"
+                                            placeholder="N° FP " ng-init="vm.col_peche_thoniere_malagasy.numfp=''"
+                                            required>
+                                            <div ng-messages="form_peche_thoniere_malagasy.numfp.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>N° FP obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="text" name="nom_capitaine" ng-model="vm.col_peche_thoniere_malagasy.nom_capitaine"
+                                            placeholder="Nom Capitaine" ng-init="vm.col_peche_thoniere_malagasy.nom_capitaine=''"
+                                             required>
+                                            <div ng-messages="form_peche_thoniere_malagasy.nom_capitaine.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nom Capitaine obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="number" name="nbr_equipage" ng-model="vm.col_peche_thoniere_malagasy.nbr_equipage"
+                                            placeholder="Nombre équipage" ng-init="vm.col_peche_thoniere_malagasy.nbr_equipage=''" required>
+                                            <div ng-messages="form_peche_thoniere_malagasy.nbr_equipage.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nombre équipage obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date rapport:</label>
+                                        <md-datepicker  ng-model="vm.col_peche_thoniere_malagasy.date_rapport" md-placeholder="Date rapport" md-max-date="vm.date_now" required>                       
+                                        </md-datepicker>
+                                        </div>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="text" name="nom_declarant" ng-model="vm.col_peche_thoniere_malagasy.nom_declarant"
+                                            placeholder="Nom Déclarant" ng-init="vm.col_peche_thoniere_malagasy.nom_declarant=''" required>
+                                            <div ng-messages="form_peche_thoniere_malagasy.nom_declarant.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nom Déclarant obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date départ:</label>
+                                        <md-datepicker  ng-model="vm.col_peche_thoniere_malagasy.date_depart" md-placeholder="Date départ" md-max-date="vm.date_now" required>                       
+                                        </md-datepicker>
+                                        </div>
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date d'arrivée:</label>
+                                        <md-datepicker  ng-model="vm.col_peche_thoniere_malagasy.date_arrive" md-placeholder="Date d'arrivée" md-max-date="vm.date_now" required>                       
+                                        </md-datepicker>
+                                        </div>
+                                    </div>                                   
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="35">
+                                          <input type="text" name="port" ng-model="vm.col_peche_thoniere_malagasy.port"
+                                            placeholder="Port" ng-init="vm.col_peche_thoniere_malagasy.port=''" required>
+                                            <div ng-messages="form_peche_thoniere_malagasy.port.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Port obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="20">
+                                          <input type="number" name="nbr_jour_en_mer" ng-model="vm.col_peche_thoniere_malagasy.nbr_jour_en_mer"
+                                            placeholder="Nombre jour en mer" ng-init="vm.col_peche_thoniere_malagasy.nbr_jour_en_mer=''" required>
+                                            <div ng-messages="form_peche_thoniere_malagasy.nbr_jour_en_mer.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nombre jour en mer obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="20">
+                                          <input type="number" name="nbr_peche" ng-model="vm.col_peche_thoniere_malagasy.nbr_peche"
+                                            placeholder="Nombre peche" ng-init="vm.col_peche_thoniere_malagasy.nbr_peche=''" required>
+                                            <div ng-messages="form_peche_thoniere_malagasy.nbr_peche.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nombre peche obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input type="number" name="nbr_peche_zee_mdg" ng-model="vm.col_peche_thoniere_malagasy.nbr_peche_zee_mdg"
+                                            placeholder="Nombre peche zee mdg" ng-init="vm.col_peche_thoniere_malagasy.nbr_peche_zee_mdg=''" required>
+                                            <div ng-messages="form_peche_thoniere_malagasy.nbr_peche_zee_mdg.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nombre peche zee mdg obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                    </div>
+                                    <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_peche_thoniere_malagasy.$invalid || (!vm.col_peche_thoniere_malagasy.nbr_equipage&&!vm.col_peche_thoniere_malagasy.date_rapport&&!vm.col_peche_thoniere_malagasy.nom_declarant)" ng-click="vm.save_peche_thoniere_alagasy(vm.col_peche_thoniere_malagasy,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_peche_thoniere_alagasy()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        <!--FORM LISTES PECHE THONIERE MALAGASY-->
+                        <!--TABLE LISTES PECHE THONIERE MALAGASY-->
+                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table ng-show="vm.afficher_table">
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_peche_thoniere_malagasy">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_peche_thoniere_malagasy"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_peche_thoniere_malagasy(cm)">                                       
+                                        <td>{{cm.immatricule}} / {{cm.nom_navire}}</td>
+                                        <td>{{cm.numfp}}</td>
+                                        <td>{{cm.nom_capitaine}}</td>
+                                        <td>{{cm.nbr_equipage}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_rapport)}}</td>
+                                        <td>{{cm.nom_declarant}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_depart)}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_arrive)}}</td>
+                                        <td>{{cm.port}}</td>
+                                        <td>{{cm.nbr_jour_en_mer}}</td>
+                                        <td>{{cm.nbr_peche}}</td>
+                                        <td>{{cm.nbr_peche_zee_mdg}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES PECHE THONIERE MALAGASY-->
+                    </md-tab-body>
+                </md-tab>        
+            </md-tabs>
+        </div>
+    </div>
+</div>
