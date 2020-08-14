@@ -10,7 +10,7 @@
     function Peche_artisanaleController(apiFactory, $scope, $mdDialog)
     {
         var vm = this;
-
+		vm.all_espece =[];
         
 
 		vm.dtOptions =
@@ -21,7 +21,7 @@
 		};
 		vm.afficher_table =true; // Affichage détail table par ligne
 		//DEBUT Table paramètre
-			apiFactory.getAll("SIP_navire/index").then(function(result)
+			apiFactory.getAPIgeneraliser("SIP_navire/index","id_type_navire",4).then(function(result)
 			{
 				vm.all_navire = result.data.response;				
 			});
@@ -211,9 +211,13 @@
 				vm.afficher_table =false;
 				nouvel_col_mar = false ;
 				vm.affichage_masque_peche_artisanale = true ;
-
+				vm.all_espece =[];
+				apiFactory.getAPIgeneraliserREST("SIP_espece/index","id_navire",vm.selected_peche_artisanale.id_navire).then(function(result)
+				{
+					vm.all_espece = result.data.response;	
+				});						
 				vm.col_peche_artisanale.id_navire = vm.selected_peche_artisanale.id_navire ;
-				vm.col_peche_artisanale.nom = vm.selected_peche_artisanale.nom ;
+				vm.col_peche_artisanale.nom_navire = vm.selected_peche_artisanale.nom_navire ;
 				vm.col_peche_artisanale.immatricule = vm.selected_peche_artisanale.immatricule ;
 				vm.col_peche_artisanale.nom_capitaine = vm.selected_peche_artisanale.nom_capitaine ;
 				vm.col_peche_artisanale.port = vm.selected_peche_artisanale.port ;
@@ -272,7 +276,7 @@
 	                supprimer:etat_suppression,
 	                id_navire:data_masque.id_navire,
 	                immatricule:data_masque.immatricule,
-	                nom:data_masque.nom,
+	                nom_navire:data_masque.nom_navire,
 	                nom_capitaine:data_masque.nom_capitaine,
 	                port:data_masque.port,	                
 	                num_maree:data_masque.num_maree,
@@ -293,7 +297,7 @@
 
         					vm.selected_peche_artisanale.id_navire = data_masque.id_navire,
 			                vm.selected_peche_artisanale.immatricule = data_masque.immatricule,
-			                vm.selected_peche_artisanale.nom = data_masque.nom,
+			                vm.selected_peche_artisanale.nom_navire = data_masque.nom_navire,
 			                vm.selected_peche_artisanale.nom_capitaine = data_masque.nom_capitaine,
 			                vm.selected_peche_artisanale.port = data_masque.port,
 			                vm.selected_peche_artisanale.num_maree = data_masque.num_maree,
@@ -322,7 +326,7 @@
 							id:String(data.response) ,
 							id_navire:data_masque.id_navire,
 							immatricule:data_masque.immatricule,
-							nom:data_masque.nom,
+							nom_navire:data_masque.nom_navire,
 							nom_capitaine:data_masque.nom_capitaine,
 							port:data_masque.port,                   
 							num_maree:data_masque.num_maree,
@@ -349,8 +353,13 @@
 					if(parseInt(navi.id)==parseInt(item.id_navire)) {
 						vm.nontrouvee=false;
 						vm.col_peche_artisanale.id_navire=navi.id;
-						vm.col_peche_artisanale.nom=navi.nom;
+						vm.col_peche_artisanale.nom_navire=navi.nom;
 						vm.col_peche_artisanale.immatricule=navi.immatricule;
+						vm.all_espece =[];
+						apiFactory.getAPIgeneraliserREST("SIP_espece/index","id_navire",vm.col_peche_artisanale.id_navire).then(function(result)
+						{
+							vm.all_espece = result.data.response;	
+						});						
 					}
 				});
 				if(vm.nontrouvee==true) {				

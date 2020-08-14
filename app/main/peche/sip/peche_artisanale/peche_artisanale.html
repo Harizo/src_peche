@@ -43,7 +43,7 @@
                                             <label>Navire</label>
                                             <md-select ng-model="vm.col_peche_artisanale.id_navire" name="id_navire" ng-change="vm.modifierNavire(vm.col_peche_artisanale)" required>
                                                 <md-option ng-repeat="navire in vm.all_navire" value="{{navire.id}}">
-                                                    {{navire.immatricule}} / {{navire.nom}}
+                                                    {{navire.immatricule}} / {{navire.nom_navire}}
                                                 </md-option>
                                                 
                                             </md-select>

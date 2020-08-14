@@ -11,7 +11,7 @@
     {
         var vm = this;
 
-        
+        vm.all_espece =[];
 
 		vm.dtOptions =
 		{
@@ -21,14 +21,9 @@
 		};
 		vm.afficher_table =true; // Affichage détail table par ligne
 		//DEBUT Table paramètre
-			apiFactory.getAll("SIP_navire/index").then(function(result)
+			apiFactory.getAPIgeneraliser("SIP_navire/index","id_type_navire",3).then(function(result)
 			{
 				vm.all_navire = result.data.response;				
-			});
-			apiFactory.getAPIgeneraliserREST("SIP_espece/index","id_type_espece",6).then(function(result)
-			{
-				vm.all_espece = result.data.response;	
-					console.log(vm.all_espece);
 			});
 		//FIN Table paramètre
 
@@ -212,9 +207,13 @@
 				vm.afficher_table =false;
 				nouvel_col_mar = false ;
 				vm.affichage_masque_poisson_demersaux = true ;
-
+				vm.all_espece =[];
+				apiFactory.getAPIgeneraliserREST("SIP_espece/index","id_navire",vm.selected_poisson_demersaux.id_navire).then(function(result)
+				{
+					vm.all_espece = result.data.response;	
+				});						
 				vm.col_poisson_demersaux.id_navire = vm.selected_poisson_demersaux.id_navire ;
-				vm.col_poisson_demersaux.nom = vm.selected_poisson_demersaux.nom ;
+				vm.col_poisson_demersaux.nom_navire = vm.selected_poisson_demersaux.nom_navire ;
 				vm.col_poisson_demersaux.immatricule = vm.selected_poisson_demersaux.immatricule ;
 				vm.col_poisson_demersaux.nom_capitaine = vm.selected_poisson_demersaux.nom_capitaine ;
 				vm.col_poisson_demersaux.port = vm.selected_poisson_demersaux.port ;
@@ -274,7 +273,7 @@
 	                supprimer:etat_suppression,
 	                id_navire:data_masque.id_navire,
 	                immatricule:data_masque.immatricule,
-	                nom:data_masque.nom,
+	                nom_navire:data_masque.nom_navire,
 	                nom_capitaine:data_masque.nom_capitaine,
 	                port:data_masque.port,	                
 	                num_maree:data_masque.num_maree,
@@ -296,7 +295,7 @@
 
         					vm.selected_poisson_demersaux.id_navire = data_masque.id_navire,
 			                vm.selected_poisson_demersaux.immatricule = data_masque.immatricule,
-			                vm.selected_poisson_demersaux.nom = data_masque.nom,
+			                vm.selected_poisson_demersaux.nom_navire = data_masque.nom_navire,
 			                vm.selected_poisson_demersaux.nom_capitaine = data_masque.nom_capitaine,
 			                vm.selected_poisson_demersaux.port = data_masque.port,
 			                vm.selected_poisson_demersaux.num_maree = data_masque.num_maree,
@@ -326,7 +325,7 @@
 							id:String(data.response) ,
 							id_navire:data_masque.id_navire,
 							immatricule:data_masque.immatricule,
-							nom:data_masque.nom,
+							nom_navire:data_masque.nom_navire,
 							nom_capitaine:data_masque.nom_capitaine,
 							port:data_masque.port,                   
 							num_maree:data_masque.num_maree,
@@ -355,13 +354,21 @@
 						vm.nontrouvee=false;
 						vm.col_poisson_demersaux.id_navire=navi.id;
 						vm.col_poisson_demersaux.nom=navi.nom;
+						vm.col_poisson_demersaux.nom_navire=navi.nom;
 						vm.col_poisson_demersaux.immatricule=navi.immatricule;
+						vm.all_espece =[];
+						apiFactory.getAPIgeneraliserREST("SIP_espece/index","id_navire",vm.col_poisson_demersaux.id_navire).then(function(result)
+						{
+							vm.all_espece = result.data.response;	
+								console.log(vm.all_espece);
+						});						
 					}
 				});
 				if(vm.nontrouvee==true) {				
 						vm.col_poisson_demersaux.id_navire = null; 
 						vm.col_poisson_demersaux.nom = null; 
 						vm.col_poisson_demersaux.immatricule = null; 
+						
 				}
 			}	
 			vm.modifierEspece = function (item) { 

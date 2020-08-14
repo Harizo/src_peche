@@ -21,7 +21,7 @@
 		};
 		vm.afficher_table =true; // Affichage détail table par ligne
 		//DEBUT Table paramètre
-			apiFactory.getAll("SIP_navire/index").then(function(result)
+			apiFactory.getAPIgeneraliser("SIP_navire/index","id_type_navire",1).then(function(result)
 			{
 				vm.all_navire = result.data.response;				
 			});

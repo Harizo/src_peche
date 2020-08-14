@@ -212,7 +212,7 @@
 				vm.col_navire.pavillon = vm.selected_navire.pavillon ;
 				vm.col_navire.armateur = vm.selected_navire.armateur ;
 				vm.col_navire.adresse = vm.selected_navire.adresse ;
-				vm.col_navire.tonnage_brute = vm.selected_navire.tonnage_brute ;
+				vm.col_navire.tonnage_brute = parseFloat(vm.selected_navire.tonnage_brute) ;
 				vm.col_navire.lht = parseFloat(vm.selected_navire.lht) ;
 				vm.col_navire.capacite_cale = parseInt(vm.selected_navire.capacite_cale) ;
 				vm.col_navire.indication_ratio = vm.selected_navire.indication_ratio ;
