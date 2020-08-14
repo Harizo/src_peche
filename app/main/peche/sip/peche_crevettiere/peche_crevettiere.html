@@ -619,205 +619,386 @@
                             </form>
                         </div> 
                     <!--FORM  fiche_peche-->
-                    <!--TABLE LISTES BATEAU-->
-                    <div class="price-table style-1 md-whiteframe-1dp" layout="column">
-                        <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
-                                    <div layout="row" layout-align="start center">
-                                   
+                    <!--TABLE FICHE DE PECHE-->
+                        <div class="price-table style-1 md-whiteframe-1dp" layout="column">
+                            <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                        <div layout="row" layout-align="start center">
+                                       
+                                            
+                                          <span class="md-headline">Liste fiche de pêche</span>
                                         
-                                      <span class="md-headline">Fiche de pêche</span>
-                                    
-                                                  
-                                    </div>
-                                </header>
-                        <table ng-table="tablebateau" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-                            <thead>
-                                <tr>
-                                    <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_fiche_peche">
-                                        <div class="table-header">
-                                            <span class="column-title text-center">{{c.titre}}</span>
+                                                      
                                         </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="cm in vm.all_fiche_peche"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_fiche_peche(cm)">                                       
-                                    <td>{{cm.numfp}}</td>
-                                    <td>{{cm.nom_capitaine}}</td>
-                                    <td>{{vm.convert_to_date_html(cm.date_depart)}}</td>
-                                    <td>{{vm.convert_to_date_html(cm.date_retour)}}</td>
-                                  
-                                   
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                        
-                        <!--SEQUENCE TRANSBORDEMENT-->
+                                    </header>
+                            <table ng-table="tablebateau" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_fiche_peche">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_fiche_peche"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_fiche_peche(cm)">                                       
+                                        <td>{{cm.numfp}}</td>
+                                        <td>{{cm.nom_capitaine}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_depart)}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_retour)}}</td>
+                                      
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    <!--TABLE FICHE DE PECHE-->    
+                    <!--SEQUENCE PECHE-->
+                        <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-show="vm.selected_fiche_peche.id">
+                            <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                <div layout="row" layout-align="start center">
+                                <div class="border-right">
+                                    
+                                  <span class="md-headline">Liste séquence de peche | Fiche n° {{vm.selected_fiche_peche.numfp}}</span>
+                                </div>
+                                  <div class="border-right" ng-if="!vm.selected_sequence_peche.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.ajouter_sequence_peche()">
+                                      <md-icon md-font-icon="icon-plus-box"></md-icon>
+                                      <md-tooltip><span>Ajouter</span></md-tooltip>
+                                    </md-button>
+                                  </div> 
+                                  <!--div class="border-right" ng-if="vm.selected_sequence_peche.id&&!vm.selected_sequence_peche.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.modifier_sequence_peche()">
+                                      <md-icon md-font-icon="icon-table-edit"></md-icon>
+                                      <md-tooltip><span>Modifier</span></md-tooltip>
+                                    </md-button>
+                                  </div!-->    
+                                  <div class="border-right" ng-if="vm.selected_sequence_peche.id&&!vm.selected_sequence_peche.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.supprimer_sequence_peche()">
+                                      <md-icon md-font-icon="icon-delete"></md-icon>
+                                      <md-tooltip><span>Supprimer</span></md-tooltip>
+                                    </md-button>
+                                  </div>  
 
+                                  <div class="border-right" ng-if="vm.selected_sequence_peche.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.annuler_sequence_peche()">
+                                      <md-icon md-font-icon="icon-cancel"></md-icon>
+                                      <md-tooltip><span>Annuler</span></md-tooltip>
+                                    </md-button>
+                                  </div>   
 
-                            <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-show="vm.selected_fiche_peche.id">
-                                <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
-                                    <div layout="row" layout-align="start center">
-                                    <div class="border-right">
-                                        
-                                      <span class="md-headline">Séquence transbordement | Fiche n° {{vm.selected_fiche_peche.numfp}}</span>
-                                    </div>
-                                      <div class="border-right" ng-if="!vm.selected_sequence_transbordement.id">
-                                        <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.ajouter_sequence_transbordement()">
-                                          <md-icon md-font-icon="icon-plus-box"></md-icon>
-                                          <md-tooltip><span>Ajouter</span></md-tooltip>
-                                        </md-button>
-                                      </div> 
-                                      <div class="border-right" ng-if="vm.selected_sequence_transbordement.id&&!vm.selected_sequence_transbordement.$edit">
-                                        <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.modifier_sequence_transbordement()">
-                                          <md-icon md-font-icon="icon-table-edit"></md-icon>
-                                          <md-tooltip><span>Modifier</span></md-tooltip>
-                                        </md-button>
-                                      </div>    
-                                      <div class="border-right" ng-if="vm.selected_sequence_transbordement.id&&!vm.selected_sequence_transbordement.$edit">
-                                        <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.supprimer_sequence_transbordement()">
-                                          <md-icon md-font-icon="icon-delete"></md-icon>
-                                          <md-tooltip><span>Supprimer</span></md-tooltip>
-                                        </md-button>
-                                      </div>  
-
-                                      <div class="border-right" ng-if="vm.selected_sequence_transbordement.id">
-                                        <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.annuler_sequence_transbordement()">
-                                          <md-icon md-font-icon="icon-cancel"></md-icon>
-                                          <md-tooltip><span>Annuler</span></md-tooltip>
-                                        </md-button>
-                                      </div>   
-
-                                      <div ng-if="vm.selected_sequence_transbordement.$edit">
-                                        <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.enregistrer_sequence_transbordement(0)">
-                                          <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
-                                          <md-tooltip><span>Enregistrer</span></md-tooltip>
-                                        </md-button>
-                                      </div>                
-                                    </div>
-                                </header>
-                                
+                                  <div ng-if="vm.selected_sequence_peche.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.enregistrer_sequence_peche(0)">
+                                      <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
+                                      <md-tooltip><span>Enregistrer</span></md-tooltip>
+                                    </md-button>
+                                  </div>                
+                                </div>
+                            </header>
                             
-                                <table ng-table="tablepermis" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-                                    <thead>
-                                        <tr>
-                                            <th class="secondary-text" ng-repeat="c in ::vm.entete_sequence_transbordement">
-                                                <div class="table-header">
-                                                    <span class="column-title text-center">{{c.titre}}</span>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="cm in vm.all_sequence_transbordement"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_sequence_transbordement(cm)">                                       
-                                            <td>
-                                                
-                                                <span ng-if="cm.$edit">
-                                                    
-
-                                                    <!--div style="margin-top: 14px !important; font-size: 13px !important;"!-->
+                        
+                            <table ng-table="tablepermis" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_sequence_peche">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_sequence_peche"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_sequence_peche(cm)">                                       
                                         
-                                                        <md-datepicker  ng-model="cm.date" md-placeholder="Date" md-max-date="vm.date_now" required>                       
-                                                        </md-datepicker>
-                                                    <!--/div!-->  
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>N° Séquence de pêche</label>
+                                                  <input name="numseqpeche" ng-pattern="/^\d+$/" ng-model="cm.numseqpeche"/ readonly="true">
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.numseqpeche}}
+                                            </span>
+                                        </td>
+                               
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    <!--FIN SEQUENCE PECHE-->
+                    <!--SEQUENCE TRANSBORDEMENT-->
+
+
+                        <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-show="vm.selected_sequence_peche.id">
+                            <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                <div layout="row" layout-align="start center">
+                                <div class="border-right">
+                                    
+                                  <span class="md-headline">Liste séquence transbordement | Séquence de pêche n° {{vm.selected_sequence_peche.numseqpeche}}</span>
+                                </div>
+                                  <div class="border-right" ng-if="!vm.selected_sequence_transbordement.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.ajouter_sequence_transbordement()">
+                                      <md-icon md-font-icon="icon-plus-box"></md-icon>
+                                      <md-tooltip><span>Ajouter</span></md-tooltip>
+                                    </md-button>
+                                  </div> 
+                                  <div class="border-right" ng-if="vm.selected_sequence_transbordement.id&&!vm.selected_sequence_transbordement.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.modifier_sequence_transbordement()">
+                                      <md-icon md-font-icon="icon-table-edit"></md-icon>
+                                      <md-tooltip><span>Modifier</span></md-tooltip>
+                                    </md-button>
+                                  </div>    
+                                  <div class="border-right" ng-if="vm.selected_sequence_transbordement.id&&!vm.selected_sequence_transbordement.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.supprimer_sequence_transbordement()">
+                                      <md-icon md-font-icon="icon-delete"></md-icon>
+                                      <md-tooltip><span>Supprimer</span></md-tooltip>
+                                    </md-button>
+                                  </div>  
+
+                                  <div class="border-right" ng-if="vm.selected_sequence_transbordement.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.annuler_sequence_transbordement()">
+                                      <md-icon md-font-icon="icon-cancel"></md-icon>
+                                      <md-tooltip><span>Annuler</span></md-tooltip>
+                                    </md-button>
+                                  </div>   
+
+                                  <div ng-if="vm.selected_sequence_transbordement.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.enregistrer_sequence_transbordement(0)">
+                                      <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
+                                      <md-tooltip><span>Enregistrer</span></md-tooltip>
+                                    </md-button>
+                                  </div>                
+                                </div>
+                            </header>
+                            
+                        
+                            <table ng-table="tablepermis" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_sequence_transbordement">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_sequence_transbordement"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_sequence_transbordement(cm)">                                       
+                                        <td>
+                                            
+                                            <span ng-if="cm.$edit">
+                                                
+
+                                                <!--div style="margin-top: 14px !important; font-size: 13px !important;"!-->
+                                    
+                                                    <md-datepicker  ng-model="cm.date" md-placeholder="Date" md-max-date="vm.date_now" required>                       
+                                                    </md-datepicker>
+                                                <!--/div!-->  
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{vm.convert_to_date_html(cm.date)}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>HeureP</label>
+                                                  <input name="heurep" ng-pattern="/^\d+$/" ng-model="cm.heurep"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.heurep}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>MinuteP</label>
+                                                  <input name="minutep" ng-pattern="/^\d+$/" ng-model="cm.minutep"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.minutep}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>HeureT</label>
+                                                  <input name="heuret" ng-pattern="/^\d+$/" ng-model="cm.heuret"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.heuret}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>MinuteT</label>
+                                                  <input name="minutet" ng-pattern="/^\d+$/" ng-model="cm.minutet"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.minutet}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Post latitude</label>
+                                                  <input type="text" name="postlatitude"  ng-model="cm.postlatitude"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.postlatitude}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Post longitude</label>
+                                                  <input type="text" name="postlongitude"  ng-model="cm.postlongitude"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.postlongitude}}
+                                            </span>
+                                        </td>
+
+
+                                      
+                               
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    <!--FIN SEQUENCE TRANSBORDEMENT-->
+
+                    <!--SEQUENCE capture-->
+
+
+                        <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-show="vm.selected_sequence_peche.id">
+                            <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                <div layout="row" layout-align="start center">
+                                <div class="border-right">
+                                    
+                                  <span class="md-headline">Liste séquence capture | Séquence de pêche n° {{vm.selected_sequence_peche.numseqpeche}}</span>
+                                </div>
+                                  <div class="border-right" ng-if="!vm.selected_sequence_capture.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.ajouter_sequence_capture()">
+                                      <md-icon md-font-icon="icon-plus-box"></md-icon>
+                                      <md-tooltip><span>Ajouter</span></md-tooltip>
+                                    </md-button>
+                                  </div> 
+                                  <div class="border-right" ng-if="vm.selected_sequence_capture.id&&!vm.selected_sequence_capture.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.modifier_sequence_capture()">
+                                      <md-icon md-font-icon="icon-table-edit"></md-icon>
+                                      <md-tooltip><span>Modifier</span></md-tooltip>
+                                    </md-button>
+                                  </div>    
+                                  <div class="border-right" ng-if="vm.selected_sequence_capture.id&&!vm.selected_sequence_capture.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.supprimer_sequence_capture()">
+                                      <md-icon md-font-icon="icon-delete"></md-icon>
+                                      <md-tooltip><span>Supprimer</span></md-tooltip>
+                                    </md-button>
+                                  </div>  
+
+                                  <div class="border-right" ng-if="vm.selected_sequence_capture.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.annuler_sequence_capture()">
+                                      <md-icon md-font-icon="icon-cancel"></md-icon>
+                                      <md-tooltip><span>Annuler</span></md-tooltip>
+                                    </md-button>
+                                  </div>   
+
+                                  <div ng-if="vm.selected_sequence_capture.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.enregistrer_sequence_capture(0)">
+                                      <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
+                                      <md-tooltip><span>Enregistrer</span></md-tooltip>
+                                    </md-button>
+                                  </div>                
+                                </div>
+                            </header>
+                            
+                        
+                            <table ng-table="tablepermis" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_sequence_capture">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_sequence_capture"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_sequence_capture(cm)">                                       
+                                        
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container flex="100" flex-gt-xs="35">
+                                                    <label>Espèce</label>
+                                                    <md-select ng-model="cm.id_espece" name="id_espece" required>
+                                                        <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}">
+                                                            {{espece.nom}}
+                                                        </md-option>
+                                                        
+                                                    </md-select>
                                                     
-                                                </span>
-                                                <span ng-if="!cm.$edit">
-                                                    {{vm.convert_to_date_html(cm.date)}}
-                                                </span>
-                                            </td>
-                                            <td>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{vm.affichage_espece(cm.id_espece)}}
+                                            </span>
+                                        </td>
+                                        <td>
 
-                                                <span ng-if="cm.$edit">
-                                                    <md-input-container style="width:100%;display: flex !important;">
-                                                      <label>HeureP</label>
-                                                      <input name="heurep" ng-pattern="/^\d+$/" ng-model="cm.heurep"/>
-                                                    </md-input-container>   
-                                                    
-                                                </span>
-                                                <span ng-if="!cm.$edit">
-                                                    {{cm.heurep}}
-                                                </span>
-                                            </td>
-                                            <td>
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Quantité</label>
+                                                  <input name="quantite" type="number" ng-model="cm.quantite"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{vm.replace_point(cm.quantite)}}
+                                            </span>
+                                        </td>
 
-                                                <span ng-if="cm.$edit">
-                                                    <md-input-container style="width:100%;display: flex !important;">
-                                                      <label>MinuteP</label>
-                                                      <input name="minutep" ng-pattern="/^\d+$/" ng-model="cm.minutep"/>
-                                                    </md-input-container>   
-                                                    
-                                                </span>
-                                                <span ng-if="!cm.$edit">
-                                                    {{cm.minutep}}
-                                                </span>
-                                            </td>
-
-                                            <td>
-
-                                                <span ng-if="cm.$edit">
-                                                    <md-input-container style="width:100%;display: flex !important;">
-                                                      <label>HeureT</label>
-                                                      <input name="heuret" ng-pattern="/^\d+$/" ng-model="cm.heuret"/>
-                                                    </md-input-container>   
-                                                    
-                                                </span>
-                                                <span ng-if="!cm.$edit">
-                                                    {{cm.heuret}}
-                                                </span>
-                                            </td>
-                                            <td>
-
-                                                <span ng-if="cm.$edit">
-                                                    <md-input-container style="width:100%;display: flex !important;">
-                                                      <label>MinuteT</label>
-                                                      <input name="minutet" ng-pattern="/^\d+$/" ng-model="cm.minutet"/>
-                                                    </md-input-container>   
-                                                    
-                                                </span>
-                                                <span ng-if="!cm.$edit">
-                                                    {{cm.minutet}}
-                                                </span>
-                                            </td>
-                                            <td>
-
-                                                <span ng-if="cm.$edit">
-                                                    <md-input-container style="width:100%;display: flex !important;">
-                                                      <label>Post latitude</label>
-                                                      <input type="text" name="postlatitude"  ng-model="cm.postlatitude"/>
-                                                    </md-input-container>   
-                                                    
-                                                </span>
-                                                <span ng-if="!cm.$edit">
-                                                    {{cm.postlatitude}}
-                                                </span>
-                                            </td>
-
-                                            <td>
-
-                                                <span ng-if="cm.$edit">
-                                                    <md-input-container style="width:100%;display: flex !important;">
-                                                      <label>Post longitude</label>
-                                                      <input type="text" name="postlongitude"  ng-model="cm.postlongitude"/>
-                                                    </md-input-container>   
-                                                    
-                                                </span>
-                                                <span ng-if="!cm.$edit">
-                                                    {{cm.postlongitude}}
-                                                </span>
-                                            </td>
+                                        
 
 
-                                          
-                                   
-                                           
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <!--FIN SEQUENCE TRANSBORDEMENT-->
-                    <!--TABLE LISTES BATEAU-->
+                                      
+                               
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    <!--FIN SEQUENCE capture-->
+                    
                 </md-tab>
                 <md-tab label="Commercialisation | Société: {{vm.selected_societe_crevette.nom}}" ng-disabled="!vm.selected_societe_crevette.id" ng-click="vm.get_commerce()">
                     <div style="widht:100%;">    

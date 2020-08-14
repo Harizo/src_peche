@@ -133,8 +133,6 @@
 			apiFactory.getParamsDynamic("SIP_espece/index?id_type_espece=2").then(function(result)
 			{
 				vm.all_espece = result.data.response;
-				console.log(vm.all_espece);
-				
 			});
 
 			apiFactory.getAll("SIP_presentation/index").then(function(result)
@@ -360,7 +358,6 @@
 			vm.selection_commerce = function(item)
 			{
 				vm.selected_commerce = item ;
-				console.log(item);
 			}
 
 			$scope.$watch('vm.selected_commerce', function()
@@ -625,7 +622,7 @@
 			vm.selection_exportation = function(item)
 			{
 				vm.selected_exportation = item ;
-				console.log(item);
+			
 			}
 
 			$scope.$watch('vm.selected_exportation', function()
@@ -1237,16 +1234,7 @@
 	        ] ;
 
 
-	        vm.entete_sequence_transbordement = 
-	        [
-				{titre:"Date"},
-				{titre:"HeureP"},
-				{titre:"MinuteP"},
-				{titre:"HeureT"},
-				{titre:"MinuteT"},
-				{titre:"Post latitude"},
-				{titre:"Post longitude"}
-	        ] ;
+	        
 
 
 	        vm.get_fiche_peche = function()
@@ -1303,7 +1291,7 @@
 			vm.selection_fiche_peche = function(item)
 			{
 				vm.selected_fiche_peche = item ;
-				vm.get_sequence_transbordement(item);
+				vm.get_sequence_peche(item);
 
 				
 			}
@@ -1319,198 +1307,635 @@
 
 			});
 
-			//init transbordement
-    		vm.selected_sequence_transbordement = {} ;
-    		var current_selected_sequence_transbordement = {} ;
-    		var nouvelle_sequence_transbordement = false ;
+			//sequence peche
+				vm.entete_sequence_peche = 
+		        [
+					{titre:"N° Séquence de pêche"}
+		        ] ;
+				vm.selected_sequence_peche = {} ;
+				var current_selected_sequence_peche = {} ;
+				var nouvelle_sequence_peche = false ;
 
-    		vm.get_sequence_transbordement = function(item)
-			{
-				vm.affiche_load = true ;
-				apiFactory.getParamsDynamic("SIP_sequence_transbordement?id_fiche_peche_crevette="+item.id).then(function(result)
-				{
-					vm.affiche_load = false ;
-					vm.all_sequence_transbordement = result.data.response;
+				vm.get_sequence_peche = function(item)
+		        {
+		          vm.affiche_load = true ;
+		          apiFactory.getParamsDynamic("SIP_sequence_peche?id_fiche_peche_crevette="+item.id).then(function(result)
+		          {
+		            vm.affiche_load = false ;
+		            vm.all_sequence_peche = result.data.response;
 
-					console.log(vm.all_sequence_transbordement);
-				});
-			}
+		          });
+		        }
 
-			vm.selection_sequence_transbordement = function(item)
-			{
-				vm.selected_sequence_transbordement = item ;
-				console.log(item);
+		        vm.selection_sequence_peche = function(item)
+		        {
+		          vm.selected_sequence_peche = item ;
 
-				if (!vm.selected_sequence_transbordement.$edit) //si simple selection
-				{
-					nouvelle_sequence_transbordement = false ;	
-				}
+		          vm.get_sequence_transbordement(item);
+		          vm.get_sequence_capture(item);
 
-				
+		          if (!vm.selected_sequence_peche.$edit) //si simple selection
+		          {
+		            nouvelle_sequence_peche = false ;  
+		          }
 
-				current_selected_sequence_transbordement = angular.copy(vm.selected_sequence_transbordement);
+		        }
 
+		        $scope.$watch('vm.selected_sequence_peche', function()
+		        {
+		          if (!vm.all_sequence_peche) return;
+		          vm.all_sequence_peche.forEach(function(item)
+		          {
+		            item.$selected = false;
+		          });
+		          vm.selected_sequence_peche.$selected = true;
 
-			}
+		        });
 
-			$scope.$watch('vm.selected_sequence_transbordement', function()
-			{
-				if (!vm.all_sequence_transbordement) return;
-				vm.all_sequence_transbordement.forEach(function(item)
-				{
-					item.$selected = false;
-				});
-				vm.selected_sequence_transbordement.$selected = true;
-
-			});
-
-			vm.ajouter_sequence_transbordement = function()
-			{
-				nouvelle_sequence_transbordement = true ;
-				var item = 
+		        vm.generer_numero_sequence_peche = function()
+				{	
+					vm.xxx = 0 ;
+					var now_year = new Date(vm.selected_fiche_peche.date_depart).getFullYear();
+					
+					apiFactory.getParamsDynamic("SIP_sequence_peche?annee="+now_year+"&get_nbr_sequence_peche=1").then(function(result)
 					{
 						
-						$edit: true,
-						$selected: true,
-	              		id:'0',
-	              		date:new Date(),
-	              		heurep:'0',
-	              		minutep:'0',
-	              		heuret:'0',
-	              		minutet:'0',
-	              		postlatitude:'',
-	              		postlongitude:''
-					} ;
+						var nbr = result.data.response[0].nbr_sequence_peche;
 
-				vm.all_sequence_transbordement.unshift(item);
-	            vm.all_sequence_transbordement.forEach(function(af)
-	            {
-	              if(af.$selected == true)
-	              {
-	                vm.selected_sequence_transbordement = af;
-	                
-	              }
-            	});
-			}
+						var numero = Number(nbr) + 1;
+						
 
-			vm.modifier_sequence_transbordement = function()
-			{
-				nouvelle_sequence_transbordement = false ;
-				vm.selected_sequence_transbordement.$edit = true;
-				vm.selected_sequence_transbordement.date = new Date(vm.selected_sequence_transbordement.date);
-			}
-
-			vm.supprimer_sequence_transbordement = function()
-			{
-
-				
-				var confirm = $mdDialog.confirm()
-				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
-				  .textContent('Cliquer sur OK pour confirmer')
-				  .ariaLabel('Lucky day')
-				  .clickOutsideToClose(true)
-				  .parent(angular.element(document.body))
-				  .ok('OK')
-				  .cancel('Annuler');
-				$mdDialog.show(confirm).then(function() {
-
-				vm.enregistrer_sequence_transbordement(1);
-				}, function() {
-				//alert('rien');
-				});
-			}
-
-			vm.annuler_sequence_transbordement = function()
-			{
-				if (nouvelle_sequence_transbordement) 
-				{
-					
-					vm.all_sequence_transbordement.shift();
-					vm.selected_sequence_transbordement = {} ;
-					nouvelle_sequence_transbordement = false ;
-				}
-				else
-				{
-					vm.selected_sequence_transbordement.$edit = false;
-					vm.selected_sequence_transbordement = {} ;
-				}
-			}
-
-			vm.enregistrer_sequence_transbordement = function(etat_suppression)
-			{
-				var config = {
-	                headers : {
-	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-	                }
-	            };
+						if (numero >= 1000) 
+						{
+							vm.xxx = now_year+""+numero;
+						
+						}
+						if ((numero >= 100) && (numero <=999)) 
+						{
+							vm.xxx = now_year+"0"+numero;
+						
+						}
+						if ((numero >= 10) && (numero <=99)) 
+						{
+							vm.xxx = now_year+"00"+numero;
+						
+						}
 
 
-	            var datas = $.param(
-	            {
-	            	
-	                supprimer:etat_suppression,
-	                id_fiche_peche_crevette:vm.selected_fiche_peche.id,
-	                id:vm.selected_sequence_transbordement.id,
+						if ((numero >= 0) && (numero <=9)) 
+						{
+							vm.xxx = now_year+"000"+numero;
+						
+						}
 
-	                date:convert_to_date_sql(vm.selected_sequence_transbordement.date),
-	                heurep:vm.selected_sequence_transbordement.heurep,
-	                minutep:vm.selected_sequence_transbordement.minutep,
+						var item = 
+			            {
+			              
+							$edit: true,
+							$selected: true,
+							id:'0',
+							numseqpeche:vm.xxx
+			            } ;
 
-	                heuret:vm.selected_sequence_transbordement.heuret,
-	                minutet:vm.selected_sequence_transbordement.minutet,
-
-	                postlatitude:vm.selected_sequence_transbordement.postlatitude,
-	                postlongitude:vm.selected_sequence_transbordement.postlongitude
-	                
-	                
-	            });
-
-	            apiFactory.add("SIP_sequence_transbordement/index",datas, config).success(function (data)
-        		{
-        			if (!nouvelle_sequence_transbordement) 
-        			{
-        				if (etat_suppression == 0) 
-        				{
-        					vm.selected_sequence_transbordement.$edit = false ;
-        					vm.selected_sequence_transbordement.$selected = false ;
-        					vm.selected_sequence_transbordement = {} ;
-        				}
-        				else
-        				{
-        					vm.all_sequence_transbordement = vm.all_sequence_transbordement.filter(function(obj)
+		          		vm.all_sequence_peche.unshift(item);
+		                vm.all_sequence_peche.forEach(function(af)
+		                {
+							if(af.$selected == true)
 							{
-								return obj.id !== vm.selected_sequence_transbordement.id;
-							});
+								vm.selected_sequence_peche = af;
 
-							vm.selected_sequence_transbordement = {} ;
-        				}
+							}
+		                });
+					});
 
-        			}
-        			else
-        			{
-        				vm.selected_sequence_transbordement.$edit = false ;
-        				vm.selected_sequence_transbordement.$selected = false ;
-        				//vm.selected_arrivee_fiche.$selected = false ;
-        				vm.selected_sequence_transbordement.id = String(data.response) ;
-        				vm.selected_sequence_transbordement.id_fiche_peche_crevette = vm.selected_fiche_peche.id ;
-        				/*vm.selected_sequence_transbordement.heurep = vm.sequence_transbordement.heurep ;
-        				vm.selected_sequence_transbordement.minutep = vm.sequence_transbordement.minutep ;
-        				vm.selected_sequence_transbordement.heuret = vm.sequence_transbordement.heuret ;
-        				vm.selected_sequence_transbordement.minutet = vm.sequence_transbordement.minutet ;
-        				vm.selected_sequence_transbordement.postlatitude = vm.sequence_transbordement.postlatitude ;
-        				vm.selected_sequence_transbordement.postlongitude = vm.sequence_transbordement.postlongitude ;*/
+				}
 
-        				nouvelle_sequence_transbordement = false ;
-        				vm.selected_sequence_transbordement = {};
+				vm.affichage_espece = function(id_espece) 
+				{
+					var esp = vm.all_espece.filter(function(obj)
+                    {
+                      return obj.id == id_espece;
+                    });
 
-        			}
-        		})
-        		.error(function (data) {alert("Une erreur s'est produit");});
-			}
+                    return esp[0].nom ;
+
+				}
+
+		        vm.ajouter_sequence_peche = function()
+		        {
+		        	vm.generer_numero_sequence_peche();
+		          	nouvelle_sequence_peche = true ;
+		          
+		        }
+
+		        vm.modifier_sequence_peche = function()
+		        {
+		          nouvelle_sequence_peche = false ;
+		          vm.selected_sequence_peche.$edit = true;
+		          vm.selected_sequence_peche.date = new Date(vm.selected_sequence_peche.date);
+		          current_selected_sequence_peche = angular.copy(vm.selected_sequence_peche);
+		        }
+
+		        vm.supprimer_sequence_peche = function()
+		        {
+
+		          
+		          var confirm = $mdDialog.confirm()
+		            .title('Etes-vous sûr de supprimer cet enregistrement ?')
+		            .textContent('Cliquer sur OK pour confirmer')
+		            .ariaLabel('Lucky day')
+		            .clickOutsideToClose(true)
+		            .parent(angular.element(document.body))
+		            .ok('OK')
+		            .cancel('Annuler');
+		          $mdDialog.show(confirm).then(function() {
+
+		          vm.enregistrer_sequence_peche(1);
+		          }, function() {
+		          //alert('rien');
+		          });
+		        }
+
+		        vm.annuler_sequence_peche = function()
+		        {
+		          if (nouvelle_sequence_peche) 
+		          {
+		            
+		            vm.all_sequence_peche.shift();
+		            vm.selected_sequence_peche = {} ;
+		            nouvelle_sequence_peche = false ;
+		          }
+		          else
+		          {
+		            vm.selected_sequence_peche.$selected = false;
+		            vm.selected_sequence_peche.$edit = false;
+		            vm.selected_sequence_peche.numseqpeche = current_selected_sequence_peche.numseqpeche ;
+		            vm.selected_sequence_peche = {};
+
+
+
+		          }
+		        }
+
+		        vm.enregistrer_sequence_peche = function(etat_suppression)
+		        {
+		          var config = {
+		                    headers : {
+		                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+		                    }
+		                };
+
+
+		                var datas = $.param(
+		                {
+		                  
+		                    supprimer:etat_suppression,
+		                    id_fiche_peche_crevette:vm.selected_fiche_peche.id,
+		                    id:vm.selected_sequence_peche.id,
+
+		                    numseqpeche:vm.selected_sequence_peche.numseqpeche
+		                    
+		                    
+		                });
+
+		                apiFactory.add("SIP_sequence_peche/index",datas, config).success(function (data)
+		              {
+		                if (!nouvelle_sequence_peche) 
+		                {
+		                  if (etat_suppression == 0) 
+		                  {
+		                    vm.selected_sequence_peche.$edit = false ;
+		                    vm.selected_sequence_peche.$selected = false ;
+		                    vm.selected_sequence_peche = {} ;
+		                  }
+		                  else
+		                  {
+		                    vm.all_sequence_peche = vm.all_sequence_peche.filter(function(obj)
+		                    {
+		                      return obj.id !== vm.selected_sequence_peche.id;
+		                    });
+
+		                    vm.selected_sequence_peche = {} ;
+		                  }
+
+		                }
+		                else
+		                {
+		                  vm.selected_sequence_peche.$edit = false ;
+		                  vm.selected_sequence_peche.$selected = false ;
+		                  vm.selected_sequence_peche.id = String(data.response) ;
+		                  vm.selected_sequence_peche.id_fiche_peche_crevette = vm.selected_fiche_peche.id ;
+
+		                  nouvelle_sequence_peche = false ;
+		                  vm.selected_sequence_peche = {};
+
+		                }
+		              })
+		              .error(function (data) {alert("Une erreur s'est produit");});
+		        }
+
+		      
+
+		    //fin sequence peche
+
+			//sequence transbordement
+				vm.entete_sequence_transbordement = 
+		        [
+					{titre:"Date"},
+					{titre:"HeureP"},
+					{titre:"MinuteP"},
+					{titre:"HeureT"},
+					{titre:"MinuteT"},
+					{titre:"Post latitude"},
+					{titre:"Post longitude"}
+		        ] ;
+	    		vm.selected_sequence_transbordement = {} ;
+	    		var current_selected_sequence_transbordement = {} ;
+	    		var nouvelle_sequence_transbordement = false ;
+
+	    		vm.get_sequence_transbordement = function(item)
+				{
+					vm.affiche_load = true ;
+					apiFactory.getParamsDynamic("SIP_sequence_transbordement?id_sequence_peche="+item.id).then(function(result)
+					{
+						vm.affiche_load = false ;
+						vm.all_sequence_transbordement = result.data.response;
+
+						
+					});
+				}
+
+				vm.selection_sequence_transbordement = function(item)
+				{
+					vm.selected_sequence_transbordement = item ;
+					
+
+					if (!vm.selected_sequence_transbordement.$edit) //si simple selection
+					{
+						nouvelle_sequence_transbordement = false ;	
+					}
+
+					
+
+					
+
+
+				}
+
+				$scope.$watch('vm.selected_sequence_transbordement', function()
+				{
+					if (!vm.all_sequence_transbordement) return;
+					vm.all_sequence_transbordement.forEach(function(item)
+					{
+						item.$selected = false;
+					});
+					vm.selected_sequence_transbordement.$selected = true;
+
+				});
+
+				vm.ajouter_sequence_transbordement = function()
+				{
+					nouvelle_sequence_transbordement = true ;
+					var item = 
+						{
+							
+							$edit: true,
+							$selected: true,
+		              		id:'0',
+		              		date:new Date(),
+		              		heurep:'0',
+		              		minutep:'0',
+		              		heuret:'0',
+		              		minutet:'0',
+		              		postlatitude:'',
+		              		postlongitude:''
+						} ;
+
+					vm.all_sequence_transbordement.unshift(item);
+		            vm.all_sequence_transbordement.forEach(function(af)
+		            {
+		              if(af.$selected == true)
+		              {
+		                vm.selected_sequence_transbordement = af;
+		                
+		              }
+	            	});
+				}
+
+				vm.modifier_sequence_transbordement = function()
+				{
+					nouvelle_sequence_transbordement = false ;
+					vm.selected_sequence_transbordement.$edit = true;
+					vm.selected_sequence_transbordement.date = new Date(vm.selected_sequence_transbordement.date);
+					current_selected_sequence_transbordement = angular.copy(vm.selected_sequence_transbordement);
+				}
+
+				vm.supprimer_sequence_transbordement = function()
+				{
+
+					
+					var confirm = $mdDialog.confirm()
+					  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+					  .textContent('Cliquer sur OK pour confirmer')
+					  .ariaLabel('Lucky day')
+					  .clickOutsideToClose(true)
+					  .parent(angular.element(document.body))
+					  .ok('OK')
+					  .cancel('Annuler');
+					$mdDialog.show(confirm).then(function() {
+
+					vm.enregistrer_sequence_transbordement(1);
+					}, function() {
+					//alert('rien');
+					});
+				}
+
+				vm.annuler_sequence_transbordement = function()
+				{
+					if (nouvelle_sequence_transbordement) 
+					{
+						
+						vm.all_sequence_transbordement.shift();
+						vm.selected_sequence_transbordement = {} ;
+						nouvelle_sequence_transbordement = false ;
+					}
+					else
+					{
+						vm.selected_sequence_transbordement.$selected = false;
+						vm.selected_sequence_transbordement.$edit = false;
+						vm.selected_sequence_transbordement.date = current_selected_sequence_transbordement.date ;
+						vm.selected_sequence_transbordement.heurep = current_selected_sequence_transbordement.heurep ;
+						vm.selected_sequence_transbordement.minutep = current_selected_sequence_transbordement.minutep ;
+						vm.selected_sequence_transbordement.heuret = current_selected_sequence_transbordement.heuret ;
+						vm.selected_sequence_transbordement.minutet = current_selected_sequence_transbordement.minutet ;
+						vm.selected_sequence_transbordement.postlatitude = current_selected_sequence_transbordement.postlatitude ;
+						vm.selected_sequence_transbordement.postlongitude = current_selected_sequence_transbordement.postlongitude ;
+						vm.selected_sequence_transbordement = {};
+
+
+
+					}
+				}
+
+				vm.enregistrer_sequence_transbordement = function(etat_suppression)
+				{
+					var config = {
+		                headers : {
+		                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+		                }
+		            };
+
+
+		            var datas = $.param(
+		            {
+		            	
+		                supprimer:etat_suppression,
+		                id_sequence_peche:vm.selected_sequence_peche.id,
+		                id:vm.selected_sequence_transbordement.id,
+
+		                date:convert_to_date_sql(vm.selected_sequence_transbordement.date),
+		                heurep:vm.selected_sequence_transbordement.heurep,
+		                minutep:vm.selected_sequence_transbordement.minutep,
+
+		                heuret:vm.selected_sequence_transbordement.heuret,
+		                minutet:vm.selected_sequence_transbordement.minutet,
+
+		                postlatitude:vm.selected_sequence_transbordement.postlatitude,
+		                postlongitude:vm.selected_sequence_transbordement.postlongitude
+		                
+		                
+		            });
+
+		            apiFactory.add("SIP_sequence_transbordement/index",datas, config).success(function (data)
+	        		{
+	        			if (!nouvelle_sequence_transbordement) 
+	        			{
+	        				if (etat_suppression == 0) 
+	        				{
+	        					vm.selected_sequence_transbordement.$edit = false ;
+	        					vm.selected_sequence_transbordement.$selected = false ;
+	        					vm.selected_sequence_transbordement = {} ;
+	        				}
+	        				else
+	        				{
+	        					vm.all_sequence_transbordement = vm.all_sequence_transbordement.filter(function(obj)
+								{
+									return obj.id !== vm.selected_sequence_transbordement.id;
+								});
+
+								vm.selected_sequence_transbordement = {} ;
+	        				}
+
+	        			}
+	        			else
+	        			{
+	        				vm.selected_sequence_transbordement.$edit = false ;
+	        				vm.selected_sequence_transbordement.$selected = false ;
+	        				//vm.selected_arrivee_fiche.$selected = false ;
+	        				vm.selected_sequence_transbordement.id = String(data.response) ;
+	        				vm.selected_sequence_transbordement.id_sequence_peche = vm.selected_sequence_peche.id ;
+	        				/*vm.selected_sequence_transbordement.heurep = vm.sequence_transbordement.heurep ;
+	        				vm.selected_sequence_transbordement.minutep = vm.sequence_transbordement.minutep ;
+	        				vm.selected_sequence_transbordement.heuret = vm.sequence_transbordement.heuret ;
+	        				vm.selected_sequence_transbordement.minutet = vm.sequence_transbordement.minutet ;
+	        				vm.selected_sequence_transbordement.postlatitude = vm.sequence_transbordement.postlatitude ;
+	        				vm.selected_sequence_transbordement.postlongitude = vm.sequence_transbordement.postlongitude ;*/
+
+	        				nouvelle_sequence_transbordement = false ;
+	        				vm.selected_sequence_transbordement = {};
+
+	        			}
+	        		})
+	        		.error(function (data) {alert("Une erreur s'est produit");});
+				}
 
 			
 
 			//fin sequence transbordement
+
+			//sequence capture
+				vm.entete_sequence_capture = 
+		        [
+					{titre:"Espèce"},
+					{titre:"Quantité (Kg)"}
+		        ] ;
+	    		vm.selected_sequence_capture = {} ;
+	    		var current_selected_sequence_capture = {} ;
+	    		var nouvelle_sequence_capture = false ;
+
+	    		vm.get_sequence_capture = function(item)
+				{
+					vm.affiche_load = true ;
+					apiFactory.getParamsDynamic("SIP_sequence_capture?id_sequence_peche="+item.id).then(function(result)
+					{
+						vm.affiche_load = false ;
+						vm.all_sequence_capture = result.data.response;
+
+					});
+				}
+
+				vm.selection_sequence_capture = function(item)
+				{
+					vm.selected_sequence_capture = item ;
+
+					if (!vm.selected_sequence_capture.$edit) //si simple selection
+					{
+						nouvelle_sequence_capture = false ;	
+					}
+
+					
+
+					
+
+
+				}
+
+				$scope.$watch('vm.selected_sequence_capture', function()
+				{
+					if (!vm.all_sequence_capture) return;
+					vm.all_sequence_capture.forEach(function(item)
+					{
+						item.$selected = false;
+					});
+					vm.selected_sequence_capture.$selected = true;
+
+				});
+
+				vm.ajouter_sequence_capture = function()
+				{
+					nouvelle_sequence_capture = true ;
+					var item = 
+						{
+							
+							$edit: true,
+							$selected: true,
+		              		id:'0',
+		              		id_espece:'',
+		              		quantite:0
+						} ;
+
+					vm.all_sequence_capture.unshift(item);
+		            vm.all_sequence_capture.forEach(function(af)
+		            {
+		              if(af.$selected == true)
+		              {
+		                vm.selected_sequence_capture = af;
+		                
+		              }
+	            	});
+				}
+
+				vm.modifier_sequence_capture = function()
+				{
+					nouvelle_sequence_capture = false ;
+					vm.selected_sequence_capture.$edit = true;
+					vm.selected_sequence_capture.quantite = Number(vm.selected_sequence_capture.quantite);
+					current_selected_sequence_capture = angular.copy(vm.selected_sequence_capture);
+				}
+
+				vm.supprimer_sequence_capture = function()
+				{
+
+					
+					var confirm = $mdDialog.confirm()
+					  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+					  .textContent('Cliquer sur OK pour confirmer')
+					  .ariaLabel('Lucky day')
+					  .clickOutsideToClose(true)
+					  .parent(angular.element(document.body))
+					  .ok('OK')
+					  .cancel('Annuler');
+					$mdDialog.show(confirm).then(function() {
+
+					vm.enregistrer_sequence_capture(1);
+					}, function() {
+					//alert('rien');
+					});
+				}
+
+				vm.annuler_sequence_capture = function()
+				{
+					if (nouvelle_sequence_capture) 
+					{
+						
+						vm.all_sequence_capture.shift();
+						vm.selected_sequence_capture = {} ;
+						nouvelle_sequence_capture = false ;
+					}
+					else
+					{
+						vm.selected_sequence_capture.$selected = false;
+						vm.selected_sequence_capture.$edit = false;
+						vm.selected_sequence_capture.id_espece = current_selected_sequence_capture.id_espece ;
+						vm.selected_sequence_capture.quantite = current_selected_sequence_capture.quantite 
+						vm.selected_sequence_capture = {};
+
+
+
+					}
+				}
+
+				vm.enregistrer_sequence_capture = function(etat_suppression)
+				{
+					var config = {
+		                headers : {
+		                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+		                }
+		            };
+
+
+		            var datas = $.param(
+		            {
+		            	
+		                supprimer:etat_suppression,
+		                id_sequence_peche:vm.selected_sequence_peche.id,
+		                id:vm.selected_sequence_capture.id,
+
+		                id_espece:vm.selected_sequence_capture.id_espece,
+		                quantite:vm.selected_sequence_capture.quantite
+		                
+		                
+		            });
+
+		            apiFactory.add("SIP_sequence_capture/index",datas, config).success(function (data)
+	        		{
+	        			if (!nouvelle_sequence_capture) 
+	        			{
+	        				if (etat_suppression == 0) 
+	        				{
+	        					vm.selected_sequence_capture.$edit = false ;
+	        					vm.selected_sequence_capture.$selected = false ;
+	        					vm.selected_sequence_capture = {} ;
+	        				}
+	        				else
+	        				{
+	        					vm.all_sequence_capture = vm.all_sequence_capture.filter(function(obj)
+								{
+									return obj.id !== vm.selected_sequence_capture.id;
+								});
+
+								vm.selected_sequence_capture = {} ;
+	        				}
+
+	        			}
+	        			else
+	        			{
+	        				vm.selected_sequence_capture.$edit = false ;
+	        				vm.selected_sequence_capture.$selected = false ;
+	        				vm.selected_sequence_capture.id = String(data.response) ;
+	        				vm.selected_sequence_capture.id_sequence_peche = vm.selected_sequence_peche.id ;
+
+	        				nouvelle_sequence_capture = false ;
+	        				vm.selected_sequence_capture = {};
+
+	        			}
+	        		})
+	        		.error(function (data) {alert("Une erreur s'est produit");});
+				}
+
+			
+
+			//fin sequence capture
 
 			vm.ajout_fiche_peche_crevette = function()
 			{

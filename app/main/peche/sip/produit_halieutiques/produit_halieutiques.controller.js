@@ -43,11 +43,11 @@
 				
 			});
 
-			apiFactory.getAll("espece/index").then(function(result)
+			/*apiFactory.getAll("espece/index").then(function(result)
 			{
 				vm.all_espece = result.data.response;
 				
-			});
+			});*/
 
 
 			//id_type_espece = 1 (halieutique)
