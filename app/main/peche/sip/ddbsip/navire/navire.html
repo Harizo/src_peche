@@ -1,0 +1,305 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+       
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">S.I.P</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Données de bases</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Type navire</span>
+            </div>
+
+            <div class="title">Navire</div>
+        </div>
+    </div>		
+    <div class="content" layout="column">
+        <div class="form-wrapper">
+            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+            <div style="clear:both;"></div>
+            <md-tabs md-dynamic-height>
+                <md-tab label="Navire">
+                    <md-tab-body>
+                        <div style="widht:100%;">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_navire()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_navire.id" aria-label="Modifier" ng-click="vm.modif_col_navire()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_navire.id" aria-label="Supprimer" ng-click="vm.supprimer_col_navire()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                        </div>  
+
+                        <!--FORM LISTES NAVIRE-->
+                            <div ng-show="vm.affichage_masque_navire">
+                      
+                                <form name="form_navire" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="text" name="immatricule" ng-model="vm.col_navire.immatricule"
+                                            placeholder="Immatricule " ng-init="vm.col_navire.code=''" required>
+                                            <div ng-messages="form_navire.code.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Immatricule obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="text" name="nom" ng-model="vm.col_navire.nom"
+                                            placeholder="Nom" ng-init="vm.col_navire.nom=''"
+                                            required>
+                                            <div ng-messages="form_navire.nom.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nom obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="text" name="pavillon" ng-model="vm.col_navire.pavillon"
+                                            placeholder="Pavillon" ng-init="vm.col_navire.pavillon=''"
+                                            required>
+                                            <div ng-messages="form_navire.pavillon.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Pavillon obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="text" name="armateur" ng-model="vm.col_navire.armateur"
+                                            placeholder="Armateur" ng-init="vm.col_navire.armateur=''"
+                                            required>
+                                            <div ng-messages="form_navire.armateur.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Armateur obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input type="text" name="adresse" ng-model="vm.col_navire.adresse"
+                                            placeholder="Adresse" ng-init="vm.col_navire.adresse=''"
+                                            required>
+                                            <div ng-messages="form_navire.adresse.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Adresse obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="number" name="tonnage_brute" ng-model="vm.col_navire.tonnage_brute"
+                                            placeholder="Tonnage brute" ng-init="vm.col_navire.tonnage_brute=''"
+                                            required>
+                                            <div ng-messages="form_navire.tonnage_brute.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Tonnage brute obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="number" name="lht" ng-model="vm.col_navire.lht"
+                                            placeholder="Lht" ng-init="vm.col_navire.lht=''"
+                                            required>
+                                            <div ng-messages="form_navire.lht.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Lht obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="number" name="capacite_cale" ng-model="vm.col_navire.capacite_cale"
+                                            placeholder="Capacite cale" ng-init="vm.col_navire.capacite_cale=''"
+                                            required>
+                                            <div ng-messages="form_navire.capacite_cale.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Capacite cale obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="15">
+                                          <input type="text" name="indication_ratio" ng-model="vm.col_navire.indication_ratio"
+                                            placeholder="Indication ratio" ng-init="vm.col_navire.indication_ratio=''"
+                                            required>
+                                            <div ng-messages="form_navire.indication_ratio.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Indication ratio obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs=40">
+                                            <label>Type Navire</label>
+                                            <md-select ng-model="vm.col_navire.type_navire" name="type_navire" ng-change="vm.modifierTypeNavire(vm.col_navire)" required>
+                                                <md-option ng-repeat="navire in vm.all_type_navire" value="{{navire.id}}">
+                                                    {{navire.libelle}}
+                                                </md-option>
+                                                
+                                            </md-select>
+                                            <div ng-messages="form_navire.type_navire.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Type Navire Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+                                    </div>
+                                    <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_navire.$invalid" ng-click="vm.save_in_bdd(vm.col_navire,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_navire()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        <!--FORM LISTES NAVIRE-->
+                        <!--TABLE LISTES NAVIRE-->
+                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table ng-show="vm.afficher_table_navire">
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_navire">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_navire"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_navire(cm)">                                       
+                                        <td>{{cm.immatricule}}</td>
+                                        <td>{{cm.nom}}</td>
+                                        <td>{{cm.pavillon}}</td>
+                                        <td>{{cm.armateur}}</td>
+                                        <td>{{cm.adresse}}</td>
+                                        <td>{{cm.tonnage_brute}}</td>
+                                        <td>{{cm.lht}}</td>
+                                        <td>{{cm.capacite_cale}}</td>
+                                        <td>{{cm.indication_ratio}}</td>
+                                        <td>{{cm.libelle_type_navire}}</td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES NAVIRE-->
+                        
+                    </md-tab-body>
+                </md-tab>        
+                <md-tab label="Autorisation navire : {{vm.selected_navire.nom}} / {{vm.selected_navire.immatricule}}"   ng-disabled="!vm.selected_navire.id" ng-click="vm.get_autorisation_navire()">
+                    <md-tab-body>
+                        <div style="widht:100%;">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_autorisation_navire()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_autorisation_navire.id" aria-label="Modifier" ng-click="vm.modif_autorisation_navire()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_autorisation_navire.id" aria-label="Supprimer" ng-click="vm.supprimer_autorisation_navire()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                        </div>  
+
+                        <!--FORM AUTORISATION NAVIRE-->
+                            
+                            <div ng-show="vm.affichage_masque_autorisation_navire">
+                      
+                                <form name="form_autorisation_navire" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>                                  
+                                        <md-input-container flex="100" flex-gt-xs="20">
+                                          <input type="text" name="zone_autorisee" ng-model="vm.autorisation_navire.zone_autorisee" 
+                                            placeholder="Zone autorisée "  ng-init="vm.autorisation_navire.zone_autorisee=''"
+                                            required>
+                                            <div ng-messages="form_autorisation_navire.zone_autorisee.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Zone autorisée obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="80">
+                                            <label>Espèce autorisée 1</label>
+                                            <md-select ng-model="vm.autorisation_navire.espece_1_autorisee" name="espece_1_autorisee" ng-change="vm.modifierEspece1(vm.autorisation_navire)" required>
+                                                <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}">
+                                                    {{espece.code}}/{{espece.nom}}
+                                                </md-option>                                               
+                                            </md-select>
+                                            <div ng-messages="form_autorisation_navire.espece_1_autorisee.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Espèce autorisée 1 Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="80">
+                                            <label>Espèce autorisée 2</label>
+                                            <md-select ng-model="vm.autorisation_navire.espece_2_autorisee" name="espece_2_autorisee" ng-change="vm.modifierEspece2(vm.autorisation_navire)">
+                                                <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}">
+                                                    {{espece.code}}/{{espece.nom}}
+                                                </md-option>                                               
+                                            </md-select>
+                                            <div ng-messages="form_autorisation_navire.espece_2_autorisee.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Espèce autorisée 2 Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                        </md-input-container>
+                                    </div>
+                                   <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_autorisation_navire.$invalid " ng-click="vm.save_in_bdd_autorisation_navire(vm.autorisation_navire,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_autorisation_navire()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        
+                        <!--FIN FORM AUTORISATION NAVIRE-->
+                        <!--TABLE LISTES AUTORISATION NAVIRE-->
+                            <table ng-table="tableautorisation_navire" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table ng-show="vm.afficher_table_autorisation_navire">
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_autorisation_navire">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_autorisation_navire"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_autorisation_navire(cm)">                                       
+                                        <td>{{cm.zone_autorisee}}</td>
+                                        <td>{{cm.code_espece1}}/{{cm.nom_espece1}}</td>
+                                        <td>{{cm.code_espece2}}/{{cm.nom_espece2}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES AUTORISATION NAVIRE-->
+                    </md-tab-body>
+                </md-tab>   
+            </md-tabs>
+        </div>
+    </div>
+</div>

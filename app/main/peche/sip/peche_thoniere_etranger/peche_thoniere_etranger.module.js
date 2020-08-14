@@ -17,7 +17,7 @@
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/peche/sip/peche_thoniere_etranger/peche_thoniere_etranger.html',
-                    controller : 'peche_thoniere_etrangerController as vm'
+                    controller : 'Peche_thoniere_etrangerController as vm'
                 }
             },
             bodyClass: 'peche_thoniere_etranger',

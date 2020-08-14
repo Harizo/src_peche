@@ -13,7 +13,11 @@
             'app.peche.sip.peche_artisanale',
             'app.peche.sip.vente_poissonnerie',
             'app.peche.sip.pecheur_pirogue',
+
+            'app.peche.sip.ddbsip',
+
             'app.peche.sip.coefficient_conversion'
+
 
         ])
         .config(config);

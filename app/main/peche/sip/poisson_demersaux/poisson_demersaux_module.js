@@ -17,7 +17,7 @@
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/peche/sip/poisson_demersaux/poisson_demersaux.html',
-                    controller : 'poisson_demersauxController as vm'
+                    controller : 'Poisson_demersauxController as vm'
                 }
             },
             bodyClass: 'poisson_demersaux',

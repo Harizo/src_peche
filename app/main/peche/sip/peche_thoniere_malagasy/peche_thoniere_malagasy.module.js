@@ -17,7 +17,7 @@
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/peche/sip/peche_thoniere_malagasy/peche_thoniere_malagasy.html',
-                    controller : 'peche_thoniere_malagasyController as vm'
+                    controller : 'Peche_thoniere_malagasyController as vm'
                 }
             },
             bodyClass: 'peche_thoniere_malagasy',
