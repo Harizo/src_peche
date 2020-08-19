@@ -1,0 +1,79 @@
+#forms {
+
+    .content {
+
+        .form-wrapper {
+          .tous_table{
+            .repeated-item.ng-enter{
+             
+              animation: my_animation 1.5s linear;
+              
+            }
+          }
+          .k-grid .k-header .k-button{
+            //background-color: rgba(32,138,190,1);
+            background-color: transparent;
+            //border: 1px solid rgba(32,138,190,1);
+            border: 1px solid transparent;
+
+          }
+           .k-grid .k-header.k-grid-toolbar {
+              background-color: rgba(243,244,246,1);
+              //background-color: #56739A;
+              //padding:0px;
+          }
+          .k-grid-update .k-icon:before{
+  content: "\e143";
+}    
+.k-grid .k-grid-toolbar .k-grid-add .k-icon,
+  .k-grid .k-grid-edit .k-icon,
+  .k-grid .k-grid-update .k-icon,
+  .k-grid .k-grid-cancel .k-icon,
+  .k-grid .k-grid-delete .k-icon {
+    margin: 0;
+
+    //content: "\e10";
+  } 
+  /*.k-ie8 .k-grid tbody button.k-button{
+    min-width: 64px !important;
+  } */
+  .k-grid .k-grid-delete .k-icon.k-delete{
+   
+    
+    //width: 5px !important;
+    //background-color: rgb(100,100,100) !important;
+
+    //content: "\e10";
+  }
+/*.k-delete{
+  //width: 5px !important;
+  background-image:url('Material/sprite2.png') !important;
+}*/
+  #table_titre{
+  color:rgb(153,153,153);
+  margin : auto;
+  font-size:14px;
+  padding: 0px 2px 0px 2px;
+  border-right: 1px solid rgb(153,153,153);
+  vertical-align:middle;
+  }
+        }
+		
+        .form-data-wrapper {
+            margin-left: 16px;
+
+            .json-data-wrapper {
+                overflow: hidden;
+
+                pre {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}
+
+@keyframes my_animation {
+              from { opacity: 0; }
+              to   { opacity: 1; }
+            }

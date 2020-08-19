@@ -13,10 +13,9 @@
             'app.peche.sip.peche_artisanale',
             'app.peche.sip.vente_poissonnerie',
             'app.peche.sip.pecheur_pirogue',
-
-            'app.peche.sip.ddbsip',
-
-            'app.peche.sip.coefficient_conversion'
+            'app.peche.sip.coefficient_conversion',
+            'app.peche.sip.production_commerce_region',
+            'app.peche.sip.ddbsip'
 
 
         ])
@@ -29,7 +28,8 @@
         msNavigationServiceProvider.saveItem('peche.sip', {
             title : "Système d'information des pêches (S.I.P)",
             icon  : 'icon-desktop-mac',
-            weight: 1
+            //group : true,
+            weight: 2
         });
 
     }

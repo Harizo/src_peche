@@ -36,7 +36,7 @@
             icon  : 'icon-clipboard-text',
 
             state: 'app.population_validation_fiche_echantillonnage_capture',
-            weight: 3,
+            weight: 2,
             hidden: function()
             {
                     return vs;

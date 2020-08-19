@@ -1,0 +1,289 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+       
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">S.I.P</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Base de registre pêcheurs et pirogues</span>
+            </div>
+
+            <div class="title">Base de registre pêcheurs et pirogues</div>
+        </div>
+    </div>		
+    <div class="content" layout="column">
+        <div class="form-wrapper">
+            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+            <div style="clear:both;"></div>
+            <md-tabs md-dynamic-height>
+                <md-tab label="Base de registre pêcheurs">
+                    <!--FORM FILTRE  --> 
+                        <div>
+                  
+                            <form name="filtrepardateform" class="md-inline-form" novalidate >
+
+                                <div layout="column" layout-gt-xs="row">
+                                    <md-input-container flex-gt-sm>
+                                        <label>Region</label>
+                                        <md-select ng-model="vm.filtre.id_region"  ng-change="vm.get_district_by_region()"  required>
+                                            <md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
+                                                {{region.nom}}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="filtrepardateform.id_region.$error"role="alert">
+                                            <div ng-message="required">
+                                                <span>Region obligatoire.</span>
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex-gt-sm>
+                                        <label>District</label>
+                                        <md-select ng-model="vm.filtre.id_district"  ng-change="vm.get_commune_district()" ng-disabled="!vm.filtre.id_region" required>
+                                            <md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
+                                                {{district.nom}}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="filtrepardateform.id_district.$error"role="alert">
+                                            <div ng-message="required">
+                                                <span>District obligatoire.</span>
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div>
+                                 <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="filtrepardateform.$invalid" ng-click="vm.get_carte_pecheur_by_district()">
+                                      Afficher les données
+                                </md-button>
+
+                                </div>
+                            </form>
+                        </div> 
+                    <!--/FORM FORM FILTRE  -->
+
+                    <div style="widht:100%;">    
+                        <md-button ng-if="vm.filtre.id_district && !vm.affichage_masque_carte_pecheur"  type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_carte_pecheur()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                          Nouveau
+                        </md-button>
+                        <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_carte_pecheur.id" aria-label="Modifier" ng-click="vm.modif_carte_pecheur()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                          Modifier
+                        </md-button>
+                        <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_carte_pecheur.id" aria-label="Supprimer" ng-click="vm.supprimer_carte_pecheur()" style="width:10%;">
+                            <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                          Supprimer
+                        </md-button>
+                    </div>  
+
+
+                    <!--FORM LISTES CARTE PECHEUR-->
+                            
+                            <div ng-show="vm.affichage_masque_carte_pecheur">
+                      
+                                <form name="form_carte_pecheur" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                            <label>Commune</label>
+                                            <md-select ng-model="vm.carte_pecheur.id_commune"    required>
+                                                <md-option ng-repeat="com in vm.allcommune" value="{{com.id}}">
+                                                    {{com.nom}}
+                                                </md-option>
+                                            </md-select>
+                                            <div ng-messages="form_carte_pecheur.id_commune.$error"role="alert">
+                                                <div ng-message="required">
+                                                    <span>Commune obligatoire.</span>
+                                                </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                            <label>Fokontany</label>
+                                            <md-select ng-model="vm.carte_pecheur.id_fokontany"    required>
+                                                <md-option ng-repeat="fkt in vm.allfokontany" value="{{fkt.id}}">
+                                                    {{fkt.nom}}
+                                                </md-option>
+                                            </md-select>
+                                            <div ng-messages="form_carte_pecheur.id_fokontany.$error"role="alert">
+                                                <div ng-message="required">
+                                                    <span>Fokontany obligatoire.</span>
+                                                </div>
+                                            </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="text" name="village" ng-model="vm.carte_pecheur.village"
+                                            placeholder="Village" ng-init="vm.carte_pecheur.village=''"
+                                            required>
+                                            <div ng-messages="form_carte_pecheur.village.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Village obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+
+                                    </div>
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input type="text" name="numero" ng-model="vm.carte_pecheur.numero"
+                                            placeholder="N° Carte pêcheur" ng-init="vm.carte_pecheur.numero=''"
+                                            required>
+                                            <div ng-messages="form_carte_pecheur.numero.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>N° Carte pêcheur obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date:</label>
+                                            <md-datepicker  ng-model="vm.carte_pecheur.date" md-placeholder="Date" md-max-date="vm.date_now" required>                       
+                                            </md-datepicker>
+                                        </div>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input type="text" name="association" ng-model="vm.carte_pecheur.association"
+                                            placeholder="Association" ng-init="vm.carte_pecheur.association=''"
+                                            >
+                                            <div ng-messages="form_carte_pecheur.association.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Association obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                          <input type="number" name="nbr_pirogue" ng-model="vm.carte_pecheur.nbr_pirogue"
+                                            placeholder="Nombre pirogue" ng-init="vm.carte_pecheur.nbr_pirogue=''"
+                                            >
+                                            <div ng-messages="form_carte_pecheur.nbr_pirogue.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nombre pirogue obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input type="text" name="nom" ng-model="vm.carte_pecheur.nom"
+                                            placeholder="Nom" ng-init="vm.carte_pecheur.nom=''"
+                                            required>
+                                            <div ng-messages="form_carte_pecheur.nom.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nom obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input type="text" name="prenom" ng-model="vm.carte_pecheur.prenom"
+                                            placeholder="Prénom" ng-init="vm.carte_pecheur.prenom=''"
+                                            >
+                                            <div ng-messages="form_carte_pecheur.prenom.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Prénom obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date de naissance:</label>
+                                            <md-datepicker  ng-model="vm.carte_pecheur.date_naissance" md-placeholder="Date" md-max-date="vm.date_now" required>                       
+                                            </md-datepicker>
+                                        </div>
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                       
+
+                                        <md-input-container flex="100" flex-gt-xs="20">
+                                          <input type="number" name="cin" ng-model="vm.carte_pecheur.cin" placeholder="CIN"
+                                                   required ng-pattern="/^[0-9]{12}$/" >
+                                            <div ng-messages="form_carte_pecheur.cin.$error" role="alert" multiple>
+                                                <div ng-message="required"><span>CIN obligatoire.</span></div>
+                                                <div ng-message="pattern"><span>CIN doit être 12 chiffres.</span></div>
+                                            </div>
+                                        </md-input-container>
+
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date de délivrance CIN:</label>
+                                            <md-datepicker  ng-model="vm.carte_pecheur.date_cin" md-placeholder="Date" md-max-date="vm.date_now" required>                       
+                                            </md-datepicker>
+                                        </div>
+
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input type="text" name="lieu_cin" ng-model="vm.carte_pecheur.lieu_cin"
+                                            placeholder="Lieu de délivrance CIN" ng-init="vm.carte_pecheur.lieu_cin=''"
+                                            >
+                                            <div ng-messages="form_carte_pecheur.lieu_cin.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Lieu de délivrance CIN obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+
+                                    
+
+                                    
+                                   
+                                    <div>
+                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="form_carte_pecheur.$invalid " ng-click="vm.save_in_bdd(vm.carte_pecheur,0)">
+                                      Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_mar()">
+                                      Annuler
+                                    </md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        <!--FORM LISTES CARTE PECHEUR-->
+
+                    <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
+                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_carte_pecheur">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_carte_pecheur"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_carte_pecheur(cm)">                                       
+                                        <td>{{cm.nom_commune}}</td>
+                                        <td>{{cm.nom_fokontany}}</td>
+                                        <td>{{cm.village}}</td>
+                                        <td>{{cm.numero}}</td>
+                                        <td>{{vm.convert_to_annee_mois(cm.date)}}</td>
+                                        <td>{{cm.association}}</td>
+                                        <td>{{cm.nom}} {{cm.prenom}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_naissance)}}</td>
+                                        <td>{{vm.formatMillier(cm.cin)}}</td>
+                                        <td>{{vm.convert_to_date_html(cm.date_cin)}}</td>
+                                        <td>{{cm.lieu_cin}}</td>
+                                        <td>{{cm.nbr_pirogue}}</td>
+                                        
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
+                </md-tab> 
+                <md-tab label="Base de registre pirogues">
+                </md-tab> 
+            </md-tabs>
+        </div>
+    </div>
+</div>

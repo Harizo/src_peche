@@ -345,16 +345,16 @@
         			{
         				if (etat_suppression == 0) //mise à jour
         				{
-        					vm.selected_collecteur_mareyeur.code = 
+        					
 
-        					vm.selected_collecteur_mareyeur.code = data_masque.code,
-			                vm.selected_collecteur_mareyeur.type_genre = data_masque.type_genre,
-			                vm.selected_collecteur_mareyeur.nom = data_masque.nom,
-			                vm.selected_collecteur_mareyeur.adresse = data_masque.adresse,
-			                vm.selected_collecteur_mareyeur.ref_autorisation = data_masque.ref_autorisation,
-			                vm.selected_collecteur_mareyeur.is_coll_eau_douce = vm.convert_bool_to_int(data_masque.is_coll_eau_douce),
-			                vm.selected_collecteur_mareyeur.is_coll_marine = vm.convert_bool_to_int(data_masque.is_coll_marine),
-			                vm.selected_collecteur_mareyeur.is_mareyeur = vm.convert_bool_to_int(data_masque.is_mareyeur)
+        					vm.selected_collecteur_mareyeur.code = data_masque.code ;
+			                vm.selected_collecteur_mareyeur.type_genre = data_masque.type_genre ;
+			                vm.selected_collecteur_mareyeur.nom = data_masque.nom ;
+			                vm.selected_collecteur_mareyeur.adresse = data_masque.adresse ;
+			                vm.selected_collecteur_mareyeur.ref_autorisation = data_masque.ref_autorisation ;
+			                vm.selected_collecteur_mareyeur.is_coll_eau_douce = vm.convert_bool_to_int(data_masque.is_coll_eau_douce) ;
+			                vm.selected_collecteur_mareyeur.is_coll_marine = vm.convert_bool_to_int(data_masque.is_coll_marine) ;
+			                vm.selected_collecteur_mareyeur.is_mareyeur = vm.convert_bool_to_int(data_masque.is_mareyeur) ;
 
         				}
         				else//Suppression

@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app.peche.sip.coefficient_conversion', [])
+        .module('app.peche.sip.production_commerce_region', [])
        // .run(testPermission)        
         .config(config);
         var vs ;
@@ -12,27 +12,27 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_coefficient_conversion', {
-            url      : '/sip/coefficient_conversion',
+        $stateProvider.state('app.peche_reporting_production_commerce_region', {
+            url      : '/sip/production_commerce_region',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/sip/coefficient_conversion/coefficient_conversion.html',
-                    controller : 'coefficient_conversionController as vm'
+                    templateUrl: 'app/main/peche/sip/production_commerce_region/production_commerce_region.html',
+                    controller : 'production_commerce_regionController as vm'
                 }
             },
-            bodyClass: 'coefficient_conversion',
+            bodyClass: 'production_commerce_region',
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "coefficient_conversion"
+              page: "production_commerce_region"
             }
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.sip.ddbsip.coefficient_conversion', {
-            title: "Coefficient de conversion",
+        msNavigationServiceProvider.saveItem('peche.sip.production_commerce_region', {
+            title: "Product°/Commercialisat° par région",
             icon  : 'icon-numeric-9-box-multiple-outline',
-            state: 'app.peche_reporting_coefficient_conversion',
+            state: 'app.peche_reporting_production_commerce_region',
 			weight: 1/*,
             hidden: function()
             {

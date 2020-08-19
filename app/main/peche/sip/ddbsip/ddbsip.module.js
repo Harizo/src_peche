@@ -18,7 +18,7 @@
         msNavigationServiceProvider.saveItem('peche.sip.ddbsip', {
             title : 'Données de Bases',
             icon  : 'icon-data',
-            weight: 1,
+            weight: 2,
             hidden: function()
             {
                     return vs;

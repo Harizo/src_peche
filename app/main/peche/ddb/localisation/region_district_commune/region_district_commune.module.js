@@ -1,11 +1,10 @@
-
 (function ()
 {
     'use strict';
 
     angular
-        .module('app.peche.valide_fiche_echantillonnage_capture', [])
-        .run(testPermission)        
+        .module('app.peche.ddb.localisation.ddb.decoup_admin', [])
+        .run(testPermission)
         .config(config);
         var vs ;
 
@@ -13,32 +12,31 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.population_valide_fiche_echantillonnage_capture', {
-            url      : '/valide_fiche_echantillonnage_capture',
+        $stateProvider.state('app.peche_ddb_region_district_commune', {
+            url      : '/donnees-de-base/region_district_commune',
             views    : {
                 'content@app': {
-                    templateUrl: 'app/main/peche/valide_fiche_echantillonnage_capture/valide_fiche_echantillonnage_capture.html',
-                    controller : 'Valide_fiche_echantillonnage_captureController as vm'
+                    templateUrl: 'app/main/peche/ddb/localisation/region_district_commune/region_district_commune.html',
+                    controller : 'Region_district_communeController as vm'
                 }
             },
-            bodyClass: 'valide_fiche_echantillonnage_capture',
+            bodyClass: 'region_district_commune',
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "Fiche echantillonnage capture valide"
+              page: "region_district_commune"
             }
-
         });
+
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.valide_fiche_echantillonnage_capture', {
-            title: 'Données validées',
-            icon  : 'icon-clipboard-text',
-            state: 'app.population_valide_fiche_echantillonnage_capture',
-            weight: 2,
+        msNavigationServiceProvider.saveItem('peche.ddb.localisation.region_district_commune', {
+            title: "Découpage administratif",
+            icon  : 'icon-map-marker-circle',
+            state: 'app.peche_ddb_region_district_commune'/*,
             hidden: function()
             {
                     return vs;
-            }
+            }*/
         });
     }
 
@@ -47,21 +45,24 @@
         var id_user = $cookieStore.get('id');
        
         var permission = [];
-        if (id_user) 
+        if (id_user > 0) 
         {
             apiFactory.getOne("utilisateurs/index", id_user).then(function(result) 
             {
                 var user = result.data.response;
+               
+
                 var permission = user.roles;
-                var permissions = ["SSI"];
+                var permissions =   [
+                                        "SPR_ADM",
+                                        "DEC_ADM"
+                                    ];
                 var x =  loginService.gestionMenu(permissions,permission);        
                 vs = x ;
-              
 
             });
         }
      
     }
-
 
 })();

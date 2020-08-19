@@ -32,7 +32,7 @@
             title: 'Importer BDD Access',
             icon  : 'icon-account-key',
             state: 'app.peche_importer_bdd',
-            weight: 15,
+            weight: 2,
             // badge:vs,
             hidden:function()
             {

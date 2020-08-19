@@ -20,7 +20,7 @@
             title : 'Reporting/Analyses',
            // group : true,
             icon  : 'icon-calendar-text',
-            weight: 6,
+            weight: 2,
             hidden: function()
             {
                     return vs;

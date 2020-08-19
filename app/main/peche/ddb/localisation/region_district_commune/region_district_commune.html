@@ -1,0 +1,69 @@
+  <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Données de bases</span>
+
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> Découpage administratif</span>
+            </div>
+
+            <div class="title">Découpage administratif</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    
+    <!-- CONTENT -->
+    <div class="content" layout="column">
+      <div class="form-wrapper md-whiteframe-1dp" >
+        <!--Geographique  -->
+          <kendo-grid options="vm.mainGridOptions">
+            <div k-detail-template>
+              <kendo-grid k-options="vm.alldistrict({{dataItem.id}})">
+                <div k-detail-template>
+                  <kendo-grid k-options="vm.allcommune({{dataItem.id}})">
+                    <div k-detail-template>
+                      <kendo-grid k-options="vm.allfokontany({{dataItem.id}})">
+                      </kendo-grid>
+                  </div>
+                  </kendo-grid>
+                </div>
+              </kendo-grid>
+            </div>
+          </kendo-grid>
+        <!--/ Geographique--> 
+      </div>
+    </div>
+    <!-- / CONTENT -->
+     <!-- CONTENT -->
+    <!--div class="content" layout="column">
+      <div class="form-wrapper md-whiteframe-1dp" >
+       
+          <kendo-grid k-data-source="vm.allregion" k-columns="vm.gridColumns" k-selectable="true">
+
+            <kendo-grid-column field="code" editor="numeric" title="Code">
+            </kendo-grid-column>
+            <kendo-grid-column field="nom"title="Nom">
+            </kendo-grid-column>
+            <kendo-grid-column field="nom"title="Nom">
+            </kendo-grid-column>
+            <kendo-grid-column field="" title="Action">
+              <a title="Modifier">
+                  <span class="icon-table-edit"></span>
+              </a>
+                          
+              <a title="Supprimer">
+                  <span class="icon-delete"></span>
+              </a>
+            </kendo-grid-column>
+              
+          </kendo-grid>
+        <
+      </div>
+    </div-->
+    <!-- / CONTENT -->
+  </div>
