@@ -241,7 +241,7 @@
                                       ng-disabled="form_carte_pecheur.$invalid " ng-click="vm.save_in_bdd(vm.carte_pecheur,0)">
                                       Enregistrer
                                     </md-button>
-                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_mar()">
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
                                       Annuler
                                     </md-button>
                                     </div>
@@ -281,7 +281,8 @@
                             </table>
                         <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
                 </md-tab> 
-                <md-tab label="Base de registre pirogues">
+
+                <md-tab label="Base de registre pirogues" ng-disabled="!vm.selected_carte_pecheur.id">
                 </md-tab> 
             </md-tabs>
         </div>

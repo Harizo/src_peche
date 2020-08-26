@@ -52,6 +52,11 @@
 				{
 					
 					vm.allfokontany = result.data.response;
+
+					if (!nouvel_carte_pecheur && vm.selected_carte_pecheur.id_fokontany) 
+					{
+						vm.carte_pecheur.id_fokontany = vm.selected_carte_pecheur.id_fokontany ;
+					}
 				});
 			}
 
@@ -229,6 +234,8 @@
 	        vm.selection_carte_pecheur = function(item) 
 	        {
 	        	vm.selected_carte_pecheur = item ;
+	        	vm.get_engin_by_carte_pecheur(item.id) ;
+	        	
 	        }
 
 	        $scope.$watch('vm.selected_carte_pecheur', function()
@@ -246,6 +253,57 @@
 			{
 				vm.affichage_masque_carte_pecheur = true ;
 				nouvel_carte_pecheur = true ;
+				vm.carte_pecheur = {} ;
+			}
+
+			vm.modif_carte_pecheur = function() 
+			{
+				nouvel_carte_pecheur = false ;
+
+                vm.carte_pecheur.numero = vm.selected_carte_pecheur.numero ;
+                vm.carte_pecheur.date = new Date(vm.selected_carte_pecheur.date) ;
+
+                vm.carte_pecheur.id_fokontany = vm.selected_carte_pecheur.id_fokontany ;
+                
+
+                vm.carte_pecheur.id_commune = vm.selected_carte_pecheur.id_commune ;
+              
+
+                vm.carte_pecheur.village = vm.selected_carte_pecheur.village ;
+                vm.carte_pecheur.association = vm.selected_carte_pecheur.association ;
+                vm.carte_pecheur.nom = vm.selected_carte_pecheur.nom ;
+                vm.carte_pecheur.prenom = vm.selected_carte_pecheur.prenom ;
+                vm.carte_pecheur.cin = Number(vm.selected_carte_pecheur.cin) ;
+                vm.carte_pecheur.date_cin = new Date(vm.selected_carte_pecheur.date_cin) ;
+                vm.carte_pecheur.date_naissance = new Date(vm.selected_carte_pecheur.date_naissance) ;
+                vm.carte_pecheur.lieu_cin = vm.selected_carte_pecheur.lieu_cin ;
+                vm.carte_pecheur.nbr_pirogue = Number(vm.selected_carte_pecheur.nbr_pirogue) ;
+                vm.affichage_masque_carte_pecheur = true ;
+			}
+
+			vm.supprimer_carte_pecheur = function () 
+			{
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('')
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('ok')
+				  .cancel('annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.save_in_bdd(vm.selected_carte_pecheur,1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.annuler = function () 
+			{
+				nouvel_carte_pecheur = false ;
+				vm.affichage_masque_carte_pecheur = false ;
+				vm.selected_carte_pecheur = {} ;
 			}
 
 			vm.save_in_bdd = function(data_masque, etat_suppression)
@@ -309,7 +367,13 @@
 
 			                vm.selected_carte_pecheur.numero = data_masque.numero ;
 			                vm.selected_carte_pecheur.date = convert_to_date_sql(data_masque.date) ;
+
 			                vm.selected_carte_pecheur.id_fokontany = data_masque.id_fokontany ;
+			                vm.selected_carte_pecheur.nom_fokontany = fkt[0].nom ;
+
+			                vm.selected_carte_pecheur.id_commune = data_masque.id_commune ;
+			                vm.selected_carte_pecheur.nom_commune = com[0].nom ;
+
 			                vm.selected_carte_pecheur.village = data_masque.village ;
 			                vm.selected_carte_pecheur.association = data_masque.association ;
 			                vm.selected_carte_pecheur.nom = data_masque.nom ;
@@ -368,6 +432,17 @@
         //FIN CARTE PECHEUR
 
         //ENGIN DE PECHE
+
+        vm.get_engin_by_carte_pecheur = function (id_carte_pecheur) 
+        {
+        	apiFactory.getAPIgeneraliserREST("SIP_engin_carte_pecheur/index","id_carte_pecheur",id_carte_pecheur).then(function(result)
+			{
+				vm.all_engin_carte_pecheur = result.data.response;
+				console.log(vm.all_engin_carte_pecheur);
+
+				
+			});
+        }
 
         //FIN ENGIN DE PECHE
     }
