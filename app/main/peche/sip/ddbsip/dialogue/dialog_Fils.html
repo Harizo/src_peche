@@ -1,0 +1,62 @@
+
+<md-dialog aria-label="List dialog">
+    <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+    <!-- CONTENT -->
+            <!-- LISTE TABLE -->
+    <div class="content"layout="column">
+      <div class="form-wrapper">        
+        <div class="white-bg md-whiteframe-4dp">
+          <md-tabs md-dynamic-height>
+            <md-tab label="Information!">
+                
+  <md-dialog-content>
+    <h6><p align="center" style="width: 100%; color: red ; font-weight: bolder; 
+    animation:alternate; " >IMPOSSIBLE A SUPPRIMER!</p></h6>
+    <table  dt-options="vm.tOptions">
+      <thead>
+        <p style="font-weight: bold; font-size-adjust: 100%; color: orange; text-align: center;">La suppression de certains contenus est nécessaire: </p>
+      </thead>
+      <tbody>
+              <tr >
+                <th class="secondary-text" ng-repeat="up in ::titre_column">
+                  <span class="column-title">{{up.titre}}</span>
+                </th>
+            </tr>
+              <tr class="secondary-text" align="center">
+                <td>{{nbr1}}</td> 
+                <td>{{nbr2}}</td>
+                <td>{{nbr3}}</td> 
+                <td>{{nbr4}}</td>
+                <td>{{nbr5}}</td> 
+                <td>{{nbr6}}</td>
+              </tr> 
+
+              <!--tr >
+                <th class="secondary-text" ng-repeat="up in ::titre_column">
+                  <span class="column-title">{{up.titre}}</span>
+                </th>
+            </tr>
+              <tr >
+                <th class="secondary-text" ng-repeat="nb in ::effectif">
+                  <span  class="column-title">{{nb.nombre}}</span>
+                        </th>
+            </tr-->
+      </tbody>
+
+    </table> 
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button type="submit"  class="md-raised md-accent" aria-label="Nouveau" ng-click="cancel()" style="width:10%;">
+      OK
+    </md-button>
+  </md-dialog-actions>
+            </md-tab>
+          </md-tabs>
+        </div>
+            <!-- / LISTE TABLE -->
+      </div>
+    </div>
+    <!-- / CONTENT -->
+  </div>   
+  
+</md-dialog>
