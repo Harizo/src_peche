@@ -1,0 +1,178 @@
+  <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">S.I.P.</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Données de bases</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;"> S.I.P Espèces</span>
+            </div>
+
+            <div class="title">S.I.P Espèces</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+
+    <div class="content"layout="column">
+        <div class="form-wrapper">
+            <md-tabs md-dynamic-height>
+                <md-tab label="Liste des Espèces">
+
+                    <div style="widht:100%;">    
+                        <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                            Nouveau
+                        </md-button>
+                        <md-button type="submit" ng-show="vm.afficherboutonModif==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                            Modifier
+                        </md-button>
+                        <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                            Supprimer
+                        </md-button>
+                    </div>
+    
+    <!-- / BASIC FORM -->
+                    <div ng-show="vm.affichageMasque==1">                                
+                        <form name="sip_especeform" class="md-inline-form"  novalidate>
+                            <div layout="column" layout-gt-xs="row" flex>
+                                  
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <label>Type d'especes</label>
+                                    <md-select ng-model="vm.sip_espece.typ_esp_id" name="typ_esp_id"  ng-change="vm.set_libelle()" required>
+                                        <md-option ng-repeat="type_espece in vm.allsip_type_espece" value="{{type_espece.id}}">
+                                            {{type_espece.libelle}} 
+                                        </md-option>
+
+
+                                    </md-select>
+                                    <div ng-messages="sip_especeform.typ_esp_id.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>Type espece obligatoire.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>                                                       
+                               <md-input-container flex="100" flex-gt-xs="33">
+                                    <label>Famille</label>
+                                    <md-select ng-model="vm.sip_espece.id_famille" name="id_famille"  ng-change="vm.set_libelle()" required>
+                                        <md-option ng-repeat="fm in vm.allfamille" value="{{fm.id}}">
+                                            {{fm.libelle}} 
+                                        </md-option>
+
+
+                                    </md-select>
+                                    <div ng-messages="sip_especeform.id_famille.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>Famille obligatoire.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <input type="text" name="code" ng-model="vm.sip_espece.code"
+                                    placeholder="code " ng-init="vm.sip_espece.code=''" value="{{sip_espece.code}}"
+                                    required>
+                                    <div ng-messages="sip_especeform.code.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>code obligatoire.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <input type="text" name="nom" ng-model="vm.sip_espece.nom"
+                                    placeholder="nom " ng-init="vm.sip_espece.nom=''"
+                                    required>
+                                    <div ng-messages="sip_especeform.nom.$error" 
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>nom obligatoire.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <input type="text" name="nom_local" ng-model="vm.sip_espece.nom_local"
+                                    placeholder="nom local " ng-init="vm.sip_espece.nom_local=''"
+                                    required>
+                                    <div ng-messages="sip_especeform.nom_local.$error" 
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>nom local obligatoire.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <input type="text" name="nom_francaise" ng-model="vm.sip_espece.nom_francaise"
+                                    placeholder="nom française " ng-init="vm.sip_espece.nom_francaise=''"
+                                    required>
+                                    <div ng-messages="sip_especeform.nom_francaise.$error" 
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>nom française obligatoire.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <input type="text" name="nom_scientifique" ng-model="vm.sip_espece.nom_scientifique"
+                                    placeholder="nom scientifique " ng-init="vm.sip_espece.nom_scientifique=''" value="{{sip_espece.nom_scientifique}}"
+                                    required>
+                                    <div ng-messages="sip_especeform.nom_scientifique.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>nom scientifique obligatoire.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                ng-disabled="sip_especeform.$invalid " ng-click="vm.ajout(vm.sip_espece,0)">
+                                Enregistrer
+                            </md-button>
+                            <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                                Annuler
+                            </md-button>
+                        </form>
+                        <md-divider ></md-divider><br>
+                    </div>
+    <!-- / BASIC FORM -->
+                    <table class="dataTable row-border hover" datatable="ng"
+                        dt-options="vm.dtOptions">
+                        <thead>                          
+                        <tr>
+                             <th class="secondary-text" ng-repeat="up in ::vm.sip_espece_column">
+                              <div class="table-header">
+                                  <span class="column-title">{{up.titre}}</span>
+                              </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="sip_espece in vm.allsip_espece"  ng-class="{selected: sip_espece.$selected}" ng-click="vm.selection(sip_espece)">
+                                <td>{{sip_espece.code}}</td>
+                                <td>{{sip_espece.nom}}</td>
+                                <td>{{sip_espece.nom_local}}</td>
+                                <td>{{sip_espece.nom_francaise}}</td>
+                                <td>{{sip_espece.nom_scientifique}}</td>
+                                <td>{{sip_espece.libelle_famille}}</td>
+                                <td>{{sip_espece.type_lib}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </md-tab>
+            </md-tabs>
+        </div>
+    </div>
+
+    <!-- / CONTENT -->
+  </div>

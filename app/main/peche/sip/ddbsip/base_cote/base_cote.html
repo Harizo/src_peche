@@ -1,0 +1,93 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="brearerumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">S.I.P</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">Données de bases</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Base côte</span>
+            </div>
+          <div class="title">Base côte</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+      <!-- LISTE TABLE -->
+    <div class="content"layout="column">
+        <div class="form-wrapper">          
+                  <!-- BASIC FORM -->
+            <div class="white-bg md-whiteframe-4dp">            
+                <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
+                  <md-tab label="{{vm.titrepage}}">
+                     </br>
+                      <form name="bs_cote" class="md-inline-form" novalidate>
+                        <div layout="column" layout-gt-xs="row" flex>
+                            <md-input-container flex="100" flex-gt-xs="10">
+                              <input type="text" name="libelle" ng-model="vm.bs_cote.libelle"
+                                placeholder="libelle " ng-init="vm.bs_cote.libelle=''"
+                                required>
+                                <div ng-messages="bs_cote.libelle.$error"
+                                  role="alert">
+                                  <div ng-message="required">
+                                    <span>libelle obligatoire.</span>
+                                  </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                              ng-disabled="bs_cote.$invalid" ng-click="vm.ajout(vm.bs_cote,0)">
+                              Enregistrer
+                        </md-button>
+                        <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                          Annuler
+                        </md-button>
+                      </form>
+                  </md-tab>
+                </md-tabs>
+            </div>
+             <!-- / BASIC FORM -->
+             <br>
+            <div class="white-bg md-whiteframe-4dp">
+            <md-tabs md-dynamic-height>
+
+              <md-tab label="Base côte">
+                <div style="width:100%;">    
+                  <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                      Nouveau
+                  </md-button>
+                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                      Modifier
+                  </md-button>
+                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                      Supprimer
+                  </md-button>
+                </div>
+                <table class="dataTable row-border hover" datatable="ng"
+                  dt-options="vm.dtOptions">
+                  <thead>
+                    <tr>
+                      <th class="secondary-text" ng-repeat="re in ::vm.base_cote_column">
+                        <div class="table-header">
+                          <span class="column-title">{{re.titre}}</span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="ct in vm.all_base_cote"  ng-class="{selected: ct.$selected}" ng-click="vm.selection(ct)">
+                      <td>{{ct.libelle}}</td>
+                    </tr>
+                  </tbody>
+                </table>            
+              </md-tab>
+        </div>
+    </div>
+            <!-- / LISTE TABLE -->
+    <!-- / CONTENT -->
+
+</div>

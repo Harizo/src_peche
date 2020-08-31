@@ -88,10 +88,21 @@
                 .parent(angular.element(document.body))
                 .ok('supprimer')
                 .cancel('annuler');
-			$mdDialog.show(confirm).then(function() {          
-				ajout(1);
-			}, function() {
-			});
+            apiFactory.getFils("SIP_navire/index", vm.selectedItemTypenavire.id).then(function (result) {
+                vm.nav_len = result.data.response.length ;
+              	if ( vm.nav_len>0) 
+              	{
+                	vm.dialog();
+              	} 
+
+              	else 
+              	{
+					$mdDialog.show(confirm).then(function() {          
+						ajout(1);
+					}, function() {
+					});
+				}
+			}); 
         }
 		// Test existence doublon libelle
         function test_existence (item,suppression) {    
@@ -167,7 +178,7 @@
         $mdDialog.show(
                     $mdDialog.alert()
                       .clickOutsideToClose(true)
-                      .title(titre)
+                      .title(titre) 
                       .textContent(msg)
                       .ariaLabel('Offscreen Demo')
                       .parent(angular.element(document.body))
@@ -183,5 +194,44 @@
                       })
                   );
       }
+
+      vm.dialog = function (ev)
+        {
+          var confirm = $mdDialog.confirm({
+          controller: dialogController,
+          templateUrl: 'app/main/peche/sip/ddbsip/dialogue/dialog_Fils.html',
+          parent: angular.element(document.body),
+          targetEvent: ev, 
+          
+          })
+          $mdDialog.show(confirm).then(function(data)
+          {
+            //ato no mapifandray ny controller roa ireo
+
+            console.log(data) ;
+            
+          }, function(){//alert('rien');
+        });
+
+        }
+     function dialogController($mdDialog, $scope, apiFactory, $state)  
+    {
+          var dg=$scope;
+          //style
+          dg.tOptions = {
+            dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+            pagingType: 'simple',
+            autoWidth: false          
+          };
+          dg.nbr1 = vm.nav_len;
+          dg.titre_column = [{titre:"Nombre navires"}]; 
+            
+          dg.cancel = function()
+          {
+            $mdDialog.hide('ok');
+            console.log('cancel');
+          };
+
+    }
   }
 })();

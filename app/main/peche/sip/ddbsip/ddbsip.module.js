@@ -4,9 +4,17 @@
 
     angular
         .module('app.peche.sip.ddbsip', [
-			
-            'app.peche.sip.ddbsip.type_navire',
+
+            'app.peche.sip.ddbsip.base_cote',
+            'app.peche.sip.ddbsip.base_geo',
+            'app.peche.sip.ddbsip.sip_conservation' ,
+            'app.peche.sip.ddbsip.sip_espece',
+            'app.peche.sip.ddbsip.sip_famille',
             'app.peche.sip.ddbsip.navire',
+            'app.peche.sip.ddbsip.sip_presentation' ,
+            'app.peche.sip.ddbsip.sip_type_espece',
+            'app.peche.sip.ddbsip.type_navire'
+
             ])
         .run(testPermission)
         .config(config);

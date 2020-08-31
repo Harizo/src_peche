@@ -238,13 +238,85 @@
 				  .parent(angular.element(document.body))
 				  .ok('ok')
 				  .cancel('annuler');
-				$mdDialog.show(confirm).then(function() {
+					apiFactory.getParamsDynamic("sip_peche_thoniere_etranger/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+            			vm.peche_thoniere_etranger = resultat.data.response.length;
+            
+          				apiFactory.getParamsDynamic("sip_peche_thoniere_malagasy/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+            				vm.peche_thoniere_malagasy = resultat.data.response.length;
+            
+            				apiFactory.getParamsDynamic("sip_autorisation_navire/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+           						vm.autorisation_navire = resultat.data.response.length;
+            
+            					apiFactory.getParamsDynamic("sip_sortie_peche_artisanale/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+            						vm.sortie_peche_artisanale = resultat.data.response.length;
+           							if ( (vm.peche_thoniere_etranger>0) ||(vm.peche_thoniere_malagasy>0) ||(vm.sortie_peche_artisanale>0)|| (vm.autorisation_navire>0)) 
+          							{
+            							vm.dial();
+          							}
+          							else{
+            							$mdDialog.show(confirm).then(function() {
 
-				vm.save_in_bdd(vm.selected_navire,1);
-				}, function() {
-				//alert('rien');
-				});
+										vm.save_in_bdd(vm.selected_navire,1);
+            
+            							}, function() {
+							              //alert('rien');
+							            });
+							        }
+							    }); 
+            
+        					}); 
+
+        				});
+        			}); 
+
 			}
+
+			 vm.dial = function (ev)
+			  {
+			    var confirm = $mdDialog.confirm({
+			      controller: ControlDialog,
+			      templateUrl: 'app/main/peche/sip/ddbsip/dialogue/dialog_Fils.html',
+			      parent: angular.element(document.body),
+			      targetEvent: ev, 
+			    
+			    })
+			    $mdDialog.show(confirm).then(function(resultat)
+			    {
+			      console.log(resultat) ; 
+			    }, function(){//alert('rien');
+			    });
+			  }
+			  
+			  function ControlDialog($mdDialog, $scope, apiFactory, $state)  
+			  {
+			    var dg=$scope;
+			    //style
+			    dg.tOptions = {
+			      dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+			      pagingType: 'simple',
+			      autoWidth: false          
+			    };
+			    
+			    dg.titre_column = [
+			              {titre:"Pêche thoniere Malagasy"},
+			              {titre:"Pêche thoniere étranger"},
+			              {titre:"Autorisation navire"},
+			              {titre:"Sortie pêche artisanale"}
+
+			    ]; 
+
+			    dg.nbr1 = vm.peche_thoniere_malagasy;
+			    dg.nbr2 = vm.peche_thoniere_etranger;
+			    dg.nbr3 = vm.autorisation_navire;
+			    dg.nbr4 = vm.sortie_peche_artisanale;
+
+			    dg.cancel = function()
+			    {
+			      $mdDialog.hide();
+			    }
+
+			  }
+
 			vm.save_in_bdd = function(data_masque, etat_suppression)
 			{
 				var config = {
