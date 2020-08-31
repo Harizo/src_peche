@@ -53,8 +53,8 @@
                                     </md-input-container>
                                 </div>
                                 <div>
-                                 <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                      ng-disabled="filtrepardateform.$invalid" ng-click="vm.get_carte_pecheur_by_district()">
+                                 <md-button  type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="filtrepardateform.$invalid || vm.affiche_load" ng-click="vm.get_carte_pecheur_by_district()">
                                       Afficher les données
                                 </md-button>
 
@@ -249,7 +249,16 @@
                             </div> 
                         <!--FORM LISTES CARTE PECHEUR-->
 
-                    <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
+                    <!--TABLE CARTE PECHEUR-->
+                        <div class="price-table style-1 md-whiteframe-1dp" layout="column" >
+                            <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                <div layout="row" layout-align="start center">
+                                    <div class="border-right">
+                                      <span class="md-headline">Liste carte pêcheur</span>
+                                    </div>
+                                      
+                                </div>
+                            </header>
                             <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
                                 <thead>
                                     <tr>
@@ -279,10 +288,421 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
+                        </div>
+                    <!--TABLE CARTE PECHEUR-->
+
+                    <!--ENGIN-->
+                        <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.selected_carte_pecheur.id">
+                            <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                <div layout="row" layout-align="start center">
+                                <div class="border-right">
+                                    
+                                  <span class="md-headline">Liste engin de pêche | Carte pêcheur N° {{vm.selected_carte_pecheur.numero}}</span>
+                                </div>
+                                  <div class="border-right" ng-if="!vm.selected_engin.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.ajouter_engin()">
+                                      <md-icon md-font-icon="icon-plus-box"></md-icon>
+                                      <md-tooltip><span>Ajouter</span></md-tooltip>
+                                    </md-button>
+                                  </div> 
+                                  <div class="border-right" ng-if="vm.selected_engin.id&&!vm.selected_engin.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.modifier_engin()">
+                                      <md-icon md-font-icon="icon-table-edit"></md-icon>
+                                      <md-tooltip><span>Modifier</span></md-tooltip>
+                                    </md-button>
+                                  </div>    
+                                  <div class="border-right" ng-if="vm.selected_engin.id&&!vm.selected_engin.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.supprimer_engin()">
+                                      <md-icon md-font-icon="icon-delete"></md-icon>
+                                      <md-tooltip><span>Supprimer</span></md-tooltip>
+                                    </md-button>
+                                  </div>  
+
+                                  <div class="border-right" ng-if="vm.selected_engin.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.annuler_engin()">
+                                      <md-icon md-font-icon="icon-cancel"></md-icon>
+                                      <md-tooltip><span>Annuler</span></md-tooltip>
+                                    </md-button>
+                                  </div>   
+
+                                  <div ng-if="vm.selected_engin.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.enregistrer_engin(0)">
+                                      <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
+                                      <md-tooltip><span>Enregistrer</span></md-tooltip>
+                                    </md-button>
+                                  </div>                
+                                </div>
+                            </header>
+                            
+                        
+                            <table ng-table="tablepermis" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_engin">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_engin_carte_pecheur"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_engin(cm)">                                       
+                                        
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container flex="100" flex-gt-xs="60">
+                                                    <label>Engin</label>
+                                                    <md-select ng-model="cm.id_type_engin" name="id_type_engin" required>
+                                                        <md-option ng-repeat="egn in vm.alltype_engin" value="{{egn.id}}">
+                                                            {{egn.libelle}}
+                                                        </md-option>
+                                                        
+                                                    </md-select>
+                                                    
+                                                </md-input-container>  
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.libelle_type_engin}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Nbr engin</label>
+                                                  <input name="nbr_engin" ng-pattern="/^\d+$/" ng-model="cm.nbr_engin"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.nbr_engin}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Utilisation engin</label>
+                                                  <input type="text" name="utilisation_engin"  ng-model="cm.utilisation_engin"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.utilisation_engin}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Longueur(m)</label>
+                                                  <input type="number" name="longueur"  ng-model="cm.longueur"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{vm.replace_point(cm.longueur)}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Largeur(m)</label>
+                                                  <input type="number" name="largeur"  ng-model="cm.largeur"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{vm.replace_point(cm.largeur)}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Hauteur(m)</label>
+                                                  <input type="number" name="hauteur"  ng-model="cm.hauteur"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{vm.replace_point(cm.hauteur)}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Maille(cm)</label>
+                                                  <input type="number" name="maille"  ng-model="cm.maille"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{vm.replace_point(cm.maille)}}
+                                            </span>
+                                        </td>
+
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Hameçon</label>
+                                                  <input type="text" name="hamecon"  ng-model="cm.hamecon"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.hamecon}}
+                                            </span>
+                                        </td>
+                               
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    <!--FIN ENGIN-->
                 </md-tab> 
 
-                <md-tab label="Base de registre pirogues" ng-disabled="!vm.selected_carte_pecheur.id">
+                <md-tab label="Base de registre pirogues" ng-disabled="!vm.selected_carte_pecheur.id" ng-click="vm.get_carte_pirogue()">
+
+                    <div style="widht:100%;">    
+                        <md-button ng-disabled="vm.affiche_load" ng-if="vm.filtre.id_district && !vm.affichage_masque_carte_pirogue"  type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_carte_pirogue()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                          Nouveau
+                        </md-button>
+                        <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_carte_pirogue.id" aria-label="Modifier" ng-click="vm.modif_carte_pirogue()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                          Modifier
+                        </md-button>
+                        <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_carte_pirogue.id" aria-label="Supprimer" ng-click="vm.supprimer_carte_pirogue()" style="width:10%;">
+                            <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                          Supprimer
+                        </md-button>
+                    </div>  
+
+
+                    <!--FORM LISTES CARTE pirogue-->
+                            
+                        <div ng-show="vm.affichage_masque_carte_pirogue">
+                  
+                            <form name="form_carte_pirogue" class="md-inline-form" novalidate >
+
+                                
+                                <div layout="column" layout-gt-xs="row" flex>
+
+                                    <md-input-container flex="100" flex-gt-xs="50">
+                                      <input type="text" name="immatriculation" ng-model="vm.carte_pirogue.immatriculation"
+                                        placeholder="Immatricule" ng-init="vm.carte_pirogue.immatriculation=''"
+                                        required>
+                                        <div ng-messages="form_carte_pirogue.immatriculation.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Immatricule obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                      <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="an_cons" ng-model="vm.carte_pirogue.an_cons"
+                                        placeholder="Année de construction"  md-maxlength="4"  ng-init="vm.carte_pirogue.an_cons=''"
+                                        required>
+                                        <div ng-messages="form_carte_pirogue.an_cons.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Année de construction obligatoire.</span>
+                                          </div>
+                                          <div ng-message="pattern" class="my-message">Valeur invalide 
+                                        </div>
+                                        </div>
+
+                                        
+                                    </md-input-container>
+
+                                   
+
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                      <input type="number" name="longueur" ng-model="vm.carte_pirogue.longueur"
+                                        placeholder="Longueur(m)" ng-init="vm.carte_pirogue.longueur=0"
+                                         required>
+                                        <div ng-messages="form_carte_pirogue.longueur.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Longueur obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                      <input type="number" name="largeur" ng-model="vm.carte_pirogue.largeur"
+                                        placeholder="Largeur(m)" ng-init="vm.carte_pirogue.largeur=0"
+                                         required>
+                                        <div ng-messages="form_carte_pirogue.largeur.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Largeur obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                      <input type="number" name="c" ng-model="vm.carte_pirogue.c"
+                                        placeholder="C(m)" ng-init="vm.carte_pirogue.c=0"
+                                         required>
+                                        <div ng-messages="form_carte_pirogue.c.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>C obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                      <input type="text" name="coul" ng-model="vm.carte_pirogue.coul"
+                                        placeholder="Coul" ng-init="vm.carte_pirogue.coul=''"
+                                        >
+                                        <div ng-messages="form_carte_pirogue.coul.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Coul obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+
+                                <div layout="column" layout-gt-xs="row" flex>
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                      <input type="text" name="nat" ng-model="vm.carte_pirogue.nat"
+                                        placeholder="Nat" ng-init="vm.carte_pirogue.nat=''"
+                                        >
+                                        <div ng-messages="form_carte_pirogue.nat.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Nat obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                      <input type="text" name="prop" ng-model="vm.carte_pirogue.prop"
+                                        placeholder="Prop" ng-init="vm.carte_pirogue.prop=''"
+                                        >
+                                        <div ng-messages="form_carte_pirogue.prop.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Prop obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="100" flex-gt-xs="10">
+                                      <input type="text" name="type" ng-model="vm.carte_pirogue.type"
+                                        placeholder="Type" ng-init="vm.carte_pirogue.type=''"
+                                        >
+                                        <div ng-messages="form_carte_pirogue.type.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Type obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="40">
+                                      <input type="text" name="proprietaire" ng-model="vm.carte_pirogue.proprietaire"
+                                        placeholder="Info propriétaire" ng-init="vm.carte_pirogue.proprietaire=''"
+                                        required>
+                                        <div ng-messages="form_carte_pirogue.proprietaire.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Info propriétaire obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex="100" flex-gt-xs="30">
+                                      <input type="text" name="observations" ng-model="vm.carte_pirogue.observations"
+                                        placeholder="Observations" ng-init="vm.carte_pirogue.observations=''"
+                                        required>
+                                        <div ng-messages="form_carte_pirogue.observations.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Observations obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+
+
+                                <fieldset class="standard" >
+                                    <legend><code>Propriétaire ?</code></legend>
+
+                                    <md-checkbox ng-init="vm.carte_pirogue.etat_proprietaire=false" ng-model="vm.carte_pirogue.etat_proprietaire" aria-label="Checkbox 1"  style="margin: 4px;">
+                                    {{vm.affichage_bool(vm.carte_pirogue.etat_proprietaire)}}
+                                    </md-checkbox><br>
+
+
+                                    
+                                </fieldset>
+                               
+                                <div>
+                                    <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                        ng-disabled="form_carte_pirogue.$invalid " ng-click="vm.save_in_bdd_carte_pirogue(vm.carte_pirogue,0)">
+                                        Enregistrer
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                                        Annuler
+                                    </md-button>
+                                </div>
+                            </form>
+                        </div> 
+                    <!--FORM LISTES CARTE pirogue-->
+                    <!--TABLE CARTE pirogue-->
+                        <div class="price-table style-1 md-whiteframe-1dp" layout="column" >
+                            <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                <div layout="row" layout-align="start center">
+                                    <div class="border-right">
+                                      <span class="md-headline">Liste carte pirogue</span>
+                                    </div>
+                                      
+                                </div>
+                            </header>
+                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_carte_pirogue">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_carte_pirogue"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_carte_pirogue(cm)">                                       
+                                        <td>{{cm.immatriculation}}</td>
+                                        <td>{{cm.an_cons}}</td>
+                                        <td>{{vm.replace_point(cm.longueur)}}</td>
+                                        <td>{{vm.replace_point(cm.largeur)}}</td>
+                                        <td>{{(vm.replace_point(cm.c))}}</td>
+                                        <td>{{cm.coul}}</td>
+                                        <td>{{cm.nat}}</td>
+                                        <td>{{cm.prop}}</td>
+                                        <td>{{cm.type}}</td>
+                                        <td>{{cm.proprietaire}}</td>
+                                        <td>{{vm.affichage_etat_proprietaire(cm.etat_proprietaire)}}</td>
+                                        <td>{{cm.observations}}</td>
+                                        
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    <!--TABLE CARTE pirogue-->
                 </md-tab> 
             </md-tabs>
         </div>

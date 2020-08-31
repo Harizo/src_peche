@@ -19,6 +19,12 @@
 				vm.allregion= result.data.response;
 			});
 
+			apiFactory.getAll("type_engin/index").then(function(result)
+			{
+				vm.alltype_engin= result.data.response;
+
+			});
+
 			vm.get_district_by_region = function()
 			{
 				vm.filtre.id_district = null ;
@@ -191,6 +197,13 @@
 			}
 		}
 
+		vm.replace_point = function(nbr)
+		{
+			var str = ""+nbr ;
+			var res = str.replace(".",",") ;
+			return res ;
+		}
+
     	//CARTE PECHEUR
     		vm.selected_carte_pecheur = {} ;
     		var nouvel_carte_pecheur = false;
@@ -200,7 +213,6 @@
 	    		apiFactory.getAPIgeneraliserREST("SIP_carte_pecheur/index","id_district",vm.filtre.id_district).then(function(result)
 				{
 					vm.all_carte_pecheur = result.data.response;
-					console.log(vm.all_carte_pecheur);
 
 					vm.selected_carte_pecheur = {} ;
 					
@@ -224,7 +236,7 @@
 				{titre:"Association"},
 				{titre:"Nom et prénom"},
 				{titre:"Date de naissance"},
-				{titre:"Carte d'identité nationale"},
+				{titre:"Carte d'Identité Nationale"},
 				{titre:"Date délivrance CIN"},
 				{titre:"Lieu de délivrance CIN"},
 				{titre:"Nombre pirogue"},
@@ -308,6 +320,7 @@
 
 			vm.save_in_bdd = function(data_masque, etat_suppression)
 			{
+				vm.affiche_load = true ;
 				var config = {
 	                headers : {
 	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -348,6 +361,7 @@
 
 	            apiFactory.add("SIP_carte_pecheur/index",datas, config).success(function (data)
         		{
+        			vm.affiche_load = false ;
         			var com = vm.allcommune.filter(function(obj)
 					{
 						return obj.id == data_masque.id_commune;
@@ -432,18 +446,499 @@
         //FIN CARTE PECHEUR
 
         //ENGIN DE PECHE
+        	vm.all_engin_carte_pecheur = [];
+	        
 
-        vm.get_engin_by_carte_pecheur = function (id_carte_pecheur) 
-        {
-        	apiFactory.getAPIgeneraliserREST("SIP_engin_carte_pecheur/index","id_carte_pecheur",id_carte_pecheur).then(function(result)
+	        vm.get_engin_by_carte_pecheur = function (id_carte_pecheur) 
+	        {
+	        	vm.affiche_load = true ;
+	        	apiFactory.getAPIgeneraliserREST("SIP_engin_carte_pecheur/index","id_carte_pecheur",id_carte_pecheur).then(function(result)
+				{
+					vm.all_engin_carte_pecheur = result.data.response;
+					vm.affiche_load = false ;
+					
+				});
+	        }
+
+	        vm.entete_liste_engin = 
+	        [
+				{titre:"Engin"},
+				{titre:"Nbr engin"},
+				{titre:"utilisation_engin"},
+				{titre:"longueur(m)"},
+				{titre:"largeur(m)"},
+				{titre:"hauteur(m)"},
+				{titre:"maille(cm)"},
+				{titre:"hamecon"}
+	        ] ;
+
+    
+			
+    		vm.selected_engin = {} ;
+    		var current_selected_engin = {} ;
+    		var nouvelle_engin = false ;
+
+    		
+
+			vm.selection_engin = function(item)
 			{
-				vm.all_engin_carte_pecheur = result.data.response;
-				console.log(vm.all_engin_carte_pecheur);
+				vm.selected_engin = item ;
+
+				if (!vm.selected_engin.$edit) //si simple selection
+				{
+					nouvelle_engin = false ;	
+				}
+
+
+			}
+
+			$scope.$watch('vm.selected_engin', function()
+			{
+				if (!vm.all_engin_carte_pecheur) return;
+				vm.all_engin_carte_pecheur.forEach(function(item)
+				{
+					item.$selected = false;
+				});
+				vm.selected_engin.$selected = true;
+
+			});
+
+			vm.ajouter_engin = function()
+			{
+				nouvelle_engin = true ;
+				var item = 
+					{
+						
+						$edit: true,
+						$selected: true,
+	              		id:'0',
+	              		id_carte_pecheur:vm.selected_carte_pecheur.id,
+	              		id_type_engin:'',
+	              		nbr_engin:0,
+	              		utilisation_engin:'',
+	              		longueur:0,
+	              		largeur:0,
+	              		hauteur:0,
+	              		maille:0,
+	              		hamecon:''
+					} ;
+
+				vm.all_engin_carte_pecheur.unshift(item);
+	            vm.all_engin_carte_pecheur.forEach(function(af)
+	            {
+	              if(af.$selected == true)
+	              {
+	                vm.selected_engin = af;
+	                
+	              }
+            	});
+			}
+
+			vm.modifier_engin = function()
+			{
+				nouvelle_engin = false ;
+				vm.selected_engin.$edit = true;
+
+				vm.selected_engin.nbr_engin = Number(vm.selected_engin.nbr_engin);
+				vm.selected_engin.longueur = Number(vm.selected_engin.longueur);
+				vm.selected_engin.largeur = Number(vm.selected_engin.largeur);
+				vm.selected_engin.hauteur = Number(vm.selected_engin.hauteur);
+				vm.selected_engin.maille = Number(vm.selected_engin.maille);
+
+				current_selected_engin = angular.copy(vm.selected_engin);
+			}
+
+			vm.supprimer_engin = function()
+			{
 
 				
-			});
-        }
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('Cliquer sur OK pour confirmer')
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('OK')
+				  .cancel('Annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.enregistrer_engin(1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.annuler_engin = function()
+			{
+				if (nouvelle_engin) 
+				{
+					
+					vm.all_engin_carte_pecheur.shift();
+					vm.selected_engin = {} ;
+					nouvelle_engin = false ;
+				}
+				else
+				{
+					vm.selected_engin.$selected = false;
+					vm.selected_engin.$edit = false;
+
+					vm.selected_engin.id_type_engin = current_selected_engin.id_type_engin ;
+					vm.selected_engin.libelle_type_engin = current_selected_engin.libelle_type_engin ;
+
+					vm.selected_engin.utilisation_engin = current_selected_engin.utilisation_engin ;
+					vm.selected_engin.nbr_engin = current_selected_engin.nbr_engin ;
+					vm.selected_engin.longueur = current_selected_engin.longueur ;
+					vm.selected_engin.largeur = current_selected_engin.largeur ;
+					vm.selected_engin.hauteur = current_selected_engin.hauteur ;
+					vm.selected_engin.maille = current_selected_engin.maille ;
+					vm.selected_engin.hamecon = current_selected_engin.hamecon ;
+
+					vm.selected_engin = {};
+
+
+
+				}
+			}
+
+			vm.enregistrer_engin = function(etat_suppression)
+			{
+				vm.affiche_load = true ;
+				var config = {
+	                headers : {
+	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	                }
+	            };
+
+
+	            var datas = $.param(
+	            {
+	            	
+	                supprimer : etat_suppression,
+	                id_carte_pecheur : vm.selected_carte_pecheur.id,
+
+	                id : vm.selected_engin.id ,
+	                id_type_engin : vm.selected_engin.id_type_engin ,
+					utilisation_engin : vm.selected_engin.utilisation_engin ,
+					nbr_engin : vm.selected_engin.nbr_engin ,
+					longueur : vm.selected_engin.longueur ,
+					largeur : vm.selected_engin.largeur ,
+					hauteur : vm.selected_engin.hauteur ,
+					maille : vm.selected_engin.maille ,
+					hamecon : vm.selected_engin.hamecon 
+	                
+	                
+	            });
+
+	            apiFactory.add("SIP_engin_carte_pecheur/index",datas, config).success(function (data)
+        		{
+        			vm.affiche_load = false ;
+        			var te = vm.alltype_engin.filter(function(obj)
+					{
+						return obj.id == vm.selected_engin.id_type_engin;
+					});
+        			if (!nouvelle_engin) 
+        			{
+        				if (etat_suppression == 0) 
+        				{
+        					vm.selected_engin.$edit = false ;
+        					vm.selected_engin.$selected = false ;
+        					vm.selected_engin.libelle_type_engin = te[0].libelle ;
+
+        					vm.selected_engin = {} ;
+        				}
+        				else
+        				{
+        					vm.all_engin_carte_pecheur = vm.all_engin_carte_pecheur.filter(function(obj)
+							{
+								return obj.id !== vm.selected_engin.id;
+							});
+
+							vm.selected_engin = {} ;
+        				}
+
+        			}
+        			else
+        			{
+        				vm.selected_engin.$edit = false ;
+        				vm.selected_engin.$selected = false ;
+        				vm.selected_engin.id = String(data.response) ;
+        				vm.selected_engin.libelle_type_engin = te[0].libelle ;
+
+        				nouvelle_engin = false ;
+        				vm.selected_engin = {};
+
+        			}
+        		})
+        		.error(function (data) {alert("Une erreur s'est produit");});
+			}
+
+		
+
+		
 
         //FIN ENGIN DE PECHE
+        
+
+        //CARTE pirogue
+
+        	vm.affichage_etat_proprietaire = function(etat)
+        	{
+        		if (Number(etat) == 0) 
+        		{
+        			return "Non" ;
+        		}
+        		else
+        			return "Oui" ;
+        	}
+
+        	
+
+			vm.affichage_bool = function(bool)
+			{
+				if (!bool) 
+					return "Non";
+				else
+					return "Oui";
+			}
+
+			vm.convert_int_to_boll = function(int)
+			{
+				if (int == '0') 
+					return false;
+				else
+					return true;
+			}
+
+			vm.convert_bool_to_int = function(int)
+			{
+				if (int) 
+					return "1";
+				else
+					return "0";
+			}
+
+
+        	vm.get_carte_pirogue = function () 
+	        {
+
+	        	vm.affiche_load = true ;
+	        	apiFactory.getAPIgeneraliserREST("SIP_carte_pirogue/index","id_carte_pecheur",vm.selected_carte_pecheur.id).then(function(result)
+				{
+					vm.all_carte_pirogue = result.data.response;
+					vm.affiche_load = false ;
+
+					console.log(vm.all_carte_pirogue);
+					
+				});
+	        }
+        
+       
+    		vm.selected_carte_pirogue = {} ;
+    		var nouvel_carte_pirogue = false;
+    		vm.all_carte_pirogue = [] ;
+	    	
+
+	    	vm.dtOptions =
+			{
+				dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+				pagingType: 'simple_numbers',
+				order:[] 
+			};
+
+			vm.entete_liste_carte_pirogue = 
+	        [
+				{titre:"Immatricule"},
+				{titre:"Année de construction"},
+				{titre:"Longueur(m)"},
+				{titre:"Largeur(m)"},
+				{titre:"C(m)"},
+				{titre:"Coul"},
+				{titre:"Nat"},
+				{titre:"Prop"},
+				{titre:"Type"},
+				{titre:"Propriétaire"},
+				{titre:"propriétaire??"},
+				{titre:"Observations"}
+	        ] ;
+
+
+	        vm.selection_carte_pirogue = function(item) 
+	        {
+	        	vm.selected_carte_pirogue = item ;
+	        	
+	        }
+
+	        $scope.$watch('vm.selected_carte_pirogue', function()
+			{
+				if (!vm.all_carte_pirogue) return;
+				vm.all_carte_pirogue.forEach(function(item)
+				{
+					item.$selected = false;
+				});
+				vm.selected_carte_pirogue.$selected = true;
+
+			});
+
+			vm.ajout_carte_pirogue = function() 
+			{
+				vm.affichage_masque_carte_pirogue = true ;
+				nouvel_carte_pirogue = true ;
+				vm.carte_pirogue = {} ;
+			}
+
+			vm.modif_carte_pirogue = function() 
+			{
+				nouvel_carte_pirogue = false ;
+
+                vm.carte_pirogue.immatriculation = vm.selected_carte_pirogue.immatriculation ;
+                vm.carte_pirogue.an_cons = (vm.selected_carte_pirogue.an_cons) ;
+                vm.carte_pirogue.longueur = Number(vm.selected_carte_pirogue.longueur) ;
+                vm.carte_pirogue.largeur = Number(vm.selected_carte_pirogue.largeur) ;
+                vm.carte_pirogue.c = Number(vm.selected_carte_pirogue.c) ;
+
+
+                vm.carte_pirogue.coul = vm.selected_carte_pirogue.coul ;
+                vm.carte_pirogue.nat = vm.selected_carte_pirogue.nat ;
+                vm.carte_pirogue.prop = vm.selected_carte_pirogue.prop ;
+                vm.carte_pirogue.type = vm.selected_carte_pirogue.type ;
+                vm.carte_pirogue.observations = vm.selected_carte_pirogue.observations ;
+                vm.carte_pirogue.etat_proprietaire = vm.convert_int_to_boll(vm.selected_carte_pirogue.etat_proprietaire) ;
+                vm.carte_pirogue.proprietaire = vm.selected_carte_pirogue.proprietaire ;
+
+
+                vm.affichage_masque_carte_pirogue = true ;
+			}
+
+			vm.supprimer_carte_pirogue = function () 
+			{
+				var confirm = $mdDialog.confirm()
+				  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+				  .textContent('')
+				  .ariaLabel('Lucky day')
+				  .clickOutsideToClose(true)
+				  .parent(angular.element(document.body))
+				  .ok('ok')
+				  .cancel('annuler');
+				$mdDialog.show(confirm).then(function() {
+
+				vm.save_in_bdd_carte_pirogue(vm.selected_carte_pirogue,1);
+				}, function() {
+				//alert('rien');
+				});
+			}
+
+			vm.annuler = function () 
+			{
+				nouvel_carte_pirogue = false ;
+				vm.affichage_masque_carte_pirogue = false ;
+				vm.selected_carte_pirogue = {} ;
+			}
+
+			vm.save_in_bdd_carte_pirogue = function(data_masque, etat_suppression)
+			{
+				vm.affiche_load = true ;
+				var config = {
+	                headers : {
+	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	                }
+	            };
+
+	            var id = 0 ;
+
+	            if (!nouvel_carte_pirogue) 
+	            {
+	            	id = vm.selected_carte_pirogue.id ;
+	            }
+
+
+
+	            var datas = $.param(
+	            {
+	            	
+	                id : id,      
+	                supprimer : etat_suppression,
+	                id_carte_pecheur : vm.selected_carte_pecheur.id,
+	                immatriculation : data_masque.immatriculation,
+	                an_cons : (data_masque.an_cons) ,
+	                longueur : (data_masque.longueur) ,
+	                largeur : (data_masque.largeur) ,
+	                c : (data_masque.c) ,
+	                coul : data_masque.coul ,
+	                nat : data_masque.nat ,
+	                prop : data_masque.prop ,
+	                type : data_masque.type ,
+	                observations : data_masque.observations ,
+	                etat_proprietaire : vm.convert_bool_to_int(data_masque.etat_proprietaire) ,
+	                proprietaire : data_masque.proprietaire 
+	                
+	                
+	            });
+
+
+	            apiFactory.add("SIP_carte_pirogue/index",datas, config).success(function (data)
+        		{
+        			vm.affiche_load = false ;
+        			
+        			if (!nouvel_carte_pirogue) 
+        			{
+        				if (etat_suppression == 0) //mise à jour
+        				{
+        				
+			                vm.selected_carte_pirogue.immatriculation = data_masque.immatriculation ;
+			                vm.selected_carte_pirogue.an_cons = (data_masque.an_cons) ;
+			                vm.selected_carte_pirogue.longueur = (data_masque.longueur) ;
+			                vm.selected_carte_pirogue.largeur = (data_masque.largeur) ;
+			                vm.selected_carte_pirogue.c = (data_masque.c) ;
+
+
+			                vm.selected_carte_pirogue.coul = data_masque.coul ;
+			                vm.selected_carte_pirogue.nat = data_masque.nat ;
+			                vm.selected_carte_pirogue.prop = data_masque.prop ;
+			                vm.selected_carte_pirogue.type = data_masque.type ;
+			                vm.selected_carte_pirogue.observations = data_masque.observations ;
+			                vm.selected_carte_pirogue.etat_proprietaire = vm.convert_bool_to_int(data_masque.etat_proprietaire) ;
+			                vm.selected_carte_pirogue.proprietaire = data_masque.proprietaire ;
+
+        				}
+        				else//Suppression
+        				{
+        					vm.all_carte_pirogue = vm.all_carte_pirogue.filter(function(obj)
+							{
+								return obj.id !== vm.selected_carte_pirogue.id;
+							});
+
+        				}
+
+        			}
+        			else
+        			{
+        				var item =
+			            {
+							id:String(data.response) ,
+							id_carte_pirogue : vm.selected_carte_pirogue.id,
+			                immatriculation : data_masque.immatriculation,
+			                an_cons : (data_masque.an_cons) ,
+			                longueur : (data_masque.longueur) ,
+			                largeur : (data_masque.largeur) ,
+			                c : (data_masque.c) ,
+			                coul : data_masque.coul ,
+			                nat : data_masque.nat ,
+			                prop : data_masque.prop ,
+			                type : data_masque.type ,
+			                observations : data_masque.observations ,
+			                etat_proprietaire : vm.convert_bool_to_int(data_masque.etat_proprietaire) ,
+			                proprietaire : data_masque.proprietaire               
+						}          
+			            vm.all_carte_pirogue.unshift(item);
+        			}
+
+	        		vm.affichage_masque_carte_pirogue = false ; //Fermeture de la masque de saisie
+	        		nouvel_carte_pirogue = false;
+
+
+        		})
+        		.error(function (data) {alert("Une erreur s'est produit");}); 
+			}
+        //FIN CARTE pirogue
     }
 })();
