@@ -1318,26 +1318,32 @@
 
 				vm.get_sequence_peche = function(item)
 		        {
-		          vm.affiche_load = true ;
-		          apiFactory.getParamsDynamic("SIP_sequence_peche?id_fiche_peche_crevette="+item.id).then(function(result)
-		          {
-		            vm.affiche_load = false ;
-		            vm.all_sequence_peche = result.data.response;
+		        	vm.selected_sequence_peche = {} ;
+					vm.affiche_load = true ;
+					apiFactory.getParamsDynamic("SIP_sequence_peche?id_fiche_peche_crevette="+item.id).then(function(result)
+					{
+						vm.affiche_load = false ;
+						vm.all_sequence_peche = result.data.response;
 
-		          });
+					});
 		        }
 
 		        vm.selection_sequence_peche = function(item)
 		        {
-		          vm.selected_sequence_peche = item ;
+					vm.selected_sequence_peche = item ;
+					current_selected_sequence_peche = angular.copy(vm.selected_sequence_peche);
 
-		          vm.get_sequence_transbordement(item);
-		          vm.get_sequence_capture(item);
+					if (item.id !=0) //si déjà enregistrer
+					{
+						vm.get_sequence_transbordement(item);
+						vm.get_sequence_capture(item);
 
-		          if (!vm.selected_sequence_peche.$edit) //si simple selection
-		          {
-		            nouvelle_sequence_peche = false ;  
-		          }
+					}
+
+					if (!vm.selected_sequence_peche.$edit) //si simple selection
+					{
+						nouvelle_sequence_peche = false ;
+					}
 
 		        }
 
@@ -1433,7 +1439,7 @@
 		          nouvelle_sequence_peche = false ;
 		          vm.selected_sequence_peche.$edit = true;
 		          vm.selected_sequence_peche.date = new Date(vm.selected_sequence_peche.date);
-		          current_selected_sequence_peche = angular.copy(vm.selected_sequence_peche);
+		          
 		        }
 
 		        vm.supprimer_sequence_peche = function()
@@ -1460,7 +1466,6 @@
 		        {
 		          if (nouvelle_sequence_peche) 
 		          {
-		            
 		            vm.all_sequence_peche.shift();
 		            vm.selected_sequence_peche = {} ;
 		            nouvelle_sequence_peche = false ;
@@ -1499,39 +1504,39 @@
 		                });
 
 		                apiFactory.add("SIP_sequence_peche/index",datas, config).success(function (data)
-		              {
-		                if (!nouvelle_sequence_peche) 
-		                {
-		                  if (etat_suppression == 0) 
-		                  {
-		                    vm.selected_sequence_peche.$edit = false ;
-		                    vm.selected_sequence_peche.$selected = false ;
-		                    vm.selected_sequence_peche = {} ;
-		                  }
-		                  else
-		                  {
-		                    vm.all_sequence_peche = vm.all_sequence_peche.filter(function(obj)
-		                    {
-		                      return obj.id !== vm.selected_sequence_peche.id;
-		                    });
+						{
+						if (!nouvelle_sequence_peche) 
+						{
+							if (etat_suppression == 0) 
+							{
+								vm.selected_sequence_peche.$edit = false ;
+								vm.selected_sequence_peche.$selected = false ;
+								vm.selected_sequence_peche = {} ;
+							}
+							else
+							{
+								vm.all_sequence_peche = vm.all_sequence_peche.filter(function(obj)
+								{
+								  return obj.id !== vm.selected_sequence_peche.id;
+								});
 
-		                    vm.selected_sequence_peche = {} ;
-		                  }
+								vm.selected_sequence_peche = {} ;
+							}
 
-		                }
-		                else
-		                {
-		                  vm.selected_sequence_peche.$edit = false ;
-		                  vm.selected_sequence_peche.$selected = false ;
-		                  vm.selected_sequence_peche.id = String(data.response) ;
-		                  vm.selected_sequence_peche.id_fiche_peche_crevette = vm.selected_fiche_peche.id ;
+							}
+							else
+							{
+								vm.selected_sequence_peche.$edit = false ;
+								vm.selected_sequence_peche.$selected = false ;
+								vm.selected_sequence_peche.id = String(data.response) ;
+								vm.selected_sequence_peche.id_fiche_peche_crevette = vm.selected_fiche_peche.id ;
 
-		                  nouvelle_sequence_peche = false ;
-		                  vm.selected_sequence_peche = {};
+								nouvelle_sequence_peche = false ;
+								vm.selected_sequence_peche = {};
 
-		                }
-		              })
-		              .error(function (data) {alert("Une erreur s'est produit");});
+							}
+						})
+						.error(function (data) {alert("Une erreur s'est produit");});
 		        }
 
 		      
