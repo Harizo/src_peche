@@ -108,20 +108,39 @@
               if(suppression == 0) 
 
               { 
-                vm.selectedItem.typ_esp_id        = vm.sip_espece.typ_esp_id;
-                vm.selectedItem.type_lib          = tpe[0].libelle;
-                vm.selectedItem.id_famille        = vm.sip_espece.id_famille;
-                vm.selectedItem.libelle_famille   = fml[0].libelle;
-                vm.selectedItem.code              = vm.sip_espece.code;       
-                vm.selectedItem.nom               = vm.sip_espece.nom;
-                vm.selectedItem.nom_scientifique  = vm.sip_espece.nom_scientifique;       
-                vm.selectedItem.nom_local         = vm.sip_espece.nom_local;
-                vm.selectedItem.nom_francaise     = vm.sip_espece.nom_francaise;
-                vm.afficherboutonModifSupr        = 0 ;
-                vm.afficherboutonModif            = 0 ;
-                vm.afficherboutonnouveau          = 1 ;
-                vm.selectedItem.$selected         = false;                    
-                vm.selectedItem                   = {};                    
+                if ((vm.sip_espece.id_famille==null)||(vm.sip_espece.id_famille==0)) 
+                {
+                  vm.selectedItem.typ_esp_id        = vm.sip_espece.typ_esp_id;
+                  vm.selectedItem.type_lib          = tpe[0].libelle;
+                  vm.selectedItem.id_famille        = vm.sip_espece.id_famille;
+                  vm.selectedItem.code              = vm.sip_espece.code;       
+                  vm.selectedItem.nom               = vm.sip_espece.nom;
+                  vm.selectedItem.nom_scientifique  = vm.sip_espece.nom_scientifique;       
+                  vm.selectedItem.nom_local         = vm.sip_espece.nom_local;
+                  vm.selectedItem.nom_francaise     = vm.sip_espece.nom_francaise;
+                  vm.afficherboutonModifSupr        = 0 ;
+                  vm.afficherboutonModif            = 0 ;
+                  vm.afficherboutonnouveau          = 1 ;
+                  vm.selectedItem.$selected         = false;                    
+                  vm.selectedItem                   = {}; 
+                } 
+                else 
+                {
+                  vm.selectedItem.typ_esp_id        = vm.sip_espece.typ_esp_id;
+                  vm.selectedItem.type_lib          = tpe[0].libelle;
+                  vm.selectedItem.id_famille        = vm.sip_espece.id_famille;
+                  vm.selectedItem.libelle_famille   = fml[0].libelle;
+                  vm.selectedItem.code              = vm.sip_espece.code;       
+                  vm.selectedItem.nom               = vm.sip_espece.nom;
+                  vm.selectedItem.nom_scientifique  = vm.sip_espece.nom_scientifique;       
+                  vm.selectedItem.nom_local         = vm.sip_espece.nom_local;
+                  vm.selectedItem.nom_francaise     = vm.sip_espece.nom_francaise;
+                  vm.afficherboutonModifSupr        = 0 ;
+                  vm.afficherboutonModif            = 0 ;
+                  vm.afficherboutonnouveau          = 1 ;
+                  vm.selectedItem.$selected         = false;                    
+                  vm.selectedItem                   = {}; 
+                }            
               } 
               else 
               {  
@@ -134,6 +153,23 @@
 
            else
            { 
+              if (vm.sip_espece.id_famille==null)
+            {
+              var item = {
+                typ_esp_id:             sip_espece.typ_esp_id,
+                 type_lib :             tpe[0].libelle,                    
+                 id_famille:            sip_espece.id_famille,
+                 nom :                  sip_espece.nom,
+                 code :                 sip_espece.code,
+                 nom_local :            sip_espece.nom_local,
+                 nom_francaise :        sip_espece.nom_francaise,
+                 nom_scientifique :     sip_espece.nom_scientifique,
+                 id :                   String(data.response) 
+              };
+            } 
+            
+            else 
+            {
               var item = {
                 typ_esp_id:             sip_espece.typ_esp_id,
                  type_lib :             tpe[0].libelle,                    
@@ -145,7 +181,7 @@
                  nom_francaise :        sip_espece.nom_francaise,
                  nom_scientifique :     sip_espece.nom_scientifique,
                  id :                   String(data.response) 
-              };
+              };}
               vm.allsip_espece.push(item);              
                 
               NouvelItem  = false;
@@ -232,10 +268,7 @@
                 .parent(angular.element(document.body))
                 .ok('ok')
                 .cancel('annuler');
-            apiFactory.getParamsDynamic("sip_permis/index?id_espece="+vm.selectedItem.id+"").then(function (resultat) {
-              vm.permis = resultat.data.response.length;
-
-              apiFactory.getParamsDynamic("sip_sortie_peche_artisanale/index?id_espece="+vm.selectedItem.id+"").then(function (resultat) {
+           apiFactory.getParamsDynamic("sip_sortie_peche_artisanale/index?id_espece="+vm.selectedItem.id+"").then(function (resultat) {
                 vm.sortie_peche_artisanale = resultat.data.response.length;
 
                 apiFactory.getParamsDynamic("sip_commercialisation_crevette/index?id_espece="+vm.selectedItem.id+"").then(function (resultat) {
@@ -255,7 +288,6 @@
                   }
                 });
               });
-            });
       };
 
         vm.dialog = function (ev)
@@ -287,12 +319,10 @@
             };
 
             dg.titre_column  = [
-                        {titre:"Nombre permis"},
                         {titre:"Sortie pêche artisanale"},
                         {titre: "Commercialisation crevette"}
             ]; 
             
-               dg.nbr1 = vm.permis;
                dg.nbr2 = vm.sortie_peche_artisanale;
                dg.nbr3 = vm.comerce_crevette;
             dg.cancel = function()

@@ -178,7 +178,6 @@
             vm.esp = res.data.response.length;
            apiFactory.getParamsDynamic("sip_Saisie_vente_poissonnerie/index?famille_rh="+vm.selectedItem.id+"").then(function (result) {
               vm.Saisie_VP = result.data.response.length;
-              console.log(vm.Saisie_VP);
               if (( vm.Saisie_VP>0)||( vm.esp>0)) 
               {
                 vm.dialog();
