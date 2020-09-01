@@ -172,8 +172,8 @@
                               <tr ng-repeat="cm in vm.all_poissonnerie"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_poissonnerie(cm)">                                       
                                   <td>{{cm.nom}}</td>
                                   <td>{{cm.localisation}}</td>
-                                  <td>{{cm.nom_region}}</td>
                                   <td>{{cm.adresse}}</td>
+                                  <td>{{cm.nom_region}}</td>
                                   <td>{{cm.rcs}}</td>
                                   <td>{{cm.stat}}</td>
                                   <td>{{cm.nif}}</td>
@@ -205,6 +205,102 @@
               <!--FORM SAISIE VENTE POISSONNERIE-->
                   <div ng-show="vm.affichage_masque_vente_poissonnerie">
                       <form name="form_vente_poissonnerie" class="md-inline-form" novalidate >
+
+                         <div layout="column" layout-gt-xs="row" flex>
+                              <md-input-container flex="100" flex-gt-xs="50">
+                                <input  type="text" name="designation_article" ng-model="vm.vente_poissonnerie.designation_article"
+                                  placeholder="Désignation article."
+                                  required>
+                                  <div ng-messages="form_vente_poissonnerie.designation_article.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Désign article. obligatoire.</span>
+                                    </div>
+                                    
+                                  </div>
+                              </md-input-container>
+
+                              <md-input-container flex="100" flex-gt-xs="50">
+                                <input  type="text" name="origine_produits" ng-model="vm.vente_poissonnerie.origine_produits"
+                                  placeholder="Origine prod." 
+                                  required>
+                                  <div ng-messages="form_vente_poissonnerie.origine_produits.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Origine prod. obligatoire.</span>
+                                    </div>
+                                    
+                                  </div>
+                              </md-input-container>
+
+                              <md-input-container flex="100" flex-gt-xs="50">
+                                <input  type="text" name="reference_fournisseur" ng-model="vm.vente_poissonnerie.reference_fournisseur"
+                                  placeholder="Rèf fournisseur." 
+                                  required>
+                                  <div ng-messages="form_vente_poissonnerie.reference_fournisseur.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Rèf fournisseur. obligatoire.</span>
+                                    </div>
+                                    
+                                  </div> 
+                              </md-input-container>
+                              <md-input-container flex="100" flex-gt-xs="50">
+                                <input  type="text" name="observations" ng-model="vm.vente_poissonnerie.observations"
+                                  placeholder="Observation."
+                                  required>
+                                  <div ng-messages="form_vente_poissonnerie.observations.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Observation. obligatoire.</span>
+                                    </div>
+                                    
+                                  </div>
+                              </md-input-container>
+
+                          </div>
+
+                          <div layout="column" layout-gt-xs="row" flex> 
+                              <md-input-container flex="100" flex-gt-xs="50">
+                                <input  type="number" name="quantite_vendu" ng-model="vm.vente_poissonnerie.quantite_vendu"
+                                  placeholder="Quantité vendue(Kg)"    ng-init="vm.vente_poissonnerie.quantite_vendu=0"
+                                  required>
+                                  <div ng-messages="form_vente_poissonnerie.quantite_vendu.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Qté vendue obligatoire.</span>
+                                    </div>
+                                    
+                                  </div>
+                              </md-input-container>
+                              
+                              <md-input-container flex="100" flex-gt-xs="50">
+                                <input  type="number" name="prix_kg" ng-model="vm.vente_poissonnerie.prix_kg"
+                                  placeholder="Prix(Ar/Kg)"    ng-init="vm.vente_poissonnerie.prix_kg=0"
+                                  required>
+                                  <div ng-messages="form_vente_poissonnerie.prix_kg.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>Prix obligatoire.</span>
+                                    </div>
+                                    
+                                  </div> 
+                              </md-input-container>
+
+                              <md-input-container flex="100" flex-gt-xs="50">
+                                <input ng-readonly="true"  type="number" name="chiffre_affaire" ng-model="vm.vente_poissonnerie.chiffre_affaire"
+                                  placeholder="chiffre d'affaire(Ar)"    ng-init="vm.vente_poissonnerie.chiffre_affaire=0"
+                                  required>
+                                  <div ng-messages="form_vente_poissonnerie.chiffre_affaire.$error"
+                                    role="alert">
+                                    <div ng-message="required">
+                                      <span>chiffre d'affaire obligatoire.</span>
+                                    </div>
+                                    
+                                  </div>
+                              </md-input-container>
+
+                          </div>
 
                         <div layout="column" layout-gt-xs="row" flex>
                             
@@ -256,107 +352,7 @@
                                     </div>
                             </md-input-container>
                           </div>
-                          <div layout="column" layout-gt-xs="row" flex> 
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="number" name="quantite_vendu" ng-model="vm.vente_poissonnerie.quantite_vendu"
-                                  placeholder="Quantité vendue(Kg)"    ng-init="vm.vente_poissonnerie.quantite_vendu=0"
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.quantite_vendu.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Qté vendue obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-                              </md-input-container>
-                              
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="number" name="prix_kg" ng-model="vm.vente_poissonnerie.prix_kg"
-                                  placeholder="Prix(Ar/Kg)"    ng-init="vm.vente_poissonnerie.prix_kg=0"
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.prix_kg.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Prix obligatoire.</span>
-                                    </div>
-                                    
-                                  </div> 
-                              </md-input-container>
 
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input ng-readonly="true"  type="number" name="chiffre_affaire" ng-model="vm.vente_poissonnerie.chiffre_affaire"
-                                  placeholder="chiffre d'affaire(Ar)"    ng-init="vm.vente_poissonnerie.chiffre_affaire=0"
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.chiffre_affaire.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>chiffre d'affaire obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-                              </md-input-container>
-
-                          </div>
-
-                          <div layout="column" layout-gt-xs="row" flex>
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="text" name="designation_article" ng-model="vm.vente_poissonnerie.designation_article"
-                                  placeholder="Désign article."
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.designation_article.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Désign article. obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-
-                                  
-                              </md-input-container>
-
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="text" name="origine_produits" ng-model="vm.vente_poissonnerie.origine_produits"
-                                  placeholder="Origine prod." 
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.origine_produits.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Origine prod. obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-
-                                  
-                              </md-input-container>
-
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="text" name="reference_fournisseur" ng-model="vm.vente_poissonnerie.reference_fournisseur"
-                                  placeholder="Rèf fournisseur." 
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.reference_fournisseur.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Rèf fournisseur. obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-
-                                  
-                              </md-input-container>
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="text" name="observations" ng-model="vm.vente_poissonnerie.observations"
-                                  placeholder="Observation."
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.observations.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Observation. obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-                              </md-input-container>
-
-                          </div>
                           <div>
                            <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                             ng-disabled="form_vente_poissonnerie.$invalid" ng-click="vm.save_in_bdd_vente_poissonnerie(vm.vente_poissonnerie,0)">

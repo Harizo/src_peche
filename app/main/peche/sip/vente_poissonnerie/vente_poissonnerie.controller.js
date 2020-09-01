@@ -87,8 +87,8 @@ var vm = this;
            [
             {titre:"nom"},
             {titre:"localisation"},
-            {titre:'région'},
             {titre:"adresse"},
+            {titre:'région'},
             {titre:"rcs"},
             {titre:"stat"},
             {titre:"nif"},

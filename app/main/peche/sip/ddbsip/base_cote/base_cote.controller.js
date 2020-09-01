@@ -19,12 +19,11 @@
       vm.afficherboutonnouveau  = 1 ;    //variale affichage bouton nouveau  
       vm.titrepage              ='';
         //style
-      vm.dtOptions =
+       vm.dtOptions =
       {
-        dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-        pagingType: 'simple',
-        autoWidth: false,
-        responsive: true
+         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+         pagingType: 'simple_numbers',
+         order:[] 
       };
 
       //col table 
@@ -98,7 +97,7 @@
               libelle: bs_cote.libelle,              
               id:      String(data.response)                       
             };              
-            vm.all_base_cote.push(item);
+            vm.all_base_cote.unshift(item);
             vm.bs_cote          = {} ;                   
             NouvelItem          =false;
           }

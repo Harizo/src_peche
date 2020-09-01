@@ -18,21 +18,21 @@
       vm.allsip_type_espece    = [];
       vm.afficherboutonnouveau = 1;      
       vm.affichageMasque       = 0;
-      vm.dtOptions = 
-      {  dom        : '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-         pagingType : 'simple',
-         autoWidth  : false,
-         responsive : true
+       vm.dtOptions =
+      {
+         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+         pagingType: 'simple_numbers',
+         order:[] 
       };
  
       vm.sip_espece_column = [    
                   { titre:"Code" },
                   { titre:"Nom"},
                   { titre:"Nom local" },
-                  { titre:"Nom scientifique"},
                   { titre:"Nom française"},
-                  { titre:'Famille'},
-                  { titre:'Type espece'}
+                  { titre:"Nom scientifique"},
+                  { titre:'Type espece'},
+                  { titre:'Famille'}
        ];
 
    
@@ -182,7 +182,7 @@
                  nom_scientifique :     sip_espece.nom_scientifique,
                  id :                   String(data.response) 
               };}
-              vm.allsip_espece.push(item);              
+              vm.allsip_espece.unshift(item);              
                 
               NouvelItem  = false;
            }

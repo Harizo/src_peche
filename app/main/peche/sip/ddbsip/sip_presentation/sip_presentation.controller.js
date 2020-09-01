@@ -17,12 +17,11 @@
     function PresentationController($mdDialog, $scope, apiFactory, $state)  
     {
       var vm   = this;
-      vm.dtOptions =
+       vm.dtOptions =
       {
-        dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-        pagingType: 'simple',
-        autoWidth: false,
-        responsive: true
+         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+         pagingType: 'simple_numbers',
+         order:[] 
       };
       vm.ajout = ajout ;
       var currentItem;
@@ -101,7 +100,7 @@
               libelle: sip_presentation.libelle,
               id:      String(data.response)                       
             };              
-            vm.allsip_presentation.push(item);
+            vm.allsip_presentation.unshift(item);
             vm.sip_presentation = {} ;                   
             NouvelItem      =false;
           }
