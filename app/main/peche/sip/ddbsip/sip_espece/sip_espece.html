@@ -119,6 +119,7 @@
                                <md-input-container flex="100" flex-gt-xs="33">
                                     <label>Famille</label>
                                     <md-select ng-model="vm.sip_espece.id_famille" name="id_famille"  ng-change="vm.set_libelle()">
+                                        <md-option  value="-">-</md-option>
                                         <md-option ng-repeat="fm in vm.allfamille" value="{{fm.id}}">
                                             {{fm.libelle}} 
                                         </md-option>

@@ -107,12 +107,13 @@
            {  //Update or delete: id exclu
               if(suppression == 0) 
 
-              { 
-                if ((vm.sip_espece.id_famille==null)||(vm.sip_espece.id_famille==0)) 
+              {
+                if ((vm.sip_espece.id_famille==null)||(vm.sip_espece.id_famille==0)||(vm.sip_espece.id_famille=="-")) 
                 {
                   vm.selectedItem.typ_esp_id        = vm.sip_espece.typ_esp_id;
                   vm.selectedItem.type_lib          = tpe[0].libelle;
-                  vm.selectedItem.id_famille        = vm.sip_espece.id_famille;
+                  vm.selectedItem.id_famille        = null;
+                  vm.selectedItem.libelle_famille   = "" ;
                   vm.selectedItem.code              = vm.sip_espece.code;       
                   vm.selectedItem.nom               = vm.sip_espece.nom;
                   vm.selectedItem.nom_scientifique  = vm.sip_espece.nom_scientifique;       
@@ -153,7 +154,7 @@
 
            else
            { 
-              if (vm.sip_espece.id_famille==null)
+              if ((vm.sip_espece.id_famille=="-")||(vm.sip_espece.id_famille==null))
             {
               var item = {
                 typ_esp_id:             sip_espece.typ_esp_id,
