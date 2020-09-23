@@ -26,8 +26,9 @@
     {
         // Navigation
         msNavigationServiceProvider.saveItem('peche.sip', {
-            title : "Système d'information des pêches (S.I.P)",
-            icon  : 'icon-desktop-mac',
+            //title : "Système d'information des pêches (S.I.P)",
+            title : "SYSTEME D'INFORMATION DES PECHES (S.I.P)",
+            icon  : 'icon-laptop-chromebook',
             //group : true,
             weight: 2
         });

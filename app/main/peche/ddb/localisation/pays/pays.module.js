@@ -27,7 +27,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.localisation.pays', {
+        msNavigationServiceProvider.saveItem('peche.localisation.pays', {
             title: 'Pays',
             icon  : 'icon-sitemap',
             state: 'app.population_ddb_localisation_pays',

@@ -29,7 +29,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.reporting.nombre_echantillon', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.reporting.nombre_echantillon', {
             title: "Nombres d'echantillon",
             icon  : 'icon-check-circle',
             state: 'app.peche_reporting_nombre_echantillon',

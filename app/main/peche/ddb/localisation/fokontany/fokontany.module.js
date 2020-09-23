@@ -27,7 +27,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.localisation.fokontany', {
+        msNavigationServiceProvider.saveItem('peche.localisation.fokontany', {
             title: 'Fokontany',
             icon  : 'icon-tile-four',
             state: 'app.population_ddb_localisation_fokontany',

@@ -144,6 +144,16 @@
 			{
 				vm.all_conservation = result.data.response;
 			});
+
+			apiFactory.getAll("SIP_base_cote/index").then(function(result)
+			{
+				vm.all_base_cote = result.data.response;
+			});
+
+			apiFactory.getAll("SIP_base_geo/index").then(function(result)
+			{
+				vm.all_base_geo = result.data.response;
+			});
 		//fin clé étrangère
 
     	//SOCIETE
@@ -168,6 +178,26 @@
 				vm.affiche_load = false ;
 				vm.all_societe_crevette = result.data.response;
 			});
+
+			vm.affichage_base_cote = function(id)
+			{
+				var bc = vm.all_base_cote.filter(function(obj)
+				{
+					return obj.id == id;
+				});
+
+				return bc[0].libelle ;
+			}
+
+			vm.affichage_base_geo = function(id)
+			{
+				var bg = vm.all_base_geo.filter(function(obj)
+				{
+					return obj.id == id;
+				});
+
+				return bg[0].libelle ;
+			}
 
 			vm.selection_societe_crevette = function(item)
 			{
@@ -1337,6 +1367,7 @@
 					{
 						vm.get_sequence_transbordement(item);
 						vm.get_sequence_capture(item);
+						vm.get_sequence_pij_peche_crevette(item);
 
 					}
 
@@ -1941,6 +1972,237 @@
 			
 
 			//fin sequence capture
+
+			//sequence_pij_peche_crevette
+				vm.entete_sequence_pij_peche_crevette = 
+		        [
+					{titre:"Date"},
+
+					{titre:"J ou N"},
+					{titre:"Zone"},
+					{titre:"Carré"},
+					{titre:"Activité"},
+					{titre:"Sonde"},
+					{titre:"Nb Traits"},
+					{titre:"HeureP"},
+					{titre:"MinuteP"},
+					{titre:"HeureT"},
+					{titre:"MinuteT"}
+		        ] ;
+	    		vm.selected_sequence_pij_peche_crevette = {} ;
+	    		var current_selected_sequence_pij_peche_crevette = {} ;
+	    		vm.all_sequence_pij_peche_crevette = [];
+	    		var nouvelle_sequence_pij_peche_crevette = false ;
+
+	    		vm.get_sequence_pij_peche_crevette = function(item)
+				{
+					vm.affiche_load = true ;
+					apiFactory.getParamsDynamic("SIP_sequence_pij_peche_crevette?id_sequence_peche="+item.id).then(function(result)
+					{
+						vm.affiche_load = false ;
+						vm.all_sequence_pij_peche_crevette = result.data.response;
+
+						
+					});
+				}
+
+				vm.selection_sequence_pij_peche_crevette = function(item)
+				{
+					vm.selected_sequence_pij_peche_crevette = item ;
+					
+
+					if (!vm.selected_sequence_pij_peche_crevette.$edit) //si simple selection
+					{
+						nouvelle_sequence_pij_peche_crevette = false ;	
+					}
+
+					
+
+					
+
+
+				}
+
+				$scope.$watch('vm.selected_sequence_pij_peche_crevette', function()
+				{
+					if (!vm.all_sequence_pij_peche_crevette) return;
+					vm.all_sequence_pij_peche_crevette.forEach(function(item)
+					{
+						item.$selected = false;
+					});
+					vm.selected_sequence_pij_peche_crevette.$selected = true;
+
+				});
+
+				vm.ajouter_sequence_pij_peche_crevette = function()
+				{
+					nouvelle_sequence_pij_peche_crevette = true ;
+					var item = 
+						{
+							
+							$edit: true,
+							$selected: true,
+		              		id:'0',
+		              		date:new Date(),
+		              		j_ou_n:'',
+		              		zone:'',
+		              		carre:'',
+		              		activite:'',
+		              		sonde:'',
+		              		nb_traits:'0',
+		              		minutet:'0',
+		              		heurep:'0',
+		              		minutep:'0',
+		              		heuret:'0'
+						} ;
+
+					vm.all_sequence_pij_peche_crevette.unshift(item);
+		            vm.all_sequence_pij_peche_crevette.forEach(function(af)
+		            {
+		              if(af.$selected == true)
+		              {
+		                vm.selected_sequence_pij_peche_crevette = af;
+		                
+		              }
+	            	});
+				}
+
+				vm.modifier_sequence_pij_peche_crevette = function()
+				{
+					nouvelle_sequence_pij_peche_crevette = false ;
+					vm.selected_sequence_pij_peche_crevette.$edit = true;
+					vm.selected_sequence_pij_peche_crevette.date = new Date(vm.selected_sequence_pij_peche_crevette.date);
+					current_selected_sequence_pij_peche_crevette = angular.copy(vm.selected_sequence_pij_peche_crevette);
+				}
+
+				vm.supprimer_sequence_pij_peche_crevette = function()
+				{
+
+					
+					var confirm = $mdDialog.confirm()
+					  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+					  .textContent('Cliquer sur OK pour confirmer')
+					  .ariaLabel('Lucky day')
+					  .clickOutsideToClose(true)
+					  .parent(angular.element(document.body))
+					  .ok('OK')
+					  .cancel('Annuler');
+					$mdDialog.show(confirm).then(function() {
+
+					vm.enregistrer_sequence_pij_peche_crevette(1);
+					}, function() {
+					//alert('rien');
+					});
+				}
+
+				vm.annuler_sequence_pij_peche_crevette = function()
+				{
+					if (nouvelle_sequence_pij_peche_crevette) 
+					{
+						
+						vm.all_sequence_pij_peche_crevette.shift();
+						vm.selected_sequence_pij_peche_crevette = {} ;
+						nouvelle_sequence_pij_peche_crevette = false ;
+					}
+					else
+					{
+						vm.selected_sequence_pij_peche_crevette.$selected = false;
+						vm.selected_sequence_pij_peche_crevette.$edit = false;
+
+						vm.selected_sequence_pij_peche_crevette.date = current_selected_sequence_pij_peche_crevette.date ;
+
+						vm.selected_sequence_pij_peche_crevette.j_ou_n = current_selected_sequence_pij_peche_crevette.j_ou_n ;
+						vm.selected_sequence_pij_peche_crevette.zone = current_selected_sequence_pij_peche_crevette.zone ;
+						vm.selected_sequence_pij_peche_crevette.carre = current_selected_sequence_pij_peche_crevette.carre ;
+						vm.selected_sequence_pij_peche_crevette.activite = current_selected_sequence_pij_peche_crevette.activite ;
+						vm.selected_sequence_pij_peche_crevette.sonde = current_selected_sequence_pij_peche_crevette.sonde ;
+						vm.selected_sequence_pij_peche_crevette.nb_traits = current_selected_sequence_pij_peche_crevette.nb_traits ;
+
+						vm.selected_sequence_pij_peche_crevette.heurep = current_selected_sequence_pij_peche_crevette.heurep ;
+						vm.selected_sequence_pij_peche_crevette.minutep = current_selected_sequence_pij_peche_crevette.minutep ;
+						vm.selected_sequence_pij_peche_crevette.heuret = current_selected_sequence_pij_peche_crevette.heuret ;
+						vm.selected_sequence_pij_peche_crevette.minutet = current_selected_sequence_pij_peche_crevette.minutet ;
+						vm.selected_sequence_pij_peche_crevette = {};
+
+
+
+					}
+				}
+
+				vm.enregistrer_sequence_pij_peche_crevette = function(etat_suppression)
+				{
+					var config = {
+		                headers : {
+		                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+		                }
+		            };
+
+
+		            var datas = $.param(
+		            {
+		            	
+		                supprimer:etat_suppression,
+		                id_sequence_peche:vm.selected_sequence_peche.id,
+		                id:vm.selected_sequence_pij_peche_crevette.id,
+
+		                date:convert_to_date_sql(vm.selected_sequence_pij_peche_crevette.date),
+
+		                j_ou_n:vm.selected_sequence_pij_peche_crevette.j_ou_n,
+		                zone:vm.selected_sequence_pij_peche_crevette.zone,
+		                carre:vm.selected_sequence_pij_peche_crevette.carre,
+		                activite:vm.selected_sequence_pij_peche_crevette.activite,
+		                sonde:vm.selected_sequence_pij_peche_crevette.sonde,
+		                nb_traits:vm.selected_sequence_pij_peche_crevette.nb_traits,
+
+		                heurep:vm.selected_sequence_pij_peche_crevette.heurep,
+		                minutep:vm.selected_sequence_pij_peche_crevette.minutep,
+
+		                heuret:vm.selected_sequence_pij_peche_crevette.heuret,
+		                minutet:vm.selected_sequence_pij_peche_crevette.minutet
+		                
+		                
+		            });
+
+		            apiFactory.add("SIP_sequence_pij_peche_crevette/index",datas, config).success(function (data)
+	        		{
+	        			if (!nouvelle_sequence_pij_peche_crevette) 
+	        			{
+	        				if (etat_suppression == 0) 
+	        				{
+	        					vm.selected_sequence_pij_peche_crevette.$edit = false ;
+	        					vm.selected_sequence_pij_peche_crevette.$selected = false ;
+	        					vm.selected_sequence_pij_peche_crevette = {} ;
+	        				}
+	        				else
+	        				{
+	        					vm.all_sequence_pij_peche_crevette = vm.all_sequence_pij_peche_crevette.filter(function(obj)
+								{
+									return obj.id !== vm.selected_sequence_pij_peche_crevette.id;
+								});
+
+								vm.selected_sequence_pij_peche_crevette = {} ;
+	        				}
+
+	        			}
+	        			else
+	        			{
+	        				vm.selected_sequence_pij_peche_crevette.$edit = false ;
+	        				vm.selected_sequence_pij_peche_crevette.$selected = false ;
+	        				
+	        				vm.selected_sequence_pij_peche_crevette.id = String(data.response) ;
+	        				vm.selected_sequence_pij_peche_crevette.id_sequence_peche = vm.selected_sequence_peche.id ;
+
+	        				nouvelle_sequence_pij_peche_crevette = false ;
+	        				vm.selected_sequence_pij_peche_crevette = {};
+
+	        			}
+	        		})
+	        		.error(function (data) {alert("Une erreur s'est produit");});
+				}
+
+			
+
+			//fin sequence_pij_peche_crevette
 
 			vm.ajout_fiche_peche_crevette = function()
 			{

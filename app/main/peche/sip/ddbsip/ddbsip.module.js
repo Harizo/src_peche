@@ -2,8 +2,7 @@
 {
     'use strict';
 
-    angular
-        .module('app.peche.sip.ddbsip', [
+    var tab = [
 
             'app.peche.sip.ddbsip.base_cote',
             'app.peche.sip.ddbsip.base_geo',
@@ -15,7 +14,10 @@
             'app.peche.sip.ddbsip.sip_type_espece',
             'app.peche.sip.ddbsip.type_navire'
 
-            ])
+            ] ;
+
+    angular
+        .module('app.peche.sip.ddbsip', tab.sort())
         .run(testPermission)
         .config(config);
         var vs ;

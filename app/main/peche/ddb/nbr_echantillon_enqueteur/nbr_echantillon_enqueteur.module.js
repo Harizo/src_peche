@@ -27,11 +27,11 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.nbr_echantillon_enqueteur', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.nbr_echantillon_enqueteur', {
             title: 'Max echantillon',
             icon  : 'icon-map-marker-circle',
             state: 'app.population_ddb_nbr_echantillon_enqueteur',
-			weight: 13
+			weight: 1
         });
     }
 

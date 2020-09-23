@@ -11,7 +11,7 @@
     {
         var vm = this;
 
-        
+        vm.affiche_load = true ;
 
 		vm.dtOptions =
 		{
@@ -34,25 +34,67 @@
 			apiFactory.getAll("region/index").then(function(result)
 			{
 				vm.all_region = result.data.response;
+				
 		
 			});
 
 			apiFactory.getAll("district/index").then(function(result)
 			{
 				vm.all_district = result.data.response;
+				vm.affiche_load = false ;
+				
+			});
+			vm.get_district_by_region = function()
+			{
+				vm.filtre.id_district = null ;
+			
+				vm.allcommune = [];
+				
+
+				vm.alldistrict = vm.all_district.filter(function(obj)
+				{
+					return obj.region.id == vm.filtre.id_region;
+				});
+			}
+
+			vm.filtre_col_mar = {} ;
+			vm.get_district_by_region_filtre_col_mar = function()
+			{
+				vm.filtre_col_mar.id_district = null ;
+				
+				vm.alldistrict_col_mar = vm.all_district.filter(function(obj)
+				{
+					return obj.region.id == vm.filtre_col_mar.id_region;
+				});
+			}
+
+
+			apiFactory.getAll("sip_type_espece/index").then(function(result)
+			{
+				vm.all_type_espece = result.data.response;
+				
 				
 			});
 
-			/*apiFactory.getAll("espece/index").then(function(result)
+			vm.affichage_type_espece = function(id)
 			{
-				vm.all_espece = result.data.response;
 				
-			});*/
+				var te = vm.all_type_espece.filter(function(obj)
+				{
+					return obj.id == id;
+				}) ;
 
+				return te[0].libelle ;
+			}
 
-			//id_type_espece = 1 (halieutique)
+			
 
-			apiFactory.getAPIgeneraliserREST("SIP_espece/index","id_type_espece",1).then(function(result)
+			//id_type_espece = 1 et 5 (halieutique marine et eau douce)
+
+			apiFactory.getAPIgeneraliserREST("SIP_espece/index",
+											"eau_douce_marine",true,
+											"id_type_espece1",5,
+											"id_type_espece2",1).then(function(result)
 			{
 				vm.all_espece = result.data.response;
 				
@@ -188,10 +230,27 @@
 				{titre:"Mareyeur?"}*/
 	        ] ;
 
-			apiFactory.getAll("SIP_collecteur_mareyeur/index").then(function(result)
+			/*apiFactory.getAll("SIP_collecteur_mareyeur/index").then(function(result)
 			{
 				vm.all_collecteur_mareyeur = result.data.response;
-			});
+			});*/
+
+			vm.reinit_reg_dist = function()
+			{
+				vm.filtre.id_region = null ;
+				vm.filtre.id_district = null ;
+			}
+
+			vm.get_col_mar_by_district = function()
+			{
+				vm.affiche_load = true ;
+				vm.selected_collecteur_mareyeur = {};
+				apiFactory.getParamsDynamic("SIP_collecteur_mareyeur/index?id_district="+vm.filtre_col_mar.id_district).then(function(result)
+				{
+					vm.affiche_load = false ;
+					vm.all_collecteur_mareyeur = result.data.response;
+				});
+			}
 
 
 			vm.affichage_col_mar = function(int)
@@ -636,16 +695,18 @@
 
 			vm.entete_liste_especes_permis = 
 	        [
+				{titre:"Code 3 Alpha"},
 				{titre:"Nom"},
 				{titre:"Nom scientifique"},
 				{titre:"Nom francaise"},
-				{titre:"Nom local/vernaculaire"}
+				{titre:"Nom local/vernaculaire"},
+				{titre:"Type espèce"}
 	        ] ;
 
 	        vm.selection_especes_permis = function(especes_permis)
 			{
 				vm.selected_especes_permis = especes_permis ; 
-				console.log(especes_permis);
+				
 			}
 
 			$scope.$watch('vm.selected_especes_permis', function()
@@ -756,6 +817,7 @@
 							vm.selected_especes_permis.nom_scientifique = esp[0].nom_scientifique ;
 							vm.selected_especes_permis.nom_francaise = esp[0].nom_francaise ;
 							vm.selected_especes_permis.nom_local = esp[0].nom_local ;
+							vm.selected_especes_permis.type_espece = esp[0].type_espece ;
 
 						}
 						else
@@ -780,7 +842,8 @@
 							nom:esp[0].nom,
 							nom_scientifique:esp[0].nom_scientifique,
 							nom_francaise:esp[0].nom_francaise,
-							nom_local:esp[0].nom_local
+							nom_local:esp[0].nom_local,
+							type_espece:esp[0].type_espece
 
 							
 
@@ -2043,6 +2106,584 @@
 			}
 
 		//FIN COMMERCE EAU DOUCE
+		//ENQUETE DE MARCHE
+			//DONNES CADRE
+				vm.donnees_cadre = {} ;
+				vm.get_commune_district = function()
+				{
+					vm.donnees_cadre.id_commune = null ;
+					apiFactory.getAPIgeneraliserREST("commune/index","cle_etrangere",vm.filtre.id_district).then(function(result)
+					{
+						
+						vm.allcommune = result.data.response;
+
+						if (!nouvel_donnees_cadre && vm.selected_donnees_cadre.id_commune) 
+						{
+							vm.donnees_cadre.id_commune = vm.selected_donnees_cadre.id_commune ;
+						}
+						
+					});
+				}
+				vm.get_donnees_cadre_by_district = function()
+				{
+					vm.affiche_load = true ;
+					apiFactory.getAPIgeneraliserREST("SIP_donnees_cadre_enquete_marche/index","id_district",vm.filtre.id_district).then(function(result)
+					{
+						vm.all_donnees_cadre = result.data.response;
+						vm.affiche_load = false ;
+					});
+				}
+
+				vm.entete_liste_donnees_cadre = 
+		        [
+					{titre:"Commune"},
+					{titre:"Nom du ville"},
+					{titre:"Nom marché"},
+					{titre:"Nbr jour ouvrable/mois"},
+					{titre:"Affluence Max"},
+					{titre:"Nom vendeur spec frais"},
+					{titre:"Nom vendeur spec transformé"},
+					{titre:"Espèce"},
+					{titre:"Nbr etal pdt frais"},
+					{titre:"Nbr etal pdt transformé"},
+					{titre:"Nbr total etal"}
+		        ] ;		
+
+	    		vm.selected_donnees_cadre = {} ;
+	    		var nouvel_donnees_cadre = false;
+	    		vm.all_donnees_cadre = [] ;
+		    	
+
+		        vm.selection_donnees_cadre = function(item) 
+		        {
+		        	vm.selected_donnees_cadre = item ;        	
+		        }
+
+		        $scope.$watch('vm.selected_donnees_cadre', function()
+				{
+					if (!vm.all_donnees_cadre) return;
+					vm.all_donnees_cadre.forEach(function(item)
+					{
+						item.$selected = false;
+					});
+					vm.selected_donnees_cadre.$selected = true;
+
+				});
+
+				$scope.$watch('vm.donnees_cadre.nbr_etal_pdt_transforme', function()
+				{
+					if (!vm.donnees_cadre.nbr_etal_pdt_transforme) vm.donnees_cadre.nbr_etal_pdt_transforme = 0;
+
+					vm.donnees_cadre.nbr_tot_etal = vm.donnees_cadre.nbr_etal_pdt_transforme + vm.donnees_cadre.nbr_etal_pdt_frais;
+					
+
+				});
+
+				$scope.$watch('vm.donnees_cadre.nbr_etal_pdt_frais', function()
+				{
+					if (!vm.donnees_cadre.nbr_etal_pdt_frais) vm.donnees_cadre.nbr_etal_pdt_frais = 0;
+
+					vm.donnees_cadre.nbr_tot_etal = vm.donnees_cadre.nbr_etal_pdt_transforme + vm.donnees_cadre.nbr_etal_pdt_frais;
+					
+
+				});
+
+				
+
+				vm.ajout_donnees_cadre = function() 
+				{
+					vm.affichage_masque_donnees_cadre = true ;
+					nouvel_donnees_cadre = true ;
+					vm.donnees_cadre = {} ;
+				}
+
+				vm.modif_donnees_cadre = function() 
+				{
+					nouvel_donnees_cadre = false ;
+
+	               
+	                vm.donnees_cadre.id_commune = vm.selected_donnees_cadre.id_commune ;
+	                vm.donnees_cadre.nom_marche = vm.selected_donnees_cadre.nom_marche ;
+	                vm.donnees_cadre.nom_ville = vm.selected_donnees_cadre.nom_ville ;
+	                vm.donnees_cadre.nbr_jour_ouvrable_mois = Number(vm.selected_donnees_cadre.nbr_jour_ouvrable_mois) ;
+	                vm.donnees_cadre.affluence_max = vm.selected_donnees_cadre.affluence_max ;
+	                vm.donnees_cadre.nom_vendeur_spec_frais = vm.selected_donnees_cadre.nom_vendeur_spec_frais ;
+	                vm.donnees_cadre.nom_vendeur_spec_transforme = vm.selected_donnees_cadre.nom_vendeur_spec_transforme ;
+	                vm.donnees_cadre.id_espece = vm.selected_donnees_cadre.id_espece ;
+	                vm.donnees_cadre.nbr_tot_etal = Number(vm.selected_donnees_cadre.nbr_tot_etal) ;
+	                vm.donnees_cadre.nbr_etal_pdt_frais = Number(vm.selected_donnees_cadre.nbr_etal_pdt_frais) ;
+	                vm.donnees_cadre.nbr_etal_pdt_transforme = Number(vm.selected_donnees_cadre.nbr_etal_pdt_transforme) ;
+
+	                vm.affichage_masque_donnees_cadre = true ;
+				}
+
+				vm.supprimer_donnees_cadre = function () 
+				{
+					var confirm = $mdDialog.confirm()
+					  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+					  .textContent('')
+					  .ariaLabel('Lucky day')
+					  .clickOutsideToClose(true)
+					  .parent(angular.element(document.body))
+					  .ok('ok')
+					  .cancel('annuler');
+					$mdDialog.show(confirm).then(function() {
+
+					vm.save_in_bdd_donnees_cadre(vm.selected_donnees_cadre,1);
+					}, function() {
+					//alert('rien');
+					});
+				}
+
+				vm.annuler_donnees_cadre = function () 
+				{
+					nouvel_donnees_cadre = false ;
+					vm.affichage_masque_donnees_cadre = false ;
+					vm.selected_donnees_cadre = {} ;
+				}
+
+				vm.save_in_bdd_donnees_cadre = function(data_masque, etat_suppression)
+				{
+					vm.affiche_load = true ;
+					var config = {
+		                headers : {
+		                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+		                }
+		            };
+
+		            var id = 0 ;
+
+		            if (!nouvel_donnees_cadre) 
+		            {
+		            	id = vm.selected_donnees_cadre.id ;
+		            }
+
+
+
+		            var datas = $.param(
+		            {
+		            	
+		                id:id,      
+		                supprimer:etat_suppression,
+
+		                id_commune : data_masque.id_commune ,
+		                nom_marche : data_masque.nom_marche ,
+		                nom_ville : data_masque.nom_ville ,
+		                nbr_jour_ouvrable_mois : data_masque.nbr_jour_ouvrable_mois ,
+		                affluence_max : data_masque.affluence_max ,
+		                nom_vendeur_spec_frais : data_masque.nom_vendeur_spec_frais ,
+		                nom_vendeur_spec_transforme : data_masque.nom_vendeur_spec_transforme ,
+		                id_espece : data_masque.id_espece ,
+		                nbr_tot_etal : data_masque.nbr_tot_etal ,
+		                nbr_etal_pdt_frais : data_masque.nbr_etal_pdt_frais ,
+		                nbr_etal_pdt_transforme : data_masque.nbr_etal_pdt_transforme 
+		                
+		                
+		                
+		            });
+
+
+		            apiFactory.add("SIP_donnees_cadre_enquete_marche/index",datas, config).success(function (data)
+	        		{
+	        			vm.affiche_load = false ;
+	        			var com = vm.allcommune.filter(function(obj)
+						{
+							return obj.id == data_masque.id_commune;
+						});
+
+						var esp = vm.all_espece.filter(function(obj)
+						{
+							return obj.id == data_masque.id_espece;
+						});
+
+
+						
+
+	        			if (!nouvel_donnees_cadre) 
+	        			{
+	        				if (etat_suppression == 0) //mise à jour
+	        				{
+	        				
+
+				                vm.selected_donnees_cadre.id_commune = data_masque.id_commune  ;
+				                vm.selected_donnees_cadre.nom_commune = com[0].nom ;
+
+				                vm.selected_donnees_cadre.nom_marche = data_masque.nom_marche  ;
+				                vm.selected_donnees_cadre.nom_ville = data_masque.nom_ville  ;
+				                vm.selected_donnees_cadre.nbr_jour_ouvrable_mois = data_masque.nbr_jour_ouvrable_mois  ;
+				                vm.selected_donnees_cadre.affluence_max = data_masque.affluence_max  ;
+				                vm.selected_donnees_cadre.nom_vendeur_spec_frais = data_masque.nom_vendeur_spec_frais  ;
+				                vm.selected_donnees_cadre.nom_vendeur_spec_transforme = data_masque.nom_vendeur_spec_transforme  ;
+
+				                vm.selected_donnees_cadre.id_espece = data_masque.id_espece  ;
+				                vm.selected_donnees_cadre.nom_scientifique = esp[0].nom_scientifique ;
+		    					vm.selected_donnees_cadre.nom_francaise = esp[0].nom_francaise ;
+		    					vm.selected_donnees_cadre.nom_local = esp[0].nom_local ;
+		    					vm.selected_donnees_cadre.code = esp[0].code ;
+
+				                vm.selected_donnees_cadre.nbr_tot_etal = data_masque.nbr_tot_etal  ;
+				                vm.selected_donnees_cadre.nbr_etal_pdt_frais = data_masque.nbr_etal_pdt_frais  ;
+				                vm.selected_donnees_cadre.nbr_etal_pdt_transforme = data_masque.nbr_etal_pdt_transforme ;
+
+	        				}
+	        				else//Suppression
+	        				{
+	        					vm.all_donnees_cadre = vm.all_donnees_cadre.filter(function(obj)
+								{
+									return obj.id !== vm.selected_donnees_cadre.id;
+								});
+
+	        				}
+
+	        			}
+	        			else
+	        			{
+	        				var item =
+				            {
+								id:String(data.response) ,
+
+								id_commune : data_masque.id_commune ,
+								nom_commune:com[0].nom,
+
+				                nom_marche : data_masque.nom_marche ,
+				                nom_ville : data_masque.nom_ville ,
+				                nbr_jour_ouvrable_mois : data_masque.nbr_jour_ouvrable_mois ,
+				                affluence_max : data_masque.affluence_max ,
+				                nom_vendeur_spec_frais : data_masque.nom_vendeur_spec_frais ,
+				                nom_vendeur_spec_transforme : data_masque.nom_vendeur_spec_transforme ,
+
+				                id_espece : data_masque.id_espece ,
+				                nom : esp[0].nom ,
+		    					nom_scientifique : esp[0].nom_scientifique ,
+		    					nom_francaise : esp[0].nom_francaise ,
+		    					nom_local : esp[0].nom_local ,
+		    					code : esp[0].code ,
+
+				                nbr_tot_etal : data_masque.nbr_tot_etal ,
+				                nbr_etal_pdt_frais : data_masque.nbr_etal_pdt_frais ,
+				                nbr_etal_pdt_transforme : data_masque.nbr_etal_pdt_transforme               
+							}          
+				            vm.all_donnees_cadre.unshift(item);
+	        			}
+
+		        		vm.affichage_masque_donnees_cadre = false ; //Fermeture de la masque de saisie
+		        		nouvel_donnees_cadre = false;
+
+
+	        		})
+	        		.error(function (data) {alert("Une erreur s'est produit");}); 
+				}
+	        
+		    //FIN DONNES CADRE
+
+		    //FICHE ENQUETE MARCHE
+				vm.fiche_enquete_marche = {} ;
+				
+				vm.get_fiche_enquete_marche_by_district = function()
+				{
+					vm.affiche_load = true ;
+					apiFactory.getAPIgeneraliserREST("SIP_fiche_enquete_marche/index","id_district",vm.filtre.id_district).then(function(result)
+					{
+						vm.all_fiche_enquete_marche = result.data.response;
+						vm.affiche_load = false ;
+					});
+				}
+
+				vm.entete_liste_fiche_enquete_marche = 
+		        [
+					{titre:"District"},
+					{titre:"Nom du ville"},
+					{titre:"Nom marché"},
+					{titre:"Date relevé"},
+					{titre:"Nbr jour ouvrable/mois"},
+					{titre:"Nbr etal pdt frais"},
+					{titre:"Nbr etal pdt transformé"},
+					{titre:"Nbr total etal"},
+					{titre:"Année"},
+					{titre:"Mois"},
+					{titre:"Domaines"},
+					{titre:"Espèce"},
+					{titre:"Présentation"},
+					{titre:"Conservation"},
+					{titre:"Détaillant"},
+					{titre:"Offre"},
+					{titre:"Prix"}
+		        ] ;		
+
+	    		vm.selected_fiche_enquete_marche = {} ;
+	    		var nouvel_fiche_enquete_marche = false;
+	    		vm.all_fiche_enquete_marche = [] ;
+		    	
+
+		        vm.selection_fiche_enquete_marche = function(item) 
+		        {
+		        	vm.selected_fiche_enquete_marche = item ;        	
+		        }
+
+		        $scope.$watch('vm.selected_fiche_enquete_marche', function()
+				{
+					if (!vm.all_fiche_enquete_marche) return;
+					vm.all_fiche_enquete_marche.forEach(function(item)
+					{
+						item.$selected = false;
+					});
+					vm.selected_fiche_enquete_marche.$selected = true;
+
+				});
+
+				$scope.$watch('vm.fiche_enquete_marche.nbr_etal_pdt_transforme', function()
+				{
+					if (!vm.fiche_enquete_marche.nbr_etal_pdt_transforme) vm.fiche_enquete_marche.nbr_etal_pdt_transforme = 0;
+
+					vm.fiche_enquete_marche.nbr_tot_etal = vm.fiche_enquete_marche.nbr_etal_pdt_transforme + vm.fiche_enquete_marche.nbr_etal_pdt_frais;
+					
+
+				});
+
+				$scope.$watch('vm.fiche_enquete_marche.nbr_etal_pdt_frais', function()
+				{
+					if (!vm.fiche_enquete_marche.nbr_etal_pdt_frais) vm.fiche_enquete_marche.nbr_etal_pdt_frais = 0;
+
+					vm.fiche_enquete_marche.nbr_tot_etal = vm.fiche_enquete_marche.nbr_etal_pdt_transforme + vm.fiche_enquete_marche.nbr_etal_pdt_frais;
+					
+
+				});
+
+				
+
+				vm.ajout_fiche_enquete_marche = function() 
+				{
+					vm.affichage_masque_fiche_enquete_marche = true ;
+					nouvel_fiche_enquete_marche = true ;
+					vm.fiche_enquete_marche = {} ;
+				}
+
+				vm.modif_fiche_enquete_marche = function() 
+				{
+					nouvel_fiche_enquete_marche = false ;
+
+	               
+	                vm.fiche_enquete_marche.id_district = vm.selected_fiche_enquete_marche.id_district ;
+	                vm.fiche_enquete_marche.nom_marche = vm.selected_fiche_enquete_marche.nom_marche ;
+	                vm.fiche_enquete_marche.nom_ville = vm.selected_fiche_enquete_marche.nom_ville ;
+	                vm.fiche_enquete_marche.date_releve = new Date(vm.selected_fiche_enquete_marche.date_releve) ;
+	                vm.fiche_enquete_marche.nbr_jour_ouvrable_mois = Number(vm.selected_fiche_enquete_marche.nbr_jour_ouvrable_mois) ;
+	                vm.fiche_enquete_marche.nbr_tot_etal = Number(vm.selected_fiche_enquete_marche.nbr_tot_etal) ;
+	                vm.fiche_enquete_marche.nbr_etal_pdt_frais = Number(vm.selected_fiche_enquete_marche.nbr_etal_pdt_frais) ;
+	                vm.fiche_enquete_marche.nbr_etal_pdt_transforme = Number(vm.selected_fiche_enquete_marche.nbr_etal_pdt_transforme) ;
+	                vm.fiche_enquete_marche.annee = vm.selected_fiche_enquete_marche.annee ;
+	                vm.fiche_enquete_marche.mois = vm.selected_fiche_enquete_marche.mois ;
+	                vm.fiche_enquete_marche.domaines = vm.selected_fiche_enquete_marche.domaines ;
+	                vm.fiche_enquete_marche.id_espece = vm.selected_fiche_enquete_marche.id_espece ;
+	                vm.fiche_enquete_marche.id_presentation = vm.selected_fiche_enquete_marche.id_presentation ;
+	                vm.fiche_enquete_marche.id_conservation = vm.selected_fiche_enquete_marche.id_conservation ;
+	                vm.fiche_enquete_marche.detaillant = vm.selected_fiche_enquete_marche.detaillant ;
+	                vm.fiche_enquete_marche.offre_kg = Number(vm.selected_fiche_enquete_marche.offre_kg) ;
+	                vm.fiche_enquete_marche.prix_kg = Number(vm.selected_fiche_enquete_marche.prix_kg) ;
+
+
+	                vm.affichage_masque_fiche_enquete_marche = true ;
+				}
+
+				vm.supprimer_fiche_enquete_marche = function () 
+				{
+					var confirm = $mdDialog.confirm()
+					  .title('Etes-vous sûr de supprimer cet enregistrement ?')
+					  .textContent('')
+					  .ariaLabel('Lucky day')
+					  .clickOutsideToClose(true)
+					  .parent(angular.element(document.body))
+					  .ok('ok')
+					  .cancel('annuler');
+					$mdDialog.show(confirm).then(function() {
+
+					vm.save_in_bdd_fiche_enquete_marche(vm.selected_fiche_enquete_marche,1);
+					}, function() {
+					//alert('rien');
+					});
+				}
+
+				vm.annuler_fiche_enquete_marche = function () 
+				{
+					nouvel_fiche_enquete_marche = false ;
+					vm.affichage_masque_fiche_enquete_marche = false ;
+					vm.selected_fiche_enquete_marche = {} ;
+				}
+
+				vm.save_in_bdd_fiche_enquete_marche = function(data_masque, etat_suppression)
+				{
+					vm.affiche_load = true ;
+					var config = {
+		                headers : {
+		                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+		                }
+		            };
+
+		            var id = 0 ;
+
+		            if (!nouvel_fiche_enquete_marche) 
+		            {
+		            	id = vm.selected_fiche_enquete_marche.id ;
+		            }
+
+
+
+		            var datas = $.param(
+		            {
+		            	
+		                id:id,      
+		                supprimer:etat_suppression,
+
+		                id_district : vm.filtre.id_district ,
+		                nom_marche : data_masque.nom_marche ,
+		                nom_ville : data_masque.nom_ville ,
+		                date_releve : convert_to_date_sql(data_masque.date_releve) ,
+		                nbr_jour_ouvrable_mois : data_masque.nbr_jour_ouvrable_mois ,
+		                nbr_tot_etal : data_masque.nbr_tot_etal ,
+		                nbr_etal_pdt_frais : data_masque.nbr_etal_pdt_frais ,
+		                nbr_etal_pdt_transforme : data_masque.nbr_etal_pdt_transforme ,
+		                annee : data_masque.annee ,
+		                mois : data_masque.mois ,
+		                domaines : data_masque.domaines ,
+		                id_espece : data_masque.id_espece ,
+		                id_presentation : data_masque.id_presentation ,
+		                id_conservation : data_masque.id_conservation ,
+		                detaillant : data_masque.detaillant ,
+		                offre_kg : data_masque.offre_kg ,
+		                prix_kg : data_masque.prix_kg 
+		                
+		                
+		                
+		            });
+
+
+		            apiFactory.add("SIP_fiche_enquete_marche/index",datas, config).success(function (data)
+	        		{
+	        			vm.affiche_load = false ;
+	        			var dist = vm.alldistrict.filter(function(obj)
+						{
+							return obj.id == vm.filtre.id_district;
+						});
+
+						var esp = vm.all_espece.filter(function(obj)
+						{
+							return obj.id == data_masque.id_espece;
+						});
+
+
+						var pres = vm.all_presentation.filter(function(obj)
+						{
+							return obj.id == data_masque.id_presentation;
+						});
+
+						var cons = vm.all_conservation.filter(function(obj)
+						{
+							return obj.id == data_masque.id_conservation;
+						});
+
+
+						
+
+	        			if (!nouvel_fiche_enquete_marche) 
+	        			{
+	        				if (etat_suppression == 0) //mise à jour
+	        				{
+	        				
+
+				                vm.selected_fiche_enquete_marche.id_district = data_masque.id_district  ;
+				                vm.selected_fiche_enquete_marche.nom_commune = dist[0].nom ;
+
+				                
+				                vm.selected_fiche_enquete_marche.nom_marche = data_masque.nom_marche ;
+				                vm.selected_fiche_enquete_marche.nom_ville = data_masque.nom_ville ;
+				                vm.selected_fiche_enquete_marche.date_releve = convert_to_date_sql(data_masque.date_releve) ;
+				                vm.selected_fiche_enquete_marche.nbr_jour_ouvrable_mois = Number(data_masque.nbr_jour_ouvrable_mois) ;
+				               	vm.selected_fiche_enquete_marche.nbr_tot_etal = Number(data_masque.nbr_tot_etal) ;
+				                vm.selected_fiche_enquete_marche.nbr_etal_pdt_frais = Number(data_masque.nbr_etal_pdt_frais) ;
+				                vm.selected_fiche_enquete_marche.nbr_etal_pdt_transforme = Number(data_masque.nbr_etal_pdt_transforme) ;
+				                vm.selected_fiche_enquete_marche.annee = data_masque.annee ;
+				                vm.selected_fiche_enquete_marche.mois = data_masque.mois ;
+				                vm.selected_fiche_enquete_marche.domaines = data_masque.domaines ;
+
+				                vm.selected_fiche_enquete_marche.id_espece = data_masque.id_espece ;
+				                vm.selected_fiche_enquete_marche.nom_scientifique = esp[0].nom_scientifique ;
+		    					vm.selected_fiche_enquete_marche.nom_francaise = esp[0].nom_francaise ;
+		    					vm.selected_fiche_enquete_marche.nom_local = esp[0].nom_local ;
+		    					vm.selected_fiche_enquete_marche.code = esp[0].code ;
+
+				                vm.selected_fiche_enquete_marche.id_presentation = data_masque.id_presentation ;
+				                vm.selected_fiche_enquete_marche.libelle_presentation = pres[0].libelle ;
+
+				                vm.selected_fiche_enquete_marche.id_conservation = data_masque.id_conservation ;
+				                vm.selected_fiche_enquete_marche.libelle_conservation = cons[0].libelle ;
+
+				                vm.selected_fiche_enquete_marche.detaillant = data_masque.detaillant ;
+				                vm.selected_fiche_enquete_marche.offre_kg = Number(data_masque.offre_kg) ;
+				                vm.selected_fiche_enquete_marche.prix_kg = Number(data_masque.prix_kg) ;
+
+	        				}
+	        				else//Suppression
+	        				{
+	        					vm.all_fiche_enquete_marche = vm.all_fiche_enquete_marche.filter(function(obj)
+								{
+									return obj.id !== vm.selected_fiche_enquete_marche.id;
+								});
+
+	        				}
+
+	        			}
+	        			else
+	        			{
+	        				var item =
+				            {
+								id:String(data.response) ,
+
+								id_district : vm.filtre.id_district ,
+								nom_district:dist[0].nom,
+
+				                nom_marche : data_masque.nom_marche ,
+				                nom_ville : data_masque.nom_ville ,
+				                date_releve : convert_to_date_sql(data_masque.date_releve) ,
+				                nbr_jour_ouvrable_mois : data_masque.nbr_jour_ouvrable_mois ,
+				                nbr_tot_etal : data_masque.nbr_tot_etal ,
+				                nbr_etal_pdt_frais : data_masque.nbr_etal_pdt_frais ,
+				                nbr_etal_pdt_transforme : data_masque.nbr_etal_pdt_transforme ,
+				                annee : data_masque.annee ,
+				                mois : data_masque.mois ,
+				                domaines : data_masque.domaines ,
+				                
+				                id_espece : data_masque.id_espece ,
+				                nom : esp[0].nom ,
+		    					nom_scientifique : esp[0].nom_scientifique ,
+		    					nom_francaise : esp[0].nom_francaise ,
+		    					nom_local : esp[0].nom_local ,
+		    					code : esp[0].code ,      
+
+				                id_presentation : data_masque.id_presentation ,
+				                libelle_presentation : pres[0].libelle,
+
+				                id_conservation : data_masque.id_conservation ,
+				                libelle_conservation  : cons[0].libelle,
+				                
+				                detaillant : data_masque.detaillant ,
+				                offre_kg : data_masque.offre_kg ,
+				                prix_kg : data_masque.prix_kg 
+
+							}          
+				            vm.all_fiche_enquete_marche.unshift(item);
+	        			}
+
+		        		vm.affichage_masque_fiche_enquete_marche = false ; //Fermeture de la masque de saisie
+		        		nouvel_fiche_enquete_marche = false;
+
+
+	        		})
+	        		.error(function (data) {alert("Une erreur s'est produit");}); 
+				}
+	        
+		    //FIN FICHE ENQUETE MARCHE
+
+		//FIN ENQUETE DE MARCHE
 
 
 		//ARRIVEE FICHE

@@ -31,7 +31,7 @@
             title: ' Especes',
             icon  : 'icon-blur',
             state: 'app.peche_sip_ddbsip_sip_espece',
-            weight: 8
+            weight: 1
         });
     }
 

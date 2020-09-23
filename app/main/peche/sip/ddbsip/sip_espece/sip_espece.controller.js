@@ -26,7 +26,7 @@
       };
  
       vm.sip_espece_column = [    
-                  { titre:"Code" },
+                  { titre:"Code 3 Alpha" },
                   { titre:"Nom"},
                   { titre:"Nom local" },
                   { titre:"Nom scientifique"},

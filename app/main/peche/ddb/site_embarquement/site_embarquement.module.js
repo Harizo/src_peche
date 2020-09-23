@@ -27,11 +27,11 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.localisation.site_embarquement', {
-            title: 'Site d\'enquête',
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.site_embarquement', {
+            title: "Site d'enquête",
             icon  : 'icon-compass-outline',
             state: 'app.population_ddb_site_embarquement',
-			weight: 10
+			weight: 1
         });
     }
 

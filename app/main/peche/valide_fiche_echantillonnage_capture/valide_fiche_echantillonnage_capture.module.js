@@ -30,7 +30,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.valide_fiche_echantillonnage_capture', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.valide_fiche_echantillonnage_capture', {
             title: 'Données validées',
             icon  : 'icon-clipboard-text',
             state: 'app.population_valide_fiche_echantillonnage_capture',

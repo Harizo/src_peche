@@ -27,7 +27,7 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.enquete_cadre', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.enquete_cadre', {
             title: 'Enquête cadre',
             icon  : 'icon-houzz-box',
             state: 'app.peche_ddb_enquete_cadre',

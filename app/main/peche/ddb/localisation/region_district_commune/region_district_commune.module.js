@@ -29,7 +29,7 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.localisation.region_district_commune', {
+        msNavigationServiceProvider.saveItem('peche.localisation.region_district_commune', {
             title: "Découpage administratif",
             icon  : 'icon-map-marker-circle',
             state: 'app.peche_ddb_region_district_commune'/*,

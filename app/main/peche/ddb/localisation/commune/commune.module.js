@@ -27,7 +27,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.localisation.commune', {
+        msNavigationServiceProvider.saveItem('peche.localisation.commune', {
             title: 'Commune',
             icon  : 'icon-map-marker',
             state: 'app.population_ddb_localisation_commune',

@@ -15,9 +15,47 @@
     </div>		
     <div class="content" layout="column">
         <div class="form-wrapper">
-            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+            <div ng-if="vm.affiche_load" layout="row" layout-align="center center">
+                <md-progress-circular ng-if="vm.affiche_load" class=" md-accent"  aria-label="Rating" md-mode="indeterminate" md-diameter="30"></md-progress-circular> 
+                
+                <span style="color: #039be5">Chargement,veuillez patienter s'il vous plait ...</span>
+            </div>
+            <!--FORM FILTRE  --> 
+                        <div>
+                  
+                            <form name="form_filtre" class="md-inline-form" novalidate >
+
+                                <div layout="column" layout-gt-xs="row">
+                                    <md-input-container flex="100" flex-gt-xs="30">
+                                        <label>Region</label>
+                                        <md-select ng-model="vm.production_commercialisation_region.id_region" name="id_region"   required>
+                                            <md-option ng-repeat="region in vm.all_region" value="{{region.id}}">
+                                                {{region.nom}}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="form_filtre.id_region.$error"role="alert">
+                                            <div ng-message="required">
+                                                <span>Region obligatoire.</span>
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                    
+                                </div>
+
+                                <div>
+                                     <md-button  type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                          ng-disabled="form_filtre.$invalid || vm.affiche_load" ng-click="vm.get_prod_com_by_region()">
+                                          Afficher les données
+                                    </md-button>
+
+                                </div>
+                                
+                            </form>
+                        </div> 
+                    <!--/FORM FORM FILTRE  -->
             <div style="clear:both;"></div>
             <div class="form-wrapper">
+
 
                 <div style="widht:100%;">    
                         <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_production_commercialisation_region()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
@@ -135,11 +173,12 @@
                                   <label>Espèce</label>
                                   <md-select ng-model="vm.production_commercialisation_region.id_espece" name="id_espece" required>
                                       <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
-                                          <div class="text-center"><strong><u>Code</u></strong>: {{esp.code}}</div>
-                                          <div ><strong><u>Espèce</u></strong>: {{esp.nom}}</div>
-                                          <div><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</div>
-                                          <div><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</div>
-                                          <div><strong><u>Nom local</u></strong>: {{esp.nom_local}}</div>
+                                         
+                                          <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                          <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                          <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                          <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                          <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
                                           <md-divider></md-divider>  
                                       </md-option>
                                       
@@ -216,7 +255,7 @@
 
                               <md-input-container flex="100" flex-gt-xs="15">
                                     <label>Région</label>
-                                    <md-select ng-model="vm.production_commercialisation_region.id_region" name="id_region" required>
+                                    <md-select ng-model="vm.production_commercialisation_region.id_region" name="id_region" required >
                                         <md-option ng-repeat="reg in vm.all_region" value="{{reg.id}}">
                                             {{reg.nom}}
                                         </md-option>

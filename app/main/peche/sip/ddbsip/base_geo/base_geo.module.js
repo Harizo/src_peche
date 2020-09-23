@@ -31,7 +31,7 @@
             title: 'Base Géo',
             icon  : 'icon-blur',
             state: 'app.peche_sip_ddbsip_base_geo',
-			weight: 2
+			weight: 1
         });
     }
 

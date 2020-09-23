@@ -27,11 +27,11 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.enqueteur', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.enqueteur', {
             title: 'Enquêteur',
             icon  : 'icon-clipboard-account',
             state: 'app.population_ddb_enqueteur',
-			weight: 3
+			weight: 1
         });
     }
 
