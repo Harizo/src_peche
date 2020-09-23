@@ -19,12 +19,11 @@
       vm.afficherboutonnouveau  = 1 ;    //variale affichage bouton nouveau  
       vm.titrepage              ='';
         //style
-      vm.dtOptions =
+       vm.dtOptions =
       {
-        dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-        pagingType: 'simple',
-        autoWidth: false,
-        responsive: true
+         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+         pagingType: 'simple_numbers',
+         order:[] 
       };
 
       //col table 
@@ -98,7 +97,7 @@
               libelle: bs_geo.libelle,              
               id:      String(data.response)                       
             };              
-            vm.all_base_geo.push(item);
+            vm.all_base_geo.unshift(item);
             vm.bs_geo  = {} ;                   
             NouvelItem          =false;
           }

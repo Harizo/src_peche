@@ -40,39 +40,6 @@
                     <div ng-show="vm.affichageMasque==1">                                
                         <form name="sip_especeform" class="md-inline-form"  novalidate>
                             <div layout="column" layout-gt-xs="row" flex>
-                                  
-                                <md-input-container flex="100" flex-gt-xs="33">
-                                    <label>Type d'especes</label>
-                                    <md-select ng-model="vm.sip_espece.typ_esp_id" name="typ_esp_id"  ng-change="vm.set_libelle()" required>
-                                        <md-option ng-repeat="type_espece in vm.allsip_type_espece" value="{{type_espece.id}}">
-                                            {{type_espece.libelle}} 
-                                        </md-option>
-
-
-                                    </md-select>
-                                    <div ng-messages="sip_especeform.typ_esp_id.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                            <span>Type espece obligatoire.</span>
-                                        </div>
-                                    </div>
-                                </md-input-container>                                                       
-                               <md-input-container flex="100" flex-gt-xs="33">
-                                    <label>Famille</label>
-                                    <md-select ng-model="vm.sip_espece.id_famille" name="id_famille"  ng-change="vm.set_libelle()" required>
-                                        <md-option ng-repeat="fm in vm.allfamille" value="{{fm.id}}">
-                                            {{fm.libelle}} 
-                                        </md-option>
-
-
-                                    </md-select>
-                                    <div ng-messages="sip_especeform.id_famille.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                            <span>Famille obligatoire.</span>
-                                        </div>
-                                    </div>
-                                </md-input-container>
 
                                 <md-input-container flex="100" flex-gt-xs="33">
                                     <input type="text" name="code" ng-model="vm.sip_espece.code"
@@ -133,6 +100,32 @@
                                         </div>
                                     </div>
                                 </md-input-container>
+
+                                <md-input-container flex="100" flex-gt-xs="33">
+                                    <label>Type d'especes</label>
+                                    <md-select ng-model="vm.sip_espece.typ_esp_id" name="typ_esp_id"  ng-change="vm.set_libelle()" required>
+                                        <md-option ng-repeat="type_espece in vm.allsip_type_espece" value="{{type_espece.id}}">
+                                            {{type_espece.libelle}} 
+                                        </md-option>
+                                    </md-select>
+                                    <div ng-messages="sip_especeform.typ_esp_id.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>Type espece obligatoire.</span>
+                                        </div>
+                                    </div>
+                                </md-input-container>   
+
+                               <md-input-container flex="100" flex-gt-xs="33">
+                                    <label>Famille</label>
+                                    <md-select ng-model="vm.sip_espece.id_famille" name="id_famille"  ng-change="vm.set_libelle()">
+                                        <md-option  value="-">-</md-option>
+                                        <md-option ng-repeat="fm in vm.allfamille" value="{{fm.id}}">
+                                            {{fm.libelle}} 
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+
                             </div>
                             <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                                 ng-disabled="sip_especeform.$invalid " ng-click="vm.ajout(vm.sip_espece,0)">
@@ -163,8 +156,8 @@
                                 <td>{{sip_espece.nom_local}}</td>
                                 <td>{{sip_espece.nom_francaise}}</td>
                                 <td>{{sip_espece.nom_scientifique}}</td>
-                                <td>{{sip_espece.libelle_famille}}</td>
                                 <td>{{sip_espece.type_lib}}</td>    
+                                <td>{{sip_espece.libelle_famille}}</td>
                             </tr>
                         </tbody>
                     </table>

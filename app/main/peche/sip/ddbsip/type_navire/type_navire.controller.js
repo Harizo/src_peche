@@ -17,12 +17,12 @@
 		vm.affichageMasque       = 0 ;
     //affichage md-select
 		//style
-		vm.dtOptions = {
-			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-			pagingType: 'simple',
-			autoWidth: false,
-			responsive: true
-		};
+		 vm.dtOptions =
+      {
+         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+         pagingType: 'simple_numbers',
+         order:[] 
+      };
 		//col table
 		vm.type_navire_column = [{titre:"Libellé"}];		
 
