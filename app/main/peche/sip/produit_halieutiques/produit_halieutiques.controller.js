@@ -20,6 +20,18 @@
 			order:[] 
 		};
 
+		apiFactory.getAll("SIP_reporting_halieutique/index").then(function(result)
+			{
+				vm.reporting_halieutique = result.data.response;
+				
+					
+				vm.entete_etat = Object.keys(vm.reporting_halieutique[0]).map(function(cle) {
+			    	return (cle);
+				});
+
+					
+			});
+
 		//CLE ETRANGERE
 			apiFactory.getAll("SIP_presentation/index").then(function(result)
 			{
