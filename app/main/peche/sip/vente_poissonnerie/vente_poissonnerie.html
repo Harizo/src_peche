@@ -1,193 +1,239 @@
   <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
 
     <!-- HEADER -->
-    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+      <div class="header md-accent-bg" layout="row" layout-align="space-between">
         <div layout="column" layout-align="space-between">
-            <div class="breadcrumb" layout="row" layout-align="start center">
-                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
-                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
-                <span class="parent">S.I.P.</span>
-                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
-                <span class="parent" href="javascript:;"> Vente poissonnerie</span>
-            </div>
-
-            <div class="title">Vente poissonnerie</div>
+          <div class="breadcrumb" layout="row" layout-align="start center">
+            <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+            <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+            <span class="parent">S.I.P.</span>
+            <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+            <span class="parent" href="javascript:;"> Vente poissonnerie</span>
+          </div>
+          <div class="title">Vente poissonnerie</div>
         </div>
-    </div>
+      </div>
     <!-- / HEADER -->
+    
     <!-- CONTENT -->
-
-    <div class="content"layout="column">
+      <div class="content"layout="column">
         <div class="form-wrapper">
-            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
-            <div style="clear:both;"></div>
-            <md-tabs md-dynamic-height>
-              <md-tab label="Poissonnerie">
-                <md-tab-body>
-                  <div style="width:100%;">    
-                      <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_poiss()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+          <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+          <div style="clear:both;"></div>
+          <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">{{vm.text_load}}</div>
+          <md-tabs md-dynamic-height>
+            <!-- DEBUT POISSONNERIE -->
+            <md-tab label="Poissonnerie">
+              <md-tab-body>
+                <div style="width:100%;">    
+                  <md-button  ng-if="!vm.affichage_masque_poissonnerie " type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_poiss()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                         Nouveau
-                      </md-button>
-                      <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_poissonnerie.id" aria-label="Modifier" ng-click="vm.modif_col_poiss()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
-                        Modifier
-                      </md-button>
-                      <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_poissonnerie.id" aria-label="Supprimer" ng-click="vm.supprimer_col_poiss()" style="width:10%;">
-                          <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
-                        Supprimer
-                      </md-button>
-                  </div>  
+                  </md-button>
+                  <md-button type="submit" class="md-raised custum_button" ng-disabled="!vm.selected_poissonnerie.id" ng-if="vm.selected_poissonnerie.id && !vm.affichage_masque_poissonnerie" aria-label="Modifier" ng-click="vm.modif_col_poiss()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                    Modifier
+                  </md-button>
+                  <md-button type="submit" class="md-raised custum_button_del" ng-disabled="!vm.selected_poissonnerie.id" ng-if="vm.selected_poissonnerie.id && !vm.affichage_masque_poissonnerie" aria-label="Supprimer" ng-click="vm.supprimer_col_poiss()" style="width:10%;">
+                      <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                    Supprimer
+                  </md-button>
+                </div>  
+                  
+                <!--FORM FILTRE  --> 
+                  <div>
+                    <form name="filtreform" class="md-inline-form" novalidate >
+                      <div layout="column" layout-gt-xs="row">
+                        <md-input-container flex-gt-sm>
+                          <label>Region</label>
+                          <md-select ng-model="vm.filtre.id_region"  ng-change="vm.get_district()"  required>
+                            <md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
+                              {{region.nom}}
+                            </md-option>
+                          </md-select>
+                          <!--div ng-messages="filtreform.id_region.$error"role="alert">
+                            <div ng-message="required">
+                              <span>Region obligatoire.</span>
+                            </div>
+                          </div-->
+                        </md-input-container>
 
-                  <!--FORM LISTES POISSONNERIE-->
-                      <div ng-show="vm.affichage_masque_poissonnerie">
-                
-                          <form name="form_poissonnerie" class="md-inline-form" novalidate >
+                        <md-input-container flex-gt-sm>
+                          <label>District</label>
+                          <md-select ng-model="vm.filtre.id_district"  ng-change="vm.get_commune()" >
+                            <md-option value="-">-</md-option>
+                            <md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
+                              {{district.nom}}
+                            </md-option>
+                          </md-select>
+                          <!--div ng-messages="filtreform.id_district.$error"role="alert">
+                            <div ng-message="required">
+                              <span>District obligatoire.</span>
+                            </div>
+                          </div-->
+                        </md-input-container>
 
-                              <div layout="column" layout-gt-xs="row" flex>
-                                  <md-input-container flex="100" flex-gt-xs="50">
-                                    <input type="text" name="nom" ng-model="vm.col_poiss.nom"
-                                      placeholder="Nom " ng-init="vm.col_poiss.nom=''"
-                                      required>
-                                      <div ng-messages="form_poissonnerie.nom.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                          <span>Nom obligatoire.</span>
-                                        </div>
-                                      </div>
-                                  </md-input-container>
+                        <md-input-container flex-gt-sm>
+                          <label>Commune</label>
+                          <md-select ng-model="vm.filtre.id_commune" ng-change="vm.afichebouton=true">
+                            <md-option value="-">-</md-option>
+                            <md-option ng-repeat="commune in vm.allcommune" value="{{commune.id}}">
+                              {{commune.nom}}
+                            </md-option>
+                          </md-select>
+                          <!--div ng-messages="filtreform.id_commune.$error"role="alert">
+                            <div ng-message="required">
+                                <span>Commune obligatoire.</span>
+                            </div>
+                          </div-->
+                        </md-input-container>
+                      </div>
+                      <div>
+                        <md-button ng-if="!vm.affichage_masque_poissonnerie" type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                          ng-disabled="filtreform.$invalid || vm.affiche_load || !vm.afichebouton" ng-click="vm.get_poissonnerie_by_filtre()">
+                          Afficher les données
+                        </md-button>
+                        <!--  EXPORT EXCEL-->
+                        <md-button  ng-show="vm.affichageMasqueExportExcel" ng-if="!vm.affichage_masque_poissonnerie" type="submit"  class="md-raised md-accent" aria-label="Export excel" ng-disabled="  vm.affiche_load ||!vm.affichageMasqueExportExcel ||vm.desactiveExport " ng-click="vm.creefiche_poissonnerie(vm.filtre)">
+                          Export Excel
+                        </md-button>
+                        <!-- FIN EXPORT EXCEL-->
+                      </div>
+                    </form>
+                  </div> 
+                <!--FIN FORM FORM FILTRE  -->
 
-                                  <md-input-container flex="100" flex-gt-xs="50">
-                                    <input type="text" name="localisation" ng-model="vm.col_poiss.localisation"
-                                      placeholder="Localisation" ng-init="vm.col_poiss.localisation=''"
-                                      required>
-                                      <div ng-messages="form_poissonnerie.localisation.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                          <span>Localisation obligatoire.</span>
-                                        </div>
-                                      </div>
-                                  </md-input-container>
+                <!--FORM LISTES POISSONNERIE-->
+                  <div ng-show="vm.affichage_masque_poissonnerie">
+                    <form name="form_poissonnerie" class="md-inline-form" novalidate >
+                      <div layout="column" layout-gt-xs="row" flex>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input type="text" name="nom" ng-model="vm.col_poiss.nom" placeholder="Nom " ng-init="vm.col_poiss.nom=''" required>
+                          <div ng-messages="form_poissonnerie.nom.$error" role="alert">
+                            <div ng-message="required">
+                              <span>Nom obligatoire.</span>
+                            </div>
+                          </div>
+                        </md-input-container>
 
-                                  <md-input-container flex="100" flex-gt-xs="50">
-                                    <input type="text" name="adresse" ng-model="vm.col_poiss.adresse"
-                                      placeholder="Adresse " ng-init="vm.col_poiss.adresse=''"
-                                      required>
-                                      <div ng-messages="form_poissonnerie.adresse.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                          <span>Adresse obligatoire.</span>
-                                        </div>
-                                      </div>
-                                  </md-input-container>
-                                  <md-input-container flex="100" flex-gt-xs="50">
-                                      <label>Région</label>
-                                      <md-select ng-model="vm.col_poiss.id_region" name="id_region" required>
-                                          <md-option ng-repeat="rg in vm.all_region" value="{{rg.id}}">
-                                              {{rg.nom}}
-                                          </md-option>
-                                          
-                                      </md-select>
-                                      <div ng-messages="form_permis.id_region.$error"
-                                            role="alert">
-                                            <div ng-message="required">
-                                              <span>Région Obligatoire.</span>
-                                            </div>
-                                          </div>
-                                  </md-input-container>
-                              </div>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input type="text" name="localisation" ng-model="vm.col_poiss.localisation" placeholder="Localisation" ng-init="vm.col_poiss.localisation=''"
+                            required>
+                          <div ng-messages="form_poissonnerie.localisation.$error" role="alert">
+                            <div ng-message="required">
+                              <span>Localisation obligatoire.</span>
+                            </div>
+                          </div>
+                        </md-input-container>
 
-                              <div layout="column" layout-gt-xs="row" flex>
-                                  <md-input-container flex="100" flex-gt-xs="50">
-                                    <input type="text" name="rcs" ng-model="vm.col_poiss.rcs"
-                                      placeholder="Rcs " ng-init="vm.col_poiss.rcs=''"
-                                      required>
-                                      <div ng-messages="form_poissonnerie.rcs.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                          <span>Rcs obligatoire.</span>
-                                        </div>
-                                      </div>
-                                  </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input type="text" name="adresse" ng-model="vm.col_poiss.adresse" placeholder="Adresse " ng-init="vm.col_poiss.adresse=''" required>
+                          <div ng-messages="form_poissonnerie.adresse.$error" role="alert">
+                            <div ng-message="required">
+                              <span>Adresse obligatoire.</span>
+                            </div>
+                          </div>
+                        </md-input-container>
+                      </div>
 
-                                  <md-input-container flex="100" flex-gt-xs="50">
-                                    <input type="text" name="stat" ng-model="vm.col_poiss.stat"
-                                      placeholder="Stat" ng-init="vm.col_poiss.stat=''"
-                                      required>
-                                      <div ng-messages="form_poissonnerie.stat.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                          <span>Stat obligatoire.</span>
-                                        </div>
-                                      </div>
-                                  </md-input-container>
+                      <div layout="column" layout-gt-xs="row" flex>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input type="text" name="rcs" ng-model="vm.col_poiss.rcs" placeholder="Rcs " ng-init="vm.col_poiss.rcs=''" required>
+                          <div ng-messages="form_poissonnerie.rcs.$error" role="alert">
+                            <div ng-message="required">
+                              <span>Rcs obligatoire.</span>
+                            </div>
+                          </div>
+                        </md-input-container>
 
-                                  <md-input-container flex="100" flex-gt-xs="50">
-                                    <input type="text" name="nif" ng-model="vm.col_poiss.nif"
-                                      placeholder="Nif" ng-init="vm.col_poiss.nif=''"
-                                      >
-                                      <div ng-messages="form_poissonnerie.nif.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                          <span>Nif obligatoire.</span>
-                                        </div>
-                                      </div>
-                                  </md-input-container>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input type="text" name="stat" ng-model="vm.col_poiss.stat" placeholder="Stat" ng-init="vm.col_poiss.stat=''" required>
+                          <div ng-messages="form_poissonnerie.stat.$error" role="alert">
+                            <div ng-message="required">
+                              <span>Stat obligatoire.</span>
+                            </div>
+                          </div>
+                        </md-input-container>
 
-                                  <md-input-container flex="100" flex-gt-xs="50">
-                                    <input type="text" name="tel" ng-model="vm.col_poiss.tel"
-                                      placeholder="Tèl " ng-init="vm.col_poiss.tel=''"
-                                      required>
-                                      <div ng-messages="form_poissonnerie.tel.$error"
-                                        role="alert">
-                                        <div ng-message="required">
-                                          <span>Tèl obligatoire.</span>
-                                        </div>
-                                      </div>
-                                  </md-input-container>
-                              </div>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input type="text" name="nif" ng-model="vm.col_poiss.nif" placeholder="Nif" ng-init="vm.col_poiss.nif=''" required>
+                          <div ng-messages="form_poissonnerie.nif.$error"
+                            role="alert">
+                            <div ng-message="required">
+                              <span>Nif obligatoire.</span>
+                            </div>
+                          </div>
+                        </md-input-container>
 
-                              <div>
-                               <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                ng-disabled="form_poissonnerie.$invalid" ng-click="vm.save_in_bdd(vm.col_poiss,0)">
-                                Enregistrer
-                              </md-button>
-                              <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_poiss()">
-                                Annuler
-                              </md-button>
-                              </div>
-                          </form>
-                      </div> 
-                  <!--FORM LISTES POISSONNERIE-->
-                  <!--TABLE LISTES POISSONNERIE-->
-                      <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-                          <thead>
-                              <tr>
-                                  <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_poissonnerie">
-                                      <div class="table-header">
-                                          <span class="column-title text-center">{{c.titre}}</span>
-                                      </div>
-                                  </th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr ng-repeat="cm in vm.all_poissonnerie"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_poissonnerie(cm)">                                       
-                                  <td>{{cm.nom}}</td>
-                                  <td>{{cm.localisation}}</td>
-                                  <td>{{cm.adresse}}</td>
-                                  <td>{{cm.nom_region}}</td>
-                                  <td>{{cm.rcs}}</td>
-                                  <td>{{cm.stat}}</td>
-                                  <td>{{cm.nif}}</td>
-                                  <td>{{cm.tel}}</td>
-                          
-                              </tr>
-                          </tbody>
-                      </table>
-                  <!--TABLE LISTES POISSONNERIE-->
-                      
-                </md-tab-body>
-              </md-tab>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input ng-pattern="/^([+]{1}[2]{1}[6]{1}[1]{1}|[0]{1})(([3]{1}|[ ]{1}[3]{1})([2-4]{1}|[9]{1})|([2]{1}[2]{1}))([0-9]{7}|[ ]{1}[0-9]{2}[ ]{1}[0-9]{3}[ ]{1}[0-9]{2})$/" name="tel" ng-model="vm.col_poiss.tel"
+                            placeholder="Tèl" md-maxlength="10-13" ng-init="vm.col_poiss.tel=''" required>
+                          <div ng-messages="form_poissonnerie.tel.$error" role="alert">
+                            <div ng-message="required">
+                              <span>Tèl obligatoire.</span>
+                            </div>
+                            <div ng-message="pattern" class="my-message">
+                              Tèl invalide
+                            </div>
+                          </div>
+                        </md-input-container>
+                      </div>
 
-              <md-tab label="Saisie vente poissonnerie {{vm.selected_poissonnerie.nom}}" ng-disabled="!vm.selected_poissonnerie.id" ng-click="vm.get_vente_poissonnerie()">
+                      <div>
+                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_poissonnerie.$invalid || !vm.filtre.id_commune" ng-click="vm.save_in_bdd(vm.col_poiss,0)">
+                          Enregistrer
+                        </md-button>
+
+                        <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_poiss()">
+                          Annuler
+                        </md-button>
+                      </div>
+                    </form>
+                  </div> 
+                <!--FIN FORM LISTES POISSONNERIE-->
+
+
+                <!--TABLE LISTES POISSONNERIE-->
+                  <div class="price-table style-1 md-whiteframe-1dp" layout="column" >
+                    <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                      <div layout="row" layout-align="start center">
+                        <div class="border-right">
+                          <span class="md-headline">Liste poissonnerie</span>
+                        </div>
+                      </div>
+                    </header>
+
+                    <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                      <thead>
+                        <tr>
+                          <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_poissonnerie">
+                            <div class="table-header">
+                              <span class="column-title text-center">{{c.titre}}</span>
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="poiss in vm.all_poissonnerie"  ng-class="{selected: poiss.$selected}" ng-click="vm.selection_poissonnerie(poiss)">
+                          <td>{{poiss.nom_region}}</td>
+                          <td>{{poiss.districts}}</td>
+                          <td>{{poiss.communes}}</td>
+                          <td>{{poiss.nom}}</td>
+                          <td>{{poiss.localisation}}</td>
+                          <td>{{poiss.adresse}}</td>
+                          <td>{{poiss.rcs}}</td>
+                          <td>{{poiss.stat}}</td>
+                          <td>{{poiss.nif}}</td>
+                          <td>{{poiss.tel}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                <!-- FIN TABLE LISTES POISSONNERIE-->
+              </md-tab-body>
+            </md-tab>
+            <!-- FIN POISSONNERIE -->
+
+            <!-- DEBUT SAISIE VENTE POISSONNERIE -->
+              <md-tab label="Saisie vente poissonnerie {{vm.selected_poissonnerie.nom}}" ng-disabled="!vm.selected_poissonnerie.id" ng-click="vm.masquefiche_vente_poissonnerie()">
                 <md-tab-body>
                   <div style="width:100%;">    
                     <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
@@ -196,207 +242,338 @@
                     <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_vente_poissonnerie.id" aria-label="Modifier" ng-click="vm.modif_col()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
                       Modifier
                     </md-button>
-                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_poissonnerie.id" aria-label="Supprimer" ng-click="vm.supprimer_col()" style="width:10%;">
-                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_vente_poissonnerie.id || !vm.desactiveSupp" aria-label="Supprimer" ng-click="vm.supprimer_col()" style="width:10%;">
+                      <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
                       Supprimer
                     </md-button>
                   </div>
 
-              <!--FORM SAISIE VENTE POISSONNERIE-->
-                  <div ng-show="vm.affichage_masque_vente_poissonnerie">
+                  <!--Debut masque fiche de vente poissonnerie-->
+
+                    <div ng-show="vm.affichageMasquefiltre2==1">               
+                      <form name="fiche_vent_poissonnerieform" class="md-inline-form"  novalidate>
+                    <md-label type="text" class="md-raised md-accent" aria-label="filtre" style="width:10%;">
+                      <md-icon md-font-icon="icon-clapperboard" class="s16" style="color: white;"></md-icon> Filtres
+                    </md-label>
+                        <div layout="column" layout-gt-xs="row" flex>
+                          <md-input-container flex-gt-xs="1">
+                            <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="annee" ng-model="vm.filtre.annee" placeholder="Année"  md-maxlength="4"  ng-init="vm.vente_poissonnerie.annee=''" ng-change="vm.btnaffdata=true">
+                            <div ng-messages="form_vente_poissonnerie.annee.$error" role="alert">
+                              <div ng-message="pattern" class="my-message">
+                                Année invalide 
+                              </div>
+                            </div>
+                          </md-input-container>
+                          
+                          <md-input-container flex-gt-xs="2">
+                            <label>Mois</label>
+                            <md-select ng-model="vm.filtre.mois" name="mois" ng-change="vm.btnaffdata=true">
+                              <md-option >-</md-option>
+                              <md-option  value="1">Janvier</md-option>
+                              <md-option  value="2">Février</md-option>
+                              <md-option  value="3">Mars</md-option>
+                              <md-option  value="4">Avril</md-option>
+                              <md-option  value="5">Mai</md-option>
+                              <md-option  value="6">Juin</md-option>
+                              <md-option  value="7">Juillet</md-option>
+                              <md-option  value="8">Août</md-option>
+                              <md-option  value="9">Septembre</md-option>
+                              <md-option  value="10">Octobre</md-option>
+                              <md-option  value="11">Novembre</md-option>
+                              <md-option  value="12">Décembre</md-option>
+                            </md-select>
+                          </md-input-container> 
+                          <div>
+                            <form name="bouton" class="md-inline-form">
+                              <md-button ng-if="!vm.affichage_masque_vente_poissonnerie" type="submit" class="md-raised md-accent" aria-label="datafiltre"
+                                ng-disabled=" vm.affiche_load || !vm.btnaffdata" ng-click="vm.get_vente_poissonnerie_by_filter(vm.filtre)">
+                                {{vm.filtre_affiche}}
+                              </md-button>
+                            </form>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+
+                    <!-- EXPORT EXCEL -->
+
+                    <div ng-show="vm.affichageMasqueExportExcel" ng-if="!vm.affichage_masque_vente_poissonnerie" ng-disabled=" vm.affiche_load || vm.desactiveExport">
+                      <form name="bouton" class="md-inline-form">
+                        <md-button type="submit"  class="md-raised md-accent" aria-label="Export excel" ng-click="vm.creefiche_vente_poissonnerie(vm.filtre)">Export Excel
+                        </md-button>
+                      </form>
+                    </div>
+                    <!-- FIN EXPORT EXCEL-->
+                      
+                  <!-- Fin masque fiche de vente poissonnerie -->
+
+                  <!--FORM SAISIE VENTE POISSONNERIE-->
+                    <div ng-show="vm.affichage_masque_vente_poissonnerie">
                       <form name="form_vente_poissonnerie" class="md-inline-form" novalidate >
+                        <div layout="column" layout-gt-xs="row" flex>
+                          <md-input-container flex="25" flex-gt-xs="5">
+                            <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="annee" ng-model="vm.vente_poissonnerie.annee"
+                              placeholder="Année"  md-maxlength="4"  ng-init="vm.vente_poissonnerie.annee=''" required>
+                            <div ng-messages="form_vente_poissonnerie.annee.$error" role="alert">
+                              <div ng-message="pattern" class="my-message">
+                                Année invalide 
+                              </div>
+                            </div>
+                            <div ng-messages="form_vente_poissonnerie.annee.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Année obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
+                            
+                          <md-input-container flex="100" flex-gt-xs="10">
+                            <label>Mois</label>
+                            <md-select ng-model="vm.vente_poissonnerie.mois" name="mois" required>
+                              <md-option  value="1">Janvier</md-option>
+                              <md-option  value="2">Février</md-option>
+                              <md-option  value="3">Mars</md-option>
+                              <md-option  value="4">Avril</md-option>
+                              <md-option  value="5">Mai</md-option>
+                              <md-option  value="6">Juin</md-option>
+                              <md-option  value="7">Juillet</md-option>
+                              <md-option  value="8">Août</md-option>
+                              <md-option  value="9">Septembre</md-option>
+                              <md-option  value="10">Octobre</md-option>
+                              <md-option  value="11">Novembre</md-option>
+                              <md-option  value="12">Décembre</md-option>
+                            </md-select>
+                            <div ng-messages="form_vente_poissonnerie.mois.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Mois obligatoire.</span>
+                              </div>
+                                
+                            </div>
+                          </md-input-container>
 
-                         <div layout="column" layout-gt-xs="row" flex>
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="text" name="designation_article" ng-model="vm.vente_poissonnerie.designation_article"
-                                  placeholder="Désignation article."
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.designation_article.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Désign article. obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-                              </md-input-container>
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <input  type="text" name="reference_fournisseur" ng-model="vm.vente_poissonnerie.reference_fournisseur"
+                              placeholder="Rèf fournisseur."  required>
+                            <div ng-messages="form_vente_poissonnerie.reference_fournisseur.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Rèf. fournisseur obligatoire.</span>
+                              </div>
+                            </div> 
+                          </md-input-container>
 
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="text" name="origine_produits" ng-model="vm.vente_poissonnerie.origine_produits"
-                                  placeholder="Origine prod." 
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.origine_produits.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Origine prod. obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-                              </md-input-container>
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <input  type="text" name="origine_produits" ng-model="vm.vente_poissonnerie.origine_produits" placeholder="Origine prod." required>
+                            <div ng-messages="form_vente_poissonnerie.origine_produits.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Origine prod. obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
+                          
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <label>Famille</label>
+                            <md-select ng-model="vm.vente_poissonnerie.famille_rh" name="famille_rh" required>
+                              <md-option ng-repeat="family in vm.all_famille" value="{{family.id}}">
+                                {{family.libelle}}
+                              </md-option>     
+                            </md-select>
+                            <div ng-messages="form_vente_poissonnerie.famille_rh.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Famille Obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
+                        </div>
 
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="text" name="reference_fournisseur" ng-model="vm.vente_poissonnerie.reference_fournisseur"
-                                  placeholder="Rèf fournisseur." 
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.reference_fournisseur.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Rèf fournisseur. obligatoire.</span>
-                                    </div>
-                                    
-                                  </div> 
-                              </md-input-container>
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="text" name="observations" ng-model="vm.vente_poissonnerie.observations"
-                                  placeholder="Observation."
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.observations.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Observation. obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-                              </md-input-container>
+                        <div layout="column" layout-gt-xs="row" flex> 
+                           <md-input-container flex="100" flex-gt-xs="30">
+                            <input  type="text" name="type_famille" ng-model="vm.vente_poissonnerie.type_famille"
+                              placeholder="Type famille." required>
+                            <div ng-messages="form_vente_poissonnerie.type_famille.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Type famille obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
+                        
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <input  type="text" name="designation_article" ng-model="vm.vente_poissonnerie.designation_article" placeholder="Désignation article." required>
+                            <div ng-messages="form_vente_poissonnerie.designation_article.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Désign article obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
 
-                          </div>
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <label>Présentation</label>
+                            <md-select ng-model="vm.vente_poissonnerie.id_presentation" name="id_presentation" required>
+                              <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
+                                {{pres.libelle}}
+                              </md-option>
+                            </md-select>
+                            <div ng-messages="form_vente_poissonnerie.id_presentation.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Présentation Obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
 
-                          <div layout="column" layout-gt-xs="row" flex> 
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="number" name="quantite_vendu" ng-model="vm.vente_poissonnerie.quantite_vendu"
-                                  placeholder="Quantité vendue(Kg)"    ng-init="vm.vente_poissonnerie.quantite_vendu=0"
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.quantite_vendu.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Qté vendue obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-                              </md-input-container>
-                              
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input  type="number" name="prix_kg" ng-model="vm.vente_poissonnerie.prix_kg"
-                                  placeholder="Prix(Ar/Kg)"    ng-init="vm.vente_poissonnerie.prix_kg=0"
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.prix_kg.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>Prix obligatoire.</span>
-                                    </div>
-                                    
-                                  </div> 
-                              </md-input-container>
-
-                              <md-input-container flex="100" flex-gt-xs="50">
-                                <input ng-readonly="true"  type="number" name="chiffre_affaire" ng-model="vm.vente_poissonnerie.chiffre_affaire"
-                                  placeholder="chiffre d'affaire(Ar)"    ng-init="vm.vente_poissonnerie.chiffre_affaire=0"
-                                  required>
-                                  <div ng-messages="form_vente_poissonnerie.chiffre_affaire.$error"
-                                    role="alert">
-                                    <div ng-message="required">
-                                      <span>chiffre d'affaire obligatoire.</span>
-                                    </div>
-                                    
-                                  </div>
-                              </md-input-container>
-
-                          </div>
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <label>Conservation</label>
+                            <md-select ng-model="vm.vente_poissonnerie.id_conservation" name="id_conservation" required>
+                              <md-option ng-repeat="cons in vm.all_conservation" value="{{cons.id}}">
+                                {{cons.libelle}}
+                              </md-option>
+                            </md-select>
+                            <div ng-messages="form_vente_poissonnerie.id_conservation.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Conservation Obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
+                        </div>
 
                         <div layout="column" layout-gt-xs="row" flex>
-                            
-                          <md-input-container flex="100" flex-gt-xs="50">
-                            <label>Famille</label>
-                              <md-select ng-model="vm.vente_poissonnerie.famille_rh" name="famille_rh" required>
-                                <md-option ng-repeat="family in vm.all_famille" value="{{family.id}}">
-                                    {{family.libelle}}
-                                </md-option>
-                                  
-                              </md-select>
-                              <div ng-messages="form_vente_poissonnerie.famille_rh.$error"
-                                    role="alert">
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <input  type="number" name="quantite_vendu" ng-model="vm.vente_poissonnerie.quantite_vendu"
+                              placeholder="Quantité vendue(Kg)"    ng-init="vm.vente_poissonnerie.quantite_vendu=0" required>
+                              <div ng-messages="form_vente_poissonnerie.quantite_vendu.$error" role="alert">
                                 <div ng-message="required">
-                                  <span>Famille Obligatoire.</span>
+                                  <span>Qté vendue obligatoire.</span>
                                 </div>
                               </div>
                           </md-input-container>
 
-                            <md-input-container flex="100" flex-gt-xs="50">
-                                <label>Présentation</label>
-                                <md-select ng-model="vm.vente_poissonnerie.id_presentation" name="id_presentation" required>
-                                    <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
-                                        {{pres.libelle}}
-                                    </md-option>
-                                    
-                                </md-select>
-                                <div ng-messages="form_vente_poissonnerie.id_presentation.$error"
-                                      role="alert">
-                                      <div ng-message="required">
-                                        <span>Présentation Obligatoire.</span>
-                                      </div>
-                                    </div>
-                            </md-input-container>
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <input ng-readonly="true"  type="number" name="chiffre_affaire" ng-model="vm.vente_poissonnerie.chiffre_affaire"
+                              placeholder="chiffre d'affaire(Ar)"    ng-init="vm.vente_poissonnerie.chiffre_affaire=0" required>
+                            <div ng-messages="form_vente_poissonnerie.chiffre_affaire.$error" role="alert">
+                              <div ng-message="required">
+                                <span>chiffre d'affaire obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
 
-                            <md-input-container flex="100" flex-gt-xs="50">
-                                <label>Conservation</label>
-                                <md-select ng-model="vm.vente_poissonnerie.id_conservation" name="id_conservation" required>
-                                    <md-option ng-repeat="cons in vm.all_conservation" value="{{cons.id}}">
-                                        {{cons.libelle}}
-                                    </md-option>
-                                    
-                                </md-select>
-                                <div ng-messages="form_vente_poissonnerie.id_conservation.$error"
-                                      role="alert">
-                                      <div ng-message="required">
-                                        <span>Conservation Obligatoire.</span>
-                                      </div>
-                                    </div>
-                            </md-input-container>
-                          </div>
+                           <md-input-container flex="100" flex-gt-xs="30">
+                            <input  type="number" name="prix_kg" ng-model="vm.vente_poissonnerie.prix_kg"
+                              placeholder="Prix(Ar/Kg)"    ng-init="vm.vente_poissonnerie.prix_kg=1" required>
+                            <div ng-messages="form_vente_poissonnerie.prix_kg.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Prix obligatoire.</span>
+                              </div>
+                            </div> 
+                          </md-input-container>
 
-                          <div>
-                           <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <input  type="text" name="observations" ng-model="vm.vente_poissonnerie.observations" placeholder="Observation." required>
+                            <div ng-messages="form_vente_poissonnerie.observations.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Observation obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
+                        </div> 
+
+                        <div>
+                          <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                             ng-disabled="form_vente_poissonnerie.$invalid" ng-click="vm.save_in_bdd_vente_poissonnerie(vm.vente_poissonnerie,0)">
                             Enregistrer
                           </md-button>
                           <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_vente_poissonnerie()">
                             Annuler
                           </md-button>
-                          </div>
+                        </div>
                       </form>
-                  </div> 
-              <!--FIN FORM SAISIE VENTE POISSONNERIE-->
+                    </div> 
+                  <!--FIN FORM SAISIE VENTE POISSONNERIE-->
 
-              <!--TABLE LISTES SAISIE VENTE POISSONNERIE-->
-                  <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                  <!--TABLE LISTES SAISIE VENTE POISSONNERIE-->
+                    <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions"  ms-responsive-table>
                       <thead>
-                          <tr>
-                              <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_vente_poissonnerie">
-                                  <div class="table-header">
-                                      <span class="column-title text-center">{{c.titre}}</span>
-                                  </div>
-                              </th>
-                          </tr>
+                        <tr>
+                          <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_vente_poissonnerie">
+                            <div class="table-header">
+                              <span class="column-title text-center">{{c.titre}}</span>
+                            </div>
+                          </th>
+                        </tr>
                       </thead>
                       <tbody>
-                          <tr ng-repeat="cm in vm.all_saisie_vente_poissonnerie"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_vente_poissonnerie(cm)" >                                       
-                              <td>{{cm.designation_article}}</td>
-                              <td>{{cm.origine_produits}}</td>
-                              <td>{{cm.reference_fournisseur}}</td>
-                              <td>{{vm.replace_point(cm.quantite_vendu)}} Kg</td>
-                              <td>{{vm.formatMillier(cm.chiffre_affaire)}} Ar</td>
-                              <td>{{vm.formatMillier(cm.prix_kg)}} Ar/Kg</td>
-                              <td>{{cm.observations}}</td>
-                              <td>{{cm.libelle_famille}}</td>
-                              <td>{{cm.libelle_presentation}}</td>
-                              <td>{{cm.libelle_conservation}}</td>
-
-                          </tr>
+                        <tr ng-repeat="svp in vm.all_saisie_vente_poissonnerie"  ng-class="{selected: svp.$selected}" ng-click="vm.selection_vente_poissonnerie(svp)">
+                          <td>{{svp.annee}}</td>
+                          <td>{{vm.affichage_mois(svp.mois)}}</td>
+                          <td>{{svp.reference_fournisseur}}</td>
+                          <td>{{svp.origine_produits}}</td>
+                          <td>{{svp.libelle_famille}}</td>
+                          <td>{{svp.type_famille}}</td>
+                          <td>{{svp.designation_article}}</td>
+                          <td>{{svp.libelle_presentation}}</td>
+                          <td>{{svp.libelle_conservation}}</td>
+                          <td>{{vm.formatMillier(svp.quantite_vendu)}}</td>
+                          <td>{{vm.formatMillier(svp.chiffre_affaire)}}</td>
+                          <td>{{vm.formatMillier(svp.prix_kg)}}</td>
+                          <td>{{svp.observations}}</td>
+                        </tr>
                       </tbody>
-                  </table>
-              <!--FIN TABLE LISTES SAISIE VENTE POISSONNERIE-->
-                  </md-tab-body>
-              </md-tab>  
-               
+                    </table>
+                  <!--FIN TABLE LISTES SAISIE VENTE POISSONNERIE-->
+                </md-tab-body>
+              </md-tab>
+            <!-- FIN SAISIE VENTE POISSONNERIE -->
+
+            <!-- DEBUT REPORTING REQUETE --> 
+              <md-tab label="Reporting">
+                <form name="filtreform" class="md-inline-form" novalidate flex>
+                    <md-input-container flex="100" flex-gt-xs="50">
+                      <label>Requête</label>
+                      <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load" >
+                        <md-option ng-repeat="piv in vm.pivots"  value="{{piv.id}}">
+                          {{piv.titre}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container> 
+                  <div>
+                    <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                        ng-disabled="filtreform.$invalid || vm.affiche_load" ng-click="vm.filtrerreports(vm.filtre)">
+                        Actualiser
+                    </md-button>
+                    <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                        ng-disabled="filtreform.$invalid || vm.affiche_load" ng-click="vm.exportExcel(vm.filtre)">
+                        Export excel
+                    </md-button>
+                  </div>
+                </form>
+                <md-tabs md-dynamic-height>
+                  <md-tab label="Résultat">
+                    <div class="table-responsive" >
+                      <table class="dataTable row-border cell-border text-center" id="table1"  ms-responsive-table datatable="ng" dt-options="vm.dtOptions">
+                        <thead>                          
+                          <tr>
+                            <th class="secondary-text" ng-show="!vm.filtre.pivot">
+                              <div class="table-header">
+                                <span class="column-title text-center">Le Champ requête est obligatoire</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text" ng-repeat=" donnee in vm.entete_etat">
+                              <div class="table-header">
+                                <span class="column-title text-center">{{vm.replace_espace(donnee)}}</span>
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="d in vm.poissonnerie_reporting" ng-class="{selected: donnee.$selected}" ng-click="vm.selection_poiss_report(donnee)">
+                            <td ng-show="!vm.filtre.pivot">Le Champ requête est obligatoire</td>
+                            <td ng-repeat="donnee in vm.corps_etat" >{{vm.formatMillier(d[donnee])}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>  
+                  </md-tab>
+                </md-tabs>
+              </md-tab>               
+            <!-- FIN REPORTING REQUETE -->
+
             </md-tabs>
         </div>
     </div>
