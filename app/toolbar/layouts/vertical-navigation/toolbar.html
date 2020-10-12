@@ -14,13 +14,15 @@
                 
         
 
-
-        <md-progress-circular id="toolbar-progress" ng-if="$root.loadingProgress" class="md-accent"
+        <div ng-if="$root.loadingProgress" layout="row" layout-align="center center">
+                <md-progress-circular id="toolbar-progress" ng-if="$root.loadingProgress" class="md-accent"
                               md-mode="indeterminate" md-diameter="64">
-        </md-progress-circular>
-        <small ng-if="$root.loadingProgress" style=" left: 60px;color: #039be5">
-          Chargement,veuillez patienter s'il vous plait ...
-        </small>
+                </md-progress-circular>
+                <small ng-if="$root.loadingProgress" style=" left: 60px;color: #039be5">
+                  Chargement,veuillez patienter s'il vous plait ...
+                </small>
+        </div>
+        
     </div>
 
     <div layout="row" layout-align="start center" >
