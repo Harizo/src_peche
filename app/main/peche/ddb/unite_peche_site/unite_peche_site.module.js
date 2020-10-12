@@ -27,11 +27,11 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.unite_peche_site', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.unite_peche_site', {
             title: 'Sites / unités de pêche',
             icon  : 'icon-map-marker-circle',
             state: 'app.population_ddb_unite_peche_site',
-			weight: 11
+			weight: 1
         });
     }
 

@@ -31,7 +31,7 @@
             title: 'Presentation',
             icon  : 'icon-library-books',
             state: 'app.peche_sip_ddbsip_sip_presentation',
-			weight: 2
+			weight: 1
         });
     }
 

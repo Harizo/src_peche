@@ -466,6 +466,23 @@
                                                 {{cm.hamecon}}
                                             </span>
                                         </td>
+                                    <td>
+                                        <span ng-if="cm.$edit">
+                                            <md-input-container flex="100" flex-gt-xs="60">
+                                                <label>Engin Principale?</label>
+                                                <md-select ng-model="cm.etat_principale" name="etat_principale" ng-change="vm.teste_principale(cm.etat_principale)" required>
+                                                    <md-option  value="0">Non</md-option>
+                                                    <md-option  value="1">Oui</md-option>
+                                                    
+                                                </md-select>
+                                                
+                                            </md-input-container>  
+                                            
+                                        </span>
+                                        <span ng-if="!cm.$edit">
+                                            {{vm.affichage_oui_non(cm.etat_principale)}}
+                                        </span>
+                                    </td>
                                
                                        
                                     </tr>
@@ -496,14 +513,23 @@
                         <div ng-show="vm.affichage_masque_carte_pirogue">
                   
                             <form name="form_carte_pirogue" class="md-inline-form" novalidate >
+                                <fieldset class="standard" >
+                                    <legend><code>Propriétaire ???</code></legend>
 
+                                    <md-checkbox ng-init="vm.carte_pirogue.etat_proprietaire=false" ng-model="vm.carte_pirogue.etat_proprietaire" aria-label="Checkbox 1"  style="margin: 4px;">
+                                    {{vm.affichage_bool(vm.carte_pirogue.etat_proprietaire)}}
+                                    </md-checkbox><br>
+
+
+                                    
+                                </fieldset>
                                 
                                 <div layout="column" layout-gt-xs="row" flex>
 
-                                    <md-input-container flex="100" flex-gt-xs="50">
+                                    <md-input-container ng-show="vm.carte_pirogue.etat_proprietaire==true" flex="100" flex-gt-xs="50">
                                       <input type="text" name="immatriculation" ng-model="vm.carte_pirogue.immatriculation"
-                                        placeholder="Immatricule" ng-init="vm.carte_pirogue.immatriculation=''"
-                                        required>
+                                        placeholder="Immatricule" ng-init="vm.carte_pirogue.immatriculation=' '" ng-readonly="vm.carte_pirogue.etat_proprietaire==false" 
+                                        ng-required="vm.carte_pirogue.etat_proprietaire==true">
                                         <div ng-messages="form_carte_pirogue.immatriculation.$error"
                                           role="alert">
                                           <div ng-message="required">
@@ -511,6 +537,17 @@
                                           </div>
                                         </div>
                                     </md-input-container>
+                                    <!--md-input-container ng-if="vm.carte_pirogue.etat_proprietaire==false" flex="100" flex-gt-xs="50" ng-show="false">
+                                      <input type="text" name="immatriculation" ng-model="vm.carte_pirogue.immatriculation"
+                                        placeholder="Immatricule" ng-init="vm.carte_pirogue.immatriculation=''"
+                                        >
+                                        <div ng-messages="form_carte_pirogue.immatriculation.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Immatricule obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container!-->
 
                                     <md-input-container flex="100" flex-gt-xs="10">
                                       <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="an_cons" ng-model="vm.carte_pirogue.an_cons"
@@ -639,23 +676,14 @@
                                 </div>
 
 
-                                <fieldset class="standard" >
-                                    <legend><code>Propriétaire ?</code></legend>
-
-                                    <md-checkbox ng-init="vm.carte_pirogue.etat_proprietaire=false" ng-model="vm.carte_pirogue.etat_proprietaire" aria-label="Checkbox 1"  style="margin: 4px;">
-                                    {{vm.affichage_bool(vm.carte_pirogue.etat_proprietaire)}}
-                                    </md-checkbox><br>
-
-
-                                    
-                                </fieldset>
+                                
                                
                                 <div>
                                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                                         ng-disabled="form_carte_pirogue.$invalid " ng-click="vm.save_in_bdd_carte_pirogue(vm.carte_pirogue,0)">
                                         Enregistrer
                                     </md-button>
-                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_carte_pirogue()">
                                         Annuler
                                     </md-button>
                                 </div>

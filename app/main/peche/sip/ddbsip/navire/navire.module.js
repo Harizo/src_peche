@@ -31,7 +31,7 @@
             title: 'Navire',
             icon  : 'icon-map-marker-circle',
             state: 'app.peche_sip_ddbsip_navire',
-			weight: 2
+			weight: 1
         });
     }
 

@@ -63,7 +63,7 @@
                   <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
                       Modifier
                   </md-button>
-                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" ng-disabled="vm.selectedItem.permission_delete == '1'" style="width:10%;">
                       Supprimer
                   </md-button>
                 </div>

@@ -29,7 +29,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.reporting.analyse_parametrable', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.reporting.analyse_parametrable', {
             title: "Analyse parametrable",
             icon  : 'icon-check-circle',
             state: 'app.peche_reporting_analyse_parametrable',

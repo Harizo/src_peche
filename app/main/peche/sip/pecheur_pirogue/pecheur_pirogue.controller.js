@@ -455,10 +455,57 @@
 	        	apiFactory.getAPIgeneraliserREST("SIP_engin_carte_pecheur/index","id_carte_pecheur",id_carte_pecheur).then(function(result)
 				{
 					vm.all_engin_carte_pecheur = result.data.response;
+				
 					vm.affiche_load = false ;
 					
 				});
 	        }
+
+	        vm.teste_principale = function(etat)
+	        {
+
+
+	        	if (etat == '1' && vm.all_engin_carte_pecheur.length > 0) 
+	        	{
+	        		var tab = vm.all_engin_carte_pecheur.filter(function(obj){
+	        			return (obj.etat_principale == '1') && (obj.id != vm.selected_engin.id);
+	        		}) ;
+
+	        		if (tab.length > 0) 
+	        		{
+
+		        		if (tab[0].id != vm.selected_engin.id) 
+		        		{
+		        			var confirm = $mdDialog.confirm()
+							  .title('Attention!')
+							  .textContent('Un engin principale existe déjà.')
+							  .ariaLabel('Lucky day')
+							  .clickOutsideToClose(true)
+							  .parent(angular.element(document.body))
+							  .ok('OK');
+							$mdDialog.show(confirm).then(function() {
+
+								vm.selected_engin.etat_principale = '0' ;
+
+							}, function() {
+							//alert('rien');
+							});
+		        		}
+	        		}
+	        	}
+	        }
+
+	        vm.affichage_oui_non = function(etat)
+	        {
+	        	if (Number(etat) == 1) 
+	        	{
+	        		return "Oui" ;
+
+	        	}
+	        	else
+	        		return "Non" ;
+	        }
+
 
 	        vm.entete_liste_engin = 
 	        [
@@ -469,7 +516,8 @@
 				{titre:"largeur(m)"},
 				{titre:"hauteur(m)"},
 				{titre:"maille(cm)"},
-				{titre:"hamecon"}
+				{titre:"hamecon"},
+				{titre:"Engin principale?"}
 	        ] ;
 
     
@@ -520,6 +568,7 @@
 	              		largeur:0,
 	              		hauteur:0,
 	              		maille:0,
+	              		etat_principale:'0',
 	              		hamecon:''
 					} ;
 
@@ -592,6 +641,7 @@
 					vm.selected_engin.hauteur = current_selected_engin.hauteur ;
 					vm.selected_engin.maille = current_selected_engin.maille ;
 					vm.selected_engin.hamecon = current_selected_engin.hamecon ;
+					vm.selected_engin.etat_principale = current_selected_engin.etat_principale ;
 
 					vm.selected_engin = {};
 
@@ -624,7 +674,8 @@
 					largeur : vm.selected_engin.largeur ,
 					hauteur : vm.selected_engin.hauteur ,
 					maille : vm.selected_engin.maille ,
-					hamecon : vm.selected_engin.hamecon 
+					hamecon : vm.selected_engin.hamecon ,
+					etat_principale : vm.selected_engin.etat_principale 
 	                
 	                
 	            });
@@ -727,13 +778,12 @@
 					vm.all_carte_pirogue = result.data.response;
 					vm.affiche_load = false ;
 
-					console.log(vm.all_carte_pirogue);
-					
 				});
 	        }
         
        
     		vm.selected_carte_pirogue = {} ;
+    		vm.carte_pirogue = {} ;
     		var nouvel_carte_pirogue = false;
     		vm.all_carte_pirogue = [] ;
 	    	
@@ -776,6 +826,12 @@
 					item.$selected = false;
 				});
 				vm.selected_carte_pirogue.$selected = true;
+
+			});
+
+			$scope.$watch('vm.carte_pirogue.etat_proprietaire', function()
+			{
+				if (!vm.carte_pirogue.etat_proprietaire) vm.carte_pirogue.immatriculation = "";
 
 			});
 
@@ -827,7 +883,7 @@
 				});
 			}
 
-			vm.annuler = function () 
+			vm.annuler_carte_pirogue = function () 
 			{
 				nouvel_carte_pirogue = false ;
 				vm.affichage_masque_carte_pirogue = false ;

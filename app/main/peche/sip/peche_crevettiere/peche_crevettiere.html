@@ -15,9 +15,11 @@
     </div>	
     <div class="content" layout="column">
         <div class="form-wrapper">
-            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64">
+            <div ng-if="vm.affiche_load" layout="row" layout-align="center center">
+                <md-progress-circular ng-if="vm.affiche_load" class=" md-accent"  aria-label="Rating" md-mode="indeterminate" md-diameter="30"></md-progress-circular> 
                 
-            </md-progress-circular>
+                <span style="color: #039be5">Chargement,veuillez patienter s'il vous plait ...</span>
+            </div>
             <div style="clear:both;"></div>
             <md-tabs md-dynamic-height>
                 <md-tab label="Société">
@@ -111,7 +113,7 @@
                                 </div>
 
                                 <div layout="column" layout-gt-xs="row" flex>
-                                    <md-input-container flex="100" flex-gt-xs="50">
+                                    <!--md-input-container flex="100" flex-gt-xs="50">
                                       <input type="text" name="base_geo" ng-model="vm.societe_crevette.base_geo"
                                         placeholder="Base géo " ng-init="vm.societe_crevette.base_geo=''"
                                         required>
@@ -121,11 +123,29 @@
                                             <span>Base géo obligatoire.</span>
                                           </div>
                                         </div>
-                                    </md-input-container>
+                                    </md-input-container!-->
+
+                                    <md-input-container flex="100" flex-gt-xs="35">
+                                        <label>Base géo</label>
+                                        <md-select ng-model="vm.societe_crevette.base_geo" name="base_geo" required>
+                                            <md-option ng-repeat="bg in vm.all_base_geo" value="{{bg.id}}">
+                                                {{bg.libelle}}
+                                            </md-option>
+                                            
+                                        </md-select>
+
+                                        <div ng-messages="form_societe_crevette.base_geo.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Base géo obligatoire.</span>
+                                          </div>
+                                        </div>
+                                        
+                                    </md-input-container> 
 
                                   
 
-                                    <md-input-container flex="100" flex-gt-xs="50">
+                                    <!--md-input-container flex="100" flex-gt-xs="50">
                                       <input type="text" name="base_cote" ng-model="vm.societe_crevette.base_cote"
                                         placeholder="Base côte" ng-init="vm.societe_crevette.base_cote=''"
                                         required>
@@ -135,7 +155,25 @@
                                             <span>Base côte obligatoire.</span>
                                           </div>
                                         </div>
-                                    </md-input-container>
+                                    </md-input-container!-->
+
+                                    <md-input-container flex="100" flex-gt-xs="35">
+                                        <label>Base côte</label>
+                                        <md-select ng-model="vm.societe_crevette.base_cote" name="base_cote" required>
+                                            <md-option ng-repeat="bc in vm.all_base_cote" value="{{bc.id}}">
+                                                {{bc.libelle}}
+                                            </md-option>
+                                            
+                                        </md-select>
+
+                                        <div ng-messages="form_societe_crevette.base_cote.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Base géo obligatoire.</span>
+                                          </div>
+                                        </div>
+                                        
+                                    </md-input-container> 
 
                                 </div>
 
@@ -169,8 +207,8 @@
                                     <td>{{cm.nom}}</td>
                                     <td>{{vm.convert_to_date_html(cm.deb_validite)}}</td>
                                     <td>{{vm.convert_to_date_html(cm.fin_validite)}}</td>
-                                    <td>{{cm.base_geo}}</td>
-                                    <td>{{cm.base_cote}}</td>
+                                    <td>{{vm.affichage_base_geo(cm.base_geo)}}</td>
+                                    <td>{{vm.affichage_base_cote(cm.base_cote)}}</td>
                                     <td>{{cm.an_creation}}</td>
                                     <td>{{cm.type}}</td>
                                   
@@ -285,7 +323,7 @@
 
                                     <md-input-container flex="100" flex-gt-xs="30">
                                       <input type="number" name="cout" ng-model="vm.bateau_crevette.cout"
-                                        placeholder="Coût" ng-init="vm.bateau_crevette.cout=''"
+                                        placeholder="Coût(AR)" ng-init="vm.bateau_crevette.cout=''"
                                         required>
                                         <div ng-messages="form_bateau_crevette.cout.$error"
                                           role="alert">
@@ -368,7 +406,7 @@
                                     <td>{{cm.segment}}</td>
                                     <td>{{cm.type}}</td>
                                     <td>{{cm.an_acquis}}</td>
-                                    <td>{{vm.formatMillier(cm.cout)}}</td>
+                                    <td>{{vm.formatMillier(cm.cout)}} AR</td>
                                     <td>{{cm.numero_license}}</td>
                                     <td>{{cm.license_1}}</td>
                                     <td>{{cm.license_2}}</td>
@@ -715,7 +753,7 @@
                                             <span ng-if="cm.$edit">
                                                 <md-input-container style="width:100%;display: flex !important;">
                                                   <label>N° Séquence de pêche</label>
-                                                  <input name="numseqpeche" ng-pattern="/^\d+$/" ng-model="cm.numseqpeche"/ readonly="true">
+                                                  <input name="numseqpeche" ng-pattern="/^\d+$/" ng-model="cm.numseqpeche" readonly="true">
                                                 </md-input-container>   
                                                 
                                             </span>
@@ -998,6 +1036,228 @@
                             </table>
                         </div>
                     <!--FIN SEQUENCE capture-->
+
+                    <!--SEQUENCE PIJ PECHE-->
+
+
+                        <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-show="vm.selected_sequence_peche.id">
+                            <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                <div layout="row" layout-align="start center">
+                                <div class="border-right">
+                                    
+                                  <span class="md-headline">Liste séquence PIJ | Séquence de pêche n° {{vm.selected_sequence_peche.numseqpeche}}</span>
+                                </div>
+                                  <div class="border-right" ng-if="!vm.selected_sequence_pij_peche_crevette.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.ajouter_sequence_pij_peche_crevette()">
+                                      <md-icon md-font-icon="icon-plus-box"></md-icon>
+                                      <md-tooltip><span>Ajouter</span></md-tooltip>
+                                    </md-button>
+                                  </div> 
+                                  <div class="border-right" ng-if="vm.selected_sequence_pij_peche_crevette.id&&!vm.selected_sequence_pij_peche_crevette.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.modifier_sequence_pij_peche_crevette()">
+                                      <md-icon md-font-icon="icon-table-edit"></md-icon>
+                                      <md-tooltip><span>Modifier</span></md-tooltip>
+                                    </md-button>
+                                  </div>    
+                                  <div class="border-right" ng-if="vm.selected_sequence_pij_peche_crevette.id&&!vm.selected_sequence_pij_peche_crevette.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.supprimer_sequence_pij_peche_crevette()">
+                                      <md-icon md-font-icon="icon-delete"></md-icon>
+                                      <md-tooltip><span>Supprimer</span></md-tooltip>
+                                    </md-button>
+                                  </div>  
+
+                                  <div class="border-right" ng-if="vm.selected_sequence_pij_peche_crevette.id">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.annuler_sequence_pij_peche_crevette()">
+                                      <md-icon md-font-icon="icon-cancel"></md-icon>
+                                      <md-tooltip><span>Annuler</span></md-tooltip>
+                                    </md-button>
+                                  </div>   
+
+                                  <div ng-if="vm.selected_sequence_pij_peche_crevette.$edit">
+                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.enregistrer_sequence_pij_peche_crevette(0)">
+                                      <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
+                                      <md-tooltip><span>Enregistrer</span></md-tooltip>
+                                    </md-button>
+                                  </div>                
+                                </div>
+                            </header>
+                            
+                        
+                            <table ng-table="tablepermis" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_sequence_pij_peche_crevette">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cm in vm.all_sequence_pij_peche_crevette"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_sequence_pij_peche_crevette(cm)">                                       
+                                        <td>
+                                            
+                                            <span ng-if="cm.$edit">
+                                                
+
+                                                <!--div style="margin-top: 14px !important; font-size: 13px !important;"!-->
+                                    
+                                                    <md-datepicker  ng-model="cm.date" md-placeholder="Date" md-max-date="vm.date_now" required>                       
+                                                    </md-datepicker>
+                                                <!--/div!-->  
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{vm.convert_to_date_html(cm.date)}}
+                                            </span>
+                                        </td>
+                                    <!--vaovao-->  
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>J ou N</label>
+                                                  <input type="text" name="j_ou_n"  ng-model="cm.j_ou_n"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.j_ou_n}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Zone</label>
+                                                  <input type="text" name="zone"  ng-model="cm.zone"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.zone}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Carré</label>
+                                                  <input type="text" name="carre"  ng-model="cm.carre"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.carre}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Activité</label>
+                                                  <input type="text" name="activite"  ng-model="cm.activite"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.activite}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Sonde</label>
+                                                  <input type="text" name="sonde"  ng-model="cm.sonde"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.sonde}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>Nb traits</label>
+                                                  <input ng-pattern="/^\d+$/"  name="nb_traits"  ng-model="cm.nb_traits"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.nb_traits}}
+                                            </span>
+                                        </td>
+                                    <!--vaovao-->  
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>HeureP</label>
+                                                  <input name="heurep" ng-pattern="/^\d+$/" ng-model="cm.heurep"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.heurep}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>MinuteP</label>
+                                                  <input name="minutep" ng-pattern="/^\d+$/" ng-model="cm.minutep"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.minutep}}
+                                            </span>
+                                        </td>
+
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>HeureT</label>
+                                                  <input name="heuret" ng-pattern="/^\d+$/" ng-model="cm.heuret"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.heuret}}
+                                            </span>
+                                        </td>
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                  <label>MinuteT</label>
+                                                  <input name="minutet" ng-pattern="/^\d+$/" ng-model="cm.minutet"/>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{cm.minutet}}
+                                            </span>
+                                        </td>
+                                        
+
+                                        
+
+
+                                      
+                               
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    <!--FIN SEQUENCE PIJ PECHE-->
                     
                 </md-tab>
                 <md-tab label="Commercialisation | Société: {{vm.selected_societe_crevette.nom}}" ng-disabled="!vm.selected_societe_crevette.id" ng-click="vm.get_commerce()">

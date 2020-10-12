@@ -27,11 +27,11 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.nbr_jrs_mois_unite_peche', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.nbr_jrs_mois_unite_peche', {
             title: 'Nbr de jrs pêche/mois/unité pêche',
             icon  : 'icon-map-marker-circle',
             state: 'app.population_ddb_nbr_jrs_mois_unite_peche',
-			weight: 12
+			weight: 1
         });
     }
 

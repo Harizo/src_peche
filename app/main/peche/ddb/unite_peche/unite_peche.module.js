@@ -27,11 +27,11 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.unite_peche', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.unite_peche', {
             title: 'Unité de pêche',
             icon  : 'icon-houzz-box',
             state: 'app.peche_ddb_unite_peche',
-			weight: 8
+			weight: 1
         });
     }
 

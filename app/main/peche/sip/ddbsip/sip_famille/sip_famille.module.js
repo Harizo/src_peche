@@ -31,7 +31,7 @@
             title: 'Famille',
             icon  : 'icon-blur',
             state: 'app.peche_sip_ddbsip_sip_famille',
-			weight: 2
+			weight: 1
         });
     }
 

@@ -15,11 +15,62 @@
     </div>		
     <div class="content" layout="column">
         <div class="form-wrapper">
-            <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+            <div ng-if="vm.affiche_load" layout="row" layout-align="center center">
+                <md-progress-circular ng-if="vm.affiche_load" class=" md-accent"  aria-label="Rating" md-mode="indeterminate" md-diameter="30"></md-progress-circular> 
+                
+                <span style="color: #039be5">Chargement,veuillez patienter s'il vous plait ...</span>
+            </div>
+            <!--md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular!-->
             <div style="clear:both;"></div>
             <md-tabs md-dynamic-height>
-                <md-tab label="Collecteur/Mareyeur">
+                <md-tab label="Collecteur/Mareyeur" >
+
                     <md-tab-body>
+                        <!--FORM FILTRE  --> 
+                        <div>
+                  
+                            <form name="filtre_col_mar" class="md-inline-form" novalidate >
+
+                                <div layout="column" layout-gt-xs="row">
+                                    <md-input-container flex-gt-sm>
+                                        <label>Region</label>
+                                        <md-select ng-model="vm.filtre_col_mar.id_region"  ng-change="vm.get_district_by_region_filtre_col_mar()"  required>
+                                            <md-option ng-repeat="region in vm.all_region" value="{{region.id}}">
+                                                {{region.nom}}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="filtre_col_mar.id_region.$error"role="alert">
+                                            <div ng-message="required">
+                                                <span>Region obligatoire.</span>
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex-gt-sm>
+                                        <label>District</label>
+                                        <md-select ng-model="vm.filtre_col_mar.id_district" ng-disabled="!vm.filtre_col_mar.id_region" required>
+                                            <md-option ng-repeat="district in vm.alldistrict_col_mar" value="{{district.id}}">
+                                                {{district.nom}}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="filtre_col_mar.id_district.$error"role="alert">
+                                            <div ng-message="required">
+                                                <span>District obligatoire.</span>
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+
+                                <div>
+                                     <md-button  type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                          ng-disabled="filtre_col_mar.$invalid || vm.affiche_load" ng-click="vm.get_col_mar_by_district()">
+                                          Afficher les données
+                                    </md-button>
+
+                                </div>
+                                
+                            </form>
+                        </div> 
+                    <!--/FORM FORM FILTRE  -->
                         <div style="widht:100%;">    
                                     <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_mar()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                                       Nouveau
@@ -139,7 +190,7 @@
                             </div> 
                         <!--FORM LISTES COLLECTEUR/MAREYEUR-->
                         <!--TABLE LISTES COLLECTEUR/MAREYEUR-->
-                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                            <table ng-table="tablecollectemareyeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
                                 <thead>
                                     <tr>
                                         <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_collecteur_mareyeur">
@@ -338,13 +389,13 @@
                                     <md-input-container >
                                         <label>Espèce</label>
                                         <md-select ng-model="vm.especes_permis.id_espece" name="id_espece" required>
-                                            <md-option ng-repeat="pres in vm.all_espece" value="{{pres.id}}" style="height:auto !important;">
-                                                <div class="text-center"><strong><u>Code</u></strong>: {{pres.code}}</div>
-                                                <div ><strong><u>Espèce</u></strong>: {{pres.nom}}</div>
-                                                <div><strong><u>Nom scientifique</u></strong>: {{pres.nom_scientifique}}</div>
-                                                <div><strong><u>Nom francaise</u></strong>: {{pres.nom_francaise}}</div>
-                                                <div><strong><u>Nom local</u></strong>: {{pres.nom_local}}</div>
-                                                <md-divider></md-divider>  
+                                            <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
+                                                <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                                  <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                                  <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                                  <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                                  <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
+                                                  <md-divider></md-divider>  
                                             </md-option>
                                             
                                         </md-select>
@@ -389,10 +440,12 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="cm in vm.all_especes_permis"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_especes_permis(cm)">                                       
+                                    <td>{{cm.code}}</td>
                                     <td>{{cm.nom}}</td>
                                     <td>{{cm.nom_scientifique}}</td>
                                     <td>{{cm.nom_francaise}}</td>
                                     <td>{{cm.nom_local}}</td>
+                                    <td>{{vm.affichage_type_espece(cm.type_espece)}}</td>
                                     
                                 </tr>
                             </tbody>
@@ -425,12 +478,12 @@
                                             <label>Espèce</label>
                                             <md-select ng-model="vm.collecte.id_espece" name="id_espece" required>
                                                 <md-option ng-repeat="esp in vm.all_especes_permis" value="{{esp.id_espece}}" style="height:auto !important;">
-                                                    <div class="text-center"><strong><u>Code</u></strong>: {{esp.code}}</div>
-                                                    <div ><strong><u>Espèce</u></strong>: {{esp.nom}}</div>
-                                                    <div><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</div>
-                                                    <div><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</div>
-                                                    <div><strong><u>Nom local</u></strong>: {{esp.nom_local}}</div>
-                                                    <md-divider></md-divider>  
+                                                    <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                                  <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                                  <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                                  <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                                  <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
+                                                  <md-divider></md-divider>    
                                                 </md-option>
                                                 
                                             </md-select>
@@ -618,7 +671,7 @@
                         <!--FIN FORM COLLECTE-->
 
                         <!--TABLE LISTES COLLECTE-->
-                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                            <table ng-table="tablecollecte" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
                                 <thead>
                                     <tr>
                                         <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_collecte">
@@ -634,10 +687,10 @@
                                         <td>{{vm.affichage_mois(cm.mois)}}</td>
                                         <td>
                                             
-                                            <span>- {{cm.nom}}</span> <br>
-                                            <span>- {{cm.nom_local}}</span> <br>
-                                            <span>- {{cm.nom_francaise}}</span> <br>
-                                            <span>- {{cm.nom_scientifique}}</span>
+                                            <small>- {{cm.nom}}</small> <br>
+                                            <small>- {{cm.nom_local}}</small> <br>
+                                            <small>- {{cm.nom_francaise}}</small> <br>
+                                            <small>- {{cm.nom_scientifique}}</small>
                                         </td>
                                         <td>{{cm.libelle_presentation}}</td>
                                         <td>{{cm.libelle_conservation}}</td>
@@ -680,13 +733,13 @@
                                         <md-input-container >
                                             <label>Espèce</label>
                                             <md-select ng-model="vm.commerce_marine.id_espece" name="id_espece" required>
-                                                <md-option ng-repeat="esp in vm.all_especes_permis" value="{{esp.id_espece}}" style="height:auto !important;">
-                                                    <div class="text-center"><strong><u>Code</u></strong>: {{esp.code}}</div>
-                                                    <div ><strong><u>Espèce</u></strong>: {{esp.nom}}</div>
-                                                    <div><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</div>
-                                                    <div><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</div>
-                                                    <div><strong><u>Nom local</u></strong>: {{esp.nom_local}}</div>
-                                                    <md-divider></md-divider>  
+                                                <md-option ng-repeat="esp in vm.all_especes_permis | filter: {type_espece: '5' } " value="{{esp.id_espece}}" style="height:auto !important;">
+                                                    <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                                    <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                                    <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                                    <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                                    <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
+                                                    <md-divider></md-divider>    
                                                 </md-option>
                                                 
                                             </md-select>
@@ -1135,10 +1188,10 @@
 
                                         <td>
                                             
-                                            <span>- {{cm.nom}}</span> <br>
-                                            <span>- {{cm.nom_local}}</span> <br>
-                                            <span>- {{cm.nom_francaise}}</span> <br>
-                                            <span>- {{cm.nom_scientifique}}</span>
+                                            <small>- {{cm.nom}}</small> <br>
+                                            <small>- {{cm.nom_local}}</small> <br>
+                                            <small>- {{cm.nom_francaise}}</small> <br>
+                                            <small>- {{cm.nom_scientifique}}</small>
                                         </td>
 
                                         <td>{{cm.libelle_presentation}}</td>
@@ -1247,12 +1300,12 @@
                                         <md-input-container >
                                             <label>Espèce</label>
                                             <md-select ng-model="vm.commerce_eau_douce.id_espece" name="id_espece" required>
-                                                <md-option ng-repeat="esp in vm.all_especes_permis" value="{{esp.id_espece}}" style="height:auto !important;">
-                                                    <div class="text-center"><strong><u>Code</u></strong>: {{esp.code}}</div>
-                                                    <div ><strong><u>Espèce</u></strong>: {{esp.nom}}</div>
-                                                    <div><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</div>
-                                                    <div><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</div>
-                                                    <div><strong><u>Nom local</u></strong>: {{esp.nom_local}}</div>
+                                                <md-option ng-repeat="esp in vm.all_especes_permis | filter: {type_espece: '1' }" value="{{esp.id_espece}}" style="height:auto !important;">
+                                                    <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                                    <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                                    <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                                    <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                                    <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
                                                     <md-divider></md-divider>  
                                                 </md-option>
                                                 
@@ -1482,10 +1535,10 @@
                                         <td>{{vm.affichage_mois(cm.mois)}}</td>
                                         <td>
                                             
-                                            <span>- {{cm.nom}}</span> <br>
-                                            <span>- {{cm.nom_local}}</span> <br>
-                                            <span>- {{cm.nom_francaise}}</span> <br>
-                                            <span>- {{cm.nom_scientifique}}</span>
+                                            <small>- {{cm.nom}}</small> <br>
+                                            <small>- {{cm.nom_local}}</small> <br>
+                                            <small>- {{cm.nom_francaise}}</small> <br>
+                                            <small>- {{cm.nom_scientifique}}</small>
                                         </td>
                                         <td>{{cm.libelle_presentation}}</td>
                                         <td>{{cm.libelle_conservation}}</td>
@@ -1549,228 +1602,657 @@
                         
                     </md-tab-body>
                 </md-tab>  
+                <md-tab label="Enquête de marché" >
+                    <!--FORM FILTRE  --> 
+                        <div>
+                  
+                            <form name="filtrepardateform" class="md-inline-form" novalidate >
 
-                <!--md-tab label="Arrivée fiche permis n°: {{vm.selected_permis.numero_permis}} " ng-disabled="!vm.selected_collecteur_mareyeur.id||!vm.selected_permis.id" ng-click="vm.get_arrivee_fiche()"!-->
-
-                    <!--TABLE LISTES PERMIS>
-
-                            <div class="price-table style-1 md-whiteframe-1dp" layout="column">
-                                <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
-                                <div layout="row" layout-align="start">
-                                  
-                                  <div class="border-right" ng-if="!vm.selected_arrivee_fiche.id">
-                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.ajouter()">
-                                      <md-icon md-font-icon="icon-plus-box"></md-icon>
-                                      <md-tooltip><span>Ajouter</span></md-tooltip>
-                                    </md-button>
-                                  </div> 
-                                  <div class="border-right" ng-if="vm.selected_arrivee_fiche.id&&!vm.selected_arrivee_fiche.$edit">
-                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.modifier()">
-                                      <md-icon md-font-icon="icon-table-edit"></md-icon>
-                                      <md-tooltip><span>Modifier</span></md-tooltip>
-                                    </md-button>
-                                  </div>    
-                                  <div class="border-right" ng-if="vm.selected_arrivee_fiche.id&&!vm.selected_arrivee_fiche.$edit">
-                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.supprimer()">
-                                      <md-icon md-font-icon="icon-delete"></md-icon>
-                                      <md-tooltip><span>Supprimer</span></md-tooltip>
-                                    </md-button>
-                                  </div>  
-
-                                  <div class="border-right" ng-if="vm.selected_arrivee_fiche.id">
-                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.annuler()">
-                                      <md-icon md-font-icon="icon-cancel"></md-icon>
-                                      <md-tooltip><span>Annuler</span></md-tooltip>
-                                    </md-button>
-                                  </div>   
-
-                                  <div ng-if="vm.selected_arrivee_fiche.$edit">
-                                    <md-button class="md-icon-button" aria-label="add Type coût divers" ng-click="vm.enregistrer(0)">
-                                      <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
-                                      <md-tooltip><span>Enregistrer</span></md-tooltip>
-                                    </md-button>
-                                  </div>                
+                                <div layout="column" layout-gt-xs="row">
+                                    <md-input-container flex-gt-sm>
+                                        <label>Region</label>
+                                        <md-select ng-model="vm.filtre.id_region"  ng-change="vm.get_district_by_region()"  required>
+                                            <md-option ng-repeat="region in vm.all_region" value="{{region.id}}">
+                                                {{region.nom}}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="filtrepardateform.id_region.$error"role="alert">
+                                            <div ng-message="required">
+                                                <span>Region obligatoire.</span>
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                    <md-input-container flex-gt-sm>
+                                        <label>District</label>
+                                        <md-select ng-model="vm.filtre.id_district"  ng-change="vm.get_commune_district()" ng-disabled="!vm.filtre.id_region" required>
+                                            <md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
+                                                {{district.nom}}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="filtrepardateform.id_district.$error"role="alert">
+                                            <div ng-message="required">
+                                                <span>District obligatoire.</span>
+                                            </div>
+                                        </div>
+                                    </md-input-container>
                                 </div>
-                                </header>
                                 
+                            </form>
+                        </div> 
+                    <!--/FORM FORM FILTRE  -->
+                    <md-tabs md-dynamic-height >
+                        <md-tab label="Saisie données cadre" ng-disabled="!vm.filtre.id_district" >
+                            <div>
+                                 <md-button  type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="filtrepardateform.$invalid || vm.affiche_load" ng-click="vm.get_donnees_cadre_by_district()">
+                                      Afficher les données cadre
+                                </md-button>
+
+                            </div>
+
+                            <div style="widht:100%;">    
+                                <md-button ng-if="vm.filtre.id_district && !vm.affichage_masque_donnees_cadre"  type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_donnees_cadre()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                  Nouveau
+                                </md-button>
+                                <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_donnees_cadre.id" aria-label="Modifier" ng-click="vm.modif_donnees_cadre()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                  Modifier
+                                </md-button>
+                                <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_donnees_cadre.id" aria-label="Supprimer" ng-click="vm.supprimer_donnees_cadre()" style="width:10%;">
+                                    <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                  Supprimer
+                                </md-button>
+                            </div> 
+
+                            <!--FORM LISTES DONNEES CADRE-->
                             
-                            <table ng-table="tablepermis" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <div ng-show="vm.affichage_masque_donnees_cadre">
+                          
+                                    <form name="form_donnees_cadre" class="md-inline-form" novalidate >
+
+                                        <div layout="column" layout-gt-xs="row" flex>
+                                            <md-input-container flex="100" flex-gt-xs="33">
+                                                <label>Commune</label>
+                                                <md-select ng-model="vm.donnees_cadre.id_commune"    required>
+                                                    <md-option ng-repeat="com in vm.allcommune" value="{{com.id}}">
+                                                        {{com.nom}}
+                                                    </md-option>
+                                                </md-select>
+                                                <div ng-messages="form_donnees_cadre.id_commune.$error"role="alert">
+                                                    <div ng-message="required">
+                                                        <span>Commune obligatoire.</span>
+                                                    </div>
+                                                </div>
+                                            </md-input-container>
+                                            
+
+                                            <md-input-container flex="100" flex-gt-xs="33">
+                                              <input type="text" name="nom_ville" ng-model="vm.donnees_cadre.nom_ville"
+                                                placeholder="Ville" ng-init="vm.donnees_cadre.nom_ville=''"
+                                                required>
+                                                <div ng-messages="form_donnees_cadre.nom_ville.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Ville obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+
+                                            <md-input-container flex="100" flex-gt-xs="33">
+                                              <input type="text" name="nom_marche" ng-model="vm.donnees_cadre.nom_marche"
+                                                placeholder="Nom du marché" ng-init="vm.donnees_cadre.nom_marche=''"
+                                                required>
+                                                <div ng-messages="form_donnees_cadre.nom_marche.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Nom du marché obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+
+                                        </div>
+
+                                        <div layout="column" layout-gt-xs="row" flex>
+
+                                            <md-input-container flex="100" flex-gt-xs="10">
+                                              <input type="number" name="nbr_jour_ouvrable_mois" ng-model="vm.donnees_cadre.nbr_jour_ouvrable_mois"
+                                                placeholder="Nbr jrs ouvable/mois" required>
+                                                <div ng-messages="form_donnees_cadre.nbr_jour_ouvrable_mois.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Nbr jrs ouvable/mois obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+                                            
+
+
+                                            <md-input-container flex="100" flex-gt-xs="30">
+                                              <input type="text" name="affluence_max" ng-model="vm.donnees_cadre.affluence_max"
+                                                placeholder="Affluence Max." ng-init="vm.donnees_cadre.affluence_max=''"
+                                                >
+                                                <div ng-messages="form_donnees_cadre.affluence_max.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Affluence Max. obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+
+                                            <md-input-container flex="100" flex-gt-xs="30">
+                                              <input type="text" name="nom_vendeur_spec_frais" ng-model="vm.donnees_cadre.nom_vendeur_spec_frais"
+                                                placeholder="Nom du vendeur Spéc. Frais" ng-init="vm.donnees_cadre.nom_vendeur_spec_frais=''"
+                                                >
+                                                <div ng-messages="form_donnees_cadre.nom_vendeur_spec_frais.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Nom du vendeur Spéc. Frais obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+
+                                            <md-input-container flex="100" flex-gt-xs="30">
+                                              <input type="text" name="nom_vendeur_spec_transforme" ng-model="vm.donnees_cadre.nom_vendeur_spec_transforme"
+                                                placeholder="Nom du vendeur Spéc. Trasnformé" ng-init="vm.donnees_cadre.nom_vendeur_spec_transforme=''"
+                                                >
+                                                <div ng-messages="form_donnees_cadre.nom_vendeur_spec_transforme.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Nom du vendeur Spéc. Trasnformé obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+
+
+                                        </div>
+
+                                        <div layout="column" layout-gt-xs="row" flex>
+
+                                            <md-input-container >
+                                                <label>Espèce</label>
+                                                <md-select ng-model="vm.donnees_cadre.id_espece" name="id_espece" required>
+                                                  <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
+                                                      <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                                      <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                                      <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                                      <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                                      <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
+                                                      <md-divider></md-divider>  
+                                                  </md-option>
+                                                    
+                                                </md-select>
+                                                <div ng-messages="form_donnees_cadre.id_espece.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Champ Obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+
+                                            <md-input-container flex="100" flex-gt-xs="20">
+                                              <input type="number" name="nbr_etal_pdt_frais" ng-model="vm.donnees_cadre.nbr_etal_pdt_frais"
+                                                placeholder="Nbr etal pdt frais" 
+                                                >
+                                                <div ng-messages="form_donnees_cadre.nbr_etal_pdt_frais.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Nbr etal pdt frais obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+
+                                            <md-input-container flex="100" flex-gt-xs="20">
+                                              <input type="number" name="nbr_etal_pdt_transforme" ng-model="vm.donnees_cadre.nbr_etal_pdt_transforme"
+                                                placeholder="Nbr etal pdt trasnformé" 
+                                                >
+                                                <div ng-messages="form_donnees_cadre.nbr_etal_pdt_transforme.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Nbr etal pdt trasnformé obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+
+                                            <md-input-container flex="100" flex-gt-xs="20">
+                                              <input type="number" name="nbr_tot_etal" ng-model="vm.donnees_cadre.nbr_tot_etal"
+                                                placeholder="Nbr tot etal" 
+                                                 readonly="true">
+                                                <div ng-messages="form_donnees_cadre.nbr_tot_etal.$error"
+                                                  role="alert">
+                                                  <div ng-message="required">
+                                                    <span>Nbr tot etal obligatoire.</span>
+                                                  </div>
+                                                </div>
+                                            </md-input-container>
+                                            
+                                        </div>
+
+
+                                        
+                                       
+                                        <div>
+                                         <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                          ng-disabled="form_donnees_cadre.$invalid " ng-click="vm.save_in_bdd_donnees_cadre(vm.donnees_cadre,0)">
+                                          Enregistrer
+                                        </md-button>
+                                        <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_donnees_cadre()">
+                                          Annuler
+                                        </md-button>
+                                        </div>
+                                    </form>
+                                </div> 
+                            <!--FORM LISTES DONNEES CADRE-->
+
+                            <!--TABLE DONNEES CADRE-->
+                                <div class="price-table style-1 md-whiteframe-1dp" layout="column" >
+                                    <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                        <div layout="column" layout-align="center center">
+                                            <span class="md-headline">Liste données cadre</span>
+                                        </div>
+                                    </header>
+                                    <table ng-table="tabledonneescadres" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                        <thead>
+                                            <tr>
+                                                <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_donnees_cadre">
+                                                    <div class="table-header">
+                                                        <span class="column-title text-center">{{c.titre}}</span>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="cm in vm.all_donnees_cadre"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_donnees_cadre(cm)">                                       
+                                                <td>{{cm.nom_commune}}</td>
+                                                <td>{{cm.nom_ville}}</td>
+                                                <td>{{cm.nom_marche}}</td>
+                                                <td>{{cm.nbr_jour_ouvrable_mois}}</td>
+                                                <td>{{cm.affluence_max}} </td>
+                                                <td>{{cm.nom_vendeur_spec_frais}}</td>
+                                                <td>{{cm.nom_vendeur_spec_transforme}}</td>
+                                                <td>
+                                                    <small>- {{cm.code}}</small> <br>
+                                                    <small>- {{cm.nom}}</small> <br>
+                                                    <small>- {{cm.nom_local}}</small> <br>
+                                                    <small>- {{cm.nom_francaise}}</small> <br>
+                                                    <small>- {{cm.nom_scientifique}}</small>
+                                                </td>
+                                                <td>{{cm.nbr_etal_pdt_frais}}</td>
+                                                <td>{{cm.nbr_etal_pdt_transforme}}</td>
+                                                <td>{{cm.nbr_tot_etal}}</td>
+                                                
+                                               
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <!--TABLE DONNEES CADRE-->
+                            
+                        </md-tab>  
+                        <md-tab label="Saisie fiche d'enquête de marché" ng-disabled="!vm.filtre.id_district">
+                            <div>
+                                 <md-button  type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                      ng-disabled="filtrepardateform.$invalid || vm.affiche_load" ng-click="vm.get_fiche_enquete_marche_by_district()">
+                                      Afficher les fiches d'enquête
+                                </md-button>
+
+                                <div style="widht:100%;">    
+                                    <md-button ng-if="vm.filtre.id_district && !vm.affichage_masque_fiche_enquete_marche"  type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_fiche_enquete_marche()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_fiche_enquete_marche.id" aria-label="Modifier" ng-click="vm.modif_fiche_enquete_marche()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_fiche_enquete_marche.id" aria-label="Supprimer" ng-click="vm.supprimer_fiche_enquete_marche()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                                </div> 
+
+                                <!--FORM LISTES DONNEES CADRE-->
+                                
+                                    <div ng-show="vm.affichage_masque_fiche_enquete_marche">
+                              
+                                        <form name="form_fiche_enquete_marche" class="md-inline-form" novalidate >
+
+                                            <div layout="column" layout-gt-xs="row" flex>
+                                                
+                                                
+
+                                                <md-input-container flex="100" flex-gt-xs="30">
+                                                  <input type="text" name="nom_ville" ng-model="vm.fiche_enquete_marche.nom_ville"
+                                                    placeholder="Ville" ng-init="vm.fiche_enquete_marche.nom_ville=''"
+                                                    required>
+                                                    <div ng-messages="form_fiche_enquete_marche.nom_ville.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Ville obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="30">
+                                                  <input type="text" name="nom_marche" ng-model="vm.fiche_enquete_marche.nom_marche"
+                                                    placeholder="Nom du marché" ng-init="vm.fiche_enquete_marche.nom_marche=''"
+                                                    required>
+                                                    <div ng-messages="form_fiche_enquete_marche.nom_marche.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Nom du marché obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <div style="margin-top: -3px !important; font-size: 13px !important;">
+                                                    <label>Date relevé:</label>
+                                                    <md-datepicker  ng-model="vm.fiche_enquete_marche.date_releve" md-placeholder="Date quittance" md-max-date="vm.date_now" required>                       
+                                                    </md-datepicker>
+                                                </div>
+
+                                                <md-input-container flex="100" flex-gt-xs="10">
+                                                  <input type="number" name="nbr_jour_ouvrable_mois" ng-model="vm.fiche_enquete_marche.nbr_jour_ouvrable_mois"
+                                                    placeholder="Nbr jrs ouvable/mois" required>
+                                                    <div ng-messages="form_fiche_enquete_marche.nbr_jour_ouvrable_mois.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Nbr jrs ouvable/mois obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="10">
+                                                  <input type="number" name="nbr_etal_pdt_frais" ng-model="vm.fiche_enquete_marche.nbr_etal_pdt_frais"
+                                                    placeholder="Nbr etal pdt frais" 
+                                                    >
+                                                    <div ng-messages="form_fiche_enquete_marche.nbr_etal_pdt_frais.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Nbr etal pdt frais obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="10">
+                                                  <input type="number" name="nbr_etal_pdt_transforme" ng-model="vm.fiche_enquete_marche.nbr_etal_pdt_transforme"
+                                                    placeholder="Nbr etal pdt trasnformé" 
+                                                    >
+                                                    <div ng-messages="form_fiche_enquete_marche.nbr_etal_pdt_transforme.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Nbr etal pdt trasnformé obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="10">
+                                                  <input type="number" name="nbr_tot_etal" ng-model="vm.fiche_enquete_marche.nbr_tot_etal"
+                                                    placeholder="Nbr tot etal" 
+                                                     readonly="true">
+                                                    <div ng-messages="form_fiche_enquete_marche.nbr_tot_etal.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Nbr tot etal obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div layout="column" layout-gt-xs="row" flex>
+
+                                                
+                                                <md-input-container flex="100" flex-gt-xs="5">
+                                                  <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="annee" ng-model="vm.fiche_enquete_marche.annee"
+                                                    placeholder="Année "  md-maxlength="4"  ng-init="vm.fiche_enquete_marche.annee=''"
+                                                    required>
+                                                    <div ng-messages="form_fiche_enquete_marche.annee.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>annee obligatoire.</span>
+                                                      </div>
+                                                      <div ng-message="pattern" class="my-message">Valeur invalide</div>
+                                                    </div>
+
+                                                    
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="10">
+                                                    <label>Mois</label>
+                                                    <md-select ng-model="vm.fiche_enquete_marche.mois" name="mois" required>
+                                                        <md-option  value="1">Janvier</md-option>
+                                                        <md-option  value="2">Février</md-option>
+                                                        <md-option  value="3">Mars</md-option>
+                                                        <md-option  value="4">Avril</md-option>
+                                                        <md-option  value="5">Mai</md-option>
+                                                        <md-option  value="6">Juin</md-option>
+                                                        <md-option  value="7">Juillet</md-option>
+                                                        <md-option  value="8">Août</md-option>
+                                                        <md-option  value="9">Septembre</md-option>
+                                                        <md-option  value="10">Octobre</md-option>
+                                                        <md-option  value="11">Novembre</md-option>
+                                                        <md-option  value="12">Décembre</md-option>
+                                                    </md-select>
+                                                    <div ng-messages="form_fiche_enquete_marche.mois.$error"
+                                                          role="alert">
+                                                          <div ng-message="required">
+                                                            <span>Mois Obligatoire.</span>
+                                                          </div>
+                                                        </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="20">
+                                                  <input type="text" name="domaines" ng-model="vm.fiche_enquete_marche.domaines"
+                                                    placeholder="Domaines" ng-init="vm.fiche_enquete_marche.affluence_max=''"
+                                                    >
+                                                    <div ng-messages="form_fiche_enquete_marche.domaines.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Domaines obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container >
+                                                    <label>Espèce</label>
+                                                    <md-select ng-model="vm.fiche_enquete_marche.id_espece" name="id_espece" required>
+                                                      <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
+                                                          <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                                          <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                                          <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                                          <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                                          <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
+                                                          <md-divider></md-divider>  
+                                                      </md-option>
+                                                        
+                                                    </md-select>
+                                                    <div ng-messages="form_fiche_enquete_marche.id_espece.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Champ Obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="20">
+                                                    <label>Présentation</label>
+                                                    <md-select ng-model="vm.fiche_enquete_marche.id_presentation" name="id_presentation" required>
+                                                        <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
+                                                            {{pres.libelle}}
+                                                        </md-option>
+                                                        
+                                                    </md-select>
+                                                    <div ng-messages="form_fiche_enquete_marche.id_presentation.$error"
+                                                          role="alert">
+                                                          <div ng-message="required">
+                                                            <span>Présentation Obligatoire.</span>
+                                                          </div>
+                                                        </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="20">
+                                                    <label>Conservation</label>
+                                                    <md-select ng-model="vm.fiche_enquete_marche.id_conservation" name="id_conservation" required>
+                                                        <md-option ng-repeat="cons in vm.all_conservation" value="{{cons.id}}">
+                                                            {{cons.libelle}}
+                                                        </md-option>
+                                                        
+                                                    </md-select>
+                                                    <div ng-messages="form_fiche_enquete_marche.id_conservation.$error"
+                                                          role="alert">
+                                                          <div ng-message="required">
+                                                            <span>Conservation Obligatoire.</span>
+                                                          </div>
+                                                        </div>
+                                                </md-input-container>
+
+                                                
+
+
+                                            </div>
+
+                                            <div layout="column" layout-gt-xs="row" flex>
+
+                                                
+                                                <md-input-container flex="100" flex-gt-xs="30">
+                                                  <input type="text" name="detaillant" ng-model="vm.fiche_enquete_marche.detaillant"
+                                                    placeholder="Nom du vendeur Spéc. Frais" ng-init="vm.fiche_enquete_marche.detaillant=''"
+                                                    >
+                                                    <div ng-messages="form_fiche_enquete_marche.detaillant.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Nom du vendeur Spéc. Frais obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="30">
+                                                  <input type="number" name="offre_kg" ng-model="vm.fiche_enquete_marche.offre_kg"
+                                                    placeholder="Offre (Kg)" ng-init="vm.fiche_enquete_marche.offre_kg=''"
+                                                    >
+                                                    <div ng-messages="form_fiche_enquete_marche.offre_kg.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Offre (Kg) obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex="100" flex-gt-xs="30">
+                                                  <input type="number" name="prix_kg" ng-model="vm.fiche_enquete_marche.prix_kg"
+                                                    placeholder="Prix (AR/Kg)" ng-init="vm.fiche_enquete_marche.prix_kg=''"
+                                                    >
+                                                    <div ng-messages="form_fiche_enquete_marche.prix_kg.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Prix (AR/Kg) obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                                </md-input-container>
+                                                
+                                                
+                                            </div>
+
+
+                                            
+                                           
+                                            <div>
+                                             <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                                              ng-disabled="form_fiche_enquete_marche.$invalid " ng-click="vm.save_in_bdd_fiche_enquete_marche(vm.fiche_enquete_marche,0)">
+                                              Enregistrer
+                                            </md-button>
+                                            <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_fiche_enquete_marche()">
+                                              Annuler
+                                            </md-button>
+                                            </div>
+                                        </form>
+                                    </div> 
+                                <!--FORM LISTES DONNEES CADRE-->
+
+                                <!--TABLE FICHE ENQUETE MARCHE-->
+                                    <div class="price-table style-1 md-whiteframe-1dp" layout="column" >
+                                        <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                                            <div layout="column" layout-align="center center">
+                                                <span class="md-headline">Liste fiches d'enquête</span>
+                                            </div>
+                                        </header>
+                                        <table ng-table="tablefiche_enquete_marche" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_fiche_enquete_marche">
+                                                        <div class="table-header">
+                                                            <span class="column-title text-center">{{c.titre}}</span>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="cm in vm.all_fiche_enquete_marche"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_fiche_enquete_marche(cm)">                                       
+                                                    <td>{{cm.nom_district}}</td>
+                                                    <td>{{cm.nom_ville}}</td>
+                                                    <td>{{cm.nom_marche}}</td>
+                                                    <td>{{vm.convert_to_date_html(cm.date_releve)}}</td>
+                                                    <td>{{cm.nbr_jour_ouvrable_mois}}</td>
+
+                                                    <td>{{cm.nbr_etal_pdt_frais}}</td>
+                                                    <td>{{cm.nbr_etal_pdt_transforme}}</td>
+                                                    <td>{{cm.nbr_tot_etal}}</td>
+                                                    <td>{{cm.annee}}</td>
+                                                    <td>{{vm.affichage_mois(cm.mois)}}</td>
+
+                                                    <td>{{cm.domaines}} </td>
+
+                                                    <td>
+                                                        <small>- {{cm.code}}</small> <br>
+                                                        <small>- {{cm.nom}}</small> <br>
+                                                        <small>- {{cm.nom_local}}</small> <br>
+                                                        <small>- {{cm.nom_francaise}}</small> <br>
+                                                        <small>- {{cm.nom_scientifique}}</small>
+                                                    </td>
+
+                                                    <td>{{cm.libelle_presentation}}</td>
+                                                    <td>{{cm.libelle_conservation}}</td>
+
+                                                    <td>{{cm.detaillant}}</td>
+                                                    <td>{{vm.replace_point(cm.offre_kg)}} Kg</td>
+                                                    <td>{{vm.formatMillier(cm.prix_kg)}} AR/Kg</td>
+                                                    
+                                                   
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <!--TABLE FICHE ENQUETE MARCHE-->
+
+                            </div>
+                        </md-tab>  
+                    </md-tabs>
+                </md-tab>  
+                <md-tab label="Etat">
+                    
+                    <!--TABLE LISTES etat-->
+                    <div style="padding-top:10px;">
+                            <table ng-table="tableetat" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
                                 <thead>
                                     <tr>
-                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_arrivee_fiche">
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_etat">
                                             <div class="table-header">
-                                                <span class="column-title text-center">{{c.titre}}</span>
+                                                <span class="column-title text-center">{{c}}</span>
                                             </div>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="cm in vm.all_arrivee_fiche"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_arrivee_fiche(cm)">                                       
-                                        <td>
-                                            
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Année</label>
-                                                  <input name="annee" ng-pattern="/^[1-3]{1}[0-9]{3}$/" ng-model="cm.annee"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.annee}}
-                                            </span>
-                                        </td>
-                                        <td>
-
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Janvier</label>
-                                                  <input name="Janvier" ng-pattern="/^\d+$/" ng-model="cm.janvier"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.janvier}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Février</label>
-                                                  <input name="fevrier" ng-pattern="/^\d+$/" ng-model="cm.fevrier"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.fevrier}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Mars</label>
-                                                  <input name="mars" ng-pattern="/^\d+$/" ng-model="cm.mars"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.mars}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Avril</label>
-                                                  <input name="avril" ng-pattern="/^\d+$/" ng-model="cm.avril"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.avril}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Mai</label>
-                                                  <input name="mai" ng-pattern="/^\d+$/" ng-model="cm.mai"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.mai}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Juin</label>
-                                                  <input name="juin" ng-pattern="/^\d+$/" ng-model="cm.juin"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.juin}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Juillet</label>
-                                                  <input name="juillet" ng-pattern="/^\d+$/" ng-model="cm.juillet"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.juillet}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Août</label>
-                                                  <input name="aout" ng-pattern="/^\d+$/" ng-model="cm.aout"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.aout}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Septembre</label>
-                                                  <input name="septembre" ng-pattern="/^\d+$/" ng-model="cm.septembre"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.septembre}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Octobre</label>
-                                                  <input name="octobre" ng-pattern="/^\d+$/" ng-model="cm.octobre"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.octobre}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Novembre</label>
-                                                  <input name="novembre" ng-pattern="/^\d+$/" ng-model="cm.novembre"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.novembre}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span ng-if="cm.$edit">
-                                                <md-input-container style="width:100%;display: flex !important;">
-                                                  <label>Décembre</label>
-                                                  <input name="decembre" ng-pattern="/^\d+$/" ng-model="cm.decembre"/>
-                                                </md-input-container>   
-                                                
-                                            </span>
-                                            <span ng-if="!cm.$edit">
-                                                {{cm.decembre}}
-                                            </span>
-                                        </td>
+                                    <tr ng-repeat="cm in vm.reporting_halieutique"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_etat(cm)">                                       
+                                        <td ng-repeat="c in ::vm.entete_etat">{{cm[c]}}</td>
+                                        
                                
                                        
                                     </tr>
                                 </tbody>
-                            </table></div>
-                        <TABLE LISTES PERMIS-->
-                <!--/md-tab!-->  
+                            </table>
+                        
+
+                   </div>
+                        <!--TABLE LISTES etat-->
+                </md-tab>  
+
 
             </md-tabs>
         </div>

@@ -29,7 +29,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.reporting.requetes', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.reporting.requetes', {
             title: "Requêtes",
             icon  : 'icon-check-circle',
             state: 'app.peche_reporting_requetes',

@@ -4,7 +4,9 @@
     max-height: $toolbarHeight;
     z-index: 55 !important;
 
-    #navigation-toggle {
+    background-color: #383c48 !important;
+
+    #navigation-toggle {background-color: #383c48 !important;
         width: $toolbarHeight;
         min-width: $toolbarHeight;
         height: $toolbarHeight;
@@ -31,7 +33,7 @@
 
                 &.md-dense {
                     padding: 8px 0;
-
+                    
                     .md-button,
                     md-menu-item {
                         height: 48px;
@@ -59,6 +61,7 @@
 
             .username {
                 margin: 0 12px 0 8px;
+                color: #1594c7 !important;
             }
         }
     }

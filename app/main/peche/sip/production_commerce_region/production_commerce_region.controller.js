@@ -11,7 +11,7 @@
     {
         var vm = this;
 
-        
+        vm.affiche_load = true ;
 
 		vm.dtOptions =
 		{
@@ -24,15 +24,16 @@
 			
 			apiFactory.getAll("region/index").then(function(result)
 			{
+				vm.affiche_load = false ;
 				vm.all_region = result.data.response;
 		
 			});
 
-			apiFactory.getAll("district/index").then(function(result)
+			/*apiFactory.getAll("district/index").then(function(result)
 			{
 				vm.all_district = result.data.response;
 				
-			});
+			});*/
 
 			apiFactory.getAll("SIP_espece/index").then(function(result)
 			{
@@ -76,12 +77,18 @@
 				{titre:"Région"}
 	        ] ;
 
-		apiFactory.getAll("SIP_production_commercialisation_region/index").then(function(result)
+		
+	    vm.all_production_commercialisation_region = [];
+		vm.get_prod_com_by_region = function()
 		{
-			vm.affiche_load = false ;
-			vm.all_production_commercialisation_region = result.data.response;
-			
-		});
+			vm.affiche_load = true ;
+			apiFactory.getParamsDynamic("SIP_production_commercialisation_region/index?id_region="+vm.production_commercialisation_region.id_region).then(function(result)
+			{
+				vm.affiche_load = false ;
+				vm.all_production_commercialisation_region = result.data.response;
+				
+			});
+		}
 
 
 		vm.selection_production_commercialisation_region = function(cm)

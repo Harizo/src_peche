@@ -28,7 +28,7 @@
             }
         });
        // Navigation
-        msNavigationServiceProvider.saveItem('peche.importationbdd', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.importationbdd', {
             title: 'Importer BDD Access',
             icon  : 'icon-account-key',
             state: 'app.peche_importer_bdd',

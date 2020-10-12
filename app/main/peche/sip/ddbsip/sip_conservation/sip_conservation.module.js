@@ -31,7 +31,7 @@
             title: 'Conservation',
             icon  : 'icon-library-books',
             state: 'app.sip_ddbsip_sip_conservation',
-			weight: 2
+			weight: 1
         });
     }
 

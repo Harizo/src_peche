@@ -18,10 +18,10 @@
     /** @ngInject */
     function config(msNavigationServiceProvider)
     {
-        msNavigationServiceProvider.saveItem('peche.ddb.localisation', {
+        msNavigationServiceProvider.saveItem('peche.localisation', {
             title : 'Localisation',
             icon  : 'icon-map-marker-multiple',
-            weight: 9
+            weight: 1
         });
     }
 

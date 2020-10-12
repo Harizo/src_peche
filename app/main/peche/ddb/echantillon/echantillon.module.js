@@ -27,11 +27,11 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.echantillon', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.echantillon', {
             title: 'Echantillon',
             icon  : 'icon-file-document-box',
             state: 'app.population_ddb_echantillon',
-            weight: 3
+            weight: 1
         });
     }
 

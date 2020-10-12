@@ -27,11 +27,11 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.espece', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.espece', {
             title: 'Espece',
             icon  : 'icon-blur',
             state: 'app.peche_ddb_espece',
-			weight: 4
+			weight: 1
         });
     }
 

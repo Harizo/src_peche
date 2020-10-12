@@ -78,6 +78,8 @@
 			apiFactory.getAll("SIP_espece/index").then(function(result)
 			{
 				vm.all_espece = result.data.response;
+
+			
 				vm.affichage_espece = function(id)
 				{
 					var tab = vm.all_espece ;
@@ -107,7 +109,7 @@
 			vm.affiche_load = false ;
 			vm.all_coefficient_conversion = result.data.response;
 
-			console.log(vm.all_coefficient_conversion) ;
+			
 		});
 
 

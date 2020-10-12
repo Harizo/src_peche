@@ -31,7 +31,7 @@
             title: 'Base côte',
             icon  : 'icon-blur',
             state: 'app.peche_sip_ddbsip_base_cote',
-			weight: 2
+			weight: 1
         });
     }
 

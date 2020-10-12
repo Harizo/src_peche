@@ -43,12 +43,12 @@
 
                                 <md-input-container flex="100" flex-gt-xs="33">
                                     <input type="text" name="code" ng-model="vm.sip_espece.code"
-                                    placeholder="code " ng-init="vm.sip_espece.code=''" value="{{sip_espece.code}}"
+                                    placeholder="code 3 Alpha " ng-init="vm.sip_espece.code=''" value="{{sip_espece.code}}"
                                     required>
                                     <div ng-messages="sip_especeform.code.$error"
                                         role="alert">
                                         <div ng-message="required">
-                                            <span>code obligatoire.</span>
+                                            <span>code 3 Alpha obligatoire.</span>
                                         </div>
                                     </div>
                                 </md-input-container>

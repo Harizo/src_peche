@@ -16,7 +16,7 @@
     function config(msNavigationServiceProvider, $mdDateLocaleProvider)
     {
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.reporting', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.reporting', {
             title : 'Reporting/Analyses',
            // group : true,
             icon  : 'icon-calendar-text',

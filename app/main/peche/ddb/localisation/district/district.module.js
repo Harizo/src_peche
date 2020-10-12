@@ -27,7 +27,7 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.localisation.district', {
+        msNavigationServiceProvider.saveItem('peche.localisation.district', {
             title: 'District',
             icon  : 'icon-map-marker-radius',
             state: 'app.population_ddb_localisation_district',

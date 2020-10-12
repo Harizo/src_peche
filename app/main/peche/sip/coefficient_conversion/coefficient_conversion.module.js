@@ -29,9 +29,9 @@
 
         });
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.sip.coefficient_conversion', {
+        msNavigationServiceProvider.saveItem('peche.sip.ddbsip.coefficient_conversion', {
             title: "Coefficient de conversion",
-            icon  : 'icon-numeric-9-box-multiple-outline',
+            icon  : 'icon-data',
             state: 'app.peche_reporting_coefficient_conversion',
 			weight: 1/*,
             hidden: function()

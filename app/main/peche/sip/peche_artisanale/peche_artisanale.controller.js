@@ -295,20 +295,20 @@
         				{
         					vm.selected_peche_artisanale.id_navire = 
 
-        					vm.selected_peche_artisanale.id_navire = data_masque.id_navire,
-			                vm.selected_peche_artisanale.immatricule = data_masque.immatricule,
-			                vm.selected_peche_artisanale.nom_navire = data_masque.nom_navire,
-			                vm.selected_peche_artisanale.nom_capitaine = data_masque.nom_capitaine,
-			                vm.selected_peche_artisanale.port = data_masque.port,
-			                vm.selected_peche_artisanale.num_maree = data_masque.num_maree,
-			                vm.selected_peche_artisanale.date_depart = data_masque.date_depart,
-			                vm.selected_peche_artisanale.date_arrive = data_masque.date_arrive,
-			                vm.selected_peche_artisanale.annee = data_masque.annee,
-			                vm.selected_peche_artisanale.mois = data_masque.mois,
-			                vm.selected_peche_artisanale.id_espece = data_masque.id_espece,
-			                vm.selected_peche_artisanale.quantite = data_masque.quantite,
-			                vm.selected_peche_artisanale.nom_espece = data_masque.nom_espece,
-			                vm.selected_peche_artisanale.code_espece = data_masque.code_espece
+        					vm.selected_peche_artisanale.id_navire = data_masque.id_navire ;
+			                vm.selected_peche_artisanale.immatricule = data_masque.immatricule ;
+			                vm.selected_peche_artisanale.nom_navire = data_masque.nom_navire ;
+			                vm.selected_peche_artisanale.nom_capitaine = data_masque.nom_capitaine ;
+			                vm.selected_peche_artisanale.port = data_masque.port ;
+			                vm.selected_peche_artisanale.num_maree = data_masque.num_maree ;
+			                vm.selected_peche_artisanale.date_depart = data_masque.date_depart ;
+			                vm.selected_peche_artisanale.date_arrive = data_masque.date_arrive ;
+			                vm.selected_peche_artisanale.annee = data_masque.annee ;
+			                vm.selected_peche_artisanale.mois = data_masque.mois ;
+			                vm.selected_peche_artisanale.id_espece = data_masque.id_espece ;
+			                vm.selected_peche_artisanale.quantite = data_masque.quantite ;
+			                vm.selected_peche_artisanale.nom_espece = data_masque.nom_espece ;
+			                vm.selected_peche_artisanale.code_espece = data_masque.code_espece ;
         				}
         				else//Suppression
         				{

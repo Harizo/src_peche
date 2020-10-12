@@ -27,11 +27,11 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.data_collect', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.data_collect', {
             title: 'Effort de pêche',
             icon  : 'icon-library-books',
             state: 'app.population_ddb_data_collect',
-			weight: 2
+			weight: 1
         });
     }
 

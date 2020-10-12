@@ -1,10 +1,7 @@
 (function ()
 {
-    'use strict';
-
-    angular
-        .module('app.peche.ddb', [
-			
+    var tab = [
+            
             'app.peche.ddb.localisation', 
             'app.peche.ddb.type_engin',
             'app.peche.ddb.data_collect',
@@ -19,7 +16,11 @@
             //'app.peche.ddb.echantillon'
 
 
-            ])
+            ] ;
+    'use strict';
+
+    angular
+        .module('app.peche.ddb', tab.sort())
         .run(testPermission)
         .config(config);
         var vs ;
@@ -27,7 +28,7 @@
     /** @ngInject */
     function config(msNavigationServiceProvider)
     {
-        msNavigationServiceProvider.saveItem('peche.ddb', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb', {
             title : 'Données de Bases',
             icon  : 'icon-data',
             weight: 2,

@@ -31,7 +31,7 @@
             title: 'Type Especes',
             icon  : 'icon-blur',
             state: 'app.peche_sip_ddbsip_sip_type_espece',
-			weight: 2
+			weight: 1
         });
     }
 

@@ -39,26 +39,14 @@
                             <md-input-container flex="100" flex-gt-xs="30">
                                 <label>Espèce</label>
                                 <md-select ng-model="vm.coefficient_conservation.id_espece" name="espece" required>
-                                    <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}" style="padding: 60px 60px 60px 60px !important;">
-                                        
-                                                <!-- <span  ng-if="espece.code"><strong><u>Code</u></strong>: {{espece.code}}</span>
-                                                <span  ng-if="espece.nom"><strong><u>Espèce</u></strong>: {{espece.nom}}</span>
-                                                
-                                                <span ng-if="espece.nom_scientifique"><strong><u>Nom scientifique</u></strong>: {{espece.nom_scientifique}}</span>
-                                                <span ng-if="espece.nom_francaise"><strong><u>Nom francaise</u></strong>: {{espece.nom_francaise}}</span>
-                                                <span ng-if="espece.nom_local"><strong><u>Nom local</u></strong>: {{espece.nom_local}}</span> -->
-                                                <div layout="column" layout-align="start stretch ">
-                                                    <div  ><strong><u>Code</u></strong>: {{espece.code}}</div>
-                                                    <div  ><strong><u>Espèce</u></strong>: {{espece.nom}}</div>
-                                                    
-                                                    <div ><strong><u>Nom scientifique</u></strong>: {{espece.nom_scientifique}}</div>
-                                                    <div ><strong><u>Nom francaise</u></strong>: {{espece.nom_francaise}}</div>
-                                                    <div ><strong><u>Nom local</u></strong>: {{espece.nom_local}}</div>
-                                                    
-                                                </div>
-                                                <md-divider ></md-divider> 
-                                        
-                                        
+                                   
+                                    <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
+                                        <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                        <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                        <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                        <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                        <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
+                                        <md-divider></md-divider>  
                                     </md-option>
                                     
                                 </md-select>
@@ -73,7 +61,7 @@
                             <md-input-container flex="100" flex-gt-xs="30">
                                 <label>Présentation</label>
                                 <md-select ng-model="vm.coefficient_conservation.id_presentation" name="id_presentation" >
-                                    <md-option value="0">-</md-option>
+                                    <!--md-option value="0">-</md-option!-->
                                     <md-option ng-repeat="pres in vm.all_presentation" value="{{pres.id}}">
                                         {{pres.libelle}}
                                     </md-option>

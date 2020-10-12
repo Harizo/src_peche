@@ -27,11 +27,11 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.type_engin', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.type_engin', {
             title: 'Type engin',
             icon  : 'icon-houzz-box',
             state: 'app.peche_ddb_type_engin',
-			weight: 6
+			weight: 1
         });
     }
 

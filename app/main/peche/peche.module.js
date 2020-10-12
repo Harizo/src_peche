@@ -33,6 +33,14 @@
             weight: 1
         });
 
+        msNavigationServiceProvider.saveItem('peche.openartfish', {
+            //title : "Système d'information des pêches (S.I.P)",
+            title : "OPEN ARTFISH MADAGASCAR",
+            icon  : 'icon-television-guide',
+            //group : true,
+            weight: 2
+        });
+
          $mdDateLocaleProvider.formatDate = function(date) {
             return date ? moment(date).format('DD/MM/YYYY') : new Date(NaN);
         };

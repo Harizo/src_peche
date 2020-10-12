@@ -27,11 +27,11 @@
         });
 
         // Navigation
-        msNavigationServiceProvider.saveItem('peche.ddb.site_enqueteur', {
+        msNavigationServiceProvider.saveItem('peche.openartfish.ddb.site_enqueteur', {
             title: 'Sites / enquêteurs',
             icon  : 'icon-map-marker-circle',
             state: 'app.population_ddb_site_enqueteur',
-			weight: 11
+			weight: 1
         });
     }
 
