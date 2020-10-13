@@ -444,16 +444,6 @@
                               </div>
                           </md-input-container>
 
-                          <md-input-container flex="100" flex-gt-xs="30">
-                            <input ng-readonly="true"  type="number" name="chiffre_affaire" ng-model="vm.vente_poissonnerie.chiffre_affaire"
-                              placeholder="chiffre d'affaire(Ar)"    ng-init="vm.vente_poissonnerie.chiffre_affaire=0" required>
-                            <div ng-messages="form_vente_poissonnerie.chiffre_affaire.$error" role="alert">
-                              <div ng-message="required">
-                                <span>chiffre d'affaire obligatoire.</span>
-                              </div>
-                            </div>
-                          </md-input-container>
-
                            <md-input-container flex="100" flex-gt-xs="30">
                             <input  type="number" name="prix_kg" ng-model="vm.vente_poissonnerie.prix_kg"
                               placeholder="Prix(Ar/Kg)"    ng-init="vm.vente_poissonnerie.prix_kg=1" required>
@@ -462,6 +452,16 @@
                                 <span>Prix obligatoire.</span>
                               </div>
                             </div> 
+                          </md-input-container>
+
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <input ng-readonly="true"  type="number" name="chiffre_affaire" ng-model="vm.vente_poissonnerie.chiffre_affaire"
+                              placeholder="chiffre d'affaire(Ar)"    ng-init="vm.vente_poissonnerie.chiffre_affaire=0" required>
+                            <div ng-messages="form_vente_poissonnerie.chiffre_affaire.$error" role="alert">
+                              <div ng-message="required">
+                                <span>chiffre d'affaire obligatoire.</span>
+                              </div>
+                            </div>
                           </md-input-container>
 
                           <md-input-container flex="100" flex-gt-xs="30">
@@ -509,9 +509,9 @@
                           <td>{{svp.designation_article}}</td>
                           <td>{{svp.libelle_presentation}}</td>
                           <td>{{svp.libelle_conservation}}</td>
-                          <td>{{vm.formatMillier(svp.quantite_vendu)}}</td>
-                          <td>{{vm.formatMillier(svp.chiffre_affaire)}}</td>
-                          <td>{{vm.formatMillier(svp.prix_kg)}}</td>
+                          <td>{{vm.formatMillier(svp.quantite_vendu)}} Kg</td>
+                          <td>{{vm.formatMillier(svp.prix_kg)}} Ar/Kg</td>
+                          <td>{{vm.formatMillier(svp.chiffre_affaire)}} Ar</td>
                           <td>{{svp.observations}}</td>
                         </tr>
                       </tbody>
@@ -564,7 +564,7 @@
                         <tbody>
                           <tr ng-repeat="d in vm.poissonnerie_reporting" ng-class="{selected: donnee.$selected}" ng-click="vm.selection_poiss_report(donnee)">
                             <td ng-show="!vm.filtre.pivot">Le Champ requête est obligatoire</td>
-                            <td ng-repeat="donnee in vm.corps_etat" >{{vm.formatMillier(d[donnee])}}</td>
+                            <td ng-repeat="donnee in vm.entete_etat" >{{vm.formatMillier(d[donnee])}}</td>
                           </tr>
                         </tbody>
                       </table>
