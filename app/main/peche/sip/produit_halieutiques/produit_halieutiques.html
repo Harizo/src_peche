@@ -2224,29 +2224,51 @@
                         </md-tab>  
                     </md-tabs>
                 </md-tab>  
-                <md-tab label="Etat">
-                    
+                <md-tab label="Requête">
+
+                    <form name="form_filtre_etat" class="md-inline-form" novalidate >
+                        <div layout="column" layout-gt-xs="row">
+                          <md-input-container flex="100" flex-gt-xs="10">
+                                      
+                            <label>Requête</label>
+                              <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load"  required>
+                                             
+                                <md-option ng-repeat="piv in vm.pivots" value="{{piv.id}}" > {{piv.titre}}
+                                </md-option>
+                              </md-select>
+                          </md-input-container>
+                          <md-input-container flex="100" flex-gt-xs="90">
+                          </md-input-container>
+                        </div>
+
+                        <div>
+                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_filtre_etat.$invalid||vm.affiche_load" ng-click="vm.get_etat(vm.filtre)"> Actualiser
+                        </md-button>
+                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_filtre_etat.$invalid||vm.affiche_load" ng-click="vm.export_excel(vm.filtre)"> Export excel
+                        </md-button>
+                        
+                        </div>
+                    </form>
                     <!--TABLE LISTES etat-->
                     <div style="padding-top:10px;">
-                            <table ng-table="tableetat" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-                                <thead>
-                                    <tr>
-                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_etat">
-                                            <div class="table-header">
-                                                <span class="column-title text-center">{{c}}</span>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="cm in vm.reporting_halieutique"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_etat(cm)">                                       
-                                        <td ng-repeat="c in ::vm.entete_etat">{{cm[c]}}</td>
-                                        
-                               
-                                       
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                        <table ng-table="tableetat" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                            <thead>
+                                <tr>
+                                    <th class="secondary-text" ng-repeat="c in ::vm.entete_etat">
+                                        <div class="table-header">
+                                            <span class="column-title text-center">{{c}}</span>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cm in vm.reporting_halieutique"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_etat(cm)">                                       
+                                    <td ng-repeat="c in ::vm.entete_etat">{{vm.replace_point(cm[c])}}</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
                         
 
                    </div>

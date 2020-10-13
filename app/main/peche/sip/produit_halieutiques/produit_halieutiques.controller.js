@@ -19,18 +19,7 @@
 			pagingType: 'simple_numbers',
 			order:[] 
 		};
-
-		apiFactory.getAll("SIP_reporting_halieutique/index").then(function(result)
-			{
-				vm.reporting_halieutique = result.data.response;
-				
-					
-				vm.entete_etat = Object.keys(vm.reporting_halieutique[0]).map(function(cle) {
-			    	return (cle);
-				});
-
-					
-			});
+		
 
 		//CLE ETRANGERE
 			apiFactory.getAll("SIP_presentation/index").then(function(result)
@@ -180,9 +169,18 @@
 
 		vm.replace_point = function(nbr)
 		{
-			var str = ""+nbr ;
-			var res = str.replace(".",",") ;
-			return res ;
+			
+
+			if (nbr) 
+			{
+				var str = ""+nbr ;
+				var res = str.replace(".",",") ;
+				return res ;
+			}
+			else
+			{
+				return "";
+			}
 		}
 
 
@@ -2934,6 +2932,40 @@
         		.error(function (data) {alert("Une erreur s'est produit");}); 
 			}
 		//FIN ARRIVEE FICHE
+
+
+		//ETAT
+			vm.pivots = 
+			[
+        
+		        {titre:"3-1 Quantité collecté par District",id:"sip_get_somme_capture_all_espece_by_dist"},
+		        {titre:"3-2 Quantité collecté par Région",id:"sip_quantite_collecte_region"},
+		        {titre:"3-3 Quantité collecté par Mois",id:"sip_quantite_collecte_mois"},
+		        {titre:"3-4 Quantité collecté par opérateur",id:"sip_quantite_collecte_operateur"},
+		        {titre:"3-5 Quantité collecté par espèces",id:"sip_quantite_collecte_espece"},
+		        {titre:"3-6 Prix moyenne par mois",id:"sip_prix_moyenne_mois"},
+		        {titre:"3-7 Prix moyenne par district",id:"sip_prix_moyenne_district"},
+		        {titre:"3-8 Prix moyenne par région",id:"sip_prix_moyenne_region"}
+		    
+		        
+		      ];
+
+		    vm.get_etat = function(data_masque)
+		    {
+
+				apiFactory.getParamsDynamic("SIP_reporting_halieutique/index?etat="+data_masque.pivot).then(function(result)
+				{
+					vm.reporting_halieutique = result.data.response;
+					
+						
+					vm.entete_etat = Object.keys(vm.reporting_halieutique[0]).map(function(cle) {
+				    	return (cle);
+					});
+
+						
+				});
+		    }
+		//FIN ETAT
       
     }
 })();
