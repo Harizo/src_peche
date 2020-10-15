@@ -99,12 +99,8 @@
           vm.text_load = 'Chargement région en cours...' ;
           apiFactory.getAPIgeneraliserREST("district/index","id_region",vm.filtre.id_region).then(function(result)
           {
-            
             vm.alldistrict = result.data.response;
-            
-            if (!vm.affichage_masque_poissonnerie)
-             { vm.affiche_load = false ; }
-            else vm.text_load = vm.tmp ;
+            vm.affiche_load = false ;
           });
         }
 
@@ -116,16 +112,10 @@
           vm.text_load = 'Chargement district en cours...' ;
           apiFactory.getAPIgeneraliserREST("commune/index","cle_etrangere",vm.filtre.id_district).then(function(result)
           {
-            
             vm.allcommune = result.data.response;
-            
-
+            vm.affiche_load = false ;
             if (!nouvel_col_poiss && vm.selected_poissonnerie.id_commune) 
-              vm.filtre.id_commune = vm.selected_poissonnerie.id_commune ;
-            
-            if (!vm.affichage_masque_poissonnerie)
-              vm.affiche_load = false ;
-            else vm.text_load = vm.tmp ;    
+              vm.filtre.id_commune = vm.selected_poissonnerie.id_commune ;    
           });
         } 
 
@@ -242,7 +232,6 @@
           vm.affiche_load = false ; 
           vm.col_poiss                     = {};
           vm.selected_poissonnerie         = {};
-          vm.tmp = vm.text_load ;
           vm.affichage_masque_poissonnerie = true ;
           nouvel_col_poiss                 = true ;
           vm.afficherboutonfiche_poisonnerie = 0 ;
@@ -254,7 +243,6 @@
           nouvel_col_poiss = false ;
           vm.affichage_masque_poissonnerie = true ;
           vm.afficherboutonfiche_poisonnerie = 0 ;
-          vm.tmp = vm.text_load ;
 
           vm.col_poiss.nom           = vm.selected_poissonnerie.nom ;
           vm.col_poiss.localisation  = vm.selected_poissonnerie.localisation ;
@@ -495,19 +483,17 @@
               "&nom_region="+vm.nom_region+"&id_commune="+vm.filtre.id_commune+"&id_district="+vm.filtre.id_district+"&district="+
               vm.nom_district+"&commune="+vm.nom_commune).success(function (result)
             {
-            
-              var nom_file=result.response;
-              try
+              vm.status    = result.status; 
+              if(vm.status)
               {
-                window.location = apiUrlExportexcel+repertoire1+nom_file ;
-                vm.affiche_load = false ;
+                vm.nom_file = result.response;            
+                window.location = apiUrlExportexcel+repertoire1+vm.nom_file ;
+                vm.affiche_load =false; 
+
               }
-              catch(error)
-              {
-              }
-              finally
-              {
-                vm.loadingProgress= false;
+              else{
+                vm.Alert('Export en excel',result.message);
+                vm.affiche_load =false; 
               }
                  
             })
@@ -664,13 +650,14 @@
         {
           if ((!vm.vente_poissonnerie.prix_kg)||(vm.vente_poissonnerie.prix_kg==0))
             return 0 ;
+          vm.vente_poissonnerie.chiffre_affaire = vm.vente_poissonnerie.prix_kg * vm.vente_poissonnerie.quantite_vendu;
+        });
           $scope.$watch('vm.vente_poissonnerie.quantite_vendu', function()
           {
             if ((!vm.vente_poissonnerie.quantite_vendu)||(vm.vente_poissonnerie.quantite_vendu)==0)
               return 0 ;
             vm.vente_poissonnerie.chiffre_affaire = vm.vente_poissonnerie.prix_kg * vm.vente_poissonnerie.quantite_vendu;
           });
-        });
 
         vm.ajout_col = function()
         {
@@ -913,22 +900,19 @@
               repertoire2+"&nom_poissonnerie="+nom_poissonnerie+"&mois="+filtre.mois+"&annee="+filtre.annee+"&nom_region="+nom_region+
                 "&commune="+vm.selected_poissonnerie.communes+"&district="+vm.selected_poissonnerie.districts).success(function (result)
             {
-              var nom_file=result.response;
-             
+              
+               vm.status    = result.status; 
+              if(vm.status)
+              {
+                vm.nom_file = result.response;            
+                window.location = apiUrlExportexcel+repertoire2+vm.nom_file ;
+                vm.affiche_load =false; 
 
-                try
-                {
-                  window.location = apiUrlExportexcel+repertoire2+nom_file ;
-                  
-
-                }catch(error)
-                {
-
-                }finally
-                {
-                  vm.affiche_load = false ;
-                  vm.desactiveExport = false ;
-                }
+              }
+              else{
+                vm.Alert('Export en excel',result.message);
+                vm.affiche_load =false; 
+              }
                  
             })
             .error(function (data)
