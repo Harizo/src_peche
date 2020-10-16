@@ -35,9 +35,9 @@
     		apiFactory.getAll("SIP_presentation/index").then(function(result)
 			{
 				vm.all_presentation = result.data.response;
-				vm.affichage_conservation = function(id)
+				vm.affichage_presentation = function(id)
 				{
-					var tab = vm.all_conservation ;
+					var tab = vm.all_presentation ;
 
 					if (id != '0' && id) 
 					{
@@ -57,9 +57,9 @@
 			apiFactory.getAll("SIP_conservation/index").then(function(result)
 			{
 				vm.all_conservation = result.data.response;
-				vm.affichage_presentation = function(id)
+				vm.affichage_conservation = function(id)
 				{
-					var tab = vm.all_presentation ;
+					var tab = vm.all_conservation ;
 
 					if (id != '0' && id) 
 					{

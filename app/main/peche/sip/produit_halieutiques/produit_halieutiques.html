@@ -1501,7 +1501,225 @@
                                         </md-input-container>
                                     </div>
 
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="exp_qte" ng-model="vm.commerce_eau_douce.exp_qte"
+                                            placeholder="EXP Qté(Kg)"    ng-init="vm.commerce_eau_douce.exp_qte=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.exp_qte.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>EXP Qté obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
 
+                                            
+                                        </md-input-container>
+
+                                        
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input  type="number" name="exp_prix_par_kg" ng-model="vm.commerce_eau_douce.exp_prix_par_kg"
+                                            placeholder="EXP Prix(Ar/Kg)"    ng-init="vm.commerce_eau_douce.exp_prix_par_kg=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.exp_prix_par_kg.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>EXP Prix obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="exp_poids_vif" ng-model="vm.commerce_eau_douce.exp_poids_vif"
+                                            placeholder="EXP Poids vif(Kg)"    ng-init="vm.commerce_eau_douce.exp_poids_vif=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.exp_poids_vif.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>EXP Poids vif obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                    </div>
+
+                                    
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+
+                                        <div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date expédition:</label>
+                                        <md-datepicker  ng-model="vm.commerce_eau_douce.date_expedition" md-placeholder="Date expédition" md-max-date="vm.date_now" required>                       
+                                        </md-datepicker>
+                                        </div>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="text" name="exp_destination" ng-model="vm.commerce_eau_douce.exp_destination"
+                                            placeholder="EXP Déstination"    ng-init="vm.commerce_eau_douce.exp_destination=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.exp_destination.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>EXP Déstination obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="10">
+                                          <input  type="number" name="nbr_colis" ng-model="vm.commerce_eau_douce.nbr_colis"
+                                            placeholder="Nombre colis"    ng-init="vm.commerce_eau_douce.nbr_colis=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.nbr_colis.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nombre colis obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+                                    </div>
+
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input  type="text" name="nom_dest" ng-model="vm.commerce_eau_douce.nom_dest"
+                                            placeholder="Nom Dést."    ng-init="vm.commerce_eau_douce.nom_dest=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.nom_dest.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nom Dést. obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input  type="text" name="adresse_dest" ng-model="vm.commerce_eau_douce.adresse_dest"
+                                            placeholder="Adresse Dést."    ng-init="vm.commerce_eau_douce.adresse_dest=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.adresse_dest.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Adresse Dést. obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input  type="text" name="lieu_exped" ng-model="vm.commerce_eau_douce.lieu_exped"
+                                            placeholder="Lieu expéd."    ng-init="vm.commerce_eau_douce.lieu_exped=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.lieu_exped.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Lieu expéd. obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input  type="text" name="moyen_transport" ng-model="vm.commerce_eau_douce.moyen_transport"
+                                            placeholder="Moyen de transport"    ng-init="vm.commerce_eau_douce.moyen_transport=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.moyen_transport.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Moyen de transport obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+                                    </div>
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="export_qte" ng-model="vm.commerce_eau_douce.export_qte"
+                                            placeholder="Export Qté(Kg)"    ng-init="vm.commerce_eau_douce.export_qte=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.export_qte.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Export Qté obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                        <md-input-container flex="100" flex-gt-xs="40">
+                                          <input  type="number" name="export_prix_par_kg" ng-model="vm.commerce_eau_douce.export_prix_par_kg"
+                                            placeholder="Export Prix(Ar/Kg)"    ng-init="vm.commerce_eau_douce.export_prix_par_kg=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.export_prix_par_kg.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Export Prix obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="number" name="export_poids_vif" ng-model="vm.commerce_eau_douce.export_poids_vif"
+                                            placeholder="Export Poids vif(Kg)"    ng-init="vm.commerce_eau_douce.export_poids_vif=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.export_poids_vif.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Export Poids vif obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                          <input  type="text" name="exp_destination" ng-model="vm.commerce_eau_douce.export_destination"
+                                            placeholder="Export Déstination"    ng-init="vm.commerce_eau_douce.exp_destination=''"
+                                            required>
+                                            <div ng-messages="form_commerce_eau_douce.exp_destination.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Export Déstination obligatoire.</span>
+                                              </div>
+                                              
+                                            </div>
+
+                                            
+                                        </md-input-container>
+
+                                        
+                                    </div>
                                    
                                     <div>
                                      <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
@@ -1547,6 +1765,26 @@
                                         <td>{{vm.replace_point(cm.vl_qte)}} Kg</td>
                                         <td>{{vm.formatMillier(cm.vl_prix_par_kg)}} Ar/Kg</td>
                                         <td>{{vm.replace_point(cm.vl_poids_vif)}} Kg</td>
+
+                                        <td>{{vm.replace_point(cm.exp_qte)}} Kg</td>
+                                        <td>{{vm.formatMillier(cm.exp_prix_par_kg)}} Ar/Kg</td>
+                                        <td>{{vm.replace_point(cm.exp_poids_vif)}} Kg</td>
+                                        <td>{{cm.exp_destination}}</td>
+
+                                        
+
+                                        <td>{{vm.convert_to_date_html(cm.date_expedition)}}</td>
+                                        
+                                        <td>{{cm.nbr_colis}}</td>
+                                        <td>{{cm.nom_dest}}</td>
+                                        <td>{{cm.adresse_dest}}</td>
+                                        <td>{{cm.lieu_exped}}</td>
+                                        <td>{{cm.moyen_transport}}</td>
+
+                                        <td>{{vm.replace_point(cm.export_qte)}} Kg</td>
+                                        <td>{{vm.formatMillier(cm.export_prix_par_kg)}} Ar/Kg</td>
+                                        <td>{{vm.replace_point(cm.export_poids_vif)}} Kg</td>
+                                        <td>{{cm.export_destination}}</td> 
                                
                                        
                                     </tr>
@@ -2227,25 +2465,38 @@
                 <md-tab label="Requête">
 
                     <form name="form_filtre_etat" class="md-inline-form" novalidate >
+
                         <div layout="column" layout-gt-xs="row">
-                          <md-input-container flex="100" flex-gt-xs="10">
+                            <md-input-container flex="100" flex-gt-xs="20">
                                       
-                            <label>Requête</label>
-                              <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load"  required>
+                                <label>Modules</label>
+                                <md-select ng-model="vm.filtre.module" ng-disabled="vm.affiche_load"  required>
                                              
-                                <md-option ng-repeat="piv in vm.pivots" value="{{piv.id}}" > {{piv.titre}}
-                                </md-option>
-                              </md-select>
-                          </md-input-container>
-                          <md-input-container flex="100" flex-gt-xs="90">
-                          </md-input-container>
+                                    <md-option ng-repeat="m in vm.modules" value="{{m.id}}" > {{m.titre}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="20">
+                                      
+                                <label>Requête</label>
+                                <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load || !vm.filtre.module" required>
+
+                                    <md-option ng-repeat="piv in vm.pivots | filter: {module: vm.filtre.module}" value="{{piv.id}}" > {{piv.titre}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="60">
+                            </md-input-container>
+                            
                         </div>
 
+                       
+
                         <div>
-                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_filtre_etat.$invalid||vm.affiche_load" ng-click="vm.get_etat(vm.filtre)"> Actualiser
-                        </md-button>
-                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_filtre_etat.$invalid||vm.affiche_load" ng-click="vm.export_excel(vm.filtre)"> Export excel
-                        </md-button>
+                            <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_filtre_etat.$invalid||vm.affiche_load" ng-click="vm.get_etat(vm.filtre)"> Actualiser
+                            </md-button>
+                            <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_filtre_etat.$invalid||vm.affiche_load" ng-click="vm.export_excel(vm.filtre)"> Export excel
+                            </md-button>
                         
                         </div>
                     </form>

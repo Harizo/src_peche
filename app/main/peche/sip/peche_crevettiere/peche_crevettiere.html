@@ -503,7 +503,7 @@
                                 </div>
                                 <div layout="column" layout-gt-xs="row" flex>
 
-                                    <md-input-container flex="100" flex-gt-xs="33">
+                                    <md-input-container flex="100" flex-gt-xs="30">
                                       <input type="text" name="maree" ng-model="vm.production_crevette.maree"
                                         placeholder="Marée " ng-init="vm.production_crevette.maree=''"
                                         required>
@@ -515,7 +515,7 @@
                                         </div>
                                     </md-input-container>
 
-                                    <md-input-container flex="100" flex-gt-xs="33">
+                                    <md-input-container flex="100" flex-gt-xs="30">
                                       <input type="number" name="qte_crevette" ng-model="vm.production_crevette.qte_crevette"
                                         placeholder="Qté crevette " ng-init="vm.production_crevette.qte_crevette=''"
                                         required>
@@ -526,8 +526,20 @@
                                           </div>
                                         </div>
                                     </md-input-container>
+
+                                    <md-input-container flex="100" flex-gt-xs="30">
+                                      <input type="number" name="qte_poisson" ng-model="vm.production_crevette.qte_poisson"
+                                        placeholder="Qté poisson " ng-init="vm.production_crevette.qte_poisson=''"
+                                        required>
+                                        <div ng-messages="form_production_crevette.qte_poisson.$error"
+                                          role="alert">
+                                          <div ng-message="required">
+                                            <span>Qté poisson obligatoire.</span>
+                                          </div>
+                                        </div>
+                                    </md-input-container>
                                     
-                                    <md-input-container flex="100" flex-gt-xs="33">
+                                    <md-input-container flex="100" flex-gt-xs="10">
                                       <input type="number" name="nbr_fiche" ng-model="vm.production_crevette.nbr_fiche"
                                         placeholder="Nombre de fiche " ng-init="vm.production_crevette.nbr_fiche=''"
                                         required>
@@ -574,6 +586,7 @@
                                     <td>{{cm.num_maree}}</td>
                                     <td>{{cm.maree}}</td>
                                     <td>{{vm.formatMillier(cm.qte_crevette)}}</td>
+                                    <td>{{vm.formatMillier(cm.qte_poisson)}}</td>
                                     <td>{{cm.nbr_fiche}}</td>
                                   
                                    
@@ -1887,6 +1900,70 @@
                         </table>
                     <!--TABLE LISTES exportation-->
                 </md-tab>
+
+                <md-tab label="Requête">
+
+                    <form name="form_filtre_etat" class="md-inline-form" novalidate >
+
+                        <div layout="column" layout-gt-xs="row">
+                            <md-input-container flex="100" flex-gt-xs="20">
+                                      
+                                <label>Modules</label>
+                                <md-select ng-model="vm.filtre.module" ng-disabled="vm.affiche_load"  required>
+                                             
+                                    <md-option ng-repeat="m in vm.modules" value="{{m.id}}" > {{m.titre}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="20">
+                                      
+                                <label>Requête</label>
+                                <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load || !vm.filtre.module" required>
+
+                                    <md-option ng-repeat="piv in vm.pivots | filter: {module: vm.filtre.module}" value="{{piv.id}}" > {{piv.titre}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container flex="100" flex-gt-xs="60">
+                            </md-input-container>
+                            
+                        </div>
+
+                       
+
+                        <div>
+                            <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_filtre_etat.$invalid||vm.affiche_load" ng-click="vm.get_etat(vm.filtre)"> Actualiser
+                            </md-button>
+                            <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_filtre_etat.$invalid||vm.affiche_load" ng-click="vm.export_excel(vm.filtre)"> Export excel
+                            </md-button>
+                        
+                        </div>
+                    </form>
+                    <!--TABLE LISTES etat-->
+                    <div style="padding-top:10px;">
+
+                        <table ng-table="tableetat" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                            <thead>
+                                <tr>
+                                    <th class="secondary-text" ng-repeat="c in ::vm.entete_etat">
+                                        <div class="table-header">
+                                            <span class="column-title text-center">{{c}}</span>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cm in vm.reporting_halieutique"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_etat(cm)">                                       
+                                    <td ng-repeat="c in ::vm.entete_etat">{{vm.replace_point(cm[c])}}</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+
+                   </div>
+                        <!--TABLE LISTES etat-->
+                </md-tab> 
                 
                     
             </md-tabs>

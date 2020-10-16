@@ -89,9 +89,16 @@
 
 		vm.replace_point = function(nbr)
 		{
-			var str = ""+nbr ;
-			var res = str.replace(".",",") ;
-			return res ;
+			
+
+			if (nbr) 
+			{
+				var str = ""+nbr ;
+				var res = str.replace(".",",") ;
+				return res ;
+			}
+			else
+				return "";
 		}
 
 		vm.affichage_mois = function(mois)
@@ -1090,6 +1097,7 @@
 				{titre:"Num marée"},
 				{titre:"Marée"},
 				{titre:"Qté crevette"},
+				{titre:"Qté poisson"},
 				{titre:"Nombre de fiche"}
 	        ] ;
 
@@ -1139,6 +1147,7 @@
 				vm.production_crevette.num_maree = vm.selected_production.num_maree ;
 				vm.production_crevette.maree = vm.selected_production.maree ;
 				vm.production_crevette.qte_crevette = Number(vm.selected_production.qte_crevette) ;
+				vm.production_crevette.qte_poisson = Number(vm.selected_production.qte_poisson) ;
 				vm.production_crevette.nbr_fiche = Number(vm.selected_production.nbr_fiche) ;
 			}
 
@@ -1194,6 +1203,7 @@
 	                num_maree:data_masque.num_maree,
 	                maree:data_masque.maree,
 	                qte_crevette:data_masque.qte_crevette,
+	                qte_poisson:data_masque.qte_poisson,
 	                nbr_fiche:data_masque.nbr_fiche
 	            });
 
@@ -1208,6 +1218,7 @@
 			                vm.selected_production.num_maree = data_masque.num_maree ;
 			                vm.selected_production.maree = data_masque.maree ;
 			                vm.selected_production.qte_crevette = data_masque.qte_crevette ;
+			                vm.selected_production.qte_poisson = data_masque.qte_poisson ;
 			                vm.selected_production.nbr_fiche = data_masque.nbr_fiche ;
         				}
         				else 
@@ -1230,6 +1241,7 @@
 			                num_maree:data_masque.num_maree,
 			                maree:data_masque.maree,
 			                qte_crevette:data_masque.qte_crevette,
+			                qte_poisson:data_masque.qte_poisson,
 			                nbr_fiche:data_masque.nbr_fiche
 			                            
 						}          
@@ -2320,6 +2332,63 @@
 	            });
 			}
     	//FIN fiche_peche
+
+    	//REPORTING
+    		vm.modules = 
+			[
+        
+		        {titre:"Relevé de capture crevette",id:"releve_capture"},
+		        {titre:"Commercialisation Sté Crevette",id:"commerce"},
+		        {titre:"Exportation Sté Crevette",id:"exportation"}
+		    
+		        
+		    ];
+			vm.pivots = 
+			[
+        
+		        {titre:"Tableau de bord par marée", id:"tableau_de_bord_maree", module:"releve_capture"},
+		        {titre:"Nombre de fiche par marée", id:"nombre_fiche_par_maree", module:"releve_capture"},
+		        {titre:"Quantité crevette par marée", id:"qte_crevette_par_maree", module:"releve_capture"},
+		        {titre:"Quantité poisson par marée", id:"qte_poisson_par_maree", module:"releve_capture"},
+		        {titre:"Quantité crevette par bâteau", id:"qte_crevette_par_bateau", module:"releve_capture"},
+		        {titre:"Quantité poisson par bâteau", id:"qte_poisson_par_bateau", module:"releve_capture"},
+		        {titre:"Quantité crevette par société", id:"qte_crevette_par_societe", module:"releve_capture"},
+		        {titre:"Quantité poisson par société", id:"qte_poisson_par_societe", module:"releve_capture"},
+
+		        {titre:"Quantité vente locale", id:"qte_vente_locale_commerce", module:"commerce"},
+		        {titre:"Quantité exportation", id:"qte_exportation_commerce", module:"commerce"},
+		        {titre:"Quantité exportation par destination", id:"sip_qte_exporte_par_dest_commerce_crevette", module:"commerce"},
+		        {titre:"Quantité vente locale par mois", id:"qte_vente_locale_par_mois_commerce", module:"commerce"},
+		        {titre:"Quantité exportation par mois", id:"qte_exportation_par_mois_commerce", module:"commerce"},
+		        {titre:"Quantité vente locale par société", id:"qte_vente_locale_par_societe_commerce", module:"commerce"},
+		        {titre:"Quantité exportation par société", id:"qte_exportation_par_societe_commerce", module:"commerce"},
+		        {titre:"Prix moyenne vente locale par mois", id:"prix_moy_vente_locale_mois_commerce", module:"commerce"},
+		        {titre:"Prix moyenne exportation par mois", id:"prix_moy_exportation_mois_commerce", module:"commerce"}
+		        
+		        
+		    ];
+
+
+		    vm.get_etat = function(data_masque)
+		    {
+
+		    	vm.affiche_load = true ;
+
+				apiFactory.getParamsDynamic("SIP_reporting_crevette/index?etat="+data_masque.pivot).then(function(result)
+				{
+
+					vm.affiche_load = false ;
+					vm.reporting_halieutique = result.data.response;
+					
+						
+					vm.entete_etat = Object.keys(vm.reporting_halieutique[0]).map(function(cle) {
+				    	return (cle);
+					});
+
+						
+				});
+		    }
+    	//FIN REPORTING
 
     	
     }

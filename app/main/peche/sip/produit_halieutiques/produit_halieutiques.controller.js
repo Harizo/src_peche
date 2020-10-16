@@ -1747,7 +1747,24 @@
 				{titre:"Coef cons"},
 				{titre:"VL Qté"},
 				{titre:"VL Prix"},
-				{titre:"VL poids vif"}
+				{titre:"VL poids vif"},
+
+				{titre:"Exp Qté"},
+				{titre:"Exp Prix"},
+				{titre:"Exp poids vif"},
+				{titre:"Exp déstination"},
+
+				{titre:"Date Expedition"},
+				{titre:"Nombre colis"},
+				{titre:"Nom Dést."},
+				{titre:"Adresse Dést."},
+				{titre:"Lieu Exped"},
+				{titre:"Moyen de transport"},
+				
+				{titre:"Export Qté"},
+				{titre:"Export Prix"},
+				{titre:"Export poids vif"},
+				{titre:"Export déstination"}
 	        ] ;
 
 	        vm.get_commerce_eau_douce = function()
@@ -1920,6 +1937,23 @@
                 vm.commerce_eau_douce.vl_prix_par_kg = Number(vm.selected_commerce_eau_douce.vl_prix_par_kg) ;
                 vm.commerce_eau_douce.vl_poids_vif = Number(vm.selected_commerce_eau_douce.vl_poids_vif) ;
 
+                vm.commerce_eau_douce.exp_qte = Number(vm.selected_commerce_eau_douce.exp_qte) ;
+                vm.commerce_eau_douce.exp_prix_par_kg = Number(vm.selected_commerce_eau_douce.exp_prix_par_kg) ;
+                vm.commerce_eau_douce.exp_poids_vif = Number(vm.selected_commerce_eau_douce.exp_poids_vif) ;
+                vm.commerce_eau_douce.exp_destination = vm.selected_commerce_eau_douce.exp_destination ;
+
+                vm.commerce_eau_douce.export_qte = Number(vm.selected_commerce_eau_douce.export_qte) ;
+                vm.commerce_eau_douce.export_prix_par_kg = Number(vm.selected_commerce_eau_douce.export_prix_par_kg) ;
+                vm.commerce_eau_douce.export_poids_vif = Number(vm.selected_commerce_eau_douce.export_poids_vif) ;
+                vm.commerce_eau_douce.export_destination = vm.selected_commerce_eau_douce.export_destination ;
+
+                vm.commerce_eau_douce.date_expedition = new Date(vm.selected_commerce_eau_douce.date_expedition) ;
+                vm.commerce_eau_douce.nbr_colis = Number(vm.selected_commerce_eau_douce.nbr_colis) ;
+
+                vm.commerce_eau_douce.nom_dest = vm.selected_commerce_eau_douce.nom_dest ;
+                vm.commerce_eau_douce.adresse_dest = vm.selected_commerce_eau_douce.adresse_dest ;
+                vm.commerce_eau_douce.lieu_exped = vm.selected_commerce_eau_douce.lieu_exped ;
+                vm.commerce_eau_douce.moyen_transport = vm.selected_commerce_eau_douce.moyen_transport ;
 
 
 			}
@@ -1987,7 +2021,25 @@
 
 	                vl_qte:commerce_eau_douce.vl_qte,
 	                vl_prix_par_kg:commerce_eau_douce.vl_prix_par_kg,
-	                vl_poids_vif:commerce_eau_douce.vl_poids_vif
+	                vl_poids_vif:commerce_eau_douce.vl_poids_vif,
+
+					exp_qte:commerce_eau_douce.exp_qte,
+					exp_prix_par_kg:commerce_eau_douce.exp_prix_par_kg,
+					exp_poids_vif:commerce_eau_douce.exp_poids_vif,
+					exp_destination:commerce_eau_douce.exp_destination,
+
+					export_qte:commerce_eau_douce.export_qte,
+					export_prix_par_kg:commerce_eau_douce.export_prix_par_kg,
+					export_poids_vif:commerce_eau_douce.export_poids_vif,
+					export_destination:commerce_eau_douce.export_destination,
+
+					date_expedition:convert_to_date_sql(commerce_eau_douce.date_expedition),
+					nbr_colis:commerce_eau_douce.nbr_colis,
+
+					nom_dest:commerce_eau_douce.nom_dest,
+					adresse_dest:commerce_eau_douce.adresse_dest,
+					lieu_exped:commerce_eau_douce.lieu_exped,
+					moyen_transport:commerce_eau_douce.moyen_transport
 
 	                
 	                
@@ -2040,6 +2092,28 @@
 			                vm.selected_commerce_eau_douce.vl_prix_par_kg = commerce_eau_douce.vl_prix_par_kg ;
 			                vm.selected_commerce_eau_douce.vl_poids_vif = commerce_eau_douce.vl_poids_vif ;
 
+			                vm.selected_commerce_eau_douce.vl_qte = commerce_eau_douce.vl_qte ;
+	                        vm.selected_commerce_eau_douce.vl_prix_par_kg = commerce_eau_douce.vl_prix_par_kg ;
+	                        vm.selected_commerce_eau_douce.vl_poids_vif = commerce_eau_douce.vl_poids_vif ;
+
+	                        vm.selected_commerce_eau_douce.exp_qte = commerce_eau_douce.exp_qte ;
+	                        vm.selected_commerce_eau_douce.exp_prix_par_kg = commerce_eau_douce.exp_prix_par_kg ;
+	                        vm.selected_commerce_eau_douce.exp_poids_vif = commerce_eau_douce.exp_poids_vif ;
+	                        vm.selected_commerce_eau_douce.exp_destination = commerce_eau_douce.exp_destination ;
+
+	                        vm.selected_commerce_eau_douce.export_qte = commerce_eau_douce.export_qte ;
+                            vm.selected_commerce_eau_douce.export_prix_par_kg = commerce_eau_douce.export_prix_par_kg ;
+                            vm.selected_commerce_eau_douce.export_poids_vif = commerce_eau_douce.export_poids_vif ;
+                            vm.selected_commerce_eau_douce.export_destination = commerce_eau_douce.export_destination ;
+
+	                        vm.selected_commerce_eau_douce.date_expedition = convert_to_date_sql(commerce_eau_douce.date_expedition) ;
+	                        vm.selected_commerce_eau_douce.nbr_colis = commerce_eau_douce.nbr_colis ;
+
+	                        vm.selected_commerce_eau_douce.nom_dest = commerce_eau_douce.nom_dest ;
+	                        vm.selected_commerce_eau_douce.adresse_dest = commerce_eau_douce.adresse_dest ;
+	                        vm.selected_commerce_eau_douce.lieu_exped = commerce_eau_douce.lieu_exped ;
+	                        vm.selected_commerce_eau_douce.moyen_transport = commerce_eau_douce.moyen_transport ;
+
 						}
 						else
 						{
@@ -2088,7 +2162,25 @@
 
 							vl_qte:commerce_eau_douce.vl_qte,
 			                vl_prix_par_kg:commerce_eau_douce.vl_prix_par_kg,
-			                vl_poids_vif:commerce_eau_douce.vl_poids_vif
+			                vl_poids_vif:commerce_eau_douce.vl_poids_vif,
+
+			                exp_qte:commerce_eau_douce.exp_qte,
+							exp_prix_par_kg:commerce_eau_douce.exp_prix_par_kg,
+							exp_poids_vif:commerce_eau_douce.exp_poids_vif,
+							exp_destination:commerce_eau_douce.exp_destination,
+
+							export_qte:commerce_eau_douce.export_qte,
+							export_prix_par_kg:commerce_eau_douce.export_prix_par_kg,
+							export_poids_vif:commerce_eau_douce.export_poids_vif,
+							export_destination:commerce_eau_douce.export_destination,
+
+							date_expedition:convert_to_date_sql(commerce_eau_douce.date_expedition),
+							nbr_colis:commerce_eau_douce.nbr_colis,
+
+							nom_dest:commerce_eau_douce.nom_dest,
+							adresse_dest:commerce_eau_douce.adresse_dest,
+							lieu_exped:commerce_eau_douce.lieu_exped,
+							moyen_transport:commerce_eau_douce.moyen_transport
 
 			                            
 						}          
@@ -2935,26 +3027,103 @@
 
 
 		//ETAT
+
+
+			vm.modules = 
+			[
+        
+		        {titre:"Collecte",id:"collecte"},
+		        {titre:"Commercialisation eau douce",id:"commerce_eau_douce"},
+		        {titre:"Commercialisation marine",id:"commerce_marine"}
+		    
+		        
+		    ];
 			vm.pivots = 
 			[
         
-		        {titre:"3-1 Quantité collecté par District",id:"sip_get_somme_capture_all_espece_by_dist"},
-		        {titre:"3-2 Quantité collecté par Région",id:"sip_quantite_collecte_region"},
-		        {titre:"3-3 Quantité collecté par Mois",id:"sip_quantite_collecte_mois"},
-		        {titre:"3-4 Quantité collecté par opérateur",id:"sip_quantite_collecte_operateur"},
-		        {titre:"3-5 Quantité collecté par espèces",id:"sip_quantite_collecte_espece"},
-		        {titre:"3-6 Prix moyenne par mois",id:"sip_prix_moyenne_mois"},
-		        {titre:"3-7 Prix moyenne par district",id:"sip_prix_moyenne_district"},
-		        {titre:"3-8 Prix moyenne par région",id:"sip_prix_moyenne_region"}
+		        {titre:"3-1 Quantité collecté par District", id:"sip_get_somme_capture_all_espece_by_dist", module:"collecte"},
+		        {titre:"3-2 Quantité collecté par Région", id:"sip_quantite_collecte_region", module:"collecte"},
+		        {titre:"3-3 Quantité collecté par Mois", id:"sip_quantite_collecte_mois", module:"collecte"},
+		        {titre:"3-4 Quantité collecté par opérateur", id:"sip_quantite_collecte_operateur", module:"collecte"},
+		        {titre:"3-5 Quantité collecté par espèces", id:"sip_quantite_collecte_espece", module:"collecte"},
+		        {titre:"3-6 Prix moyenne par mois", id:"sip_prix_moyenne_mois", module:"collecte"},
+		        {titre:"3-7 Prix moyenne par district", id:"sip_prix_moyenne_district", module:"collecte"},
+		        {titre:"3-8 Prix moyenne par région", id:"sip_prix_moyenne_region", module:"collecte"},
+
+		        {titre:"Qté par espèces (Vente locale)", id:"sip_qte_par_espece_vente_local", module:"commerce_marine"},
+		        {titre:"Qté par district ventillé par espèces (Vente locale)", id:"sip_qte_par_district_espece_vente_local", module:"commerce_marine"},
+		        {titre:"Qté par région ventillé par espèces (Vente locale)", id:"sip_qte_par_region_espece_vente_local", module:"commerce_marine"},
+		        {titre:"Prix moyenne par espèces (Vente locale)", id:"sip_prix_moyenne_par_espece_vente_local", module:"commerce_marine"},
+		        {titre:"Prix moyenne par district (Vente locale)", id:"sip_prix_moyenne_par_district_vente_local", module:"commerce_marine"},
+		        {titre:"Prix moyenne par région (Vente locale)", id:"sip_prix_moyenne_par_region_vente_local", module:"commerce_marine"},
+		        {titre:"Qté par opérateur (Vente locale)", id:"sip_qte_par_operateur_vente_local", module:"commerce_marine"},
+
+		        {titre:"Qté par espèces (Expédition interne)", id:"sip_qte_par_espece_expedition_interne", module:"commerce_marine"},
+		        {titre:"Qté par district ventillé par espèces (Expédition interne)", id:"sip_qte_par_district_espece_expedition_interne", module:"commerce_marine"},
+		        {titre:"Qté par région ventillé par espèces (Expédition interne)", id:"sip_qte_par_region_espece_expedition_interne", module:"commerce_marine"},
+		        {titre:"Prix moyenne par espèces (Expédition interne)", id:"sip_prix_moyenne_par_espece_expedition_interne", module:"commerce_marine"},
+		        {titre:"Prix moyenne par district (Expédition interne)", id:"sip_prix_moyenne_par_district_expedition_interne", module:"commerce_marine"},
+		        {titre:"Prix moyenne par région (Expédition interne)", id:"sip_prix_moyenne_par_region_expedition_interne", module:"commerce_marine"},
+		        {titre:"Qté par opérateur (Expédition interne)", id:"sip_qte_par_operateur_expedition_interne", module:"commerce_marine"},
+
+		        {titre:"Qté par espèces (Exportation)", id:"sip_qte_par_espece_exportation", module:"commerce_marine"},
+		        {titre:"Qté par district ventillé par espèces (Exportation)", id:"sip_qte_par_district_espece_exportation", module:"commerce_marine"},
+		        {titre:"Qté par région ventillé par espèces (Exportation)", id:"sip_qte_par_region_espece_exportation", module:"commerce_marine"},
+		        {titre:"Prix moyenne par espèces (Exportation)", id:"sip_prix_moyenne_par_espece_exportation", module:"commerce_marine"},
+		        {titre:"Prix moyenne par district (Exportation)", id:"sip_prix_moyenne_par_district_exportation", module:"commerce_marine"},
+		        {titre:"Prix moyenne par région (Exportation)", id:"sip_prix_moyenne_par_region_exportation", module:"commerce_marine"},
+		        {titre:"Qté par opérateur (Exportation)", id:"sip_qte_par_operateur_exportation", module:"commerce_marine"},
+
+		        {titre:"Qté vente locale (Qté en poids vif)", id:"sip_qte_vente_locale_qte_poids_vif", module:"commerce_marine"},
+				{titre:"Qté vente expédition interne (Qté en poids vif)", id:"sip_qte_expedition_interne_qte_poids_vif", module:"commerce_marine"},
+				{titre:"Qté exportation (Qté en poids vif)", id:"sip_qte_exportation_qte_poids_vif", module:"commerce_marine"},
+
+				{titre:"Expédition par destination", id:"sip_qte_expedie_par_desination", module:"commerce_marine"},
+
+				{titre:"Qté par espèces (Vente locale)", id:"sip_qte_par_espece_vente_local_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté par district ventillé par espèces (Vente locale)", id:"sip_qte_par_district_espece_vente_local_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté par région ventillé par espèces (Vente locale)", id:"sip_qte_par_region_espece_vente_local_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Prix moyenne par espèces (Vente locale)", id:"sip_prix_moyenne_par_espece_vente_local_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Prix moyenne par district (Vente locale)", id:"sip_prix_moyenne_par_district_vente_local_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Prix moyenne par région (Vente locale)", id:"sip_prix_moyenne_par_region_vente_local_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté par opérateur (Vente locale)", id:"sip_qte_par_operateur_vente_local_eau_douce", module:"commerce_eau_douce"},
+
+				{titre:"Qté par espèces (Expédition interne)", id:"sip_qte_par_espece_expedition_interne_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté par district ventillé par espèces (Expédition interne)", id:"sip_qte_par_district_espece_expedition_interne_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté par région ventillé par espèces (Expédition interne)", id:"sip_qte_par_region_espece_expedition_interne_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Prix moyenne par espèces (Expédition interne)", id:"sip_prix_moyenne_par_espece_expedition_interne_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Prix moyenne par district (Expédition interne)", id:"sip_prix_moyenne_par_district_expedition_interne_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Prix moyenne par région (Expédition interne)", id:"sip_prix_moyenne_par_region_expedition_interne_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté par opérateur (Expédition interne)", id:"sip_qte_par_operateur_expedition_interne_eau_douce", module:"commerce_eau_douce"},
+
+				{titre:"Qté par espèces (Exportation)", id:"sip_qte_par_espece_exportation_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté par district ventillé par espèces (Exportation)", id:"sip_qte_par_district_espece_exportation_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté par région ventillé par espèces (Exportation)", id:"sip_qte_par_region_espece_exportation_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Prix moyenne par espèces (Exportation)", id:"sip_prix_moyenne_par_espece_exportation_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Prix moyenne par district (Exportation)", id:"sip_prix_moyenne_par_district_exportation_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Prix moyenne par région (Exportation)", id:"sip_prix_moyenne_par_region_exportation_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté par opérateur (Exportation)", id:"sip_qte_par_operateur_exportation_eau_douce", module:"commerce_eau_douce"},
+
+				{titre:"Qté vente locale (Qté en poids vif)", id:"sip_qte_vente_locale_qte_poids_vif_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté vente expédition interne (Qté en poids vif)", id:"sip_qte_expedition_interne_qte_poids_vif_eau_douce", module:"commerce_eau_douce"},
+				{titre:"Qté exportation (Qté en poids vif)", id:"sip_qte_exportation_qte_poids_vif_eau_douce", module:"commerce_eau_douce"},
+
+				{titre:"Expédition par destination", id:"sip_qte_expedie_par_desination_eau_douce", module:"commerce_eau_douce"}
+
+
 		    
 		        
-		      ];
+		    ];
 
 		    vm.get_etat = function(data_masque)
 		    {
 
+		    	vm.affiche_load = true ;
+
 				apiFactory.getParamsDynamic("SIP_reporting_halieutique/index?etat="+data_masque.pivot).then(function(result)
 				{
+
+					vm.affiche_load = false ;
 					vm.reporting_halieutique = result.data.response;
 					
 						
