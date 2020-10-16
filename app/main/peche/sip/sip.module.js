@@ -15,6 +15,7 @@
             'app.peche.sip.pecheur_pirogue',
             'app.peche.sip.coefficient_conversion',
             'app.peche.sip.production_commerce_region',
+            'app.peche.sip.saisie_collecte_culture_algues',
             'app.peche.sip.ddbsip'
 
 

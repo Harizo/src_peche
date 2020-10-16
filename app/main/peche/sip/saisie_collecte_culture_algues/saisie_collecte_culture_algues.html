@@ -1,0 +1,266 @@
+  <div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+    <!-- HEADER -->
+      <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+          <div class="breadcrumb" layout="row" layout-align="start center">
+            <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+            <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+            <span class="parent">S.I.P.</span>
+            <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+            <span class="parent" href="javascript:;"> Saisie collecte culture d'algues</span>
+          </div>
+          <div class="title">Saisie collecte culture d'algues</div>
+        </div>
+      </div>
+    <!-- / HEADER -->
+    
+    <!-- CONTENT -->
+      <div class="content"layout="column">
+        <div class="form-wrapper">
+          <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+          <div style="clear:both;"></div>
+          <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">{{vm.text_load}}</div>
+          <md-tabs md-dynamic-height>
+            <!-- DEBUT POISSONNERIE -->
+            <md-tab label="Saisie collecte culture d'algues">
+              <md-tab-body>
+                <div style="width:100%;">    
+                  <md-button  ng-if="!vm.affichage_masque_col_cult_algue " type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_cult_algue()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                        Nouveau
+                  </md-button>
+                  <md-button type="submit" class="md-raised custum_button" ng-disabled="!vm.selected_col_cult_algue.id" ng-if="vm.selected_col_cult_algue.id && !vm.affichage_masque_col_cult_algue" aria-label="Modifier" ng-click="vm.modif_col_cult_algue()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                    Modifier
+                  </md-button>
+                  <md-button type="submit" class="md-raised custum_button_del" ng-disabled="!vm.selected_col_cult_algue.id" ng-if="vm.selected_col_cult_algue.id && !vm.affichage_masque_col_cult_algue" aria-label="Supprimer" ng-click="vm.supprimer_col_cult_algue()" style="width:10%;">
+                      <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                    Supprimer
+                  </md-button>
+                </div>  
+                  
+                <!--FORM FILTRE  --> 
+                  <div>
+                    <form name="filtreform" class="md-inline-form" novalidate >
+                      <div layout="column" layout-gt-xs="row">
+                        <md-input-container flex-gt-sm>
+                          <label>Region</label>
+                          <md-select ng-model="vm.filtre.id_region"  ng-change="vm.get_district()"  required>
+                            <md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
+                              {{region.nom}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+
+                        <md-input-container flex-gt-sm>
+                          <label>District</label>
+                          <md-select ng-model="vm.filtre.id_district"  ng-change="vm.get_commune()" required>
+                            <md-option ng-repeat="district in vm.alldistrict" value="{{district.id}}">
+                              {{district.nom}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+
+                        <md-input-container flex-gt-sm>
+                          <label>Commune</label>
+                          <md-select ng-model="vm.filtre.id_commune"  ng-change="vm.get_fokontany()" required>
+                            <md-option ng-repeat="commune in vm.allcommune" value="{{commune.id}}">
+                              {{commune.nom}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+
+                        <md-input-container flex-gt-sm>
+                          <label>Fokontany</label>
+                          <md-select ng-model="vm.filtre.id_fokontany" ng-change="vm.afichebouton=true">
+                            <md-option value="-">-</md-option>
+                            <md-option ng-repeat="fokontany in vm.allfokontany" value="{{fokontany.id}}">
+                              {{fokontany.nom}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                        <md-input-container flex-gt-xs="1">
+                            <input  ng-pattern="/^[1-3]{1}[0-9]{3}$/" name="annee" ng-model="vm.filtre.annee" placeholder="Année"  md-maxlength="4"  ng-init="vm.vente_poissonnerie.annee=''" ng-change="vm.btnaffdata=true">
+                            <div ng-messages="form_vente_poissonnerie.annee.$error" role="alert">
+                              <div ng-message="pattern" class="my-message">
+                                Année invalide 
+                              </div>
+                            </div>
+                          </md-input-container>
+                          
+                          <md-input-container flex-gt-xs="5">
+                            <label>Mois</label>
+                            <md-select ng-model="vm.filtre.mois" name="mois" ng-change="vm.btnaffdata=true">
+                              <md-option >-</md-option>
+                              <md-option  value="1">Janvier</md-option>
+                              <md-option  value="2">Février</md-option>
+                              <md-option  value="3">Mars</md-option>
+                              <md-option  value="4">Avril</md-option>
+                              <md-option  value="5">Mai</md-option>
+                              <md-option  value="6">Juin</md-option>
+                              <md-option  value="7">Juillet</md-option>
+                              <md-option  value="8">Août</md-option>
+                              <md-option  value="9">Septembre</md-option>
+                              <md-option  value="10">Octobre</md-option>
+                              <md-option  value="11">Novembre</md-option>
+                              <md-option  value="12">Décembre</md-option>
+                            </md-select>
+                          </md-input-container> 
+                      </div>
+                      <div>
+                        <md-button ng-if="!vm.affichage_masque_col_cult_algue" type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                          ng-disabled="filtreform.$invalid || vm.affiche_load || !vm.afichebouton" ng-click="vm.get_col_cult_algue_by_filtre()">
+                          Afficher les données
+                        </md-button>
+                        <!--  EXPORT EXCEL-->
+                        <md-button  ng-show="vm.affichageMasqueExportExcel" ng-if="!vm.affichage_masque_col_cult_algue" type="submit"  class="md-raised md-accent" aria-label="Export excel" ng-disabled="  vm.affiche_load ||!vm.affichageMasqueExportExcel ||vm.desactiveExport " ng-click="vm.creefiche_col_cult_algue(vm.filtre)">
+                          Export Excel
+                        </md-button>
+                        <!-- FIN EXPORT EXCEL-->
+                      </div>
+                    </form>
+                  </div> 
+                <!--FIN FORM FORM FILTRE  -->
+
+                <!--FORM LISTES POISSONNERIE-->
+                  <div ng-show="vm.affichage_masque_col_cult_algue">
+                    <form name="form_col_cult_algue" class="md-inline-form" novalidate >
+                      <div layout="column" layout-gt-xs="row" flex>
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input type="text" name="village" ng-model="vm.col_cult_algue.village" placeholder="Village " ng-init="vm.col_cult_algue.village=''" required>
+                          <div ng-messages="form_col_cult_algue.village.$error" role="alert">
+                            <div ng-message="required">
+                              <span>Village obligatoire.</span>
+                            </div>
+                          </div>
+                        </md-input-container>
+
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input type="text" name="quantite" ng-model="vm.col_cult_algue.quantite" placeholder="Quantité" ng-init="vm.col_cult_algue.quantite=''"
+                            required>
+                          <div ng-messages="form_col_cult_algue.quantite.$error" role="alert">
+                            <div ng-message="required">
+                              <span>Quantité obligatoire.</span>
+                            </div>
+                          </div>
+                        </md-input-container>
+
+                        <md-input-container flex="100" flex-gt-xs="50">
+                          <input type="text" name="montant" ng-model="vm.col_cult_algue.montant" placeholder="Montant " ng-init="vm.col_cult_algue.montant=''" required>
+                          <div ng-messages="form_col_cult_algue.montant.$error" role="alert">
+                            <div ng-message="required">
+                              <span>Montant obligatoire.</span>
+                            </div>
+                          </div>
+                        </md-input-container>
+                      </div>
+
+                      <div>
+                        <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer" ng-disabled="form_col_cult_algue.$invalid || !vm.filtre.id_fokontany || vm.filtre.id_fokontany=='-' || !vm.filtre.annee || !vm.filtre.mois || vm.filtre.mois== '-' " ng-click="vm.save_in_bdd(vm.col_cult_algue,0)">
+                          Enregistrer
+                        </md-button>
+
+                        <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_cult_algue()">
+                          Annuler
+                        </md-button>
+                      </div>
+                    </form>
+                  </div>
+                <!--FIN FORM LISTES SAISIE COLLECT CULTURE D'ALGUES-->
+
+
+                <!--TABLE LISTES SAISIE COLLECT CULTURE D'ALGUES-->
+                  <div class="price-table style-1 md-whiteframe-1dp" layout="column" >
+                    <header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+                      <div layout="row" layout-align="start center">
+                        <div class="border-right">
+                          <span class="md-headline">Liste collecte culture d'algues</span>
+                        </div>
+                      </div>
+                    </header>
+
+                    <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                      <thead>
+                        <tr>
+                          <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_col_cult_algue">
+                            <div class="table-header">
+                              <span class="column-title text-center">{{c.titre}}</span>
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="algue in vm.all_colect_cult_algue"  ng-class="{selected: algue.$selected}" ng-click="vm.selection_col_cult_algue(algue)">
+                          <td>{{algue.fokontany}}</td>
+                          <td>{{algue.annee}}</td>
+                          <td>{{vm.affichage_mois(algue.mois)}}</td>
+                          <td>{{algue.village}}</td>
+                          <td>{{vm.formatMillier(algue.quantite)}} Kg</td>
+                          <td>{{vm.formatMillier(algue.montant)}} Ar</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                <!-- FIN TABLE LISTES SAISIE COLLECT CULTURE D'ALGUES-->
+              </md-tab-body>
+            </md-tab>
+            <!-- FIN SAISIE COLLECT CULTURE D'ALGUES -->
+
+            <!-- DEBUT REPORTING REQUETE --> 
+              <md-tab label="Reporting">
+                <form name="filtreform" class="md-inline-form" novalidate flex>
+                    <md-input-container flex="100" flex-gt-xs="50">
+                      <label>Requête</label>
+                      <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load" >
+                        <md-option ng-repeat="piv in vm.pivots"  value="{{piv.id}}">
+                          {{piv.titre}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container> 
+                  <div>
+                    <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                        ng-disabled="filtreform.$invalid || vm.affiche_load" ng-click="vm.filtrerreports(vm.filtre)">
+                        Actualiser
+                    </md-button>
+                    <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+                        ng-disabled="filtreform.$invalid || vm.affiche_load" ng-click="vm.exportExcel(vm.filtre)">
+                        Export excel
+                    </md-button>
+                  </div>
+                </form>
+                <md-tabs md-dynamic-height>
+                  <md-tab label="Résultat">
+                    <div class="table-responsive" >
+                      <table class="dataTable row-border cell-border text-center" id="table1"  ms-responsive-table datatable="ng" dt-options="vm.dtOptions">
+                        <thead>                          
+                          <tr>
+                            <th class="secondary-text" ng-show="!vm.filtre.pivot">
+                              <div class="table-header">
+                                <span class="column-title text-center">Le Champ requête est obligatoire</span>
+                              </div>
+                            </th>
+                            <th class="secondary-text" ng-repeat=" donnee in vm.entete_etat">
+                              <div class="table-header">
+                                <span class="column-title text-center">{{vm.replace_espace(donnee)}}</span>
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="d in vm.report_cult_alg" ng-class="{selected: donnee.$selected}" ng-click="vm.selection_poiss_report(donnee)">
+                            <td ng-show="!vm.filtre.pivot">Le Champ requête est obligatoire</td>
+                            <td ng-repeat="donnee in vm.entete_etat" >{{vm.formatMillier(d[donnee])}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>  
+                  </md-tab>
+                </md-tabs>
+              </md-tab>               
+            <!-- FIN REPORTING REQUETE -->
+
+            </md-tabs>
+        </div>
+    </div>
+
+    <!-- / CONTENT -->
+  </div>

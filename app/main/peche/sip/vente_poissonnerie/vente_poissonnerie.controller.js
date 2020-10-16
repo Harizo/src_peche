@@ -17,6 +17,10 @@
 
       //VARIABLE CACHE MASQUE DE SAISIE
         vm.affichageMasqueExportExcel = false;
+        vm.all_poissonnerie = [] ;
+       // vm.filtre.id_region = null ;
+        //  vm.filtre.id_commune = null;
+         // vm.filtre.id_district = null ;
 
         vm.dtOptions =
         {
@@ -95,12 +99,8 @@
           vm.text_load = 'Chargement région en cours...' ;
           apiFactory.getAPIgeneraliserREST("district/index","id_region",vm.filtre.id_region).then(function(result)
           {
-            
             vm.alldistrict = result.data.response;
-            
-            if (!vm.affichage_masque_poissonnerie)
-             { vm.affiche_load = false ; }
-            else vm.text_load = vm.tmp ;
+            vm.affiche_load = false ;
           });
         }
 
@@ -112,16 +112,10 @@
           vm.text_load = 'Chargement district en cours...' ;
           apiFactory.getAPIgeneraliserREST("commune/index","cle_etrangere",vm.filtre.id_district).then(function(result)
           {
-            
             vm.allcommune = result.data.response;
-            
-
+            vm.affiche_load = false ;
             if (!nouvel_col_poiss && vm.selected_poissonnerie.id_commune) 
-              vm.filtre.id_commune = vm.selected_poissonnerie.id_commune ;
-            
-            if (!vm.affichage_masque_poissonnerie)
-              vm.affiche_load = false ;
-            else vm.text_load = vm.tmp ;    
+              vm.filtre.id_commune = vm.selected_poissonnerie.id_commune ;    
           });
         } 
 
@@ -234,27 +228,21 @@
 
 
         vm.ajout_col_poiss = function()
-        {
+        { 
+          vm.affiche_load = false ; 
           vm.col_poiss                     = {};
           vm.selected_poissonnerie         = {};
-          vm.affiche_load = true ;
-          vm.text_load = 'Enregistrement est en cours ...' ;
-          vm.tmp = vm.text_load ;
           vm.affichage_masque_poissonnerie = true ;
           nouvel_col_poiss                 = true ;
           vm.afficherboutonfiche_poisonnerie = 0 ;
-          vm.filtre.id_commune = null ;
-          vm.filtre.id_district = null ;
         }
 
         vm.modif_col_poiss = function()
         {
+          vm.affiche_load = false ; 
           nouvel_col_poiss = false ;
           vm.affichage_masque_poissonnerie = true ;
           vm.afficherboutonfiche_poisonnerie = 0 ;
-          vm.affiche_load = true ;
-          vm.text_load = 'Modification est en cours ...' ;
-          vm.tmp = vm.text_load ;
 
           vm.col_poiss.nom           = vm.selected_poissonnerie.nom ;
           vm.col_poiss.localisation  = vm.selected_poissonnerie.localisation ;
@@ -281,8 +269,6 @@
         vm.supprimer_col_poiss = function() 
         {
           vm.affichage_masque_poissonnerie = false ;
-          vm.affiche_load = true ;
-          vm.text_load = 'Suppression... Veuillez patienter s\'il vous plait!!!';
           vm.filtre.id_district      = vm.selected_poissonnerie.id_district ;
           vm.filtre.id_commune       = vm.selected_poissonnerie.id_commune ;
           
@@ -493,23 +479,21 @@
           vm.text_load = 'Chargement export excel en cours...' ;
           vm.affichageMasqueExportExcel = true;
           var repertoire1 = 'fiche_poissonnerie/';   
-            apiFactory.getParamsDynamic("Export_vente_poissonnerie/index?id_region="+vm.filtre.id_region+"&repertoire1="+repertoire1+
+            apiFactory.getParamsDynamic("SIP_export_vente_poissonnerie/index?id_region="+vm.filtre.id_region+"&repertoire1="+repertoire1+
               "&nom_region="+vm.nom_region+"&id_commune="+vm.filtre.id_commune+"&id_district="+vm.filtre.id_district+"&district="+
               vm.nom_district+"&commune="+vm.nom_commune).success(function (result)
             {
-            
-              var nom_file=result.response;
-              try
+              vm.status    = result.status; 
+              if(vm.status)
               {
-                window.location = apiUrlExportexcel+repertoire1+nom_file ;
-                vm.affiche_load = false ;
+                vm.nom_file = result.response;            
+                window.location = apiUrlExportexcel+repertoire1+vm.nom_file ;
+                vm.affiche_load =false; 
+
               }
-              catch(error)
-              {
-              }
-              finally
-              {
-                vm.loadingProgress= false;
+              else{
+                vm.Alert('Export en excel',result.message);
+                vm.affiche_load =false; 
               }
                  
             })
@@ -607,8 +591,8 @@
           {titre:"Présentation"},
           {titre:"Conservation"},
           {titre:"Qté vendue"},
-          {titre:"Chiffre d'affaire"},
           {titre:"Prix"},
+          {titre:"Chiffre d'affaire"},
           {titre:"Observations"}
         ] ;
 
@@ -668,20 +652,18 @@
             return 0 ;
           vm.vente_poissonnerie.chiffre_affaire = vm.vente_poissonnerie.prix_kg * vm.vente_poissonnerie.quantite_vendu;
         });
-
-        $scope.$watch('vm.vente_poissonnerie.quantite_vendu', function()
-        {
-          if ((!vm.vente_poissonnerie.quantite_vendu)||(vm.vente_poissonnerie.quantite_vendu)==0)
-            return 0 ;
-          vm.vente_poissonnerie.chiffre_affaire = vm.vente_poissonnerie.prix_kg * vm.vente_poissonnerie.quantite_vendu;
-        });
+          $scope.$watch('vm.vente_poissonnerie.quantite_vendu', function()
+          {
+            if ((!vm.vente_poissonnerie.quantite_vendu)||(vm.vente_poissonnerie.quantite_vendu)==0)
+              return 0 ;
+            vm.vente_poissonnerie.chiffre_affaire = vm.vente_poissonnerie.prix_kg * vm.vente_poissonnerie.quantite_vendu;
+          });
 
         vm.ajout_col = function()
         {
           vm.vente_poissonnerie = {};
           vm.selected_vente_poissonnerie = {};
-          vm.affiche_load = true ;
-          vm.text_load = 'Enregistrement est en cours ...' ;
+          vm.affiche_load = false ;
           vm.affichage_masque_vente_poissonnerie = true ;
           nouvel_vente_poissonnerie = true ;
           vm.affichageMasquefiltre2 = 0 ;
@@ -689,11 +671,11 @@
 
         vm.modif_col = function()
         {
+          vm.affiche_load = false ; 
           nouvel_vente_poissonnerie = false ;
           vm.affichage_masque_vente_poissonnerie = true ;
           vm.affichageMasquefiltre2 = 0 ;
-          vm.affiche_load = true ;
-          vm.text_load = 'Modification est en cours ...' ;
+          console.log(vm.selected_vente_poissonnerie);
 
           vm.vente_poissonnerie.observations          = vm.selected_vente_poissonnerie.observations ;
           vm.vente_poissonnerie.origine_produits      = vm.selected_vente_poissonnerie.origine_produits ;
@@ -709,14 +691,12 @@
 
           vm.vente_poissonnerie.quantite_vendu        = Number(vm.selected_vente_poissonnerie.quantite_vendu) ;
           vm.vente_poissonnerie.prix_kg               = Number(vm.selected_vente_poissonnerie.prix_kg) ;
-          vm.vente_poissonnerie.chiffre_affaire       = Number(vm.selected_vente_poissonnerie.chiffre_affaire) ;      
+          vm.vente_poissonnerie.chiffre_affaire       = Number(vm.selected_vente_poissonnerie.chiffre_affaire) ;
         }
 
         vm.supprimer_col = function()
         {
           vm.affichage_masque_vente_poissonnerie = false ;
-          vm.affiche_load = true ;
-          vm.text_load = 'Suppression... Veuillez patienter s\'il vous plait!!!';
           var confirm = $mdDialog.confirm()
             .title('Etes-vous sûr de supprimer cet enregistrement ?')
             .textContent('')
@@ -738,8 +718,6 @@
           nouvel_vente_poissonnerie = false ;
           vm.affichage_masque_vente_poissonnerie = false ;
           vm.affiche_load = false ;
-          vm.filtre.annee = null ;
-          vm.filtre.mois = null ;
           vm.affichageMasquefiltre2 = 1;
         }
 
@@ -918,26 +896,23 @@
           var nom_region = vm.nom_region ;
           var repertoire2 = 'fiche_vente_poissonnerie/';   
 
-            apiFactory.getParamsDynamic("Export_vente_poissonnerie/index?id_poissonnerie="+vm.selected_poissonnerie.id+"&repertoire2="+
+            apiFactory.getParamsDynamic("SIP_export_vente_poissonnerie/index?id_poissonnerie="+vm.selected_poissonnerie.id+"&repertoire2="+
               repertoire2+"&nom_poissonnerie="+nom_poissonnerie+"&mois="+filtre.mois+"&annee="+filtre.annee+"&nom_region="+nom_region+
                 "&commune="+vm.selected_poissonnerie.communes+"&district="+vm.selected_poissonnerie.districts).success(function (result)
             {
-              var nom_file=result.response;
-             
+              
+               vm.status    = result.status; 
+              if(vm.status)
+              {
+                vm.nom_file = result.response;            
+                window.location = apiUrlExportexcel+repertoire2+vm.nom_file ;
+                vm.affiche_load =false; 
 
-                try
-                {
-                  window.location = apiUrlExportexcel+repertoire2+nom_file ;
-                  
-
-                }catch(error)
-                {
-
-                }finally
-                {
-                  vm.affiche_load = false ;
-                  vm.desactiveExport = false ;
-                }
+              }
+              else{
+                vm.Alert('Export en excel',result.message);
+                vm.affiche_load =false; 
+              }
                  
             })
             .error(function (data)
@@ -949,7 +924,7 @@
       // FIN EXPORT EXCEL Vente Poissonnerie
 
 
-      // DEBUT REPORTING REQUETE
+    // DEBUT REPORTING REQUETE
 
       vm.poissonnerie_reporting = [] ; // données affichent au DOM à la data table
       vm.entete_etat = [] ;
@@ -967,23 +942,13 @@
       {
         vm.affiche_load = true ;
         vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!!';
-          apiFactory.getParamsDynamic("vente_poissonnerie_reporting/index?menu="+filtres.pivot).then(function(result)
+          apiFactory.getParamsDynamic("SIP_reporting_vente_poissonnerie/index?menu="+filtres.pivot).then(function(result)
           {
             
             vm.affiche_load = false ;
             vm.poissonnerie_reporting  = result.data.response ;
             //recupère en tête
-            vm.entete_etat = Object.keys(vm.poissonnerie_reporting[0]).map(function(cle) {
-              
-              cle = vm.replace_espace(cle) ;
-              
-              if (cle>0 && cle<=12)
-                cle = vm.affichage_mois(cle) ;
-              
-              return (cle) ;
-            });
-            // recupère le corps
-            vm.corps_etat = Object.keys(vm.poissonnerie_reporting[0]).map(function(cle) {
+              vm.entete_etat = Object.keys(vm.poissonnerie_reporting[0]).map(function(cle) {
               return (cle) ;
             });
           });  
@@ -994,7 +959,7 @@
         vm.affiche_load = true ;
         vm.text_load = 'Export Excel en cours... Veuillez patienter s\'il vous plait!!!';
         var repertoire = 'reporting_vente_poissonnerie';
-          apiFactory.getParamsDynamic("vente_poissonnerie_reporting/index?menu_excel="+"excel_requetes"+"&menu="+
+          apiFactory.getParamsDynamic("SIP_reporting_vente_poissonnerie/index?menu_excel="+"excel_requetes"+"&menu="+
             filtres.pivot+"&repertoire="+repertoire).then(function(result)
           {
             
@@ -1030,7 +995,7 @@
           .targetEvent()
         );
       }
-        // FIN REPORTING REQUETE
+    // FIN REPORTING REQUETE
 
    }
 })();
