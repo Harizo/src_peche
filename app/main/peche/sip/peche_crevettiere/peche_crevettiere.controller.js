@@ -7,7 +7,7 @@
         .controller('peche_crevettiereController', peche_crevettiereController);
 
     /** @ngInject */
-    function peche_crevettiereController(apiFactory, $scope, $mdDialog)
+    function peche_crevettiereController(apiFactory, $scope, $mdDialog, apiUrlExportexcel)
     {
     	var vm = this ;
 
@@ -2363,27 +2363,62 @@
 		        {titre:"Quantité vente locale par société", id:"qte_vente_locale_par_societe_commerce", module:"commerce"},
 		        {titre:"Quantité exportation par société", id:"qte_exportation_par_societe_commerce", module:"commerce"},
 		        {titre:"Prix moyenne vente locale par mois", id:"prix_moy_vente_locale_mois_commerce", module:"commerce"},
-		        {titre:"Prix moyenne exportation par mois", id:"prix_moy_exportation_mois_commerce", module:"commerce"}
+		        {titre:"Prix moyenne exportation par mois", id:"prix_moy_exportation_mois_commerce", module:"commerce"},
+
+
+		        {titre:"Quantité par espèce", id:"sip_qte_par_espece_exportation_crevette", module:"exportation"},
+		        {titre:"Quantité par mois", id:"sip_qte_par_mois_exportation_crevette", module:"exportation"},
+		        {titre:"Quantité par destination", id:"sip_qte_par_destination_exportation_crevette", module:"exportation"},
+		        {titre:"Quantité par société", id:"sip_qte_par_societe_exportation_crevette", module:"exportation"},
+		        {titre:"Valeurs par espèce", id:"sip_valeurs_par_espece_exportation_crevette", module:"exportation"},
+		        {titre:"Valeurs en devise par mois", id:"sip_valeurs_en_devise_par_mois_exportation_crevette", module:"exportation"}
 		        
 		        
 		    ];
 
 
-		    vm.get_etat = function(data_masque)
+		    vm.get_etat = function(data_masque, etat_export_excel)
 		    {
 
 		    	vm.affiche_load = true ;
 
-				apiFactory.getParamsDynamic("SIP_reporting_crevette/index?etat="+data_masque.pivot).then(function(result)
+		    	var module_choisis = vm.modules.filter(function(obj)
+				{
+					return obj.id == data_masque.module ;
+				});
+
+				var etat_choisis = vm.pivots.filter(function(obj)
+				{
+					return obj.id == data_masque.pivot ;
+				});
+
+				var repertoire = "peche_crevettiere/";
+
+				apiFactory.getParamsDynamic("SIP_reporting_crevette/index?etat="+data_masque.pivot+
+					"&etat_export_excel="+etat_export_excel+
+					"&repertoire="+repertoire+
+					"&titre_module="+module_choisis[0].titre+
+					"&titre_etat="+etat_choisis[0].titre).then(function(result)
 				{
 
-					vm.affiche_load = false ;
-					vm.reporting_halieutique = result.data.response;
 					
+
+					if (etat_export_excel == 1) 
+					{
+						var nom_file = result.data.nom_file;
+						vm.affiche_load = false ;
+						window.location = apiUrlExportexcel+repertoire+nom_file ;
+					}
+					else
+					{
+						vm.affiche_load = false ;
+						vm.reporting_halieutique = result.data.response;
 						
-					vm.entete_etat = Object.keys(vm.reporting_halieutique[0]).map(function(cle) {
-				    	return (cle);
-					});
+							
+						vm.entete_etat = Object.keys(vm.reporting_halieutique[0]).map(function(cle) {
+					    	return (cle);
+						});
+					}
 
 						
 				});

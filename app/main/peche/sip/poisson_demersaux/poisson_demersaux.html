@@ -16,11 +16,64 @@
     <div class="content" layout="column">
         <div class="form-wrapper">
             <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+			<div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
+			  Chargement,veuillez patienter s'il vous plait ...
+			</div>
             <div style="clear:both;"></div>
             <md-tabs md-dynamic-height>
                 <md-tab label="POISSON DEMERSAUX">
                     <md-tab-body>
-                        <div style="widht:100%;">    
+ 						<form name="filtrepardateform" class="md-inline-form" novalidate  ng-show="vm.afficher_table">
+                            <div layout="column" layout-gt-xs="row">
+									<div style="margin-top:23px !important;margin-right:20px !important;font-size:15px !important;font-weight:bold;float:left;display:inline-block;">
+										<label>FILTRE  :</label>
+									</div>
+									<div style="margin-top: 14px !important; font-size: 13px !important;float:left;display:inline-block;">
+										<label>Date départ  :</label>
+									<md-datepicker  ng-model="vm.filtre.date_depart" md-placeholder="Date départ" md-max-date="vm.date_now" ng-change="vm.modifierDatedepart()" required>                       
+									</md-datepicker>
+									</div>
+									<div style="margin-top: 14px !important; font-size: 13px !important;float:left;display:inline-block;">
+										<label>Date d'arrivée  :</label>
+									<md-datepicker  ng-model="vm.filtre.date_arrive" md-placeholder="Date d'arrivée" md-max-date="vm.date_now" ng-change="vm.modifierDatearrive()" required>                       
+									</md-datepicker>
+									</div>
+									<md-input-container flex="100" flex-gt-xs="10">
+									  <label>Année</label>
+										<md-select ng-model="vm.filtre.annee" >
+										  <md-option  value="*">*</md-option>
+										  <md-option ng-repeat="a in vm.annees" value="{{a.annee}}" >
+											{{a.annee}}
+										  </md-option>
+
+										</md-select>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="10">
+									  <label>Mois</label>
+										<md-select ng-model="vm.filtre.mois" >
+										  <md-option  value="*">*</md-option>
+										  <md-option  value="1">Janvier</md-option>
+										  <md-option  value="2">Février</md-option>
+										  <md-option  value="3">Mars</md-option>
+										  <md-option  value="4">Avril</md-option>
+										  <md-option  value="5">Mai</md-option>
+										  <md-option  value="6">Juin</md-option>
+										  <md-option  value="7">Juillet</md-option>
+										  <md-option  value="8">Août</md-option>
+										  <md-option  value="9">Septembre</md-option>
+										  <md-option  value="10">Octobre</md-option>
+										  <md-option  value="11">Novembre</md-option>
+										  <md-option  value="12">Décembre</md-option>
+										</md-select>
+									</md-input-container>
+									 <md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
+										  ng-disabled="filtrepardateform.$invalid || vm.affiche_load" ng-click="vm.Filtrer()">
+										  Actualiser
+									</md-button>
+							</div>
+						</form>	
+						<div style="clear:both;"></div>    
+						<div style="widht:100%;" ng-if="vm.afficher_table">    
                                     <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_poisson_demersaux()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                                       Nouveau
                                     </md-button>
@@ -43,7 +96,7 @@
                                             <label>Navire</label>
                                             <md-select ng-model="vm.col_poisson_demersaux.id_navire" name="id_navire" ng-change="vm.modifierNavire(vm.col_poisson_demersaux)" required>
                                                 <md-option ng-repeat="navire in vm.all_navire" value="{{navire.id}}">
-                                                    {{navire.immatricule}} / {{navire.nom}}
+                                                    {{navire.immatricule}} / {{navire.nom_navire}}
                                                 </md-option>
                                                 
                                             </md-select>
@@ -66,8 +119,12 @@
                                             </div>
                                         </md-input-container>
                                         <md-input-container flex="100" flex-gt-xs="25">
-                                          <input type="text" name="port" ng-model="vm.col_poisson_demersaux.port"
-                                            placeholder="Port" ng-init="vm.col_poisson_demersaux.port=''" required>
+											<label>Port</label>
+											<md-select ng-model="vm.col_poisson_demersaux.port" name="port" required>
+											  <md-option  value="Toamasina">Toamasina</md-option>
+											  <md-option  value="Morondava">Morondava</md-option>
+											  <md-option  value="Sainte Marie">Sainte Marie</md-option>
+											</md-select>
                                             <div ng-messages="form_poisson_demersaux.port.$error"
                                               role="alert">
                                               <div ng-message="required">
@@ -143,32 +200,6 @@
                                               </div>
                                             </div>
                                         </md-input-container>
-                                        <md-input-container flex="100" flex-gt-xs="20">
-                                            <label>Espèce</label>
-                                            <md-select ng-model="vm.col_poisson_demersaux.id_espece" name="id_espece" ng-change="vm.modifierEspece(vm.col_poisson_demersaux)" required>
-                                                <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}">
-                                                    {{esp.code}} / {{esp.nom}}
-                                                </md-option>
-                                                
-                                            </md-select>
-                                            <div ng-messages="form_poisson_demersaux.id_espece.$error"
-                                                  role="alert">
-                                                  <div ng-message="required">
-                                                    <span>Espèce Obligatoire.</span>
-                                                  </div>
-                                                </div>
-                                        </md-input-container>
-                                        <md-input-container flex="100" flex-gt-xs="10">
-                                          <input type="number" name="quantite" ng-model="vm.col_poisson_demersaux.quantite"
-                                            placeholder="Quantité" ng-init="vm.col_poisson_demersaux.quantite=''"
-                                            required>
-                                            <div ng-messages="form_poisson_demersaux.quantite.$error"
-                                              role="alert">
-                                              <div ng-message="required">
-                                                <span>Quantité obligatoire.</span>
-                                              </div>
-                                            </div>
-                                        </md-input-container>
                                    </div>                                   
                                     <div>
                                      <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
@@ -183,35 +214,265 @@
                             </div> 
                         <!--FORM LISTES POISSON DEMERSAUX-->
                         <!--TABLE LISTES POISSON DEMERSAUX-->
-                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table ng-show="vm.afficher_table">
-                                <thead>
-                                    <tr>
-                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_poisson_demersaux">
-                                            <div class="table-header">
-                                                <span class="column-title text-center">{{c.titre}}</span>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="cm in vm.all_poisson_demersaux"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_poisson_demersaux(cm)">                                       
-                                        <td>{{cm.immatricule}} / {{cm.nom_navire}}</td>
-                                        <td>{{cm.nom_capitaine}}</td>
-                                        <td>{{cm.port}}</td>
-                                        <td>{{cm.num_maree}}</td>
-                                        <td>{{vm.convert_to_date_html(cm.date_depart)}}</td>
-                                        <td>{{vm.convert_to_date_html(cm.date_arrive)}}</td>
-                                        <td>{{cm.annee}}</td>
-                                        <td>{{vm.affichage_mois(cm.mois)}}</td>
-                                        <td>{{cm.reference_produit}}</td>
-                                        <td>{{cm.code_espece}} / {{cm.nom_espece}}</td>
-                                        <td>{{cm.quantite}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.afficher_table">                                   
+								<table ng-table="tablePoissondemersaux" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+									<thead>
+										<tr>
+											<th class="secondary-text" ng-repeat="c in ::vm.entete_liste_poisson_demersaux">
+												<div class="table-header">
+													<span class="column-title text-center">{{c.titre}}</span>
+												</div>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="cm in vm.all_poisson_demersaux"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_poisson_demersaux(cm)">                                       
+											<td>{{cm.immatricule}} / {{cm.nom_navire}}</td>
+											<td>{{cm.nom_capitaine}}</td>
+											<td>{{cm.port}}</td>
+											<td>{{cm.num_maree}}</td>
+											<td>{{vm.convert_to_date_html(cm.date_depart)}}</td>
+											<td>{{vm.convert_to_date_html(cm.date_arrive)}}</td>
+											<td>{{cm.annee}}</td>
+											<td>{{vm.affichage_mois(cm.mois)}}</td>
+											<td>{{cm.reference_produit}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
                         <!--TABLE LISTES POISSON DEMERSAUX-->
+                            <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.selected_poisson_demersaux.id && vm.afficher_table">                                   
+								<header layout="row" layout-align="none center" style=" margin-bottom: 10px;margin-top: 10px;" class="border-top border-bottom">
+									<div layout="row" layout-align="start center">
+										<div class="border-right">
+											<span class="md-headline">Détail capture par espèce et Quantité</span>
+										</div>
+									</div>
+									<div class="border-right" ng-if="!vm.selected_detail_poisson_demersaux.$edit">
+										<md-button class="md-icon-button" aria-label="add Détail par espèce" ng-click="vm.ajout_detail_poisson_demersaux()">
+										  <md-icon md-font-icon="icon-plus-box"></md-icon>
+										  <md-tooltip><span>Ajouter</span></md-tooltip>
+										</md-button>
+									</div> 
+								</header>                            
+                                <table ng-table="tabledetailcapture" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_detail_poisson_demersaux">
+                                                <div class="table-header">
+                                                    <span class="column-title text-center">{{c.titre}}</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="det in vm.all_detail_poisson_demersaux"  ng-class="{selected: det.$selected}" ng-click="vm.selection_detail_poisson_demersaux(det)">  
+											<td style="width:15%;">
+												<span ng-if="det.$edit">
+													<label>Espèce</label>
+													<md-select ng-model="det.id_espece" name="id_espece" ng-change="vm.modifierEspece(det)" required aria-label="Espèce">
+														<md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}">
+															{{esp.code}} / {{esp.nom}}
+														</md-option>
+														
+													</md-select>
+												</span>
+												<span ng-if="!det.$edit">{{det.code_espece}} / {{det.nom_espece}}</span>
+											</td>
+											<td style="width:15%;">
+												<span ng-if="det.$edit">
+													<md-input-container style="width:100%;">
+														<label>Quantité</label>
+														<input name="quantite" type="number" ng-model="det.quantite"/>
+													</md-input-container>	
+												</span>
+												<span ng-if="!det.$edit">{{det.quantite}}</span>
+											</td>
+											<td style="width:20%;">
+												<span ng-if="!det.$edit">
+													<md-button class="md-icon-button" aria-label="Modifier séquence peche" ng-click="vm.modif_detail_poisson_demersaux(det)">
+													  <md-icon md-font-icon="icon-table-edit"></md-icon>
+													  <md-tooltip><span>Modifier</span></md-tooltip>
+													</md-button>
+												</span>	
+												<span ng-if="!det.$edit">	
+													<md-button class="md-icon-button" aria-label="Supprimer séquence peche" ng-click="vm.supprimer_detail_poisson_demersaux(det)">
+													  <md-icon md-font-icon="icon-delete"></md-icon>
+													  <md-tooltip><span>Supprimer</span></md-tooltip>
+													</md-button>
+												</span>	
+												<span ng-if="det.$edit">	
+													<md-button class="md-icon-button" aria-label="Annuler modification" ng-click="vm.annuler_detail_poisson_demersaux(det)">
+													  <md-icon md-font-icon="icon-cancel"></md-icon>
+													  <md-tooltip><span>Annuler</span></md-tooltip>
+													</md-button>
+												</span>	
+												<span ng-if="det.$edit && det.id_espece >0 && det.quantite > ''">	
+													<md-button class="md-icon-button" aria-label="Enregistrer détail peche" ng-click="vm.save_in_bdd_detail_poisson_demersaux(det,0)">
+													  <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
+													  <md-tooltip><span>Enregistrer</span></md-tooltip>
+													</md-button>
+												</span>	
+											</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                     </md-tab-body>
                 </md-tab>        
+                <md-tab label="REPORTING">
+                    <md-tab-body>
+ 						<form name="filtreparanneeform" class="md-inline-form" novalidate  ng-show="vm.afficher_table">
+                            <div layout="column" layout-gt-xs="row">
+									<div style="margin-top:23px !important;margin-right:20px !important;font-size:15px !important;font-weight:bold;float:left;display:inline-block;">
+										<label>FILTRE  :</label>
+									</div>
+									<md-input-container flex="100" flex-gt-xs="35">
+									  <label>Choix</label>
+										<md-select ng-model="vm.filtre.menu" name="menu" ng-change="vm.Reinitialiser_donnees()" required>
+										  <md-option  value="menu_11_1">Req 11.1 Quantité par espèce poisson demersaux</md-option>
+										  <md-option  value="menu_11_2">Req 11.2 Quantité par navire espèce</md-option>
+										  <md-option  value="menu_11_3">Req 11.3 Quantité par espèce par mois</md-option>
+										  <md-option  value="menu_11_4">Req 11.4 Quantité par navire espèce marrée</md-option>
+										  <md-option  value="menu_11_5">Req 11.5 Quantité par espèce société</md-option>
+										  <md-option  value="menu_11_6">Req 11.6 Quantité par navire mensuel</md-option>
+										</md-select>
+										<div ng-messages="filtreparanneeform.menu.$error"
+											  role="alert">
+											  <div ng-message="required">
+												<span>Choix Obligatoire.</span>
+											  </div>
+										</div>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="10">
+									  <label>Année début</label>
+										<md-select ng-model="vm.filtre.annee_debut" name="annee_debut" required>
+										  <md-option  value=""></md-option>
+										  <md-option ng-repeat="a in vm.annees" value="{{a.annee}}" >
+											{{a.annee}}
+										  </md-option>
+
+										</md-select>
+										<div ng-messages="filtreparanneeform.annee_debut.$error"
+											  role="alert">
+											  <div ng-message="required">
+												<span>Année début Obligatoire.</span>
+											  </div>
+										</div>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="10">
+									  <label>Année fin</label>
+										<md-select ng-model="vm.filtre.annee_fin" name="annee_fin" required>
+										  <md-option  value=""></md-option>
+										  <md-option ng-repeat="a in vm.annees" value="{{a.annee}}" >
+											{{a.annee}}
+										  </md-option>
+
+										</md-select>
+										<div ng-messages="filtreparanneeform.annee_fin.$error"
+											  role="alert">
+											  <div ng-message="required">
+												<span>Année fin Obligatoire.</span>
+											  </div>
+										</div>
+									</md-input-container>
+									 <md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
+										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Filtrer_Reporting()">
+										  Actualiser
+									</md-button>
+									 <!--md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
+										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Export_Excel()">
+										  Export Excel
+									</md-button-->
+							</div>
+						</form>	
+						<div style="clear:both;"></div>    
+						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_11_3'">                                   
+							<table ng-table="tableMenu_1_3" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+								<thead>
+									<tr>
+										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_1_3">
+											<div class="table-header">
+												<span class="column-title text-center">{{c.titre}}</span>
+											</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_1_3(rep)">                                       
+										<td>{{rep.annee}}</td>
+										<td>{{rep.nom_espece}}</td>
+										<td>{{rep.Total}}</td>
+										<td>{{rep.janvier}}</td>
+										<td>{{rep.fevrier}}</td>
+										<td>{{rep.mars}}</td>
+										<td>{{rep.avril}}</td>
+										<td>{{rep.mai}}</td>
+										<td>{{rep.juin}}</td>
+										<td>{{rep.juillet}}</td>
+										<td>{{rep.aout}}</td>
+										<td>{{rep.septembre}}</td>
+										<td>{{rep.octobre}}</td>
+										<td>{{rep.novembre}}</td>
+										<td>{{rep.decembre}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_11_6'">                                   
+							<table ng-table="tableMenu_1_6" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+								<thead>
+									<tr>
+										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_1_6">
+											<div class="table-header">
+												<span class="column-title text-center">{{c.titre}}</span>
+											</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_1_6(rep)">                                       
+										<td>{{rep.annee}}</td>
+										<td>{{rep.nom_navire}}</td>
+										<td>{{rep.nom_espece}}</td>
+										<td>{{rep.total}}</td>
+										<td>{{rep.janvier}}</td>
+										<td>{{rep.fevrier}}</td>
+										<td>{{rep.mars}}</td>
+										<td>{{rep.avril}}</td>
+										<td>{{rep.mai}}</td>
+										<td>{{rep.juin}}</td>
+										<td>{{rep.juillet}}</td>
+										<td>{{rep.aout}}</td>
+										<td>{{rep.septembre}}</td>
+										<td>{{rep.octobre}}</td>
+										<td>{{rep.novembre}}</td>
+										<td>{{rep.decembre}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu!='menu_11_3' && vm.filtre.menu!='menu_11_6'">                                   
+							<table ng-table="tableMenu_1_1_2_4_5" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+								<thead>
+									<tr>
+										<th class="secondary-text" ng-repeat="c in ::vm.entete_etat">
+											<div class="table-header">
+												<span class="column-title text-center">{{c}}</span>
+											</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="cm in vm.donnees_reporting"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_detail_dynamique(cm)">                                       
+										<td ng-repeat="c in ::vm.entete_etat"><span ng-show="cm[c]">{{vm.replace_point(cm[c])}}</span></td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</md-tab-body>
+				</md-tab>	
             </md-tabs>
         </div>
     </div>

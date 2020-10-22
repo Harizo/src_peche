@@ -12,8 +12,8 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_peche_artisanale', {
-            url      : '/sip/peche_artisanale',
+        $stateProvider.state('app.peche_peche_artisanale', {
+            url      : '/sip/peche-artisanale',
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/peche/sip/peche_artisanale/peche_artisanale.html',
@@ -24,7 +24,7 @@
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "peche_artisanale"
+              page: "Peche artisanale"
             }
 
         });
@@ -32,7 +32,7 @@
         msNavigationServiceProvider.saveItem('peche.sip.peche_artisanale', {
             title: "Pêche Artisanale",
             icon  : 'icon-numeric-6-box-multiple-outline',
-            state: 'app.peche_reporting_peche_artisanale',
+            state: 'app.peche_peche_artisanale',
 			weight: 1/*,
             hidden: function()
             {

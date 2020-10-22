@@ -12,8 +12,8 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_poisson_demersaux', {
-            url      : '/sip/poisson_demersaux',
+        $stateProvider.state('app.peche_poisson_demersaux', {
+            url      : '/sip/poisson-demersaux',
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/peche/sip/poisson_demersaux/poisson_demersaux.html',
@@ -24,7 +24,7 @@
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "poisson_demersaux"
+              page: "Poisson demersaux"
             }
 
         });
@@ -32,7 +32,7 @@
         msNavigationServiceProvider.saveItem('peche.sip.poisson_demersaux', {
             title: "Poisson demersaux",
             icon  : 'icon-numeric-5-box-multiple-outline',
-            state: 'app.peche_reporting_poisson_demersaux',
+            state: 'app.peche_poisson_demersaux',
 			weight: 1/*,
             hidden: function()
             {

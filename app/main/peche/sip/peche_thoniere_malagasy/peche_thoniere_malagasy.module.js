@@ -13,7 +13,7 @@
     {
         // State
         $stateProvider.state('app.peche_reporting_peche_thoniere_malagasy', {
-            url      : '/sip/peche_thoniere_malagasy',
+            url      : '/sip/peche-thoniere-malagasy',
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/peche/sip/peche_thoniere_malagasy/peche_thoniere_malagasy.html',
@@ -24,7 +24,7 @@
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "peche_thoniere_malagasy"
+              page: "Pêche thoniere Malagasy"
             }
 
         });

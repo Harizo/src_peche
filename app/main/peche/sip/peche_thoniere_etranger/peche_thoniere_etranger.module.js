@@ -12,8 +12,8 @@
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.peche_reporting_peche_thoniere_etranger', {
-            url      : '/sip/peche_thoniere_etranger',
+        $stateProvider.state('app.peche_peche_thoniere_etranger', {
+            url      : '/sip/peche-thoniere-etranger',
             views    : {
                 'content@app': {
                     templateUrl: 'app/main/peche/sip/peche_thoniere_etranger/peche_thoniere_etranger.html',
@@ -24,7 +24,7 @@
             data : {
               authorizer : true,
               permitted : ["USER","PERSONNEL","ADMIN"],
-              page: "peche_thoniere_etranger"
+              page: "Pêche thoniere étranger"
             }
 
         });
@@ -32,7 +32,7 @@
         msNavigationServiceProvider.saveItem('peche.sip.peche_thoniere_etranger', {
             title: "Pêche thonière Etranger",
             icon  : 'icon-numeric-4-box-multiple-outline',
-            state: 'app.peche_reporting_peche_thoniere_etranger',
+            state: 'app.peche_peche_thoniere_etranger',
 			weight: 1/*,
             hidden: function()
             {

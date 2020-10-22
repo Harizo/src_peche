@@ -7,7 +7,7 @@
         .controller('produit_halieutiquesController', produit_halieutiquesController);
 
     /** @ngInject */
-    function produit_halieutiquesController(apiFactory, $scope, $mdDialog)
+    function produit_halieutiquesController(apiFactory, $scope, $mdDialog, apiUrlExportexcel)
     {
         var vm = this;
 
@@ -3115,21 +3115,47 @@
 		        
 		    ];
 
-		    vm.get_etat = function(data_masque)
+		    vm.get_etat = function(data_masque, etat_export_excel)
 		    {
 
 		    	vm.affiche_load = true ;
 
-				apiFactory.getParamsDynamic("SIP_reporting_halieutique/index?etat="+data_masque.pivot).then(function(result)
+		    	var module_choisis = vm.modules.filter(function(obj)
+				{
+					return obj.id == data_masque.module ;
+				});
+
+				var etat_choisis = vm.pivots.filter(function(obj)
+				{
+					return obj.id == data_masque.pivot ;
+				});
+
+				var repertoire = "produit_halieutique/";
+
+				apiFactory.getParamsDynamic("SIP_reporting_halieutique/index?etat="+data_masque.pivot+
+					"&etat_export_excel="+etat_export_excel+
+					"&repertoire="+repertoire+
+					"&titre_module="+module_choisis[0].titre+
+					"&titre_etat="+etat_choisis[0].titre).then(function(result)
 				{
 
-					vm.affiche_load = false ;
-					vm.reporting_halieutique = result.data.response;
-					
+					if (etat_export_excel == 1) 
+					{
+						var nom_file = result.data.nom_file;
+						vm.affiche_load = false ;
+						window.location = apiUrlExportexcel+repertoire+nom_file ;
+					}
+					else
+					{
+
+						vm.affiche_load = false ;
+						vm.reporting_halieutique = result.data.response;
 						
-					vm.entete_etat = Object.keys(vm.reporting_halieutique[0]).map(function(cle) {
-				    	return (cle);
-					});
+						vm.entete_etat = Object.keys(vm.reporting_halieutique[0]).map(function(cle) {
+					    	return (cle);
+						});
+					}
+
 
 						
 				});

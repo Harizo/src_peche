@@ -16,18 +16,43 @@
     <div class="content" layout="column">
         <div class="form-wrapper">
             <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+			<div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">
+			  Chargement,veuillez patienter s'il vous plait ...
+			</div>
             <div style="clear:both;"></div>
             <md-tabs md-dynamic-height>
                 <md-tab label="PECHE THONIERE MALAGASY">
                     <md-tab-body>
-                        <div style="widht:100%;">    
+ 						<form name="filtrepardateform" class="md-inline-form" novalidate  ng-show="vm.afficher_table">
+                            <div layout="column" layout-gt-xs="row">
+								<div style="margin-top:23px !important;margin-right:20px !important;font-size:15px !important;font-weight:bold;float:left;display:inline-block;">
+									<label>FILTRE  :</label>
+								</div>
+								<div style="margin-top: 14px !important; font-size: 13px !important;float:left;display:inline-block;">
+									<label>Date départ  :</label>
+								<md-datepicker  ng-model="vm.filtre.date_depart" md-placeholder="Date départ" md-max-date="vm.date_now" ng-change="vm.modifierDatedepart()" required>                       
+								</md-datepicker>
+								</div>
+								<div style="margin-top: 14px !important; font-size: 13px !important;float:left;display:inline-block;">
+									<label>Date d'arrivée  :</label>
+								<md-datepicker  ng-model="vm.filtre.date_arrive" md-placeholder="Date d'arrivée" md-max-date="vm.date_now" ng-change="vm.modifierDatearrive()" required>                       
+								</md-datepicker>
+								</div>
+								 <md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:10%;margin-left:6px;"
+									  ng-disabled="filtrepardateform.$invalid || vm.affiche_load" ng-click="vm.Filtrer()">
+									  Actualiser
+								</md-button>
+							</div>
+						</form>	
+						<div style="clear:both;"></div>    
+						<div style="widht:100%;" ng-if="vm.afficher_table">    
                                     <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_peche_thoniere_malagasy()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                                       Nouveau
                                     </md-button>
-                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_peche_thoniere_malagasy.id" aria-label="Modifier" ng-click="vm.modifier_peche_thoniere_alagasy()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_peche_thoniere_malagasy.id" aria-label="Modifier" ng-click="vm.modifier_peche_thoniere_malagasy()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
                                       Modifier
                                     </md-button>
-                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_peche_thoniere_malagasy.id" aria-label="Supprimer" ng-click="vm.supprimer_peche_thoniere_alagasy()" style="width:10%;">
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_peche_thoniere_malagasy.id" aria-label="Supprimer" ng-click="vm.supprimer_peche_thoniere_malagasy()" style="width:10%;">
                                         <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
                                       Supprimer
                                     </md-button>
@@ -43,7 +68,7 @@
                                             <label>Navire</label>
                                             <md-select ng-model="vm.col_peche_thoniere_malagasy.id_navire" name="id_navire" ng-change="vm.modifierNavire(vm.col_peche_thoniere_malagasy)" required>
                                                 <md-option ng-repeat="navire in vm.all_navire" value="{{navire.id}}">
-                                                    {{navire.immatricule}} / {{navire.nom}}
+                                                    {{navire.immatricule}} / {{navire.nom_navire}}
                                                 </md-option>
                                                 
                                             </md-select>
@@ -91,7 +116,7 @@
                                             </div>
                                         </md-input-container>
                                         <div style="margin-top: 14px !important; font-size: 13px !important;">
-                                            <label>Date rapport:</label>
+                                            <label>Date rapport  :</label>
                                         <md-datepicker  ng-model="vm.col_peche_thoniere_malagasy.date_rapport" md-placeholder="Date rapport" md-max-date="vm.date_now" required>                       
                                         </md-datepicker>
                                         </div>
@@ -106,12 +131,12 @@
                                             </div>
                                         </md-input-container>
                                         <div style="margin-top: 14px !important; font-size: 13px !important;">
-                                            <label>Date départ:</label>
+                                            <label>Date départ  :</label>
                                         <md-datepicker  ng-model="vm.col_peche_thoniere_malagasy.date_depart" md-placeholder="Date départ" md-max-date="vm.date_now" required>                       
                                         </md-datepicker>
                                         </div>
                                         <div style="margin-top: 14px !important; font-size: 13px !important;">
-                                            <label>Date d'arrivée:</label>
+                                            <label>Date d'arrivée  :</label>
                                         <md-datepicker  ng-model="vm.col_peche_thoniere_malagasy.date_arrive" md-placeholder="Date d'arrivée" md-max-date="vm.date_now" required>                       
                                         </md-datepicker>
                                         </div>
@@ -162,10 +187,10 @@
                                     </div>
                                     <div>
                                      <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                      ng-disabled="form_peche_thoniere_malagasy.$invalid || (!vm.col_peche_thoniere_malagasy.nbr_equipage&&!vm.col_peche_thoniere_malagasy.date_rapport&&!vm.col_peche_thoniere_malagasy.nom_declarant)" ng-click="vm.save_peche_thoniere_alagasy(vm.col_peche_thoniere_malagasy,0)">
+                                      ng-disabled="form_peche_thoniere_malagasy.$invalid || (!vm.col_peche_thoniere_malagasy.nbr_equipage&&!vm.col_peche_thoniere_malagasy.date_rapport&&!vm.col_peche_thoniere_malagasy.nom_declarant)" ng-click="vm.save_peche_thoniere_malagasy(vm.col_peche_thoniere_malagasy,0)">
                                       Enregistrer
                                     </md-button>
-                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_peche_thoniere_alagasy()">
+                                    <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_peche_thoniere_malagasy()">
                                       Annuler
                                     </md-button>
                                     </div>
@@ -173,10 +198,55 @@
                             </div> 
                         <!--FORM LISTES PECHE THONIERE MALAGASY-->
                         <!--TABLE LISTES PECHE THONIERE MALAGASY-->
-                            <table ng-table="tablePrestataireActeur" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table ng-show="vm.afficher_table">
+                            <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.afficher_table">                                   
+								<table ng-table="tableNavirepechethon" id="tableNavirepechethon" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table ng-show="vm.afficher_table">
+									<thead>
+										<tr>
+											<th class="secondary-text" ng-repeat="c in ::vm.entete_liste_peche_thoniere_malagasy">
+												<div class="table-header">
+													<span class="column-title text-center">{{c.titre}}</span>
+												</div>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="cm in vm.all_peche_thoniere_malagasy"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_peche_thoniere_malagasy(cm)">                                       
+											<td>{{cm.immatricule}} / {{cm.nom_navire}}</td>
+											<td>{{cm.numfp}}</td>
+											<td>{{cm.nom_capitaine}}</td>
+											<td>{{cm.nbr_equipage}}</td>
+											<td>{{vm.convert_to_date_html(cm.date_rapport)}}</td>
+											<td>{{cm.nom_declarant}}</td>
+											<td>{{vm.convert_to_date_html(cm.date_depart)}}</td>
+											<td>{{vm.convert_to_date_html(cm.date_arrive)}}</td>
+											<td>{{cm.port}}</td>
+											<td>{{cm.nbr_jour_en_mer}}</td>
+											<td>{{cm.nbr_peche}}</td>
+											<td>{{cm.nbr_peche_zee_mdg}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>	
+                        <!--TABLE LISTES PECHE THONIERE MALAGASY-->
+                    </md-tab-body>
+                </md-tab>        
+                <md-tab label="{{vm.titre_sequence_peche}}"   ng-disabled="!vm.selected_peche_thoniere_malagasy.id" ng-click="vm.get_sequence_peche_thon_malagasy()">
+                    <md-tab-body>
+						<fieldset>
+							<legend>
+									<b>Saisie séquence pêche</b>
+								<div class="border-right" ng-disabled="!vm.selected_peche_thoniere_malagasy.id" ng-show="!vm.selected_sequence_peche_thoniere_malagasy.$edit">
+									<md-button class="md-icon-button" aria-label="add Type acteur" ng-click="vm.ajout_sequence_peche_thon_malagasy()">
+										<md-icon md-font-icon="icon-plus-box"></md-icon>
+										<md-tooltip><span>Ajouter</span></md-tooltip>
+									</md-button>
+								</div> 
+							</legend>
+							<!--TABLE LISTES SEQUENCE-->
+                            <table ng-table="tablesequence_peche_thon_malagasy" id="tablesequence_peche_thon_malagasy" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
                                 <thead>
                                     <tr>
-                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_peche_thoniere_malagasy">
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_sequence_peche_thon_malagasy">
                                             <div class="table-header">
                                                 <span class="column-title text-center">{{c.titre}}</span>
                                             </div>
@@ -184,26 +254,490 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="cm in vm.all_peche_thoniere_malagasy"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_peche_thoniere_malagasy(cm)">                                       
-                                        <td>{{cm.immatricule}} / {{cm.nom_navire}}</td>
-                                        <td>{{cm.numfp}}</td>
-                                        <td>{{cm.nom_capitaine}}</td>
-                                        <td>{{cm.nbr_equipage}}</td>
-                                        <td>{{vm.convert_to_date_html(cm.date_rapport)}}</td>
-                                        <td>{{cm.nom_declarant}}</td>
-                                        <td>{{vm.convert_to_date_html(cm.date_depart)}}</td>
-                                        <td>{{vm.convert_to_date_html(cm.date_arrive)}}</td>
-                                        <td>{{cm.port}}</td>
-                                        <td>{{cm.nbr_jour_en_mer}}</td>
-                                        <td>{{cm.nbr_peche}}</td>
-                                        <td>{{cm.nbr_peche_zee_mdg}}</td>
+                                    <tr ng-repeat="seq in vm.all_sequence"  ng-class="{selected: seq.$selected}" ng-click="vm.selection_sequence_peche_thon_malagasy(seq)">                                       
+										<td style="width:15%;">
+											<span ng-if="seq.$edit">
+												<md-input-container style="width:100%;">
+													<label>N° séquence</label>
+													<input name="numseqpeche" type="text" ng-model="seq.numseqpeche"/>
+												</md-input-container>	
+											</span>
+											<span ng-if="!seq.$edit">{{seq.numseqpeche}}</span>
+										</td>
+										<td style="width:15%;">
+											<span ng-if="seq.$edit">
+												<md-input-container style="width:100%;">
+													<label>N° FP</label>
+													<input name="numfp" type="text" ng-model="seq.numfp"/>
+												</md-input-container>	
+											</span>
+											<span ng-if="!seq.$edit">{{seq.numfp}}</span>
+										</td>
+										<td style="width:20%;">
+											<span ng-if="!seq.$edit">
+												<md-button class="md-icon-button" aria-label="Modifier séquence peche" ng-click="vm.modif_sequence_peche_thon_malagasy(seq)">
+												  <md-icon md-font-icon="icon-table-edit"></md-icon>
+												  <md-tooltip><span>Modifier</span></md-tooltip>
+												</md-button>
+											</span>	
+											<span ng-if="!seq.$edit">	
+												<md-button class="md-icon-button" aria-label="Supprimer séquence peche" ng-click="vm.supprimer_sequence_peche_thon_malagasy(seq)">
+												  <md-icon md-font-icon="icon-delete"></md-icon>
+												  <md-tooltip><span>Supprimer</span></md-tooltip>
+												</md-button>
+											</span>	
+											<span ng-if="seq.$edit">	
+												<md-button class="md-icon-button" aria-label="Annuler modification" ng-click="vm.annuler_sequence_peche_thon_malagasy(seq)">
+												  <md-icon md-font-icon="icon-cancel"></md-icon>
+												  <md-tooltip><span>Annuler</span></md-tooltip>
+												</md-button>
+											</span>	
+											<span ng-if="seq.$edit && seq.numseqpeche >'' && seq.numfp > ''">	
+												<md-button class="md-icon-button" aria-label="Enregistrer séquence peche" ng-click="vm.save_in_bdd_sequence_peche_thon_malagasy(seq,0)">
+												  <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
+												  <md-tooltip><span>Enregistrer</span></md-tooltip>
+												</md-button>
+											</span>	
+										</td>
                                     </tr>
                                 </tbody>
                             </table>
-                        <!--TABLE LISTES PECHE THONIERE MALAGASY-->
+                        <!--TABLE LISTES SEQUENCE-->
+						</fieldset>
                     </md-tab-body>
-                </md-tab>        
-            </md-tabs>
+                </md-tab>   
+                <md-tab label="Séquence pêche thonière pi: (séquence {{vm.selected_sequence_peche_thoniere_malagasy.numseqpeche}})" ng-disabled="!vm.selected_sequence_peche_thoniere_malagasy.id && !vm.detail_pi_charge">
+                    <md-tab-body>
+                        <div style="widht:100%;" ng-if="vm.afficher_table_pi">    
+                                    <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_col_peche_thoniere_pi_malagasy()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
+                                      Nouveau
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_sequence_peche_thoniere_malagasy_pi.id" aria-label="Modifier" ng-click="vm.modifier_peche_thoniere_pi_malagasy()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                                      Modifier
+                                    </md-button>
+                                    <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_sequence_peche_thoniere_malagasy_pi.id" aria-label="Supprimer" ng-click="vm.supprimer_peche_thoniere_pi_malagasy()" style="width:10%;">
+                                        <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
+                                      Supprimer
+                                    </md-button>
+                        </div>  
+                        <!--FORM LISTES SEQUENCE PI PECHE THONIERE MALAGASY-->
+                            <div ng-show="vm.affichage_masque_peche_thoniere_pi_malagasy">
+                      
+                                <form name="form_peche_thoniere_pi_malagasy" class="md-inline-form" novalidate >
+
+                                    <div layout="column" layout-gt-xs="row" flex>
+										<div style="margin-top: 14px !important; font-size: 13px !important;">
+                                            <label>Date :</label>
+											<md-datepicker  ng-model="vm.col_peche_thoniere_pi_malagasy.date_pi" md-placeholder="Date pi" md-max-date="vm.date_now" required>                       
+											</md-datepicker>
+                                        </div>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="number" name="heuret" ng-model="vm.col_peche_thoniere_pi_malagasy.heuret"
+                                            placeholder="Heure" ng-init="vm.col_peche_thoniere_pi_malagasy.heuret=''"
+                                            md-max-value='23' required>
+                                            <div ng-messages="form_peche_thoniere_pi_malagasy.heuret.$error"
+                                              role="alert" style="display:inline-block">
+                                              <div ng-message="required">
+                                                <span>Heure obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="number" name="minutet" ng-model="vm.col_peche_thoniere_pi_malagasy.minutet"
+                                            placeholder="Minutes" ng-init="vm.col_peche_thoniere_pi_malagasy.minutet=''"
+                                            md-max-value='59' required>
+                                            <div ng-messages="form_peche_thoniere_pi_malagasy.minutet.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Minutes obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="text" name="postlatitude" ng-model="vm.col_peche_thoniere_pi_malagasy.postlatitude"
+                                            placeholder="Latitude" ng-init="vm.col_peche_thoniere_pi_malagasy.postlatitude=''"
+                                             required>
+                                            <div ng-messages="form_peche_thoniere_pi_malagasy.postlatitude.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Latitude obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="33">
+                                          <input type="text" name="postlongitude" ng-model="vm.col_peche_thoniere_pi_malagasy.postlongitude"
+                                            placeholder="Longitude" ng-init="vm.col_peche_thoniere_pi_malagasy.postlongitude=''"
+                                             required>
+                                            <div ng-messages="form_peche_thoniere_pi_malagasy.postlongitude.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Longitude obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                    <div layout="column" layout-gt-xs="row" flex>
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input type="number" name="temperature" ng-model="vm.col_peche_thoniere_pi_malagasy.temperature"
+                                            placeholder="Température" ng-init="vm.col_peche_thoniere_pi_malagasy.temperature=''" required>
+                                            <div ng-messages="form_peche_thoniere_pi_malagasy.temperature.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Température obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input type="number" name="nb_ham_entrflot" ng-model="vm.col_peche_thoniere_pi_malagasy.nb_ham_entrflot"
+                                            placeholder="Nb ham entrflot" ng-init="vm.col_peche_thoniere_pi_malagasy.nb_ham_entrflot=''" required>
+                                            <div ng-messages="form_peche_thoniere_pi_malagasy.nb_ham_entrflot.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nb ham entrflot obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                          <input type="number" name="nb_ham_util" ng-model="vm.col_peche_thoniere_pi_malagasy.nb_ham_util"
+                                            placeholder="Nb ham utilisé" ng-init="vm.col_peche_thoniere_pi_malagasy.nb_ham_util=''" required>
+                                            <div ng-messages="form_peche_thoniere_pi_malagasy.nb_ham_util.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Nb ham utilisé obligatoire.</span>
+                                              </div>
+                                            </div>
+                                        </md-input-container>
+										<md-input-container flex="100" flex-gt-xs="25">
+											<label>Appat utilisé</label>
+											<md-select ng-model="vm.col_peche_thoniere_pi_malagasy.appats_util" required>
+												<md-option  value="calmar">calmar</md-option>
+												<md-option  value="appat vivant">appat vivant</md-option>
+												<md-option  value="autres">autres</md-option>
+											</md-select>
+										</md-input-container>
+                                    </div>
+                                    <div>
+										<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
+										ng-disabled="form_peche_thoniere_pi_malagasy.$invalid || (!vm.col_peche_thoniere_pi_malagasy.date_pi&&!vm.col_peche_thoniere_pi_malagasy.temperature&&!vm.col_peche_thoniere_pi_malagasy.postlatitude&&!vm.col_peche_thoniere_pi_malagasy.postlongitude)" ng-click="vm.save_sequence_peche_thoniere_pi_malagasy(vm.col_peche_thoniere_pi_malagasy,0)">
+										Enregistrer
+										</md-button>
+										<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_peche_thoniere_pi_malagasy()">
+										Annuler
+										</md-button>
+                                    </div>
+                                </form>
+                            </div> 
+                        <!--FORM LISTES SEQUENCE PI PECHE THONIERE MALAGASY-->
+                        <!--TABLE LISTES SEQUENCE PI PECHE THONIERE MALAGASY-->
+                            <div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.afficher_table_pi">                                   
+								<table ng-table="tablePechethonierepi" id="tablePechethonierepi" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+									<thead>
+										<tr>
+											<th class="secondary-text" ng-repeat="c in ::vm.entete_liste_peche_thoniere_pi_malagasy">
+												<div class="table-header">
+													<span class="column-title text-center">{{c.titre}}</span>
+												</div>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="seqpi in vm.all_sequence_pi"  ng-class="{selected: seqpi.$selected}" ng-click="vm.selection_peche_thoniere_pi_malagasy(seqpi)">                                       
+											<td>{{vm.convert_to_date_html(seqpi.date_pi)}}</td>
+											<!--td>{{seqpi.mois}}</td>
+											<td>{{seqpi.jour}}</td-->
+											<td>{{seqpi.heuret}}:{{seqpi.minutet}}</td>
+											<td>{{seqpi.postlatitude}}</td>
+											<td>{{seqpi.postlongitude}}</td>
+											<td>{{seqpi.temperature}}</td>
+											<td>{{seqpi.nb_ham_entrflot}}</td>
+											<td>{{seqpi.nb_ham_util}}</td>
+											<td>{{seqpi.appats_util}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>	
+                        <!--TABLE LISTES SEQUENCE PI PECHE THONIERE MALAGASY-->
+                    </md-tab-body>
+                </md-tab>
+                <md-tab label="Séquence capture thon : (séquence {{vm.selected_sequence_peche_thoniere_malagasy.numseqpeche}})" ng-disabled="!vm.selected_sequence_peche_thoniere_malagasy.id && !vm.detail_capture_charge">
+                    <md-tab-body>
+						<fieldset>
+							<legend>
+									<b>Saisie séquence captures thon</b> 
+								<div class="border-right" ng-disabled="!vm.selected_sequence_peche_thoniere_malagasy.id" ng-show="!vm.selected_sequence_peche_thoniere_malagasy_capture.$edit">
+									<md-button class="md-icon-button" aria-label="add Type acteur" ng-click="vm.ajout_sequence_peche_thon_malagasy_capture()">
+										<md-icon md-font-icon="icon-plus-box"></md-icon>
+										<md-tooltip><span>Ajouter</span></md-tooltip>
+									</md-button>
+								</div> 
+							</legend>
+							<!--TABLE LISTES SEQUENCE CAPTURE-->
+                            <table ng-table="tablesequence_peche_capture_thon_malagasy" id="tablesequence_peche_capture_thon_malagasy" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                                <thead>
+                                    <tr>
+                                        <th class="secondary-text" ng-repeat="c in ::vm.entete_liste_sequence_peche_thon_malagasy_capture">
+                                            <div class="table-header">
+                                                <span class="column-title text-center">{{c.titre}}</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="seq in vm.all_sequence_capture"  ng-class="{selected: seq.$selected}" ng-click="vm.selection_sequence_peche_thon_malagasy_capture(seq)">                                       
+										<td style="width:15%;">
+											<span ng-if="seq.$edit">
+												<md-input-container style="width:100%;">
+													<label>Espèce</label>
+													<md-select ng-model="seq.id_espece"  ng-change="vm.modifierEspece(seq)">													  
+													  <md-option value="">&nbsp;</md-option>
+													  <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" >
+														{{esp.nom}}
+													  </md-option>
+													</md-select>
+												</md-input-container>	
+											</span>
+											<span ng-if="!seq.$edit">{{seq.espece}}</span>
+										</td>
+										<td style="width:15%;">
+											<span ng-if="seq.$edit">
+												<md-input-container style="width:100%;">
+													<label>Quantité</label>
+													<input name="qte" type="number" ng-model="seq.qte"/>
+												</md-input-container>	
+											</span>
+											<span ng-if="!seq.$edit">{{seq.qte}}</span>
+										</td>
+										<td style="width:15%;">
+											<span ng-if="seq.$edit">
+												<md-input-container style="width:100%;">
+													<label>Nombre</label>
+													<input name="nbre" type="number" ng-model="seq.nbre"/>
+												</md-input-container>	
+											</span>
+											<span ng-if="!seq.$edit">{{seq.nbre}}</span>
+										</td>
+										<td style="width:20%;">
+											<span ng-if="!seq.$edit">
+												<md-button class="md-icon-button" aria-label="Modifier séquence peche" ng-click="vm.modif_sequence_peche_thon_malagasy_capture(seq)">
+												  <md-icon md-font-icon="icon-table-edit"></md-icon>
+												  <md-tooltip><span>Modifier</span></md-tooltip>
+												</md-button>
+											</span>	
+											<span ng-if="!seq.$edit">	
+												<md-button class="md-icon-button" aria-label="Supprimer séquence peche" ng-click="vm.supprimer_sequence_peche_thon_malagasy_capture(seq)">
+												  <md-icon md-font-icon="icon-delete"></md-icon>
+												  <md-tooltip><span>Supprimer</span></md-tooltip>
+												</md-button>
+											</span>	
+											<span ng-if="seq.$edit">	
+												<md-button class="md-icon-button" aria-label="Annuler modification" ng-click="vm.annuler_sequence_peche_thon_malagasy_capture(seq)">
+												  <md-icon md-font-icon="icon-cancel"></md-icon>
+												  <md-tooltip><span>Annuler</span></md-tooltip>
+												</md-button>
+											</span>	
+											<span ng-if="seq.$edit && seq.qte >0 && seq.nbre > 0">	
+												<md-button class="md-icon-button" aria-label="Enregistrer séquence peche" ng-click="vm.save_in_bdd_sequence_peche_thon_malagasy_capture(seq,0)">
+												  <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
+												  <md-tooltip><span>Enregistrer</span></md-tooltip>
+												</md-button>
+											</span>	
+										</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <!--TABLE LISTES SEQUENCE CAPTURE-->
+						</fieldset>
+                    </md-tab-body>
+                </md-tab> 
+                <md-tab label="REPORTING">
+                    <md-tab-body>
+ 						<form name="filtreparanneeform" class="md-inline-form" novalidate  ng-show="vm.afficher_table">
+                            <div layout="column" layout-gt-xs="row">
+									<div style="margin-top:23px !important;margin-right:20px !important;font-size:15px !important;font-weight:bold;float:left;display:inline-block;">
+										<label>FILTRE  :</label>
+									</div>
+									<md-input-container flex="100" flex-gt-xs="35">
+									  <label>Choix</label>
+										<md-select ng-model="vm.filtre.menu" name="menu" ng-change="vm.Reinitialiser_donnees()" required>
+										  <md-option  value="menu_12_1">Req 12.1 Quantité thon malagasy par espèces</md-option>
+										  <md-option  value="menu_12_2">Req 12.2 Quantité thon malagasy par espèces mois</md-option>
+										  <md-option  value="menu_12_3">Req 12.3 Quantité thon malagasy par navire mois</md-option>
+										  <md-option  value="menu_12_4">Req 12.4 Quantité thon malagasy par espèces navire</md-option>
+										  <md-option  value="menu_12_5">Req 12.5 Nombre hamecon utilisé par mois</md-option>
+										  <md-option  value="menu_12_6">Req 12.6 Quantité thon malagasy par société</md-option>
+										  <md-option  value="menu_12_8">Req 12.8 Nombre jour de mer thon malagasy</md-option>
+										  <md-option  value="menu_12_9">Req 12.9 Nombre jour de peche thon malagasy</md-option>
+										</md-select>
+										<div ng-messages="filtreparanneeform.menu.$error"
+											  role="alert">
+											  <div ng-message="required">
+												<span>Choix Obligatoire.</span>
+											  </div>
+										</div>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="10">
+									  <label>Année début</label>
+										<md-select ng-model="vm.filtre.annee_debut" name="annee_debut" required>
+										  <md-option  value=""></md-option>
+										  <md-option ng-repeat="a in vm.annees" value="{{a.annee}}" >
+											{{a.annee}}
+										  </md-option>
+
+										</md-select>
+										<div ng-messages="filtreparanneeform.annee_debut.$error"
+											  role="alert">
+											  <div ng-message="required">
+												<span>Année début Obligatoire.</span>
+											  </div>
+										</div>
+									</md-input-container>
+									<md-input-container flex="100" flex-gt-xs="10">
+									  <label>Année fin</label>
+										<md-select ng-model="vm.filtre.annee_fin" name="annee_fin" required>
+										  <md-option  value=""></md-option>
+										  <md-option ng-repeat="a in vm.annees" value="{{a.annee}}" >
+											{{a.annee}}
+										  </md-option>
+
+										</md-select>
+										<div ng-messages="filtreparanneeform.annee_fin.$error"
+											  role="alert">
+											  <div ng-message="required">
+												<span>Année fin Obligatoire.</span>
+											  </div>
+										</div>
+									</md-input-container>
+									 <md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
+										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Filtrer_Reporting()">
+										  Actualiser
+									</md-button>
+									 <!--md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
+										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Export_Excel()">
+										  Export Excel
+									</md-button-->
+							</div>
+						</form>	
+						<div style="clear:both;"></div>    
+						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_12_2'">                                   
+							<table ng-table="tableMenu_12_2" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+								<thead>
+									<tr>
+										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_12_2">
+											<div class="table-header">
+												<span class="column-title text-center">{{c.titre}}</span>
+											</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_1_3(rep)">                                       
+										<td>{{rep.annee}}</td>
+										<td>{{rep.nom_espece}}</td>
+										<td>{{rep.Total}}</td>
+										<td>{{rep.janvier}}</td>
+										<td>{{rep.fevrier}}</td>
+										<td>{{rep.mars}}</td>
+										<td>{{rep.avril}}</td>
+										<td>{{rep.mai}}</td>
+										<td>{{rep.juin}}</td>
+										<td>{{rep.juillet}}</td>
+										<td>{{rep.aout}}</td>
+										<td>{{rep.septembre}}</td>
+										<td>{{rep.octobre}}</td>
+										<td>{{rep.novembre}}</td>
+										<td>{{rep.decembre}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_12_3'">                                   
+							<table ng-table="tableMenu_12_3" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+								<thead>
+									<tr>
+										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_12_3">
+											<div class="table-header">
+												<span class="column-title text-center">{{c.titre}}</span>
+											</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_1_3(rep)">                                       
+										<td>{{rep.annee}}</td>
+										<td>{{rep.nom_navire}}</td>
+										<td>{{rep.nom_espece}}</td>
+										<td>{{rep.total}}</td>
+										<td>{{rep.janvier}}</td>
+										<td>{{rep.fevrier}}</td>
+										<td>{{rep.mars}}</td>
+										<td>{{rep.avril}}</td>
+										<td>{{rep.mai}}</td>
+										<td>{{rep.juin}}</td>
+										<td>{{rep.juillet}}</td>
+										<td>{{rep.aout}}</td>
+										<td>{{rep.septembre}}</td>
+										<td>{{rep.octobre}}</td>
+										<td>{{rep.novembre}}</td>
+										<td>{{rep.decembre}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_12_6' || vm.filtre.menu=='menu_12_8' || vm.filtre.menu=='menu_12_9'">                                   
+							<table ng-table="tableMenu_12_6_8_9" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+								<thead>
+									<tr>
+										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_12_6_8_9">
+											<div class="table-header">
+												<span class="column-title text-center">{{c.titre}}</span>
+											</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_1_6(rep)">                                       
+										<td>{{rep.annee}}</td>
+										<td>{{rep.armateur}}</td>
+										<td>{{rep.nom_espece}}</td>
+										<td>{{rep.Total}}</td>
+										<td>{{rep.janvier}}</td>
+										<td>{{rep.fevrier}}</td>
+										<td>{{rep.mars}}</td>
+										<td>{{rep.avril}}</td>
+										<td>{{rep.mai}}</td>
+										<td>{{rep.juin}}</td>
+										<td>{{rep.juillet}}</td>
+										<td>{{rep.aout}}</td>
+										<td>{{rep.septembre}}</td>
+										<td>{{rep.octobre}}</td>
+										<td>{{rep.novembre}}</td>
+										<td>{{rep.decembre}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_12_1' || vm.filtre.menu=='menu_12_4' || vm.filtre.menu=='menu_12_5'">
+							<table ng-table="tableMenu_12_1_4_5" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+								<thead>
+									<tr>
+										<th class="secondary-text" ng-repeat="c in ::vm.entete_etat">
+											<div class="table-header">
+												<span class="column-title text-center">{{c}}</span>
+											</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="cm in vm.donnees_reporting"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_detail_dynamique(cm)">                                       
+										<td ng-repeat="c in ::vm.entete_etat"><span ng-show="cm[c]">{{vm.replace_point(cm[c])}}</span></td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</md-tab-body>
+				</md-tab>					
+			</md-tabs>
         </div>
     </div>
 </div>
