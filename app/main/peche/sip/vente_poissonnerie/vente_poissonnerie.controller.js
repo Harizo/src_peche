@@ -869,7 +869,6 @@
           
           vm.affiche_filtre() ;
           
-        
         }
 
         vm.annulerfiche_vente_poissonnerie = function() 
@@ -938,44 +937,44 @@
         {titre:"Req 7 : Quantité vendues produits par poissonneries",id:"req_7_vente_poissonneries"}
       ];
 
-      vm.filtrerreports = function(filtres)
-      {
-        vm.affiche_load = true ;
-        vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!!';
-          apiFactory.getParamsDynamic("SIP_reporting_vente_poissonnerie/index?menu="+filtres.pivot).then(function(result)
-          {
-            
-            vm.affiche_load = false ;
-            vm.poissonnerie_reporting  = result.data.response ;
-            //recupère en tête
-              vm.entete_etat = Object.keys(vm.poissonnerie_reporting[0]).map(function(cle) {
-              return (cle) ;
-            });
-          });  
-      } 
-
-      vm.exportExcel = function(filtres)
+      vm.get_requete = function(filtres, etat_excel)
       {
         vm.affiche_load = true ;
         vm.text_load = 'Export Excel en cours... Veuillez patienter s\'il vous plait!!!';
         var repertoire = 'reporting_vente_poissonnerie';
-          apiFactory.getParamsDynamic("SIP_reporting_vente_poissonnerie/index?menu_excel="+"excel_requetes"+"&menu="+
-            filtres.pivot+"&repertoire="+repertoire).then(function(result)
-          {
-            
-            vm.status    = result.data.status; 
-          
-            if(vm.status)
-            {
-                vm.nom_file = result.data.nom_file;            
-                window.location = apiUrlExportexcel+"reporting_vente_poissonnerie/"+vm.nom_file ;
-                vm.affiche_load =false; 
+        
+        var requete = vm.pivots.filter(function(obj)
+        {
+            return obj.id == filtres.pivot;
+        });
 
-            }
-            else{
-                vm.message=result.data.message;
-                vm.Alert('Export en excel',vm.message);
-                vm.affiche_load =false; 
+          apiFactory.getParamsDynamic("SIP_reporting_vente_poissonnerie/index?menu_excel="+"excel_requetes"+"&menu="+
+            filtres.pivot+"&repertoire="+repertoire+"&choix_requete="+requete[0].titre+"&etat_excel="+etat_excel).then(function(result)
+          {
+            vm.affiche_load =false; 
+            
+            if (etat_excel==1) 
+            {
+              vm.status    = result.data.status; 
+              if(vm.status)
+              {
+                  vm.nom_file = result.data.nom_file;            
+                  window.location = apiUrlExportexcel+"reporting_vente_poissonnerie/"+vm.nom_file ;
+
+              }
+              else{
+                  vm.message=result.data.message;
+                  vm.Alert('Export en excel',vm.message);
+              }
+            } 
+            else 
+            {
+              vm.poissonnerie_reporting  = result.data.response ;
+              
+              //recupère en tête
+              vm.entete_etat = Object.keys(vm.poissonnerie_reporting[0]).map(function(cle) {
+                return (cle) ;
+              });
             }
           }
         );  

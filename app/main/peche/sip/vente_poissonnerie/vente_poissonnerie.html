@@ -92,7 +92,7 @@
                           Afficher les données
                         </md-button>
                         <!--  EXPORT EXCEL-->
-                        <md-button  ng-show="vm.affichageMasqueExportExcel" ng-if="!vm.affichage_masque_poissonnerie" type="submit"  class="md-raised md-accent" aria-label="Export excel" ng-disabled="  vm.affiche_load ||!vm.affichageMasqueExportExcel ||vm.desactiveExport " ng-click="vm.creefiche_poissonnerie(vm.filtre)">
+                        <md-button  ng-show="vm.affichageMasqueExportExcel" ng-if="!vm.affichage_masque_poissonnerie" type="submit"  class="md-raised md-accent" aria-label="Export excel" ng-disabled="  vm.affiche_load ||!vm.affichageMasqueExportExcel ||vm.desactiveExport " ng-click="vm.creefiche_poissonnerie(vm.filtre)" style="background-color: #a39be5;  ">
                           Export Excel
                         </md-button>
                         <!-- FIN EXPORT EXCEL-->
@@ -299,7 +299,7 @@
 
                     <div ng-show="vm.affichageMasqueExportExcel" ng-if="!vm.affichage_masque_vente_poissonnerie" ng-disabled=" vm.affiche_load || vm.desactiveExport">
                       <form name="bouton" class="md-inline-form">
-                        <md-button type="submit"  class="md-raised md-accent" aria-label="Export excel" ng-click="vm.creefiche_vente_poissonnerie(vm.filtre)">Export Excel
+                        <md-button type="submit"  class="md-raised md-accent" aria-label="Export excel" ng-click="vm.creefiche_vente_poissonnerie(vm.filtre)" style="background-color: #a39be5;  ">Export Excel
                         </md-button>
                       </form>
                     </div>
@@ -524,6 +524,7 @@
             <!-- DEBUT REPORTING REQUETE --> 
               <md-tab label="Reporting">
                 <form name="filtreform" class="md-inline-form" novalidate flex>
+                  <div layout="column" layout-gt-xs="row" flex>
                     <md-input-container flex="100" flex-gt-xs="50">
                       <label>Requête</label>
                       <md-select ng-model="vm.filtre.pivot" ng-disabled="vm.affiche_load" >
@@ -532,13 +533,17 @@
                         </md-option>
                       </md-select>
                     </md-input-container> 
+                    <md-input-container flex="100" flex-gt-xs="50"></md-input-container> 
+                    <md-input-container flex="100" flex-gt-xs="50"></md-input-container> 
+                    <md-input-container flex="100" flex-gt-xs="50"></md-input-container> 
+                  </div>
                   <div>
                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                        ng-disabled="filtreform.$invalid || vm.affiche_load" ng-click="vm.filtrerreports(vm.filtre)">
+                        ng-disabled="filtreform.$invalid || vm.affiche_load || !vm.filtre.pivot" ng-click="vm.get_requete(vm.filtre,0)">
                         Actualiser
                     </md-button>
                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                        ng-disabled="filtreform.$invalid || vm.affiche_load" ng-click="vm.exportExcel(vm.filtre)">
+                        ng-disabled="filtreform.$invalid || vm.affiche_load || !vm.filtre.pivot" ng-click="vm.get_requete(vm.filtre,1)" style="background-color: #a39be5;  ">
                         Export excel
                     </md-button>
                   </div>

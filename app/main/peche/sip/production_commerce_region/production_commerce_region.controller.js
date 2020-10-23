@@ -7,7 +7,7 @@
         .controller('production_commerce_regionController', production_commerce_regionController);
 
     /** @ngInject */
-    function production_commerce_regionController(apiFactory, $scope, $mdDialog)
+    function production_commerce_regionController(apiFactory, $scope, $mdDialog, apiUrlExportexcel)
     {
         var vm = this;
 
@@ -108,6 +108,44 @@
 
 		});
 
+		vm.formatMillier = function (nombre) 
+        {  
+          var nbr=parseFloat(nombre).toFixed(0) ;
+
+          if (  nbr!='NaN' && typeof nombre=='string' && typeof nombre!='Object' ) 
+          {
+            if (typeof nbr != 'undefined' && parseInt(nbr) > 0) 
+            {
+              nbr += '';
+              var sep = ' ';
+              var reg = /(\d+)(\d{3})/;
+              while (reg.test(nbr)) 
+                nbr = nbr.replace(reg, '$1' + sep + '$2');
+              var unite = parseFloat(nombre).toFixed(0) ; //variable temporaire
+              for (var i = unite.length ; i <nombre.length; i++)
+                  nbr+=nombre[i];
+              return nbr = vm.replace_point(nbr) ;
+            } 
+          }
+          else return nombre ; 
+        }
+        vm.replace_point = function(nbr)
+        {
+          var str = ""+nbr ;
+          var res = str.replace(".",",") ;
+          return res ;
+        }
+
+        vm.replace_espace = function(strings)
+        {
+          var str = ""+strings ;
+          var res = str.replace("_"," ") ;
+          res = res.replace("_"," ") ;
+          res = res.replace("_"," ") ;
+          res = res.replace("_"," ") ;
+          return res ;
+        }
+
 		function convert_to_date_sql(date)
 		{   
 			if(date)
@@ -149,35 +187,6 @@
 				return date_final
 			}      
 		}
-
-		vm.formatMillier = function (nombre) 
-		{   
-			var nbr=parseFloat(nombre).toFixed(0);
-			if (typeof nbr != 'undefined' && parseInt(nbr) >= 0) 
-			{
-				nbr += '';
-				var sep = ' ';
-				var reg = /(\d+)(\d{3})/;
-				while (reg.test(nbr)) 
-				{
-					nbr = nbr.replace(reg, '$1' + sep + '$2');
-				}
-				return nbr;
-			} 
-			else 
-			{
-			return "";
-			}
-		}
-
-
-		vm.replace_point = function(nbr)
-		{
-			var str = ""+nbr ;
-			var res = str.replace(".",",") ;
-			return res ;
-		}
-
 
 		vm.affichage_mois = function(mois)
 		{
@@ -399,8 +408,106 @@
     		})
     		.error(function (data) {alert("Une erreur s'est produit");});
 		}
-		
 
+		
+		// DEBUT REPORTING REQUETE
+
+	      	vm.reporting_production_commerce_region = [] ; // données affichent au DOM à la data table
+	      	vm.entete_etat = [] ;
+	      	vm.modules = [
+		        {titre:"Productions",id:"production"},
+		        {titre:"Commercialisation",id:"commercialisation"},
+		        {titre:"Production nationale",id:"product_national"}
+	      	];
+
+	      	vm.pivots = [
+		        {titre: "Quantité production par région",id:"qte_production_par_region",module:"production"},
+		        {titre: "Quantité production par région mois",id:"qte_production_par_region_mois",module:"production"},
+		        {titre: "Production région nombre",id:"production_region_nombre",module:"production"},
+		        {titre: "Production par région mois nombre",id:"production_par_region_mois_nombre",module:"production"},
+		        
+		        {titre: "Quantité commercialisé",id:"quantite_commercialise",module:"commercialisation"},
+		        {titre: "Quantité commercialisé par mois",id:"quantite_commercialise_par_mois",module:"commercialisation"},
+		        {titre: "Quantité commercialisé région mois",id:"quantite_commercialise_region_mois",module:"commercialisation"},
+		        
+		        {titre: "Quantité production nationale",id:"quantite_production_nationale",module:"product_national"}
+	      	];
+	      
+		    vm.get_requete_etat = function(data_masque, etat_exportExcel)
+		    {
+		        vm.affiche_load = true ;
+		        vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!!';
+	            var repertoire = 'reporting_production_commerce_region/';
+
+	            var choix_module = vm.modules.filter(function(obj)
+				{
+					return obj.id == data_masque.module ;
+				});
+
+				var choix_pivot = vm.pivots.filter(function(obj)
+				{
+					return obj.id == data_masque.pivot ;
+				});
+
+	          	apiFactory.getParamsDynamic("SIP_reporting_production_commercialisation_region/index?menu="+data_masque.pivot+
+	          		"&module="+data_masque.module+"&titre_etat="+choix_pivot[0].titre+"&titre_module="+choix_module[0].titre+
+	          		"&etat_exportExcel="+etat_exportExcel+"&repertoire="+repertoire).then(function(result)
+	          	{
+
+		            vm.affiche_load = false ;
+		            
+		            if (etat_exportExcel==1) 
+		            {
+		            	vm.status    = result.data.status; 
+		          
+			            if(vm.status)
+			            {
+			                vm.nom_file = result.data.nom_file; 
+			                vm.sous_repertoire = result.data.sous_repertoire ; 
+			                window.location = apiUrlExportexcel+repertoire+vm.sous_repertoire+vm.nom_file ;
+			                vm.affiche_load =false; 
+
+			            }
+			            else{
+			                vm.message=result.data.message;
+			                vm.Alert('Export en excel',vm.message);
+			                vm.affiche_load =false; 
+			            }
+		            }
+		            else
+		            {
+		            	vm.reporting_production_commerce_region  = result.data.response ;
+
+		            	// recupère en tête
+		              	vm.entete_etat = Object.keys(vm.reporting_production_commerce_region[0]).map(function(cle) {
+		              		return (cle) ;
+		            	});
+			            
+			            // recupère total en pied
+			            vm.total = result.data.total ;
+
+		           		if (data_masque.pivot=='quantite_production_nationale')
+		            		vm.reporting_production_commerce_region.push(vm.total) ;
+		            }
+
+		        });  
+		    }     	
+
+		    vm.Alert = function(titre,content)
+	      	{
+		        $mdDialog.show(
+		          $mdDialog.alert()
+		          .parent(angular.element(document.querySelector('#popupContainer')))
+		          .clickOutsideToClose(false)
+		          .parent(angular.element(document.body))
+		          .title(titre)
+		          .textContent(content)
+		          .ariaLabel('Alert')
+		          .ok('Fermer')
+		          .targetEvent()
+		        );
+	      	}
+	    // FIN REPORTING REQUETE
       
     }
 })();

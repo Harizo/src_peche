@@ -469,11 +469,10 @@
         }
 
       // FIN EXPORT EXCEL
-      
     
     // DEBUT REPORTING REQUETE
     
-      vm.poissonnerie_reporting = [] ; // données affichent au DOM à la data table
+      vm.report_cult_alg = [] ; // données affichent au DOM à la data table
       vm.entete_etat = [] ;
       vm.pivots = [
         {titre:"Req 1 : Quantité par mois culture d'algues",id:"req8_1_quantite_par_mois_culture_dalgues"},
@@ -503,17 +502,21 @@
       {
         vm.affiche_load = true ;
         vm.text_load = 'Export Excel en cours... Veuillez patienter s\'il vous plait!!!';
-        var repertoire = 'reporting_collecte_culture_dalgues';
-        apiFactory.getParamsDynamic("SIP_reporting_collecte_culture_algues/index?menu_excel="+"excel_requetes"+"&menu="+
-        filtres.pivot+"&repertoire="+repertoire).then(function(result)
+        var repertoire = 'reporting_collecte_culture_dalgues/'; 
+        var choix_pivot = vm.pivots.filter(function(obj)
         {
-          
-          vm.status    = result.data.status; 
+          return obj.id == filtres.pivot ;
+        });
+
+        apiFactory.getParamsDynamic("SIP_reporting_collecte_culture_algues/index?menu_excel="+"excel_requetes"+"&menu="+
+        filtres.pivot+"&repertoire="+repertoire+"&choix_pivot="+choix_pivot[0].titre).then(function(result)
+        {
+          vm.status    = result.data.status ; 
         
           if(vm.status)
           {
               vm.nom_file = result.data.nom_file;            
-              window.location = apiUrlExportexcel+"reporting_collecte_culture_dalgues/"+vm.nom_file ;
+              window.location = apiUrlExportexcel+repertoire+vm.nom_file ;
               vm.affiche_load =false; 
 
           }
