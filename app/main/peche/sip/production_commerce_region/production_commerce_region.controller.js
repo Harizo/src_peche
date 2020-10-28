@@ -426,9 +426,9 @@
 		        {titre: "Production région nombre",id:"production_region_nombre",module:"production"},
 		        {titre: "Production par région mois nombre",id:"production_par_region_mois_nombre",module:"production"},
 		        
-		        {titre: "Quantité commercialisé",id:"quantite_commercialise",module:"commercialisation"},
-		        {titre: "Quantité commercialisé par mois",id:"quantite_commercialise_par_mois",module:"commercialisation"},
-		        {titre: "Quantité commercialisé région mois",id:"quantite_commercialise_region_mois",module:"commercialisation"},
+		        {titre: "Quantité commercialisée",id:"quantite_commercialise",module:"commercialisation"},
+		        {titre: "Quantité commercialisée par mois",id:"quantite_commercialise_par_mois",module:"commercialisation"},
+		        {titre: "Quantité commercialisée région mois",id:"quantite_commercialise_region_mois",module:"commercialisation"},
 		        
 		        {titre: "Quantité production nationale",id:"quantite_production_nationale",module:"product_national"}
 	      	];
@@ -436,7 +436,7 @@
 		    vm.get_requete_etat = function(data_masque, etat_exportExcel)
 		    {
 		        vm.affiche_load = true ;
-		        vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!!';
+		        vm.text_load = "Chargement en cours... Veuillez patienter s'il vous plait!!!";
 	            var repertoire = 'reporting_production_commerce_region/';
 
 	            var choix_module = vm.modules.filter(function(obj)

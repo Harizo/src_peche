@@ -174,7 +174,7 @@
         vm.get_col_cult_algue_by_filtre = function()
         { 
           vm.affiche_load = true ;
-          vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!! ' ;
+          vm.text_load = "Chargement en cours... Veuillez patienter s'il vous plait!!!"  ;
           vm.nom_region = '';
          
          
@@ -283,7 +283,7 @@
             .cancel('annuler');
             $mdDialog.show(confirm).then(function() {
                 vm.affiche_load = true ;
-                vm.text_load = 'Suppression est en cours... Veuillez patienter s\'il vous plait!!!';
+                vm.text_load = "Suppression est en cours... Veuillez patienter s'il vous plait!!!";
                 vm.save_in_bdd(vm.selected_col_cult_algue,1);
 
                 }, function() {
@@ -295,7 +295,7 @@
         {
           
           // vm.affiche_load = true ;
-          vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!! ' ;
+          vm.text_load = "Chargement en cours... Veuillez patienter s'il vous plait!!!"  ;
           var config = {
             headers : {
               'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -485,7 +485,7 @@
       vm.filtrerreports = function(filtres)
       {
         vm.affiche_load = true ;
-        vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!!';
+        vm.text_load = "Chargement en cours... Veuillez patienter s'il vous plait!!!";
           apiFactory.getParamsDynamic("SIP_reporting_collecte_culture_algues/index?menu="+filtres.pivot).then(function(result)
           {
             
@@ -501,7 +501,7 @@
       vm.exportExcel = function(filtres)
       {
         vm.affiche_load = true ;
-        vm.text_load = 'Export Excel en cours... Veuillez patienter s\'il vous plait!!!';
+        vm.text_load = "Export Excel en cours... Veuillez patienter s'il vous plait!!!";
         var repertoire = 'reporting_collecte_culture_dalgues/'; 
         var choix_pivot = vm.pivots.filter(function(obj)
         {
