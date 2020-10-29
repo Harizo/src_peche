@@ -550,11 +550,12 @@
 									  <label>Choix</label>
 										<md-select ng-model="vm.filtre.menu" name="menu" ng-change="vm.Reinitialiser_donnees()" required>
 										  <md-option  value="menu_13_1">Req 13.1 Quantité thon étranger par espèces</md-option>
-										  <md-option  value="menu_13_2">Req 13.2 Nombre thon étranger par espèces mois</md-option>
-										  <!--md-option  value="menu_13_3">Req 13.3 Quantité thon étranger par espèces mois</md-option-->
-										  <!--md-option  value="menu_13_5">Req 13.5 Quantité thon étranger par navire mois</md-option-->
+										  <md-option  value="menu_13_2">Req 13.2 Nombre espèces thon étranger</md-option>
+										  <md-option  value="menu_13_3">Req 13.3 Quantité thon étranger par espèces mois</md-option>
+										  <md-option  value="menu_13_4">Req 13.4 Nombre espèces thon étranger par mois</md-option>
+										  <md-option  value="menu_13_5">Req 13.5 Quantité thon étranger par navire mois</md-option>
 										  <md-option  value="menu_13_6">Req 13.6 Quantité thon étranger par espèces navire</md-option>
-										  <!--md-option  value="menu_13_7">Req 13.7 Quantité thon étranger par société</md-option-->
+										  <md-option  value="menu_13_7">Req 13.7 Quantité thon étranger par société</md-option>
 										  <md-option  value="menu_13_8">Req 13.8 Nombre hamecon utilisé par mois</md-option>
 										  <md-option  value="menu_13_9">Req 13.9 Nombre jour de mer thon étranger</md-option>
 										  <md-option  value="menu_13_20">Req 13.20 Nombre jour de peche thon étranger</md-option>
@@ -601,195 +602,18 @@
 										</div>
 									</md-input-container>
 									 <md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
-										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Filtrer_Reporting()">
+										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Filtrer_Reporting('non')">
 										  Actualiser
 									</md-button>
-									 <!--md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
-										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Export_Excel()">
+									 <md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
+										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Filtrer_Reporting('oui')">
 										  Export Excel
-									</md-button-->
+									</md-button>
 							</div>
 						</form>	
 						<div style="clear:both;"></div>    
-						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_13_99'">                                   
-							<table ng-table="tableMenu_13_99" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-								<thead>
-									<tr>
-										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_13_2">
-											<div class="table-header">
-												<span class="column-title text-center">{{c.titre}}</span>
-											</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_1_3(rep)">                                       
-										<td>{{rep.annee}}</td>
-										<td>{{rep.nom_espece}}</td>
-										<td>{{rep.Total}}</td>
-										<td>{{rep.janvier}}</td>
-										<td>{{rep.fevrier}}</td>
-										<td>{{rep.mars}}</td>
-										<td>{{rep.avril}}</td>
-										<td>{{rep.mai}}</td>
-										<td>{{rep.juin}}</td>
-										<td>{{rep.juillet}}</td>
-										<td>{{rep.aout}}</td>
-										<td>{{rep.septembre}}</td>
-										<td>{{rep.octobre}}</td>
-										<td>{{rep.novembre}}</td>
-										<td>{{rep.decembre}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_13_100'">                                   
-							<table ng-table="tableMenu_13_100" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-								<thead>
-									<tr>
-										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_13_3">
-											<div class="table-header">
-												<span class="column-title text-center">{{c.titre}}</span>
-											</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_1_3(rep)">                                       
-										<td>{{rep.annee}}</td>
-										<td>{{rep.nom_navire}}</td>
-										<td>{{rep.nom_espece}}</td>
-										<td>{{rep.total}}</td>
-										<td>{{rep.janvier}}</td>
-										<td>{{rep.fevrier}}</td>
-										<td>{{rep.mars}}</td>
-										<td>{{rep.avril}}</td>
-										<td>{{rep.mai}}</td>
-										<td>{{rep.juin}}</td>
-										<td>{{rep.juillet}}</td>
-										<td>{{rep.aout}}</td>
-										<td>{{rep.septembre}}</td>
-										<td>{{rep.octobre}}</td>
-										<td>{{rep.novembre}}</td>
-										<td>{{rep.decembre}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_13_9' || vm.filtre.menu=='menu_13_20'">                                   
-							<table ng-table="tableMenu_13_9_20" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-								<thead>
-									<tr>
-										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_13_9_20">
-											<div class="table-header">
-												<span class="column-title text-center">{{c.titre}}</span>
-											</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_9_20(rep)">                                       
-										<td>{{rep.annee}}</td>
-										<td>{{rep.armateur}}</td>
-										<td>{{rep.nom_espece}}</td>
-										<td>{{rep.Total}}</td>
-										<td>{{rep.janvier}}</td>
-										<td>{{rep.fevrier}}</td>
-										<td>{{rep.mars}}</td>
-										<td>{{rep.avril}}</td>
-										<td>{{rep.mai}}</td>
-										<td>{{rep.juin}}</td>
-										<td>{{rep.juillet}}</td>
-										<td>{{rep.aout}}</td>
-										<td>{{rep.septembre}}</td>
-										<td>{{rep.octobre}}</td>
-										<td>{{rep.novembre}}</td>
-										<td>{{rep.decembre}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_13_21'">                                   
-							<table ng-table="tableMenu_13_21" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-								<thead>
-									<tr>
-										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_13_21">
-											<div class="table-header">
-												<span class="column-title text-center">{{c.titre}}</span>
-											</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_9_20(rep)">                                       
-										<td>{{rep.annee}}</td>
-										<td>{{rep.Total_estime}}</td>
-										<td>{{rep.Total_debarque}}</td>
-										<td>{{rep.difference}}</td>
-										<td>{{rep.estime_janvier}}</td>
-										<td>{{rep.debarque_janvier}}</td>
-										<td>{{rep.estime_fevrier}}</td>
-										<td>{{rep.debarque_fevrier}}</td>
-										<td>{{rep.estime_mars}}</td>
-										<td>{{rep.debarque_mars}}</td>
-										<td>{{rep.estime_avril}}</td>
-										<td>{{rep.debarque_avril}}</td>
-										<td>{{rep.estime_mai}}</td>
-										<td>{{rep.debarque_mai}}</td>
-										<td>{{rep.estime_juin}}</td>
-										<td>{{rep.debarque_juin}}</td>
-										<td>{{rep.estime_juillet}}</td>
-										<td>{{rep.debarque_juillet}}</td>
-										<td>{{rep.estime_aout}}</td>
-										<td>{{rep.debarque_aout}}</td>
-										<td>{{rep.estime_septembre}}</td>
-										<td>{{rep.debarque_septembre}}</td>
-										<td>{{rep.estime_octobre}}</td>
-										<td>{{rep.debarque_octobre}}</td>
-										<td>{{rep.estime_novembre}}</td>
-										<td>{{rep.debarque_novembre}}</td>
-										<td>{{rep.estime_decembre}}</td>
-										<td>{{rep.debarque_decembre}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_13_29'">                                   
-							<table ng-table="tableMenu_13_29" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-								<thead>
-									<tr>
-										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_13_29">
-											<div class="table-header">
-												<span class="column-title text-center">{{c.titre}}</span>
-											</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_9_20(rep)">                                       
-										<td>{{rep.annee}}</td>
-										<td>{{rep.latitude}}</td>
-										<td>{{rep.longitude}}</td>
-										<td>{{rep.nom_espece}}</td>
-										<td>{{rep.Total}}</td>
-										<td>{{rep.janvier}}</td>
-										<td>{{rep.fevrier}}</td>
-										<td>{{rep.mars}}</td>
-										<td>{{rep.avril}}</td>
-										<td>{{rep.mai}}</td>
-										<td>{{rep.juin}}</td>
-										<td>{{rep.juillet}}</td>
-										<td>{{rep.aout}}</td>
-										<td>{{rep.septembre}}</td>
-										<td>{{rep.octobre}}</td>
-										<td>{{rep.novembre}}</td>
-										<td>{{rep.decembre}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_13_1' || vm.filtre.menu=='menu_13_2' || vm.filtre.menu=='menu_13_6' || vm.filtre.menu=='menu_13_8'">
-							<table ng-table="tableMenu_13_1_2_6_8" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+						<div class="price-table style-1 md-whiteframe-1dp" layout="column">
+							<table ng-table="tableMenuThonEtranger" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
 								<thead>
 									<tr>
 										<th class="secondary-text" ng-repeat="c in ::vm.entete_etat">

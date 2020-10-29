@@ -7,7 +7,7 @@
         .controller('Peche_thoniere_etrangerController', Peche_thoniere_etrangerController);
 
     /** @ngInject */
-    function Peche_thoniere_etrangerController(apiFactory, $scope, $mdDialog)
+    function Peche_thoniere_etrangerController(apiFactory, $scope, $mdDialog,apiUrlExportexcel)
     {
         var vm = this;
         vm.date_now = new Date();
@@ -23,8 +23,6 @@
         vm.donnees_reporting=[];
 		vm.selected_detail_menu_13_2={};
 		vm.selected_detail_menu_13_3={};
-		vm.selected_detail_menu_13_21={};
-		vm.selected_detail_menu_13_29={};
 		vm.selected_detail_menu_13_9_20={};
 		vm.selected_detail_dynamique={};
 		vm.dtOptions =
@@ -938,125 +936,30 @@
 		// ANALYSE CHOIX	
 		vm.Reinitialiser_donnees = function() {
 			vm.donnees_reporting = [];
-			if(vm.filtre.menu=="menu_13_1" || vm.filtre.menu=="menu_13_4" || vm.filtre.menu=="menu_13_5") {
-				vm.entete_etat=[];
-			}
+			vm.entete_etat=[];
 		}
-		vm.Filtrer_Reporting = function() {
-			if(vm.filtre.menu=="menu_13_21") {
-				// EN-TETE FIXE : estimé débarqué
-				vm.affiche_load=true;
-				apiFactory.getAPIgeneraliserREST("SIP_reporting_peche_thon_etranger/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin,"table_en_tete","sip_peche_thoniere_etranger","table_sequence","sip_sequence_peche_thon_etranger","cle_etranger_sequence","id_peche_thoniere_etranger","table_sequence_capture","sip_sequence_peche_thon_etranger_capture","cle_etranger_sequence_capture","id_sequence_peche_thon_etranger").then(function(result)
-				{
-					vm.donnees_reporting = result.data.response;
-					vm.affiche_load=false;
-					if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
-						vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
-					}
-				});
-			} else if(vm.filtre.menu=="menu_13_29") {
-				// EN-TETE FIXE : estimé débarqué
-				vm.affiche_load=true;
-				apiFactory.getAPIgeneraliserREST("SIP_reporting_peche_thon_etranger/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin).then(function(result)
-				{
-					vm.donnees_reporting = result.data.response;
-					vm.affiche_load=false;
-					if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
-						vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
-					}
-				});			
-			} else 	if(vm.filtre.menu=="menu_13_9" || vm.filtre.menu=="menu_13_20") {
-				// EN-TETE FIXE
-				vm.affiche_load=true;
-				apiFactory.getAPIgeneraliserREST("SIP_reporting_peche_thon_etranger/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin,"table_en_tete","sip_peche_thoniere_etranger").then(function(result)
-				{
-					vm.donnees_reporting = result.data.response;
-					vm.affiche_load=false;
-					if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
-						vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
-					}
-				});							
-			} else if(vm.filtre.menu=="menu_13_1" || vm.filtre.menu=="menu_13_2" || vm.filtre.menu=="menu_13_6" || vm.filtre.menu=="menu_13_8") {
-				// EN-TETE DYNAMIQUE
-				vm.affiche_load=true;
-				apiFactory.getAPIgeneraliserREST("SIP_reporting_peche_thon_etranger/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin).then(function(result)
-				{
+		vm.Filtrer_Reporting = function(export_excel) {
+			// EN-TETE DYNAMIQUE
+			vm.affiche_load=true;
+			apiFactory.getAPIgeneraliserREST("SIP_reporting_peche_thon_etranger/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin,"export_excel",export_excel).then(function(result)
+			{
+				if (export_excel == 'oui') {
+					var nom_file = result.data.nom_file;
+					var repertoire = result.data.repertoire;
+					vm.affiche_load = false ;
+					window.location = apiUrlExportexcel+repertoire+nom_file ;
+				} else {					
 					vm.donnees_reporting = result.data.response;
 					vm.affiche_load=false;
 					vm.entete_etat = Object.keys(vm.donnees_reporting[0]).map(function(cle) {
-				    	return (cle);
+						return (cle);
 					});
 					if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
 						vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
 					}
-				});							
-			}
+				}	
+			});							
 		}		
-		vm.selection_detail_menu_13_2 = function(detail)
-		{
-			vm.selected_detail_menu_13_2 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_13_2', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_13_2.$selected = true;
-		});
-		vm.selection_detail_menu_13_3 = function(detail)
-		{
-			vm.selected_detail_menu_13_3 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_13_3', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_13_3.$selected = true;
-		});
-		vm.selection_detail_menu_13_21 = function(detail)
-		{
-			vm.selected_detail_menu_13_21 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_13_21', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_13_21.$selected = true;
-		});
-		vm.selection_detail_menu_13_9_20 = function(detail)
-		{
-			vm.selected_detail_menu_13_9_20 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_13_9_20', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_13_9_20.$selected = true;
-		});
-		vm.selection_detail_menu_13_29 = function(detail)
-		{
-			vm.selected_detail_menu_13_29 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_13_29', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_13_29.$selected = true;
-		});
 		vm.selection_detail_dynamique = function(detail)
 		{
 			vm.selected_detail_dynamique = detail ;
@@ -1072,9 +975,5 @@
 		});
 		
 		// FIN ANALYSE CHOIX			
-		// DEBUT EXPORT EXCEL
-		vm.Export_Excel = function() {
-		}	
-		// FIN EXPORT EXCEL		
     }
 })();

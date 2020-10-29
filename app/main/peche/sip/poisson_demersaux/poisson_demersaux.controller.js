@@ -7,7 +7,7 @@
         .controller('Poisson_demersauxController', Poisson_demersauxController);
 
     /** @ngInject */
-    function Poisson_demersauxController(apiFactory, $scope, $mdDialog)
+    function Poisson_demersauxController(apiFactory, $scope, $mdDialog,apiUrlExportexcel)
     {
         var vm = this;
         vm.date_now = new Date();
@@ -17,8 +17,6 @@
 		vm.all_poisson_demersaux=[];
         vm.all_espece =[];
         vm.donnees_reporting=[];
-		vm.selected_detail_menu_1_3={};
-		vm.selected_detail_menu_1_6={};
 		vm.selected_detail_dynamique={};
 
 		vm.dtOptions =
@@ -28,8 +26,6 @@
 			order:[] 
 		};
 		vm.entete_etat =[];
-		vm.entete_menu_1_3=[{titre:"Année"},{titre:"Espèce"},{titre:"Total"},{titre:"Janv"},{titre:"Fév"},{titre:"Mars"},{titre:"Avr"},{titre:"Mai"},{titre:"Juin"},{titre:"Juil"},{titre:"Aout"},{titre:"Sept"},{titre:"Oct"},{titre:"Nov"},{titre:"Déc"},]
-		vm.entete_menu_1_6=[{titre:"Année"},{titre:"Nom navire"},{titre:"Espèce"},{titre:"Total"},{titre:"Janv"},{titre:"Fév"},{titre:"Mars"},{titre:"Avr"},{titre:"Mai"},{titre:"Juin"},{titre:"Juil"},{titre:"Aout"},{titre:"Sept"},{titre:"Oct"},{titre:"Nov"},{titre:"Déc"},]		
 		vm.afficher_table =true; // Affichage détail table par ligne
 		//DEBUT Table paramètre
 			apiFactory.getAPIgeneraliser("SIP_navire/index","id_type_navire",3).then(function(result)
@@ -581,64 +577,53 @@
 		// ANALYSE CHOIX	
 		vm.Reinitialiser_donnees = function() {
 			vm.donnees_reporting = [];
-			if(vm.filtre.menu!="menu_1_3" && vm.filtre.menu!="menu_1_6") {
-				vm.entete_etat=[];
-			}
+			vm.entete_etat=[];
 		}
-		vm.Filtrer_Reporting = function() {
+		vm.Filtrer_Reporting = function(export_excel) {
 			if(vm.filtre.menu=="menu_11_3" || vm.filtre.menu=="menu_11_6") {
 				// EN-TETE FIXE
 				vm.affiche_load=true;
-				apiFactory.getAPIgeneraliserREST("SIP_reporting_poisson_demersaux/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin,"table_en_tete","sip_poisson_demersaux","table_detail","sip_poisson_demersaux_detail","cle_etrangere_detail","id_sip_poisson_demersaux").then(function(result)
+				apiFactory.getAPIgeneraliserREST("SIP_reporting_poisson_demersaux/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin,"table_en_tete","sip_poisson_demersaux","table_detail","sip_poisson_demersaux_detail","cle_etrangere_detail","id_sip_poisson_demersaux","export_excel",export_excel).then(function(result)
 				{
-					vm.donnees_reporting = result.data.response;
-					vm.affiche_load=false;
-					if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
-						vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
-					}
+					if (export_excel == 'oui') {
+						var nom_file = result.data.nom_file;
+						var repertoire = result.data.repertoire;
+						vm.affiche_load = false ;
+						window.location = apiUrlExportexcel+repertoire+nom_file ;
+					} else {					
+						vm.donnees_reporting = result.data.response;
+						vm.affiche_load=false;
+						vm.entete_etat = Object.keys(vm.donnees_reporting[0]).map(function(cle) {
+							return (cle);
+						});
+						if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
+							vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
+						}
+					}	
 				});							
 			} else if(vm.filtre.menu!="menu_11_3" && vm.filtre.menu!="menu_11_6") {
 				// EN-TETE DYNAMIQUE
 				vm.affiche_load=true;
-				apiFactory.getAPIgeneraliserREST("SIP_reporting_poisson_demersaux/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin).then(function(result)
+				apiFactory.getAPIgeneraliserREST("SIP_reporting_poisson_demersaux/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin,"export_excel",export_excel).then(function(result)
 				{
-					vm.donnees_reporting = result.data.response;
-					vm.affiche_load=false;
-					vm.entete_etat = Object.keys(vm.donnees_reporting[0]).map(function(cle) {
-				    	return (cle);
-					});
-					if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
-						vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
-					}
+					if (export_excel == 'oui') {
+						var nom_file = result.data.nom_file;
+						var repertoire = result.data.repertoire;
+						vm.affiche_load = false ;
+						window.location = apiUrlExportexcel+repertoire+nom_file ;
+					} else {					
+						vm.donnees_reporting = result.data.response;
+						vm.affiche_load=false;
+						vm.entete_etat = Object.keys(vm.donnees_reporting[0]).map(function(cle) {
+							return (cle);
+						});
+						if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
+							vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
+						}
+					}	
 				});							
 			}
 		}		
-		vm.selection_detail_menu_1_3 = function(detail)
-		{
-			vm.selected_detail_menu_1_3 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_1_3', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_1_3.$selected = true;
-		});
-		vm.selection_detail_menu_1_6 = function(detail)
-		{
-			vm.selected_detail_menu_1_6 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_1_6', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_1_6.$selected = true;
-		});
 		vm.selection_detail_dynamique = function(detail)
 		{
 			vm.selected_detail_dynamique = detail ;
@@ -654,9 +639,5 @@
 		});
 		
 		// FIN ANALYSE CHOIX			
-		// DEBUT EXPORT EXCEL
-		vm.Export_Excel = function() {
-		}	
-		// FIN EXPORT EXCEL
    }
 })();
