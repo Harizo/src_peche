@@ -109,25 +109,28 @@
           vm.afichebouton = true;
           vm.filtre.id_commune = null;
           vm.affiche_load=true; 
+          vm.allcommune = [] ;
           vm.text_load = 'Chargement district en cours...' ;
-          apiFactory.getAPIgeneraliserREST("commune/index","cle_etrangere",vm.filtre.id_district).then(function(result)
-          {
-            vm.allcommune = result.data.response;
-            vm.affiche_load = false ;
-            if (!nouvel_col_poiss && vm.selected_poissonnerie.id_commune) 
-              vm.filtre.id_commune = vm.selected_poissonnerie.id_commune ;    
-          });
+          if (vm.filtre.id_district!='-') 
+          { 
+
+            apiFactory.getAPIgeneraliserREST("commune/index","cle_etrangere",vm.filtre.id_district).then(function(result)
+            {
+              vm.allcommune = result.data.response;
+              vm.affiche_load = false ;
+              if (!nouvel_col_poiss && vm.selected_poissonnerie.id_commune) 
+                vm.filtre.id_commune = vm.selected_poissonnerie.id_commune ;    
+            });
+          }
+          else vm.affiche_load = false ;
         } 
 
         $scope.$watch('vm.filtre.id_region', function()
         {
           if (!vm.filtre.id_region) return;
-          
 
           if (vm.filtre.id_region) 
-          {
             vm.get_district() ;
-          }
 
         });
 
@@ -137,9 +140,7 @@
           
 
           if (vm.filtre.id_district) 
-          {
             vm.get_commune() ;
-          }
 
         });
 
@@ -147,7 +148,7 @@
         vm.get_poissonnerie_by_filtre = function()
         { 
           vm.affiche_load = true ;
-          vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!! ' ;
+          vm.text_load = "Chargement en cours... Veuillez patienter s'il vous plait!!! "  ;
           vm.nom_region = '';
          
          
@@ -291,7 +292,7 @@
               { 
                 $mdDialog.show(confirm).then(function() {
                   vm.affiche_load = true ;
-                  vm.text_load = 'Suppression est en cours... Veuillez patienter s\'il vous plait!!!';
+                  vm.text_load = "Suppression est en cours... Veuillez patienter s'il vous plait!!!";
                   vm.save_in_bdd(vm.selected_poissonnerie,1);
 
                   }, function() {
@@ -343,7 +344,7 @@
         {
           
           // vm.affiche_load = true ;
-          vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!! ' ;
+          vm.text_load = "Chargement en cours... Veuillez patienter s'il vous plait!!!"  ;
           var config = {
             headers : {
               'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -486,14 +487,15 @@
               vm.status    = result.status; 
               if(vm.status)
               {
-                vm.nom_file = result.response;            
-                window.location = apiUrlExportexcel+repertoire1+vm.nom_file ;
+                vm.nom_file = result.response;
+                if (result.resp.length>0) 
+                  window.location = apiUrlExportexcel+repertoire1+vm.nom_file ;
+
+                else             
+                  vm.Alert('Export en excel',"Aucun données a été trouvée!!!");
+                  
                 vm.affiche_load =false; 
 
-              }
-              else{
-                vm.Alert('Export en excel',result.message);
-                vm.affiche_load =false; 
               }
                  
             })
@@ -551,7 +553,7 @@
         vm.get_vente_poissonnerie_by_filter = function(filtre)
         {          
           vm.affiche_load = true ;
-          vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!! ' ;
+          vm.text_load = "Chargement en cours... Veuillez patienter s'il vous plait!!!"  ;
           vm.affichageMasqueExportExcel=true ;
           vm.selected_vente_poissonnerie = {} ;
           apiFactory.getParamsDynamic("SIP_saisie_vente_poissonnerie/index?id_poissonnerie="+vm.selected_poissonnerie.id+"&annee="+
@@ -559,6 +561,7 @@
           {
             vm.all_saisie_vente_poissonnerie = result.data.response ;
             vm.affiche_load = false ;
+            vm.desactiveExport = false ;
            if (vm.all_saisie_vente_poissonnerie.length==0)
             vm.desactiveExport = true ;
           });
@@ -730,7 +733,7 @@
           };
 
           var id = 0 ;
-          vm.text_load = "En chargement Veuillez patienter s\'il vous plait!!!" ;
+          vm.text_load = "En chargement Veuillez patienter s'il vous plait!!!" ;
 
           if (!nouvel_vente_poissonnerie) 
             id = vm.selected_vente_poissonnerie.id ;
@@ -866,6 +869,7 @@
           vm.affichageMasque            = 0 ; 
           vm.affichageMasquefiltre2     = 1 ;
           vm.desactiveSupp              = true ;
+          vm.desactiveExport            = true ;
           
           vm.affiche_filtre() ;
           
@@ -903,14 +907,15 @@
                vm.status    = result.status; 
               if(vm.status)
               {
-                vm.nom_file = result.response;            
-                window.location = apiUrlExportexcel+repertoire2+vm.nom_file ;
+                vm.nom_file = result.response;   
+                if (result.resp.length>0) 
+                  window.location = apiUrlExportexcel+repertoire2+vm.nom_file ;
+
+                else          
+                  vm.Alert('Export en excel',"Aucun données a été trouvée!!!");
+
                 vm.affiche_load =false; 
 
-              }
-              else{
-                vm.Alert('Export en excel',result.message);
-                vm.affiche_load =false; 
               }
                  
             })
@@ -928,19 +933,19 @@
       vm.poissonnerie_reporting = [] ; // données affichent au DOM à la data table
       vm.entete_etat = [] ;
       vm.pivots = [
-        {titre:"Req 1 : Quantité vendues par poissonneries",id:"req_1_vente_poissonneries"},
-        {titre:"Req 2 : Quantité vendues par poissonneries/mois",id:"req_2_vente_poissonneries"},
-        {titre:"Req 3 : Prix moyenne produits par poissonneries",id:"req_3_vente_poissonneries"},
-        {titre:"Req 4 : Quantité vendues par famille",id:"req_4_vente_poissonneries"},
-        {titre:"Req 5 : Prix moyenne par famille",id:"req_5_vente_poissonneries"},
-        {titre:"Req 6 : Chiffre d'affaire par produits poissonneries",id:"req_6_vente_poissonneries"},
-        {titre:"Req 7 : Quantité vendues produits par poissonneries",id:"req_7_vente_poissonneries"}
+        {titre:"Quantité vendues par poissonneries",id:"req_1_vente_poissonneries"},
+        {titre:"Quantité vendues par poissonneries/mois",id:"req_2_vente_poissonneries"},
+        {titre:"Prix moyenne produits par poissonneries",id:"req_3_vente_poissonneries"},
+        {titre:"Quantité vendues par famille",id:"req_4_vente_poissonneries"},
+        {titre:"Prix moyenne par famille",id:"req_5_vente_poissonneries"},
+        {titre:"Chiffre d'affaire par produits poissonneries",id:"req_6_vente_poissonneries"},
+        {titre:"Quantité vendues produits par poissonneries",id:"req_7_vente_poissonneries"}
       ];
 
       vm.get_requete = function(filtres, etat_excel)
       {
         vm.affiche_load = true ;
-        vm.text_load = 'Export Excel en cours... Veuillez patienter s\'il vous plait!!!';
+        vm.text_load = "Export Excel en cours... Veuillez patienter s'il vous plait!!!";
         var repertoire = 'reporting_vente_poissonnerie';
         
         var requete = vm.pivots.filter(function(obj)

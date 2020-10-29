@@ -377,83 +377,18 @@
 										</div>
 									</md-input-container>
 									 <md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
-										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Filtrer_Reporting()">
+										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Filtrer_Reporting('non')">
 										  Actualiser
 									</md-button>
-									 <!--md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
-										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Export_Excel()">
+									 <md-button type="submit" class="md-raised md-accent" aria-label="Filtrer" style="width:15%;margin-left:6px;height:50%;margin-top:1%;"
+										  ng-disabled="filtreparanneeform.$invalid || vm.affiche_load" ng-click="vm.Filtrer_Reporting('oui')">
 										  Export Excel
-									</md-button-->
+									</md-button>
 							</div>
 						</form>	
 						<div style="clear:both;"></div>    
-						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_11_3'">                                   
-							<table ng-table="tableMenu_1_3" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-								<thead>
-									<tr>
-										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_1_3">
-											<div class="table-header">
-												<span class="column-title text-center">{{c.titre}}</span>
-											</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_1_3(rep)">                                       
-										<td>{{rep.annee}}</td>
-										<td>{{rep.nom_espece}}</td>
-										<td>{{rep.Total}}</td>
-										<td>{{rep.janvier}}</td>
-										<td>{{rep.fevrier}}</td>
-										<td>{{rep.mars}}</td>
-										<td>{{rep.avril}}</td>
-										<td>{{rep.mai}}</td>
-										<td>{{rep.juin}}</td>
-										<td>{{rep.juillet}}</td>
-										<td>{{rep.aout}}</td>
-										<td>{{rep.septembre}}</td>
-										<td>{{rep.octobre}}</td>
-										<td>{{rep.novembre}}</td>
-										<td>{{rep.decembre}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu=='menu_11_6'">                                   
-							<table ng-table="tableMenu_1_6" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
-								<thead>
-									<tr>
-										<th class="secondary-text" ng-repeat="c in ::vm.entete_menu_1_6">
-											<div class="table-header">
-												<span class="column-title text-center">{{c.titre}}</span>
-											</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="rep in vm.donnees_reporting"  ng-class="{selected: rep.$selected}" ng-click="vm.selection_detail_menu_1_6(rep)">                                       
-										<td>{{rep.annee}}</td>
-										<td>{{rep.nom_navire}}</td>
-										<td>{{rep.nom_espece}}</td>
-										<td>{{rep.total}}</td>
-										<td>{{rep.janvier}}</td>
-										<td>{{rep.fevrier}}</td>
-										<td>{{rep.mars}}</td>
-										<td>{{rep.avril}}</td>
-										<td>{{rep.mai}}</td>
-										<td>{{rep.juin}}</td>
-										<td>{{rep.juillet}}</td>
-										<td>{{rep.aout}}</td>
-										<td>{{rep.septembre}}</td>
-										<td>{{rep.octobre}}</td>
-										<td>{{rep.novembre}}</td>
-										<td>{{rep.decembre}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="price-table style-1 md-whiteframe-1dp" layout="column" ng-if="vm.filtre.menu!='menu_11_3' && vm.filtre.menu!='menu_11_6'">                                   
-							<table ng-table="tableMenu_1_1_2_4_5" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+						<div class="price-table style-1 md-whiteframe-1dp" layout="column">                                   
+							<table ng-table="tableMenuPoissonDemersaux" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
 								<thead>
 									<tr>
 										<th class="secondary-text" ng-repeat="c in ::vm.entete_etat">

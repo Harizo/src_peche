@@ -7,7 +7,7 @@
         .controller('Peche_thoniere_malagasyController', Peche_thoniere_malagasyController);
 
     /** @ngInject */
-    function Peche_thoniere_malagasyController(apiFactory, $scope, $mdDialog)
+    function Peche_thoniere_malagasyController(apiFactory, $scope, $mdDialog,apiUrlExportexcel)
     {
         var vm = this;
         vm.date_now = new Date();
@@ -942,88 +942,30 @@
 		// ANALYSE CHOIX	
 		vm.Reinitialiser_donnees = function() {
 			vm.donnees_reporting = [];
-			if(vm.filtre.menu=="menu_12_1" || vm.filtre.menu=="menu_12_4" || vm.filtre.menu=="menu_12_5") {
-				vm.entete_etat=[];
-			}
+			vm.entete_etat=[];
 		}
-		vm.Filtrer_Reporting = function() {
-			if(vm.filtre.menu=="menu_12_2" || vm.filtre.menu=="menu_12_3" || vm.filtre.menu=="menu_12_6") {
-				// EN-TETE FIXE
-				vm.affiche_load=true;
-				apiFactory.getAPIgeneraliserREST("SIP_reporting_peche_thon_malagasy/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin,"table_en_tete","sip_peche_thoniere_malagasy","table_sequence","sip_sequence_peche_thon_malagasy","cle_etranger_sequence","id_peche_thoniere_malagasy","table_sequence_capture","sip_sequence_peche_thon_malagasy_capture","cle_etranger_sequence_capture","id_sequence_peche_thon_malagasy").then(function(result)
-				{
-					vm.donnees_reporting = result.data.response;
-					vm.affiche_load=false;
-					if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
-						vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
-					}
-				});							
-			} else 	if(vm.filtre.menu=="menu_12_8" || vm.filtre.menu=="menu_12_9") {
-				// EN-TETE FIXE
-				vm.affiche_load=true;
-				apiFactory.getAPIgeneraliserREST("SIP_reporting_peche_thon_malagasy/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin,"table_en_tete","sip_peche_thoniere_malagasy").then(function(result)
-				{
-					vm.donnees_reporting = result.data.response;
-					vm.affiche_load=false;
-					if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
-						vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
-					}
-				});							
-			} else if(vm.filtre.menu=="menu_12_1" || vm.filtre.menu=="menu_12_4" || vm.filtre.menu=="menu_12_5") {
-				// EN-TETE DYNAMIQUE
-				vm.affiche_load=true;
-				apiFactory.getAPIgeneraliserREST("SIP_reporting_peche_thon_malagasy/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin).then(function(result)
-				{
+		vm.Filtrer_Reporting = function(export_excel) {
+			// EN-TETE DYNAMIQUE
+			vm.affiche_load=true;
+			apiFactory.getAPIgeneraliserREST("SIP_reporting_peche_thon_malagasy/index","menu",vm.filtre.menu,"annee_debut",vm.filtre.annee_debut,"annee_fin",vm.filtre.annee_fin,"export_excel",export_excel).then(function(result)
+			{
+				if (export_excel == 'oui') {
+					var nom_file = result.data.nom_file;
+					var repertoire = result.data.repertoire;
+					vm.affiche_load = false ;
+					window.location = apiUrlExportexcel+repertoire+nom_file ;
+				} else {					
 					vm.donnees_reporting = result.data.response;
 					vm.affiche_load=false;
 					vm.entete_etat = Object.keys(vm.donnees_reporting[0]).map(function(cle) {
-				    	return (cle);
+						return (cle);
 					});
 					if(vm.donnees_reporting.length==0 || !vm.donnees_reporting) {
 						vm.showAlert("INFORMATION","Aucune donnée à afficher pour les filtres spécifiés !.Merci");					
 					}
-				});							
-			}
+				}	
+			});							
 		}		
-		vm.selection_detail_menu_12_2 = function(detail)
-		{
-			vm.selected_detail_menu_12_2 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_12_2', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_12_2.$selected = true;
-		});
-		vm.selection_detail_menu_12_3 = function(detail)
-		{
-			vm.selected_detail_menu_12_3 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_12_3', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_12_3.$selected = true;
-		});
-		vm.selection_detail_menu_12_6_8_9 = function(detail)
-		{
-			vm.selected_detail_menu_12_6_8_9 = detail ;
-		}
-		$scope.$watch('vm.selected_detail_menu_12_6_8_9', function()
-		{
-			if (!vm.donnees_reporting) return;
-			vm.donnees_reporting.forEach(function(item)
-			{
-				item.$selected = false;
-			});
-			vm.selected_detail_menu_12_6_8_9.$selected = true;
-		});
 		vm.selection_detail_dynamique = function(detail)
 		{
 			vm.selected_detail_dynamique = detail ;
@@ -1039,9 +981,5 @@
 		});
 		
 		// FIN ANALYSE CHOIX			
-		// DEBUT EXPORT EXCEL
-		vm.Export_Excel = function() {
-		}	
-		// FIN EXPORT EXCEL
     }
 })();

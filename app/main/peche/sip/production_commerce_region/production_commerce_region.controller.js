@@ -427,9 +427,9 @@
 		        {titre: "Production région nombre",id:"production_region_nombre",module:"production"},
 		        {titre: "Production par région mois nombre",id:"production_par_region_mois_nombre",module:"production"},
 		        
-		        {titre: "Quantité commercialisé",id:"quantite_commercialise",module:"commercialisation"},
-		        {titre: "Quantité commercialisé par mois",id:"quantite_commercialise_par_mois",module:"commercialisation"},
-		        {titre: "Quantité commercialisé région mois",id:"quantite_commercialise_region_mois",module:"commercialisation"},
+		        {titre: "Quantité commercialisée",id:"quantite_commercialise",module:"commercialisation"},
+		        {titre: "Quantité commercialisée par mois",id:"quantite_commercialise_par_mois",module:"commercialisation"},
+		        {titre: "Quantité commercialisée région mois",id:"quantite_commercialise_region_mois",module:"commercialisation"},
 		        
 		        {titre: "Quantité production nationale",id:"quantite_production_nationale",module:"product_national"}
 	      	];
