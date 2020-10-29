@@ -420,7 +420,8 @@
 		        {titre:"Production nationale",id:"product_national"}
 	      	];
 
-	      	vm.pivots = [
+	      	vm.pivots = 
+	      	[
 		        {titre: "Quantité production par région",id:"qte_production_par_region",module:"production"},
 		        {titre: "Quantité production par région mois",id:"qte_production_par_region_mois",module:"production"},
 		        {titre: "Production région nombre",id:"production_region_nombre",module:"production"},
@@ -436,7 +437,7 @@
 		    vm.get_requete_etat = function(data_masque, etat_exportExcel)
 		    {
 		        vm.affiche_load = true ;
-		        vm.text_load = 'Chargement en cours... Veuillez patienter s\'il vous plait!!!';
+		        vm.text_load = "Chargement en cours... Veuillez patienter s'il vous plait!!!";
 	            var repertoire = 'reporting_production_commerce_region/';
 
 	            var choix_module = vm.modules.filter(function(obj)
