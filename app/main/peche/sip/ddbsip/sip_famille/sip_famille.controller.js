@@ -18,6 +18,7 @@
       vm.affichageMasque        = 0 ;          //variable cache masque de saisie
       vm.afficherboutonnouveau  = 1 ;    //variale affichage bouton nouveau  
       vm.titrepage              ='';
+      vm.affiche_load           = true ;
         //style
        vm.dtOptions =
       {
@@ -31,11 +32,13 @@
 
       apiFactory.getAll("sip_famille/index").then(function(result)
       { vm.allsip_famille = result.data.response;
+        vm.affiche_load           = false ;
       });
 
 
       function ajout(sip_famille,suppression)
       {
+        vm.affiche_load           = true ;
         if (NouvelItem==false)
         {
           test_existance (sip_famille,suppression); 
@@ -102,6 +105,7 @@
             NouvelItem          =false;
           }
           vm.affichageMasque    = 0 ;
+          vm.affiche_load           = false ;
         }).error(function (data) 
             {
               //alert('Error');
@@ -164,6 +168,7 @@
         {
           vm.affichageMasque         = 0 ;
           vm.afficherboutonModifSupr = 0 ;
+          vm.affiche_load           = true ;
           var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent("")
@@ -177,6 +182,7 @@
             vm.esp = res.data.response.length;
            apiFactory.getParamsDynamic("sip_Saisie_vente_poissonnerie/index?famille_rh="+vm.selectedItem.id+"").then(function (result) {
               vm.Saisie_VP = result.data.response.length;
+              vm.affiche_load           = false ;
               if (( vm.Saisie_VP>0)||( vm.esp>0)) 
               {
                 vm.dialog();

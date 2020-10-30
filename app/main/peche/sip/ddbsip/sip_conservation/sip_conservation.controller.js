@@ -18,6 +18,7 @@
       vm.affichageMasque        = 0 ;          //variable cache masque de saisie
   		vm.afficherboutonnouveau  = 1 ;    //variale affichage bouton nouveau 	
       vm.titrepage              ='';
+      vm.affiche_load           = true ;
       
       //style
        vm.dtOptions =
@@ -31,11 +32,13 @@
       vm.sip_conservation_column = [{titre:"Libelle"}];
 
       apiFactory.getAll("sip_conservation/index").then(function(result)
-      { vm.allsip_conservation = result.data.response;   
+      { vm.allsip_conservation = result.data.response;  
+      vm.affiche_load           = false ; 
       });
 
       function ajout(sip_conservation,suppression)
       {
+        vm.affiche_load           = true ;
         if (NouvelItem==false)
         {
           test_existance (sip_conservation,suppression); 
@@ -99,6 +102,7 @@
             NouvelItem      =false;
           }
           vm.affichageMasque = 0 ;
+          vm.affiche_load           = false ;
         }).error(function (data) {alert('Error');});                
       }
   	
@@ -157,6 +161,7 @@
         {
           vm.affichageMasque              = 0 ;
           vm.afficherboutonModifSupr      = 0 ;
+          vm.affiche_load           = true ;
           var commerce_marine             ;
           var commerce_eau_douce          ;
           var saisie_collecte_halieutique ;
@@ -186,6 +191,8 @@
 
                   apiFactory.getParamsDynamic("sip_exportation_crevette/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
                     vm.export_crevette = resultat.data.response.length;
+
+                    vm.affiche_load           = false ;
 
                     if ( (vm.saisie_vente_poissonnerie>0) ||(vm.saisie_collecte_halieutique>0) ||(vm.commerce_eau_douce>0)|| (vm.commerce_marine>0)|| (vm.commerce_crevette>0)|| (vm.export_crevette>0)) 
                     {

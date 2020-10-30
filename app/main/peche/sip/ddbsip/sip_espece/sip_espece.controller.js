@@ -18,6 +18,7 @@
       vm.allsip_type_espece    = [];
       vm.afficherboutonnouveau = 1;      
       vm.affichageMasque       = 0;
+      vm.affiche_load           = true ;
        vm.dtOptions =
       {
          dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -39,6 +40,7 @@
       apiFactory.getAll("sip_espece/index").then(function(result)
       {
          vm.allsip_espece = result.data.response;
+         vm.affiche_load           = false ;
       });
  
       apiFactory.getAll("sip_type_espece/index").then(function(result)
@@ -53,6 +55,7 @@
 
       function ajout(sip_espece,suppression)   
       {  
+        vm.affiche_load           = false ;
         if (NouvelItem == false) 
          {
            test_existance (sip_espece,suppression); 
@@ -188,6 +191,7 @@
               NouvelItem  = false;
            }
            vm.affichageMasque = 0 ;
+           vm.affiche_load           = false ;
 
         }).error(function (data)
            { 
@@ -261,6 +265,7 @@
       {  
         vm.afficherboutonModifSupr = 0;
         vm.affichageMasque         = 0;
+        vm.affiche_load           = true ;
         var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -274,6 +279,7 @@
 
                 apiFactory.getParamsDynamic("sip_commercialisation_crevette/index?id_espece="+vm.selectedItem.id+"").then(function (resultat) {
                   vm.comerce_crevette = resultat.data.response.length;
+                  vm.affiche_load           = false ;
              
                   if(( vm.sortie_peche_artisanale>0)||( vm.permis>0)||( vm.comerce_crevette>0)) 
                     vm.dialog();
