@@ -29,7 +29,7 @@
       //col table 
       vm.sip_famille_column = [{titre:"libelle"}];
 
-      apiFactory.getAll("sip_famille/index").then(function(result)
+      apiFactory.getAll("SIP_famille/index").then(function(result)
       { vm.allsip_famille = result.data.response;
       });
 
@@ -68,7 +68,7 @@
         });
 
           //factory
-        apiFactory.add("sip_famille/index",datas, config).success(function (data)
+        apiFactory.add("SIP_famille/index",datas, config).success(function (data)
         {
           if (NouvelItem == false)
           {
@@ -173,9 +173,9 @@
                 .ok('ok')
                 .cancel('annuler');
 
-            apiFactory.getParamsDynamic("sip_espece/index?id_famille="+vm.selectedItem.id+"").then(function(res) {
+            apiFactory.getParamsDynamic("SIP_espece/index?id_famille="+vm.selectedItem.id+"").then(function(res) {
             vm.esp = res.data.response.length;
-           apiFactory.getParamsDynamic("sip_Saisie_vente_poissonnerie/index?famille_rh="+vm.selectedItem.id+"").then(function (result) {
+           apiFactory.getParamsDynamic("SIP_Saisie_vente_poissonnerie/index?famille_rh="+vm.selectedItem.id+"").then(function (result) {
               vm.Saisie_VP = result.data.response.length;
               if (( vm.Saisie_VP>0)||( vm.esp>0)) 
               {

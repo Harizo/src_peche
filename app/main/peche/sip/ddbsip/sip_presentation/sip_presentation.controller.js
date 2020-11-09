@@ -36,7 +36,7 @@
       //col table
       vm.sip_presentation_column = [{titre:"Libelle"}];
 
-      apiFactory.getAll("sip_presentation/index").then(function(result)
+      apiFactory.getAll("SIP_presentation/index").then(function(result)
       { vm.allsip_presentation = result.data.response;    
       });
 
@@ -71,7 +71,7 @@
             libelle: sip_presentation.libelle,
           });
           //factory
-        apiFactory.add("sip_presentation/index",datas, config).success(function (data)
+        apiFactory.add("SIP_presentation/index",datas, config).success(function (data)
         {
           if (NouvelItem == false)
           {
@@ -178,22 +178,22 @@
               .ok('ok')
               .cancel('annuler');
 
-            apiFactory.getParamsDynamic("sip_saisie_vente_poissonnerie/index?id_presentation="+ vm.selectedItem.id+"").then(function (resultat) {
+            apiFactory.getParamsDynamic("SIP_saisie_vente_poissonnerie/index?id_presentation="+ vm.selectedItem.id+"").then(function (resultat) {
               vm.saisie_vente_poissonnerie = resultat.data.response.length;
              
-              apiFactory.getParamsDynamic("sip_saisie_collecte_halieutique/index?id_presentation="+ vm.selectedItem.id+"").then(function (resultat) {
+              apiFactory.getParamsDynamic("SIP_saisie_collecte_halieutique/index?id_presentation="+ vm.selectedItem.id+"").then(function (resultat) {
                 vm.saisie_collecte_halieutique = resultat.data.response.length;
                
-                apiFactory.getParamsDynamic("sip_commercialisation_marine/index?id_presentation="+ vm.selectedItem.id+"").then(function (resultat) {
+                apiFactory.getParamsDynamic("SIP_commercialisation_marine/index?id_presentation="+ vm.selectedItem.id+"").then(function (resultat) {
                   vm.commerce_marine = resultat.data.response.length;
                 
-                  apiFactory.getParamsDynamic("sip_commercialisation_eau_douce/index?id_presentation="+ vm.selectedItem.id+"").then(function (resultat) {
+                  apiFactory.getParamsDynamic("SIP_commercialisation_eau_douce/index?id_presentation="+ vm.selectedItem.id+"").then(function (resultat) {
                     vm.commerce_eau_douce = resultat.data.response.length;
 
-                    apiFactory.getParamsDynamic("sip_commercialisation_crevette/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
+                    apiFactory.getParamsDynamic("SIP_commercialisation_crevette/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
                       vm.commerce_crevette = resultat.data.response.length;
 
-                      apiFactory.getParamsDynamic("sip_exportation_crevette/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
+                      apiFactory.getParamsDynamic("SIP_exportation_crevette/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
                         vm.export_crevette = resultat.data.response.length;
 
                         if ( (vm.saisie_vente_poissonnerie>0) ||(vm.saisie_collecte_halieutique>0) ||(vm.commerce_eau_douce>0)|| (vm.commerce_marine>0)|| (vm.commerce_crevette>0)|| (vm.export_crevette>0)) 

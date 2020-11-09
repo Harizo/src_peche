@@ -29,7 +29,7 @@
       //col table 
       vm.sip_type_espece_column = [{titre:"libelle"}];
 
-      apiFactory.getAll("sip_type_espece/index").then(function(result)
+      apiFactory.getAll("SIP_type_espece/index").then(function(result)
       { vm.allsip_type_espece = result.data.response;
       });
 
@@ -68,7 +68,7 @@
         });
 
           //factory
-        apiFactory.add("sip_type_espece/index",datas, config).success(function (data)
+        apiFactory.add("SIP_type_espece/index",datas, config).success(function (data)
         {
           if (NouvelItem == false)
           {
@@ -172,7 +172,7 @@
                 .parent(angular.element(document.body))
                 .ok('ok')
                 .cancel('annuler');
-            apiFactory.getParamsDynamic("sip_espece/index?id_type_espece="+ vm.selectedItem.id+"").then(function (result) {
+            apiFactory.getParamsDynamic("SIP_espece/index?id_type_espece="+ vm.selectedItem.id+"").then(function (result) {
               vm.especes = result.data.response.length;
               if ( vm.especes>0) 
               {

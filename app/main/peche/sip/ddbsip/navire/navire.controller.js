@@ -238,16 +238,16 @@
 				  .parent(angular.element(document.body))
 				  .ok('ok')
 				  .cancel('annuler');
-					apiFactory.getParamsDynamic("sip_peche_thoniere_etranger/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+					apiFactory.getParamsDynamic("SIP_peche_thoniere_etranger/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
             			vm.peche_thoniere_etranger = resultat.data.response.length;
             
-          				apiFactory.getParamsDynamic("sip_peche_thoniere_malagasy/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+          				apiFactory.getParamsDynamic("SIP_peche_thoniere_malagasy/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
             				vm.peche_thoniere_malagasy = resultat.data.response.length;
             
-            				apiFactory.getParamsDynamic("sip_autorisation_navire/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+            				apiFactory.getParamsDynamic("SIP_autorisation_navire/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
            						vm.autorisation_navire = resultat.data.response.length;
             
-            					apiFactory.getParamsDynamic("sip_sortie_peche_artisanale/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+            					apiFactory.getParamsDynamic("SIP_sortie_peche_artisanale/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
             						vm.sortie_peche_artisanale = resultat.data.response.length;
            							if ( (vm.peche_thoniere_etranger>0) ||(vm.peche_thoniere_malagasy>0) ||(vm.sortie_peche_artisanale>0)|| (vm.autorisation_navire>0)) 
           							{

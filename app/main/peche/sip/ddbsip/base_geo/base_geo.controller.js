@@ -29,7 +29,7 @@
       //col table 
       vm.base_geo_column = [{titre:"libelle"}];
 
-      apiFactory.getAll("sip_base_geo/index").then(function(result)
+      apiFactory.getAll("SIP_base_geo/index").then(function(result)
       { vm.all_base_geo = result.data.response;
       });
 
@@ -68,7 +68,7 @@
         });
 
           //factory
-        apiFactory.add("sip_base_geo/index",datas, config).success(function (data)
+        apiFactory.add("SIP_base_geo/index",datas, config).success(function (data)
         {
           if (NouvelItem == false)
           {
@@ -172,7 +172,7 @@
               .parent(angular.element(document.body))
               .ok('ok')
               .cancel('annuler');
-              apiFactory.getParamsDynamic("sip_societe_crevette/index?base_geo="+vm.selectedItem.libelle+"").then(function (resultat) {
+              apiFactory.getParamsDynamic("SIP_societe_crevette/index?base_geo="+vm.selectedItem.libelle+"").then(function (resultat) {
                 vm.societe_crevette = resultat.data.response.length;
                 if (vm.societe_crevette>0) 
                 {

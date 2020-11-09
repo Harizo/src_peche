@@ -387,8 +387,24 @@
                                 <div layout="column" layout-gt-xs="row" flex>
 
                                     <md-input-container >
+                                        <label>Type Espèce</label>
+                                        <md-select ng-model="vm.especes_permis.id_type_espece" name="id_type_espece" ng-change="vm.get_espece()" required>
+                                            <md-option ng-repeat="tpes in vm.all_type_espece" value="{{tpes.id}}" style="height:auto !important;">
+                                                {{tpes.libelle}}
+                                            </md-option>
+                                            
+                                        </md-select>
+                                        <div ng-messages="form_especes_permis.id_type_espece.$error"
+                                              role="alert">
+                                              <div ng-message="required">
+                                                <span>Champ Obligatoire.</span>
+                                              </div>
+                                            </div>
+                                    </md-input-container>
+
+                                    <md-input-container >
                                         <label>Espèce</label>
-                                        <md-select ng-model="vm.especes_permis.id_espece" name="id_espece" required>
+                                        <md-select ng-model="vm.especes_permis.id_espece" name="id_espece" ng-disabled="!vm.especes_permis.id_type_espece" required>
                                             <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
                                                 <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                   <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
@@ -733,7 +749,7 @@
                                         <md-input-container >
                                             <label>Espèce</label>
                                             <md-select ng-model="vm.commerce_marine.id_espece" name="id_espece" required>
-                                                <md-option ng-repeat="esp in vm.all_especes_permis | filter: {type_espece: '5' } " value="{{esp.id_espece}}" style="height:auto !important;">
+                                                <md-option ng-repeat="esp in vm.all_especes_permis " value="{{esp.id_espece}}" style="height:auto !important;">
                                                     <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                     <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
                                                     <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
@@ -1300,7 +1316,7 @@
                                         <md-input-container >
                                             <label>Espèce</label>
                                             <md-select ng-model="vm.commerce_eau_douce.id_espece" name="id_espece" required>
-                                                <md-option ng-repeat="esp in vm.all_especes_permis | filter: {type_espece: '1' }" value="{{esp.id_espece}}" style="height:auto !important;">
+                                                <md-option ng-repeat="esp in vm.all_especes_permis " value="{{esp.id_espece}}" style="height:auto !important;">
                                                     <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                     <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
                                                     <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>

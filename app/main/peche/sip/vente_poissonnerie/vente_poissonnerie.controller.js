@@ -45,7 +45,7 @@
             vm.all_conservation = result.data.response;
          });
 
-          apiFactory.getAll("sip_famille/index").then(function(result)
+          apiFactory.getAll("SIP_famille/index").then(function(result)
          {
             vm.all_famille= result.data.response;
          });
@@ -152,7 +152,7 @@
           vm.nom_region = '';
          
          
-          apiFactory.getParamsDynamic("sip_poissonnerie/index?id_region="+vm.filtre.id_region+"&id_commune="+vm.filtre.id_commune+"&id_district="+vm.filtre.id_district).then(function(result)
+          apiFactory.getParamsDynamic("SIP_poissonnerie/index?id_region="+vm.filtre.id_region+"&id_commune="+vm.filtre.id_commune+"&id_district="+vm.filtre.id_district).then(function(result)
           {
             vm.nom_commune = '' ;
             vm.nom_district = '' ;
@@ -281,7 +281,7 @@
             .parent(angular.element(document.body))
             .ok('ok')
             .cancel('annuler');
-            apiFactory.getParamsDynamic("sip_saisie_vente_poissonnerie/index?id_poissonnerie="+vm.selected_poissonnerie.id+"&mois="+null+"&annee="+null).then(function(result)
+            apiFactory.getParamsDynamic("SIP_saisie_vente_poissonnerie/index?id_poissonnerie="+vm.selected_poissonnerie.id+"&mois="+null+"&annee="+null).then(function(result)
             {
               if(result.data.response.length>0) 
               {

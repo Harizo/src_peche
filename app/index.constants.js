@@ -38,7 +38,8 @@
 		/*.constant("apiUrl", "http://154.126.93.188/2019/peche/api/index.php/api/")
 		.constant("apiUrlbase", "http://154.126.93.188/2019/peche/api/")
 		.constant("apiUrlserver", "http://154.126.93.188/assets/ddb/")
-		.constant("apiUrlexcel", "http://154.126.93.188/assets/excel/");*/
+		.constant("apiUrlexcel", "http://154.126.93.188/assets/excel/")
+		.constant("apiUrlExportexcel", "http://localhost/2019/peche/export_excel/");*/
 
 	//externe PECHE
 })();

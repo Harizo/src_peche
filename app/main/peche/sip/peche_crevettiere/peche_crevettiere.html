@@ -1337,8 +1337,13 @@
                                         <md-input-container flex="100" flex-gt-xs="35">
                                             <label>Produit</label>
                                             <md-select ng-model="vm.commerce_crevette.produit" name="produit" required>
-                                                <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}">
-                                                    {{espece.nom}}
+                                                <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}">
+                                                    <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                                      <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                                      <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                                      <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                                      <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
+                                                      <md-divider></md-divider> 
                                                 </md-option>
                                                 
                                             </md-select>
@@ -1349,6 +1354,8 @@
                                                   </div>
                                                 </div>
                                         </md-input-container>
+
+
 
                                         <md-input-container flex="100" flex-gt-xs="30">
                                             <label>Présentation</label>
@@ -1727,8 +1734,13 @@
                                     <md-input-container flex="100" flex-gt-xs="25">
                                             <label>Produit</label>
                                             <md-select ng-model="vm.exportation_crevette.id_espece" name="id_espece" required>
-                                                <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}">
-                                                    {{espece.nom}}
+                                                <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}">
+                                                    <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                                      <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                                      <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                                      <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                                      <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
+                                                      <md-divider></md-divider> 
                                                 </md-option>
                                                 
                                             </md-select>
