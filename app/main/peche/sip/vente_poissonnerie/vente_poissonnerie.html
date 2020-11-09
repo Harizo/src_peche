@@ -43,7 +43,7 @@
                     <form name="filtreform" class="md-inline-form" novalidate >
                       <div layout="column" layout-gt-xs="row">
                         <md-input-container flex-gt-sm>
-                          <label>Region</label>
+                          <label>Région</label>
                           <md-select ng-model="vm.filtre.id_region"  ng-change="vm.get_district()"  required>
                             <md-option ng-repeat="region in vm.allregion" value="{{region.id}}">
                               {{region.nom}}

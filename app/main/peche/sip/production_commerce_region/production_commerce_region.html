@@ -124,7 +124,7 @@
                         <div ng-message="required">
                           <span>Code act_dom obligatoire.</span>
                         </div>
-                        
+                         
                       </div>
                     </md-input-container>
 
@@ -163,6 +163,16 @@
                           <span>Mois Obligatoire.</span>
                         </div>
                       </div>
+                    </md-input-container>
+
+                    <md-input-container flex="100" flex-gt-xs="15">
+                      <label>Type espèce</label>
+                      <md-select ng-model="vm.filtre.id_type_espece" ng_change="vm.get_espece()" required >
+                        <md-option ng-repeat="typ_espc in vm.all_type_espece" value="{{typ_espc.id}}">
+                            {{typ_espc.libelle}}
+                        </md-option>
+                            
+                      </md-select>
                     </md-input-container>
 
                   </div>
