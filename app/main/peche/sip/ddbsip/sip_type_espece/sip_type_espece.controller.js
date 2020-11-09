@@ -18,6 +18,7 @@
       vm.affichageMasque        = 0 ;          //variable cache masque de saisie
       vm.afficherboutonnouveau  = 1 ;    //variale affichage bouton nouveau  
       vm.titrepage              ='';
+      vm.affiche_load           = true ;
         //style
        vm.dtOptions =
       {
@@ -31,6 +32,7 @@
 
       apiFactory.getAll("SIP_type_espece/index").then(function(result)
       { vm.allsip_type_espece = result.data.response;
+        vm.affiche_load           = false ;
       });
 
 
@@ -102,6 +104,7 @@
             NouvelItem          =false;
           }
           vm.affichageMasque    = 0 ;
+          vm.affiche_load           = false ;
         }).error(function (data) 
             {
               //alert('Error');
@@ -164,6 +167,7 @@
         {
           vm.affichageMasque         = 0 ;
           vm.afficherboutonModifSupr = 0 ;
+          vm.affiche_load           = true ;
           var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent("")
@@ -174,6 +178,7 @@
                 .cancel('annuler');
             apiFactory.getParamsDynamic("SIP_espece/index?id_type_espece="+ vm.selectedItem.id+"").then(function (result) {
               vm.especes = result.data.response.length;
+              vm.affiche_load           = false ;
               if ( vm.especes>0) 
               {
                 console.log("misy Dialog");

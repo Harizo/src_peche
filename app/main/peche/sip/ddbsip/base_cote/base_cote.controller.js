@@ -18,6 +18,7 @@
       vm.affichageMasque        = 0 ;          //variable cache masque de saisie
       vm.afficherboutonnouveau  = 1 ;    //variale affichage bouton nouveau  
       vm.titrepage              ='';
+      vm.affiche_load           = true ;
         //style
        vm.dtOptions =
       {
@@ -31,11 +32,13 @@
 
       apiFactory.getAll("SIP_base_cote/index").then(function(result)
       { vm.all_base_cote = result.data.response;
+        vm.affiche_load = false ;
       });
 
 
       function ajout(bs_cote,suppression)
       {
+        vm.affiche_load = true ;
         if (NouvelItem==false)
         {
           test_existance (bs_cote,suppression); 
@@ -101,7 +104,9 @@
             vm.bs_cote          = {} ;                   
             NouvelItem          =false;
           }
+
           vm.affichageMasque    = 0 ;
+          vm.affiche_load = false ;
         }).error(function (data) 
             {
               //alert('Error');
@@ -136,7 +141,7 @@
         vm.affichageMasque        = 1 ;
         vm.bs_cote                = {} ;
         NouvelItem                = true ;
-        vm.titrepage              ="Ajout de la base côte"
+        vm.titrepage              ="Ajout de la base côte" ;
       };
       
       vm.annuler = function()
@@ -157,13 +162,14 @@
           vm.bs_cote.libelle        = vm.selectedItem.libelle ;     
           vm.afficherboutonModifSupr = 0;
           vm.afficherboutonnouveau   = 0;
-          vm.titrepage="modification de la base côte"  
+          vm.titrepage="modification de la base côte" ;
       };
        
         vm.supprimer = function()
         {
           vm.affichageMasque         = 0 ;
           vm.afficherboutonModifSupr = 0 ;
+          vm.affiche_load           = true ;
           var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -172,8 +178,11 @@
                 .parent(angular.element(document.body))
                 .ok('ok')
                 .cancel('annuler');
+
                 apiFactory.getParamsDynamic("SIP_societe_crevette/index?base_cote="+vm.selectedItem.libelle+"").then(function (resultat) {
+
                   vm.societe_crevette = resultat.data.response.length;
+                  vm.affiche_load = false ;
                   if (vm.societe_crevette>0) 
                   {
                     vm.dial();
@@ -213,8 +222,10 @@
                      vm.affichageMasque = 0;
                   }
             }
-        }  else
+        }  
+        else
           insert_in_base(item,suppression);
+
       }
 
     vm.dial = function (ev)
