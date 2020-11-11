@@ -161,7 +161,7 @@
                                     </div>
                                     <div>
                                      <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                      ng-disabled="form_navire.$invalid" ng-click="vm.save_in_bdd(vm.col_navire,0)">
+                                      ng-disabled="form_navire.$invalid||vm.affiche_load" ng-click="vm.save_in_bdd(vm.col_navire,0)">
                                       Enregistrer
                                     </md-button>
                                     <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_col_navire()">
@@ -266,7 +266,7 @@
                                     </div>
                                    <div>
                                      <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                      ng-disabled="form_autorisation_navire.$invalid " ng-click="vm.save_in_bdd_autorisation_navire(vm.autorisation_navire,0)">
+                                      ng-disabled="form_autorisation_navire.$invalid||vm.affiche_load " ng-click="vm.save_in_bdd_autorisation_navire(vm.autorisation_navire,0)">
                                       Enregistrer
                                     </md-button>
                                     <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_autorisation_navire()">

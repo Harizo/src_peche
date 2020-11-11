@@ -38,6 +38,7 @@
 
       function ajout(sip_type_espece,suppression)
       {
+        vm.affiche_load = true ;
         if (NouvelItem==false)
         {
           test_existance (sip_type_espece,suppression); 

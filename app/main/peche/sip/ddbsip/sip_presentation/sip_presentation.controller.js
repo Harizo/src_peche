@@ -5,13 +5,6 @@
     angular
         .module('app.peche.sip.ddbsip.sip_presentation')
         .controller('PresentationController', PresentationController);
-          //  IRETO DAHOLO NY TABLE MAMPIASA AZY ROA misy ny "id_presentation" sy "id_conservation" ato am :
-          //sip_commercialisation_eau_douce, 
-          //commercialisation_marine, 
-          //sip_exportation_crevette, 
-          //sip_saisie_collecte_halieutiques, 
-          //sip_saisie_vent_poissonnerie  
-
 
     /** @ngInject */
     function PresentationController($mdDialog, $scope, apiFactory, $state)  
@@ -39,8 +32,8 @@
 
 
       apiFactory.getAll("SIP_presentation/index").then(function(result)
-      { vm.allsip_presentation = result.data.response;    
-
+      { 
+        vm.allsip_presentation = result.data.response;    
       	vm.affiche_load           = false ;   
 
       });

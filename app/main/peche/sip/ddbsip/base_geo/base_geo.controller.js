@@ -168,7 +168,6 @@
       {
         vm.affichageMasque         = 0 ;
         vm.afficherboutonModifSupr = 0 ;
-        vm.affiche_load           = true ;
         var confirm = $mdDialog.confirm()
               .title('Etes-vous sûr de supprimer cet enregistrement ?')
               .textContent("")
@@ -178,7 +177,7 @@
               .ok('ok')
               .cancel('annuler');
 
-              apiFactory.getParamsDynamic("SIP_societe_crevette/index?base_geo="+vm.selectedItem.libelle+"").then(function (resultat) {
+              apiFactory.getParamsDynamic("SIP_societe_crevette/index?id_base_geo="+vm.selectedItem.id+"").then(function (resultat) {
 
                 vm.societe_crevette = resultat.data.response.length;
                 vm.affiche_load           = false ;
