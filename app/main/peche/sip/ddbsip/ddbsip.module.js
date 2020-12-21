@@ -52,7 +52,7 @@
                
 
                 var permission = user.roles;
-                var permissions = ["DDB"];
+                var permissions = ["ADMIN","SIP_DDB"];
                 var x =  loginService.gestionMenu(permissions,permission);        
                 vs = x ;
 

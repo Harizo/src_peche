@@ -19,7 +19,11 @@
     <!-- CONTENT -->
       <!-- LISTE TABLE -->
     <div class="content"layout="column">
-        <div class="form-wrapper">          
+        <div class="form-wrapper">  
+
+          <md-progress-circular ng-if="vm.affiche_load" class="md-accent" md-mode="indeterminate" md-diameter="64"></md-progress-circular>
+          <div style="clear:both;"></div>
+          <div ng-if="vm.affiche_load" style="position:relative;top: -30px;  left: 60px;color: #039be5">Chargement en cours... Veuillez patienter s'il vous plait!!!</div>
                   <!-- BASIC FORM -->
             <div class="white-bg md-whiteframe-4dp">            
                 <md-tabs md-dynamic-height ng-show="vm.affichageMasque==1">
@@ -40,7 +44,7 @@
                             </md-input-container>
                         </div>
                         <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                              ng-disabled="bs_cote.$invalid" ng-click="vm.ajout(vm.bs_cote,0)">
+                              ng-disabled="bs_cote.$invalid||vm.affiche_load" ng-click="vm.ajout(vm.bs_cote,0)">
                               Enregistrer
                         </md-button>
                         <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -57,13 +61,13 @@
 
               <md-tab label="Base côte">
                 <div style="width:100%;">    
-                  <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised md-accent" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;">
+                  <md-button type="submit" ng-show="vm.afficherboutonnouveau==1" class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajouter()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                       Nouveau
                   </md-button>
-                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
+                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised custum_button" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
                       Modifier
                   </md-button>
-                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
+                  <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised custum_button_del" aria-label="Supprimer" ng-click="vm.supprimer()" style="width:10%;">
                       Supprimer
                   </md-button>
                 </div>

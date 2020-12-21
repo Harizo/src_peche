@@ -4,7 +4,7 @@
 
     angular
         .module('app.peche.sip.coefficient_conversion', [])
-       // .run(testPermission)        
+        .run(testPermission)        
         .config(config);
         var vs ;
 
@@ -33,15 +33,15 @@
             title: "Coefficient de conversion",
             icon  : 'icon-data',
             state: 'app.peche_reporting_coefficient_conversion',
-			weight: 1/*,
+			weight: 1,
             hidden: function()
             {
                     return vs;
-            }*/
+            }
         });
     }
 
-  /*  function testPermission(loginService,$cookieStore,apiFactory)
+    function testPermission(loginService,$cookieStore,apiFactory)
     {
         var id_user = $cookieStore.get('id');
        
@@ -52,7 +52,7 @@
             {
                 var user = result.data.response;
                 var permission = user.roles;
-                var permissions = ["RPT"];
+                var permissions = ["ADMIN","SIP_DDB"];
                 var x =  loginService.gestionMenu(permissions,permission);        
                 vs = x ;
               
@@ -60,6 +60,6 @@
             });
         }
      
-    }*/
+    }
 
 })();

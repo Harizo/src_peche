@@ -23,6 +23,9 @@
       <div class="form-wrapper">
       <div style="widht:100%;">    
           
+          <md-button type="submit"  class="md-raised md-warn" aria-label="Modifier" ng-click="vm.down_bdd()" >
+              Télécharger BDD
+          </md-button>
           <md-button type="submit" ng-show="vm.afficherboutonModifSupr==1" class="md-raised md-accent" aria-label="Modifier" ng-click="vm.modifier()" style="width:10%;">
               Modifier
           </md-button>
@@ -97,58 +100,100 @@
                             </md-input-container>
                          
                         </div>
-
                         <fieldset class="standard" >
-                              <legend><code>Privilèges</code></legend>
-                                   
-                                    <!--md-checkbox ng-model="vm.user.user" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Simple utilisateur
-                                    </md-checkbox-->
+                          <legend><code>Open Artfish</code></legend>
+                          <fieldset class="standard" >
+                                <legend><code>Privilèges</code></legend>
+                                     
+                                      <!--md-checkbox ng-model="vm.user.user" aria-label="Checkbox 1"  style="margin: 4px;">
+                                          Simple utilisateur
+                                      </md-checkbox-->
 
-                               
-                                    <md-checkbox ng-disabled="true" ng-model="vm.user.user" value="true" aria-label="Checkbox 1"  style="margin: 4px;">
-                                       Simple utilisateur
-                                    </md-checkbox>
+                                 
+                                      <md-checkbox ng-disabled="true" ng-model="vm.user.user" value="true" aria-label="Checkbox 1"  style="margin: 4px;">
+                                         Simple utilisateur
+                                      </md-checkbox>
 
-                                    <md-checkbox ng-model="vm.user.ddb" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Données de bases
-                                    </md-checkbox>
+                                      <md-checkbox ng-model="vm.user.ddb" aria-label="Checkbox 1"  style="margin: 4px;">
+                                          Données de bases
+                                      </md-checkbox>
 
-                                                 
-                                    <md-checkbox ng-model="vm.user.admin" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Administrateur
-                                    </md-checkbox>
-     
+                                                   
+                                      <md-checkbox ng-model="vm.user.admin" aria-label="Checkbox 1"  style="margin: 4px;">
+                                          Administrateur
+                                      </md-checkbox>
+       
+                                    
+                                      <md-checkbox ng-model="vm.user.vld" aria-label="Checkbox 1"  style="margin: 4px;">
+                                          Validation des données
+                                      </md-checkbox>
+                                     
+                                      <md-checkbox ng-model="vm.user.ssi" aria-label="Checkbox 1"  style="margin: 4px;">
+                                          Données validées
+                                      </md-checkbox>
+
+                                      
+                                      
+
+                                      
                                   
-                                    <md-checkbox ng-model="vm.user.vld" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Validation des données
-                                    </md-checkbox>
-                                   
-                                    <md-checkbox ng-model="vm.user.ssi" aria-label="Checkbox 1"  style="margin: 4px;">
-                                        Données validées
-                                    </md-checkbox>
+                              </fieldset>
+                          <fieldset class="standard" >
+                            <legend><code>Reporting/Analyse</code></legend>
 
-                                    
-                                    
+                              <md-checkbox ng-model="vm.user.rpt" aria-label="Checkbox 1"  style="margin: 4px;">
+                                  Requêtes
+                              </md-checkbox>
 
-                                    
-                                
-                            </fieldset>
-                        <fieldset class="standard" >
-                          <legend><code>Reporting/Analyse</code></legend>
+                              <md-checkbox ng-model="vm.user.als" aria-label="Checkbox 1"  style="margin: 4px;">
+                                  Analyses paramétrables
+                              </md-checkbox>
 
-                            <md-checkbox ng-model="vm.user.rpt" aria-label="Checkbox 1"  style="margin: 4px;">
-                                Requêtes
+                              <md-checkbox ng-model="vm.user.nbr" aria-label="Checkbox 1"  style="margin: 4px;">
+                                  Nombres d'échantillon
+                              </md-checkbox>
+                    
+                          </fieldset>
+
+                        </fieldset>
+                          <fieldset class="standard" >
+                          <legend><code>S.I.P Madagascar</code></legend>
+                            <md-checkbox ng-model="vm.user.sip_pch_hal" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Pêche halieutique
                             </md-checkbox>
-
-                            <md-checkbox ng-model="vm.user.als" aria-label="Checkbox 1"  style="margin: 4px;">
-                                Analyses paramétrables
+                            <md-checkbox ng-model="vm.user.sip_pch_crv" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Pêche crevettière
                             </md-checkbox>
-
-                            <md-checkbox ng-model="vm.user.nbr" aria-label="Checkbox 1"  style="margin: 4px;">
-                                Nombres d'échantillon
+                            <md-checkbox ng-model="vm.user.sip_pch_tnrm" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Pêche thonière Malagasy
                             </md-checkbox>
-                  
+                            <md-checkbox ng-model="vm.user.sip_pch_tnre" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Pêche thonière Etranger
+                            </md-checkbox>
+                            <md-checkbox ng-model="vm.user.sip_psn_dem" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Poisson demersaux
+                            </md-checkbox>
+                            <md-checkbox ng-model="vm.user.sip_pch_art" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Pêche Artisanale
+                            </md-checkbox>
+                            <md-checkbox ng-model="vm.user.sip_pch_vnt_psn" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Vente poisonnerie
+                            </md-checkbox>
+                            <md-checkbox ng-model="vm.user.sip_pch_brpp" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Base de registre pêcheurs et pirogues
+                            </md-checkbox>
+                            <md-checkbox ng-model="vm.user.sip_prod_com" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Production/Commercialisation par région
+                            </md-checkbox>
+                            <md-checkbox ng-model="vm.user.sip_pch_clt_alg" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Saisie collecte culture d'algues
+                            </md-checkbox>
+                            <md-checkbox ng-model="vm.user.sip_ddb" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Données de base
+                            </md-checkbox>
+                            <md-checkbox ng-model="vm.user.sip_rpt" aria-label="Checkbox 1"  style="margin: 4px;">
+                                Reporting
+                            </md-checkbox>
                         </fieldset>
                         <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
                           ng-disabled="userForm.$invalid" ng-click="vm.ajout(vm.user,0)">
@@ -183,7 +228,7 @@
                   <td>{{vm.testEnabled(user.enabled)}}</td>
         					
                   <td>
-                    <span style="font-size: 12px;" ng-repeat="s in user.roles">
+                    <span style="font-size: 10px;" ng-repeat="s in user.roles">
                       {{"- "+s}}
                     </span>
                   </td>

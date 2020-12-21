@@ -4,7 +4,7 @@
 
     angular
         .module('app.peche.sip.production_commerce_region', [])
-       // .run(testPermission)        
+        .run(testPermission)        
         .config(config);
         var vs ;
 
@@ -33,15 +33,15 @@
             title: "Product°/Commercialisat° par région",
             icon  : 'icon-numeric-9-box-multiple-outline',
             state: 'app.peche_reporting_production_commerce_region',
-			weight: 1/*,
+			weight: 1,
             hidden: function()
             {
                     return vs;
-            }*/
+            }
         });
     }
 
-  /*  function testPermission(loginService,$cookieStore,apiFactory)
+    function testPermission(loginService,$cookieStore,apiFactory)
     {
         var id_user = $cookieStore.get('id');
        
@@ -52,7 +52,7 @@
             {
                 var user = result.data.response;
                 var permission = user.roles;
-                var permissions = ["RPT"];
+                var permissions = ["ADMIN","SIP_PROD_COM"];
                 var x =  loginService.gestionMenu(permissions,permission);        
                 vs = x ;
               
@@ -60,6 +60,6 @@
             });
         }
      
-    }*/
+    }
 
 })();

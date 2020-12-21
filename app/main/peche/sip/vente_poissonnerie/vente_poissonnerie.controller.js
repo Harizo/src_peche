@@ -13,6 +13,7 @@
       var vm = this;
       var nouvel_vente_poissonnerie = false ;
       var nouvel_col_poiss = false ;
+      vm.affiche_load=true;
       vm.affichage_masque_poissonnerie = false ;    
 
       //VARIABLE CACHE MASQUE DE SAISIE
@@ -33,21 +34,25 @@
          apiFactory.getAll("SIP_presentation/index").then(function(result)
          {
             vm.all_presentation = result.data.response;
+            vm.affiche_load=false;
          });
 
           apiFactory.getAll("region/index").then(function(result)
          {  
             vm.allregion = result.data.response;
+            vm.affiche_load=false;
          });
 
          apiFactory.getAll("SIP_conservation/index").then(function(result)
          {
             vm.all_conservation = result.data.response;
+            vm.affiche_load=false;
          });
 
-          apiFactory.getAll("sip_famille/index").then(function(result)
+          apiFactory.getAll("SIP_famille/index").then(function(result)
          {
             vm.all_famille= result.data.response;
+            vm.affiche_load=false;
          });
      
       //FIN CLE ETRANGERE
@@ -152,7 +157,7 @@
           vm.nom_region = '';
          
          
-          apiFactory.getParamsDynamic("sip_poissonnerie/index?id_region="+vm.filtre.id_region+"&id_commune="+vm.filtre.id_commune+"&id_district="+vm.filtre.id_district).then(function(result)
+          apiFactory.getParamsDynamic("SIP_poissonnerie/index?id_region="+vm.filtre.id_region+"&id_commune="+vm.filtre.id_commune+"&id_district="+vm.filtre.id_district).then(function(result)
           {
             vm.nom_commune = '' ;
             vm.nom_district = '' ;
@@ -281,7 +286,7 @@
             .parent(angular.element(document.body))
             .ok('ok')
             .cancel('annuler');
-            apiFactory.getParamsDynamic("sip_saisie_vente_poissonnerie/index?id_poissonnerie="+vm.selected_poissonnerie.id+"&mois="+null+"&annee="+null).then(function(result)
+            apiFactory.getParamsDynamic("SIP_saisie_vente_poissonnerie/index?id_poissonnerie="+vm.selected_poissonnerie.id+"&mois="+null+"&annee="+null).then(function(result)
             {
               if(result.data.response.length>0) 
               {

@@ -18,6 +18,7 @@
       vm.allsip_type_espece    = [];
       vm.afficherboutonnouveau = 1;      
       vm.affichageMasque       = 0;
+      vm.affiche_load           = true ;
        vm.dtOptions =
       {
          dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -36,23 +37,27 @@
        ];
 
    
-      apiFactory.getAll("sip_espece/index").then(function(result)
+      apiFactory.getAll("SIP_espece/index").then(function(result)
       {
          vm.allsip_espece = result.data.response;
+         vm.affiche_load           = false ;
       });
  
-      apiFactory.getAll("sip_type_espece/index").then(function(result)
+      apiFactory.getAll("SIP_type_espece/index").then(function(result)
       {
          vm.allsip_type_espece= result.data.response;
+         vm.affiche_load = false ;
       });
      
-      apiFactory.getAll("sip_famille/index").then(function(result)
+      apiFactory.getAll("SIP_famille/index").then(function(result)
       {
          vm.allfamille= result.data.response;
+         vm.affiche_load = false ;
       });
 
       function ajout(sip_espece,suppression)   
       {  
+        vm.affiche_load           = false ;
         if (NouvelItem == false) 
          {
            test_existance (sip_espece,suppression); 
@@ -68,6 +73,7 @@
       {
            
         //add
+        vm.affiche_load = true ;
         var config = 
         {
            headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}
@@ -91,7 +97,7 @@
            code:                sip_espece.code
         });
       
-        apiFactory.add("sip_espece/index",datas, config).success(function (data)
+        apiFactory.add("SIP_espece/index",datas, config).success(function (data)
         {  
 
            var tpe = vm.allsip_type_espece.filter(function(obj)
@@ -188,6 +194,7 @@
               NouvelItem  = false;
            }
            vm.affichageMasque = 0 ;
+           vm.affiche_load           = false ;
 
         }).error(function (data)
            { 
@@ -261,6 +268,7 @@
       {  
         vm.afficherboutonModifSupr = 0;
         vm.affichageMasque         = 0;
+        vm.affiche_load           = true ;
         var confirm = $mdDialog.confirm()
                 .title('Etes-vous sûr de supprimer cet enregistrement ?')
                 .textContent('')
@@ -269,11 +277,12 @@
                 .parent(angular.element(document.body))
                 .ok('ok')
                 .cancel('annuler');
-           apiFactory.getParamsDynamic("sip_sortie_peche_artisanale/index?id_espece="+vm.selectedItem.id+"").then(function (resultat) {
+           apiFactory.getParamsDynamic("SIP_sortie_peche_artisanale/index?id_espece="+vm.selectedItem.id+"").then(function (resultat) {
                 vm.sortie_peche_artisanale = resultat.data.response.length;
 
-                apiFactory.getParamsDynamic("sip_commercialisation_crevette/index?id_espece="+vm.selectedItem.id+"").then(function (resultat) {
+                apiFactory.getParamsDynamic("SIP_commercialisation_crevette/index?id_espece="+vm.selectedItem.id+"").then(function (resultat) {
                   vm.comerce_crevette = resultat.data.response.length;
+                  vm.affiche_load           = false ;
              
                   if(( vm.sortie_peche_artisanale>0)||( vm.permis>0)||( vm.comerce_crevette>0)) 
                     vm.dialog();

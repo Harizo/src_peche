@@ -18,6 +18,7 @@
       vm.affichageMasque        = 0 ;          //variable cache masque de saisie
       vm.afficherboutonnouveau  = 1 ;    //variale affichage bouton nouveau  
       vm.titrepage              ='';
+      vm.affiche_load           = true ;
         //style
        vm.dtOptions =
       {
@@ -29,13 +30,15 @@
       //col table 
       vm.base_geo_column = [{titre:"libelle"}];
 
-      apiFactory.getAll("sip_base_geo/index").then(function(result)
+      apiFactory.getAll("SIP_base_geo/index").then(function(result)
       { vm.all_base_geo = result.data.response;
+        vm.affiche_load           = false ;
       });
 
 
       function ajout(bs_geo,suppression)
       {
+        vm.affiche_load           = true ;
         if (NouvelItem==false)
         {
           test_existance (bs_geo,suppression); 
@@ -68,7 +71,7 @@
         });
 
           //factory
-        apiFactory.add("sip_base_geo/index",datas, config).success(function (data)
+        apiFactory.add("SIP_base_geo/index",datas, config).success(function (data)
         {
           if (NouvelItem == false)
           {
@@ -102,6 +105,7 @@
             NouvelItem          =false;
           }
           vm.affichageMasque    = 0 ;
+          vm.affiche_load           = false ;
         }).error(function (data) 
             {
               //alert('Error');
@@ -172,8 +176,11 @@
               .parent(angular.element(document.body))
               .ok('ok')
               .cancel('annuler');
-              apiFactory.getParamsDynamic("sip_societe_crevette/index?base_geo="+vm.selectedItem.libelle+"").then(function (resultat) {
+
+              apiFactory.getParamsDynamic("SIP_societe_crevette/index?id_base_geo="+vm.selectedItem.id+"").then(function (resultat) {
+
                 vm.societe_crevette = resultat.data.response.length;
+                vm.affiche_load           = false ;
                 if (vm.societe_crevette>0) 
                 {
                   vm.dial();

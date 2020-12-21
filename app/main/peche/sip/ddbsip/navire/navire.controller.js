@@ -9,7 +9,8 @@
     /** @ngInject */
     function NavireController(apiFactory, $scope, $mdDialog)
     {
-        var vm = this;  
+        var vm = this;
+        vm.affiche_load = true ;
 		vm.all_type_navire = [];	
 		vm.dtOptions =
 		{
@@ -21,11 +22,12 @@
 			apiFactory.getAll("SIP_type_navire/index").then(function(result)
 			{
 				vm.all_type_navire = result.data.response;
+				vm.affiche_load = false ;
 			});
 			apiFactory.getAll("SIP_espece/index").then(function(result)
 			{
 				vm.all_espece = result.data.response;
-				console.log(vm.all_espece);
+				vm.affiche_load = false ;
 			});
 		//FIN CLE ETRANGERE
 		vm.date_now = new Date();
@@ -149,6 +151,7 @@
 			apiFactory.getAll("SIP_navire/index").then(function(result)
 			{
 				vm.all_navire = result.data.response;
+				vm.affiche_load = false ;
 			});
 			vm.affichage_col_navire = function(int)
 			{
@@ -238,16 +241,16 @@
 				  .parent(angular.element(document.body))
 				  .ok('ok')
 				  .cancel('annuler');
-					apiFactory.getParamsDynamic("sip_peche_thoniere_etranger/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+					apiFactory.getParamsDynamic("SIP_peche_thoniere_etranger/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
             			vm.peche_thoniere_etranger = resultat.data.response.length;
             
-          				apiFactory.getParamsDynamic("sip_peche_thoniere_malagasy/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+          				apiFactory.getParamsDynamic("SIP_peche_thoniere_malagasy/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
             				vm.peche_thoniere_malagasy = resultat.data.response.length;
             
-            				apiFactory.getParamsDynamic("sip_autorisation_navire/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+            				apiFactory.getParamsDynamic("SIP_autorisation_navire/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
            						vm.autorisation_navire = resultat.data.response.length;
             
-            					apiFactory.getParamsDynamic("sip_sortie_peche_artisanale/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
+            					apiFactory.getParamsDynamic("SIP_sortie_peche_artisanale/index?id_navire="+vm.selected_navire.id+"").then(function (resultat) {
             						vm.sortie_peche_artisanale = resultat.data.response.length;
            							if ( (vm.peche_thoniere_etranger>0) ||(vm.peche_thoniere_malagasy>0) ||(vm.sortie_peche_artisanale>0)|| (vm.autorisation_navire>0)) 
           							{
@@ -319,6 +322,7 @@
 
 			vm.save_in_bdd = function(data_masque, etat_suppression)
 			{
+				vm.affiche_load = true ;
 				var config = {
 	                headers : {
 	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -393,6 +397,7 @@
 	        		vm.affichage_masque_navire = false ; //Fermeture de la masque de saisie
 	        		nouvel_col_navire = false;
 					vm.afficher_table_navire=true;
+					vm.affiche_load = false ;
         		})
         		.error(function (data) {alert("Une erreur s'est produit");}); 
 			}
@@ -415,6 +420,7 @@
 				apiFactory.getAPIgeneraliserREST("SIP_autorisation_navire/index","id_navire",vm.selected_navire.id).then(function(result)
 				{
 					vm.all_autorisation_navire = result.data.response;
+					vm.affiche_load = false ;
 				});
 				//FIN GET AUTORISATION PAR NAVIRE
 	        }
@@ -483,6 +489,7 @@
 			}
 			vm.save_in_bdd_autorisation_navire = function(autorisation_navire, etat_suppression)
 			{
+				vm.affiche_load = true ;
 				var config = {
 	                headers : {
 	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -547,6 +554,7 @@
         			vm.affichage_masque_autorisation_navire = false ; //Fermeture de la masque de saisie
         			nouvel_autorisation_navire = false;
 					vm.afficher_table_autorisation_navire=true;
+					vm.affiche_load = false ;
         		})
         		.error(function (data) {alert("Une erreur s'est produit");}); 
 			}

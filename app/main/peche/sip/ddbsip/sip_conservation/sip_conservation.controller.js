@@ -18,6 +18,7 @@
       vm.affichageMasque        = 0 ;          //variable cache masque de saisie
   		vm.afficherboutonnouveau  = 1 ;    //variale affichage bouton nouveau 	
       vm.titrepage              ='';
+      vm.affiche_load           = true ;
       
       //style
        vm.dtOptions =
@@ -30,12 +31,17 @@
       //col table
       vm.sip_conservation_column = [{titre:"Libelle"}];
 
-      apiFactory.getAll("sip_conservation/index").then(function(result)
-      { vm.allsip_conservation = result.data.response;   
+
+      apiFactory.getAll("SIP_conservation/index").then(function(result)
+      { 
+        vm.allsip_conservation = result.data.response;   
+        vm.affiche_load           = false ; 
+
       });
 
       function ajout(sip_conservation,suppression)
       {
+        vm.affiche_load           = true ;
         if (NouvelItem==false)
         {
           test_existance (sip_conservation,suppression); 
@@ -65,7 +71,7 @@
           libelle: sip_conservation.libelle                            
         });
           //factory
-        apiFactory.add("sip_conservation/index",datas, config).success(function (data)
+        apiFactory.add("SIP_conservation/index",datas, config).success(function (data)
         {
           if (NouvelItem == false)
           {
@@ -99,6 +105,7 @@
             NouvelItem      =false;
           }
           vm.affichageMasque = 0 ;
+          vm.affiche_load           = false ;
         }).error(function (data) {alert('Error');});                
       }
   	
@@ -157,6 +164,7 @@
         {
           vm.affichageMasque              = 0 ;
           vm.afficherboutonModifSupr      = 0 ;
+          vm.affiche_load           = true ;
           var commerce_marine             ;
           var commerce_eau_douce          ;
           var saisie_collecte_halieutique ;
@@ -169,23 +177,25 @@
                 .parent(angular.element(document.body))
                 .ok('ok')
                 .cancel('annuler');
-        apiFactory.getParamsDynamic("sip_saisie_vente_poissonnerie/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
+        apiFactory.getParamsDynamic("SIP_saisie_vente_poissonnerie/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
           vm.saisie_vente_poissonnerie = resultat.data.response.length;
 
-          apiFactory.getParamsDynamic("sip_saisie_collecte_halieutique/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
+          apiFactory.getParamsDynamic("SIP_saisie_collecte_halieutique/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
             vm.saisie_collecte_halieutique = resultat.data.response.length;
             
-            apiFactory.getParamsDynamic("sip_commercialisation_marine/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
+            apiFactory.getParamsDynamic("SIP_commercialisation_marine/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
               vm.commerce_marine = resultat.data.response.length;
             
-              apiFactory.getParamsDynamic("sip_commercialisation_eau_douce/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
+              apiFactory.getParamsDynamic("SIP_commercialisation_eau_douce/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
                 vm.commerce_eau_douce = resultat.data.response.length;
 
-                apiFactory.getParamsDynamic("sip_commercialisation_crevette/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
+                apiFactory.getParamsDynamic("SIP_commercialisation_crevette/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
                   vm.commerce_crevette = resultat.data.response.length;
 
-                  apiFactory.getParamsDynamic("sip_exportation_crevette/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
+                  apiFactory.getParamsDynamic("SIP_exportation_crevette/index?id_conservation="+vm.selectedItem.id+"").then(function (resultat) {
                     vm.export_crevette = resultat.data.response.length;
+
+                    vm.affiche_load           = false ;
 
                     if ( (vm.saisie_vente_poissonnerie>0) ||(vm.saisie_collecte_halieutique>0) ||(vm.commerce_eau_douce>0)|| (vm.commerce_marine>0)|| (vm.commerce_crevette>0)|| (vm.export_crevette>0)) 
                     {

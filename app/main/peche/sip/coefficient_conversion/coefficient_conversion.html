@@ -101,21 +101,13 @@
                                   <div ng-message="required">
                                     <span>Coefficient obligatoire.</span>
                                   </div>
-                                  
                                 </div>
-
-                                
                             </md-input-container>
                     </div>
-
-
-                   
-
-
-                   
+       
                     <div>
                         <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                            ng-disabled="form_coefficient_conservation.$invalid " ng-click="vm.teste_existance(vm.coefficient_conservation,0)">
+                            ng-disabled="form_coefficient_conservation.$invalid||vm.affiche_load " ng-click="vm.teste_existance(vm.coefficient_conservation,0)">
                             Enregistrer
                         </md-button>
                         <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">
@@ -125,7 +117,6 @@
                 </form>
                             
                 <!--FORM  commerce-->       
-                    
                     
                 <!--TABLE LISTES -->
                     <table ng-table="table_collecte_marine" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>

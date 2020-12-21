@@ -10,7 +10,8 @@
 		.constant("apiUrlbase", "http://localhost/2019/peche/api/")
 		.constant("apiUrlserver", "http://localhost/assets/ddb/")
 		.constant("apiUrlexcel", "http://localhost/assets/excel/")
-		.constant("apiUrlExportexcel", "http://localhost/2019/peche/export_excel/");
+		.constant("apiUrlExportexcel", "http://localhost/2019/peche/export_excel/")
+		.constant("api_down", "http://154.126.93.188/");
 	//Localhost
 
 	//interne ASTRUM
@@ -38,7 +39,8 @@
 		/*.constant("apiUrl", "http://154.126.93.188/2019/peche/api/index.php/api/")
 		.constant("apiUrlbase", "http://154.126.93.188/2019/peche/api/")
 		.constant("apiUrlserver", "http://154.126.93.188/assets/ddb/")
-		.constant("apiUrlexcel", "http://154.126.93.188/assets/excel/");*/
+		.constant("apiUrlexcel", "http://154.126.93.188/assets/excel/")
+		.constant("apiUrlExportexcel", "http://localhost/2019/peche/export_excel/");*/
 
 	//externe PECHE
 })();
