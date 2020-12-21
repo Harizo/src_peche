@@ -44,10 +44,9 @@
 				// id_type_navire=2 <=> Navire malagasy
 				vm.all_navire = result.data.response;				
 			});
-			apiFactory.getAPIgeneraliser("SIP_espece/index","id_type_espece",7).then(function(result)
+			apiFactory.getAll("SIP_type_espece/index").then(function(result)
 			{
-				// id_type_espece=7 <=> Thon
-				vm.all_espece = result.data.response;				
+				vm.all_type_espece = result.data.response;	
 			});
 			apiFactory.getAPIgeneraliser("SIP_peche_thoniere_malagasy/index","liste_annee",1).then(function(result)
 			{
@@ -769,6 +768,7 @@
 			var currentItem_sequence_peche_thoniere_malagasy_capture={};
 			vm.entete_liste_sequence_peche_thon_malagasy_capture = 
 	        [
+				{titre:"Type Espèce"},
 				{titre:"Espèce"},
 				{titre:"Quantité"},
 				{titre:"Nombre"},
@@ -815,6 +815,8 @@
 					id_espece: null ,
 					qte: null ,
 					nbre: null ,
+					id_type_espece:null,
+					type_espece:null
 				};
 				vm.all_sequence_capture.unshift(items);
 				vm.all_sequence_capture.forEach(function(it) {
@@ -828,9 +830,16 @@
 				nouvel_sequence_peche_thoniere_malagasy_capture = false ;
 				vm.selected_sequence_peche_thoniere_malagasy_capture = item;
 				currentItem_sequence_peche_thoniere_malagasy_capture = angular.copy(vm.selected_sequence_peche_thoniere_malagasy_capture);
+				vm.selected_sequence_peche_thoniere_malagasy_capture.qte = parseFloat(item.qte);
+				vm.selected_sequence_peche_thoniere_malagasy_capture.nbre = parseInt(item.nbre);
 				vm.all_sequence_capture.forEach(function(it) {
 					it.$edit = false;
 				});        
+				// A chaque modification => charger les détails des espèces correspondant au type espece choisi			
+				apiFactory.getAPIgeneraliser("SIP_espece/index","type_espece",item.id_type_espece).then(function(result)
+				{
+					vm.all_espece = result.data.response;	
+				});
 				item.$edit = true;	
 				vm.selected_sequence_peche_thoniere_malagasy_capture.$edit = true;	
 				item.$selected = true;	
@@ -868,6 +877,8 @@
 				item.espece = currentItem_sequence_peche_thoniere_malagasy_capture.espece;
 				item.qte = currentItem_sequence_peche_thoniere_malagasy_capture.qte;
 				item.nbre = currentItem_sequence_peche_thoniere_malagasy_capture.nbre;
+				item.id_type_espece = currentItem_sequence_peche_thoniere_malagasy_capture.id_type_espece;
+				item.type_espece = currentItem_sequence_peche_thoniere_malagasy_capture.type_espece;
 				vm.selected_sequence_peche_thoniere_malagasy_capture = {} ;
 				vm.selected_sequence_peche_thoniere_malagasy_capture.$selected = false;
 			}
@@ -900,9 +911,12 @@
         				{
         					vm.selected_sequence_peche_thoniere_malagasy_capture.id_sequence_peche_thon_malagasy =  vm.selected_sequence_peche_thoniere_malagasy.id ;
         					vm.selected_sequence_peche_thoniere_malagasy_capture.id_espece =  sequence_capture_thon.id_espece ;
-        					vm.selected_sequence_peche_thoniere_malagasy_capture.espece =  sequence_capture_thon.espece ;
+        					vm.selected_sequence_peche_thoniere_malagasy_capture.nom_espece =  sequence_capture_thon.nom_espece ;
+        					vm.selected_sequence_peche_thoniere_malagasy_capture.code_espece =  sequence_capture_thon.code_espece ;
         					vm.selected_sequence_peche_thoniere_malagasy_capture.qte =  sequence_capture_thon.qte ;
         					vm.selected_sequence_peche_thoniere_malagasy_capture.nbre =  sequence_capture_thon.nbre ;
+        					vm.selected_sequence_peche_thoniere_malagasy_capture.id_type_espece =  sequence_capture_thon.id_type_espece ;
+        					vm.selected_sequence_peche_thoniere_malagasy_capture.type_espece =  sequence_capture_thon.type_espece ;
         				}
         				else//Suppression
         				{
@@ -925,19 +939,36 @@
 			}
 		//FIN SEQUENCE CAPTURE PECHE THON	
 		// Controle modification espèce poisson
-        vm.modifierEspece = function (item) { 
+		vm.modifierEspece = function (item) { 
 			vm.nontrouvee=true;
-			vm.all_espece.forEach(function(ax) {
-				if(parseInt(ax.id)==parseInt(item.id_espece)) {
-					item.id_espece = ax.id; 
-					item.espece=ax.nom;
+			vm.all_espece.forEach(function(esp) {
+				if(parseInt(esp.id)==parseInt(item.id_espece)) {
 					vm.nontrouvee=false;
+					item.id_espece=esp.id;
+					item.nom_espece=esp.nom_espece;
+					item.code_espece=esp.code;
 				}
 			});
 			if(vm.nontrouvee==true) {				
 					item.id_espece = null; 
-					item.espece=null;
+					item.nom_espece = null; 
+					item.code_espece = null; 
 			}
+		}	
+		vm.FiltrerParTypeEspece = function (item) { 
+			// Affectation type espèce
+			vm.all_type_espece.forEach(function(tesp) {
+				if(parseInt(tesp.id)==parseInt(item.id_type_espece)) {
+					vm.nontrouvee=false;
+					item.id_type_espece=tesp.id;
+					item.type_espece=tesp.libelle;
+				}
+			});
+			item.id_espece=null;
+			apiFactory.getAPIgeneraliser("SIP_espece/index","type_espece",item.id_type_espece).then(function(result)
+			{
+				vm.all_espece = result.data.response;	
+			});
 		}	
 		// ANALYSE CHOIX	
 		vm.Reinitialiser_donnees = function() {

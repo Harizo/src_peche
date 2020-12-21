@@ -36,10 +36,9 @@
 			{
 				vm.all_navire = result.data.response;				
 			});
-			apiFactory.getAPIgeneraliser("SIP_espece/index","id_type_espece",6).then(function(result)
+			apiFactory.getAll("SIP_type_espece/index").then(function(result)
 			{
-				// id_type_espece=6  <=> Artisanale
-				vm.all_espece = result.data.response;	
+				vm.all_type_espece = result.data.response;	
 			});
 			apiFactory.getAPIgeneraliser("SIP_sortie_peche_artisanale/index","liste_annee",1).then(function(result)
 			{
@@ -402,7 +401,7 @@
 					if(parseInt(esp.id)==parseInt(item.id_espece)) {
 						vm.nontrouvee=false;
 						item.id_espece=esp.id;
-						item.nom_espece=esp.nom;
+						item.nom_espece=esp.nom_espece;
 						item.code_espece=esp.code;
 					}
 				});
@@ -412,13 +411,28 @@
 						item.code_espece = null; 
 				}
 			}	
+			vm.FiltrerParTypeEspece = function (item) { 
+				// Affectation type espèce
+				vm.all_type_espece.forEach(function(tesp) {
+					if(parseInt(tesp.id)==parseInt(item.id_type_espece)) {
+						vm.nontrouvee=false;
+						item.id_type_espece=tesp.id;
+						item.type_espece=tesp.libelle;
+					}
+				});
+				item.id_espece=null;
+				apiFactory.getAPIgeneraliser("SIP_espece/index","type_espece",item.id_type_espece).then(function(result)
+				{
+					vm.all_espece = result.data.response;	
+				});
+			}	
 		//FIN Peche artisanale     
 		//DETAIL PECHE ARTISANALE
 			vm.selected_detail_peche_artisanale = {};
 			var nouvel_detail_peche_artisanale = false ;
 			var currentItem_detail_peche_artisanale={};
 			vm.entete_liste_detail_peche_artisanale = 
-	        [{titre:"Espèce"},{titre:"Quantité"},{titre:"Actions"}] ;
+	        [{titre:"Type Espèce"},{titre:"Espèce"},{titre:"Quantité"},{titre:"Actions"}] ;
 	        vm.get_detail_peche_artisanale = function()
 	        {
 					vm.affiche_load=true;
@@ -460,6 +474,8 @@
 					quantite: null ,
 					nom_espece: null ,
 					code_espece: null ,
+					id_type_espece:null,
+					type_espece:null
 				};
 				vm.all_detail_peche_artisanale.unshift(items);
 				vm.all_detail_peche_artisanale.forEach(function(it) {
@@ -476,12 +492,19 @@
 				$scope.vm.all_detail_peche_artisanale.forEach(function(it) {
 					it.$edit = false;
 				});        
+				// A chaque modification => charger les détails des espèces correspondant au type espece choisi			
+				apiFactory.getAPIgeneraliser("SIP_espece/index","type_espece",item.id_type_espece).then(function(result)
+				{
+					vm.all_espece = result.data.response;	
+				});
 				item.$edit = true;	
 				vm.selected_detail_peche_artisanale.$edit = true;	
 				item.$selected = true;	
 				vm.selected_detail_peche_artisanale.$selected = true;	
 				vm.selected_detail_peche_artisanale.id_espece=parseInt(vm.selected_detail_peche_artisanale.id_espece);
 				vm.selected_detail_peche_artisanale.quantite=parseInt(vm.selected_detail_peche_artisanale.quantite);
+				vm.selected_detail_peche_artisanale.id_type_espece=parseInt(vm.selected_detail_peche_artisanale.id_type_espece);
+				vm.selected_detail_peche_artisanale.type_espece=vm.selected_detail_peche_artisanale.type_espece;
 			}
 			vm.supprimer_detail_peche_artisanale = function() 
 			{
@@ -514,6 +537,8 @@
 				item.quantite = currentItem_detail_peche_artisanale.quantite;
 				item.code_espece = currentItem_detail_peche_artisanale.code_espece;
 				item.nom_espece = currentItem_detail_peche_artisanale.nom_espece;
+				item.id_type_espece = currentItem_detail_peche_artisanale.id_type_espece;
+				item.type_espece = currentItem_detail_peche_artisanale.type_espece;
 				item.$selected=currentItem_detail_peche_artisanale.$selected;
 				item.$edit=currentItem_detail_peche_artisanale.$edit;
 				$scope.vm.all_detail_peche_artisanale.forEach(function(it) {
@@ -556,6 +581,8 @@
         					vm.selected_detail_peche_artisanale.quantite =  detail_peche_artisanale.quantite ;
         					vm.selected_detail_peche_artisanale.code_espece =  detail_peche_artisanale.code_espece ;
         					vm.selected_detail_peche_artisanale.nom_espece =  detail_peche_artisanale.nom_espece ;
+        					vm.selected_detail_peche_artisanale.id_type_espece =  detail_peche_artisanale.id_type_espece ;
+        					vm.selected_detail_peche_artisanale.type_espece =  detail_peche_artisanale.type_espece ;
         				}
         				else//Suppression
         				{

@@ -15,6 +15,7 @@
 		vm.filtre=[];
 		vm.filtre.date_arrive=new Date();
 		vm.all_poisson_demersaux=[];
+		vm.all_type_espece =[];
         vm.all_espece =[];
         vm.donnees_reporting=[];
 		vm.selected_detail_dynamique={};
@@ -33,10 +34,9 @@
 				// id_type_navire=3  <=> Navire demersaux
 				vm.all_navire = result.data.response;	
 			});
-			apiFactory.getAPIgeneraliser("SIP_espece/index","id_type_espece",3).then(function(result)
+			apiFactory.getAll("SIP_type_espece/index").then(function(result)
 			{
-				// id_type_espece=3  <=> Poisson demersaux
-				vm.all_espece = result.data.response;	
+				vm.all_type_espece = result.data.response;	
 			});
 			apiFactory.getAPIgeneraliser("SIP_poisson_demersaux/index","liste_annee",1).then(function(result)
 			{
@@ -405,7 +405,7 @@
 					if(parseInt(esp.id)==parseInt(item.id_espece)) {
 						vm.nontrouvee=false;
 						item.id_espece=esp.id;
-						item.nom_espece=esp.nom;
+						item.nom_espece=esp.nom_espece;
 						item.code_espece=esp.code;
 					}
 				});
@@ -415,13 +415,28 @@
 						item.code_espece = null; 
 				}
 			}	
+			vm.FiltrerParTypeEspece = function (item) { 
+				// Affectation type espèce
+				vm.all_type_espece.forEach(function(tesp) {
+					if(parseInt(tesp.id)==parseInt(item.id_type_espece)) {
+						vm.nontrouvee=false;
+						item.id_type_espece=tesp.id;
+						item.type_espece=tesp.libelle;
+					}
+				});
+				item.id_espece=null;
+				apiFactory.getAPIgeneraliser("SIP_espece/index","type_espece",item.id_type_espece).then(function(result)
+				{
+					vm.all_espece = result.data.response;	
+				});
+			}	
 		//FIN Poisson demersaux     
  		//DETAIL POISSON DEMERSAUX
 			vm.selected_detail_poisson_demersaux = {};
 			var nouvel_detail_poisson_demersaux = false ;
 			var currentItem_detail_poisson_demersaux={};
 			vm.entete_liste_detail_poisson_demersaux = 
-	        [{titre:"Espèce"},{titre:"Quantité"},{titre:"Actions"}] ;
+	        [{titre:"Type Espèce"},{titre:"Espèce"},{titre:"Quantité"},{titre:"Actions"}] ;
 	        vm.get_detail_poisson_demersaux = function()
 	        {
 					vm.affiche_load=true;
@@ -433,6 +448,7 @@
 						vm.all_detail_poisson_demersaux=[];
 						vm.all_detail_poisson_demersaux=result.data.response;
 						vm.affiche_load=false;
+						console.log(vm.all_detail_poisson_demersaux);
 					});
 					//FIN DETAIL POISSON DEMERSAUX MALAGASY
 	        }
@@ -463,6 +479,8 @@
 					quantite: null ,
 					nom_espece: null ,
 					code_espece: null ,
+					id_type_espece:null,
+					type_espece:null
 				};
 				vm.all_detail_poisson_demersaux.unshift(items);
 				vm.all_detail_poisson_demersaux.forEach(function(it) {
@@ -478,13 +496,22 @@
 				currentItem_detail_poisson_demersaux = angular.copy(vm.selected_detail_poisson_demersaux);
 				$scope.vm.all_detail_poisson_demersaux.forEach(function(it) {
 					it.$edit = false;
-				});        
+				});   
+				// A chaque modification => charger les détails des espèces correspondant au type espece choisi			
+				apiFactory.getAPIgeneraliser("SIP_espece/index","type_espece",item.id_type_espece).then(function(result)
+				{
+					vm.all_espece = result.data.response;	
+				});
 				item.$edit = true;	
 				vm.selected_detail_poisson_demersaux.$edit = true;	
 				item.$selected = true;	
 				vm.selected_detail_poisson_demersaux.$selected = true;	
 				vm.selected_detail_poisson_demersaux.id_espece=parseInt(vm.selected_detail_poisson_demersaux.id_espece);
 				vm.selected_detail_poisson_demersaux.quantite=parseInt(vm.selected_detail_poisson_demersaux.quantite);
+				vm.selected_detail_poisson_demersaux.nom_espece=vm.selected_detail_poisson_demersaux.nom_espece;
+				vm.selected_detail_poisson_demersaux.code_espece=vm.selected_detail_poisson_demersaux.code_espece;
+				vm.selected_detail_poisson_demersaux.id_type_espece=parseInt(vm.selected_detail_poisson_demersaux.id_type_espece);
+				vm.selected_detail_poisson_demersaux.type_espece=vm.selected_detail_poisson_demersaux.type_espece;
 			}
 			vm.supprimer_detail_poisson_demersaux = function() 
 			{
@@ -514,6 +541,8 @@
 				item.quantite = currentItem_detail_poisson_demersaux.quantite;
 				item.code_espece = currentItem_detail_poisson_demersaux.code_espece;
 				item.nom_espece = currentItem_detail_poisson_demersaux.nom_espece;
+				item.id_type_espece = currentItem_detail_poisson_demersaux.id_type_espece;
+				item.type_espece = currentItem_detail_poisson_demersaux.type_espece;
 				item.$selected=currentItem_detail_poisson_demersaux.$selected;
 				item.$edit=currentItem_detail_poisson_demersaux.$edit;
 				item.$selected=false;
@@ -553,6 +582,8 @@
         					vm.selected_detail_poisson_demersaux.quantite =  detail_poisson_demersaux.quantite ;
         					vm.selected_detail_poisson_demersaux.code_espece =  detail_poisson_demersaux.code_espece ;
         					vm.selected_detail_poisson_demersaux.nom_espece =  detail_poisson_demersaux.nom_espece ;
+        					vm.selected_detail_poisson_demersaux.id_type_espece =  detail_poisson_demersaux.id_type_espece ;
+        					vm.selected_detail_poisson_demersaux.type_espece =  detail_poisson_demersaux.type_espece ;
         				}
         				else//Suppression
         				{

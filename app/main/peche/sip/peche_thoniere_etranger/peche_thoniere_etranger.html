@@ -476,23 +476,35 @@
                                     <tr ng-repeat="seq in vm.all_sequence_capture"  ng-class="{selected: seq.$selected}" ng-click="vm.selection_sequence_peche_thon_etranger_capture(seq)">                                       
 										<td style="width:15%;">
 											<span ng-if="seq.$edit">
+												<label>Type Espèce</label>
+												<md-select ng-model="seq.id_type_espece" name="id_type_espece" ng-change="vm.FiltrerParTypeEspece(seq)" required aria-label="Type Espèce">
+													<md-option ng-repeat="tesp in vm.all_type_espece   | orderBy:['libelle']" value="{{tesp.id}}">
+														{{tesp.libelle}}
+													</md-option>
+													
+												</md-select>
+											</span>
+											<span ng-if="!seq.$edit">{{seq.type_espece}}</span>
+										</td>
+										<td style="width:15%;">
+											<span ng-if="seq.$edit">
 												<md-input-container style="width:100%;">
 													<label>Espèce</label>
-													<md-select ng-model="seq.id_espece"  ng-change="vm.modifierEspece(seq)">													  
+													<md-select ng-model="seq.id_espece"  ng-change="vm.modifierEspece(seq)" ng-disabled="!seq.id_type_espece">													  
 													  <md-option value="">&nbsp;</md-option>
 													  <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" >
-														{{esp.nom}}
+														{{esp.nom_espece}}
 													  </md-option>
 													</md-select>
 												</md-input-container>	
 											</span>
-											<span ng-if="!seq.$edit">{{seq.espece}}</span>
+											<span ng-if="!seq.$edit">{{seq.nom_espece}}</span>
 										</td>
 										<td style="width:15%;">
 											<span ng-if="seq.$edit">
 												<md-input-container style="width:100%;">
 													<label>Quantité</label>
-													<input name="qte" type="number" ng-model="seq.qte"/>
+													<input name="qte" type="number" ng-model="seq.qte" ng-disabled="!seq.id_type_espece && !seq.id_espece"/>
 												</md-input-container>	
 											</span>
 											<span ng-if="!seq.$edit">{{seq.qte}}</span>
@@ -525,7 +537,7 @@
 												  <md-tooltip><span>Annuler</span></md-tooltip>
 												</md-button>
 											</span>	
-											<span ng-if="seq.$edit && seq.qte >0 && seq.nbre > 0">	
+											<span ng-if="seq.$edit && seq.id_type_espece >0 && seq.$edit && seq.id_espece >0 && seq.$edit && seq.qte >0 && seq.nbre > 0">	
 												<md-button class="md-icon-button" aria-label="Enregistrer séquence peche" ng-click="vm.save_in_bdd_sequence_peche_thon_etranger_capture(seq,0)">
 												  <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
 												  <md-tooltip><span>Enregistrer</span></md-tooltip>

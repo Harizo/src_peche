@@ -257,10 +257,22 @@
                                         <tr ng-repeat="det in vm.all_detail_peche_artisanale"  ng-class="{selected: det.$selected}" ng-click="vm.selection_detail_peche_artisanale(det)">  
 											<td style="width:15%;">
 												<span ng-if="det.$edit">
+													<label>Type Espèce</label>
+													<md-select ng-model="det.id_type_espece" name="id_type_espece" ng-change="vm.FiltrerParTypeEspece(det)" required aria-label="Type Espèce">
+														<md-option ng-repeat="tesp in vm.all_type_espece   | orderBy:['libelle']" value="{{tesp.id}}">
+															{{tesp.libelle}}
+														</md-option>
+														
+													</md-select>
+												</span>
+												<span ng-if="!det.$edit">{{det.type_espece}}</span>
+											</td>
+											<td style="width:15%;">
+												<span ng-if="det.$edit">
 													<label>Espèce</label>
-													<md-select ng-model="det.id_espece" name="id_espece" ng-change="vm.modifierEspece(det)" required aria-label="Espèce">
+													<md-select ng-model="det.id_espece" name="id_espece" ng-change="vm.modifierEspece(det)" required aria-label="Espèce" ng-disabled="!det.id_type_espece">
 														<md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}">
-															{{esp.code}} / {{esp.nom}}
+															{{esp.code_espece}} / {{esp.nom_espece}}
 														</md-option>
 														
 													</md-select>
@@ -271,7 +283,7 @@
 												<span ng-if="det.$edit">
 													<md-input-container style="width:100%;">
 														<label>Quantité</label>
-														<input name="quantite" type="number" ng-model="det.quantite"/>
+														<input name="quantite" type="number" ng-model="det.quantite" ng-disabled="!det.id_type_espece && !det.id_espece"/>
 													</md-input-container>	
 												</span>
 												<span ng-if="!det.$edit">{{det.quantite}}</span>
@@ -295,7 +307,7 @@
 													  <md-tooltip><span>Annuler</span></md-tooltip>
 													</md-button>
 												</span>	
-												<span ng-if="det.$edit && det.id_espece >0 && det.quantite > ''">	
+												<span ng-if="det.$edit && det.id_type_espece >0 && det.$edit && det.id_espece >0 && det.quantite > ''">	
 													<md-button class="md-icon-button" aria-label="Enregistrer détail peche" ng-click="vm.save_in_bdd_detail_peche_artisanale(det,0)">
 													  <md-icon md-font-icon="icon-checkbox-marked"></md-icon>
 													  <md-tooltip><span>Enregistrer</span></md-tooltip>
