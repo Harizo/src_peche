@@ -1337,7 +1337,7 @@
                     vm.dialog(msg,titre);
                 }
                // else if (nbr_echantillon_actuel>=nbr_echantillon_predefini || nbr_echantillon_enqueteur_actuel>=nbr_echantillon_enqueteur_predefini)
-                else if ( nbr_echantillon_enqueteur_actuel >= nbr_echantillon_enqueteur_predefini)
+                else if ( nbr_echantillon_enqueteur_actuel > nbr_echantillon_enqueteur_predefini)
                 {
                     vm.enableUnitepeche = false;
                     var titre = 'Selection impossible';

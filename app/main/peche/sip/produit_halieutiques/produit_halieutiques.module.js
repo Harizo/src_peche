@@ -4,7 +4,7 @@
 
     angular
         .module('app.peche.sip.produit_halieutiques', [])
-       // .run(testPermission)        
+        .run(testPermission)        
         .config(config);
         var vs ;
 
@@ -33,15 +33,15 @@
             title: "Produits halieutiques",
             icon  : 'icon-numeric-1-box-multiple-outline',
             state: 'app.peche_reporting_produit_halieutiques',
-			weight: 1/*,
+			weight: 1,
             hidden: function()
             {
                     return vs;
-            }*/
+            }
         });
     }
 
-  /*  function testPermission(loginService,$cookieStore,apiFactory)
+    function testPermission(loginService,$cookieStore,apiFactory)
     {
         var id_user = $cookieStore.get('id');
        
@@ -52,7 +52,7 @@
             {
                 var user = result.data.response;
                 var permission = user.roles;
-                var permissions = ["RPT"];
+                var permissions = ["ADMIN","SIP_PCH_HAL"];
                 var x =  loginService.gestionMenu(permissions,permission);        
                 vs = x ;
               
@@ -60,6 +60,6 @@
             });
         }
      
-    }*/
+    }
 
 })();

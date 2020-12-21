@@ -7,7 +7,7 @@
         .controller('UserController', UserController);
 
     /** @ngInject */
-    function UserController(apiFactory, $location, $mdDialog, $scope)
+    function UserController(apiFactory, $location, $mdDialog, $scope,api_down)
     {
       var vm = this;
 
@@ -32,6 +32,11 @@
         vm.listes_utilisateurs = result.data.response;
 
       });
+
+      vm.down_bdd = function()
+      {
+        window.location = api_down+"peche-test.sql" ;
+      }
 
       vm.formatMillier = function (nombre) 
       {
@@ -254,6 +259,67 @@
                       break;
                   }
 
+                  case 'SIP_PCH_HAL':
+                  {
+                      vm.user.sip_pch_hal = true ;
+                      break;
+                  }
+                  case 'SIP_PCH_CRV':
+                  {
+                      vm.user.sip_pch_crv = true ;
+                      break;
+                  }
+                  case 'SIP_PCH_TNRM':
+                  {
+                      vm.user.sip_pch_tnrm = true ;
+                      break;
+                  }
+                  case 'SIP_PCH_TNRE':
+                  {
+                      vm.user.sip_pch_tnre = true ;
+                      break;
+                  }
+                  case 'SIP_PSN_DEM':
+                  {
+                      vm.user.sip_psn_dem = true ;
+                      break;
+                  }
+                  case 'SIP_PCH_ART':
+                  {
+                      vm.user.sip_pch_art = true ;
+                      break;
+                  }
+                  case 'SIP_PCH_VNT_PSN':
+                  {
+                      vm.user.sip_pch_vnt_psn = true ;
+                      break;
+                  }
+                  case 'SIP_PCH_BRPP':
+                  {
+                      vm.user.sip_pch_brpp = true ;
+                      break;
+                  }
+                  case 'SIP_PROD_COM':
+                  {
+                      vm.user.sip_prod_com = true ;
+                      break;
+                  }
+                  case 'SIP_PCH_CLT_ALG':
+                  {
+                      vm.user.sip_pch_clt_alg = true ;
+                      break;
+                  }
+                  case 'SIP_DDB':
+                  {
+                      vm.user.sip_ddb = true ;
+                      break;
+                  }
+                  case 'SIP_RPT':
+                  {
+                      vm.user.sip_rpt = true ;
+                      break;
+                  }
+
                   default:
                   {
                       break ;
@@ -304,6 +370,33 @@
                 tab.push(key.toUpperCase());
               if(key == 'nbr' && value == true)
                 tab.push(key.toUpperCase());
+
+              //SIP
+              if(key == 'sip_pch_hal' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_pch_crv' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_pch_tnrm' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_pch_tnre' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_psn_dem' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_pch_art' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_pch_vnt_psn' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_pch_brpp' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_prod_com' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_pch_clt_alg' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_ddb' && value == true)
+                tab.push(key.toUpperCase());
+              if(key == 'sip_rpt' && value == true)
+                tab.push(key.toUpperCase());
+              //FIN SIP
               
           });
 

@@ -17,7 +17,8 @@
 		{
 			dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
 			pagingType: 'simple_numbers',
-			order:[] 
+			order:[] /*,
+			retrieve: true*/
 		};
 		
 
@@ -46,30 +47,40 @@
 				vm.all_district = result.data.response;
 				vm.affiche_load = false ;
 				
-			});
-			vm.get_district_by_region = function()
-			{
-				vm.filtre.id_district = null ;
-			
-				vm.allcommune = [];
-				
 
 				vm.alldistrict = vm.all_district.filter(function(obj)
-				{
-					return obj.region.id == vm.filtre.id_region;
-				});
-			}
+					{
+						
 
-			vm.filtre_col_mar = {} ;
-			vm.get_district_by_region_filtre_col_mar = function()
-			{
-				vm.filtre_col_mar.id_district = null ;
-				
-				vm.alldistrict_col_mar = vm.all_district.filter(function(obj)
+						if (!obj.region.id) {console.log(obj);}
+					});
+
+				vm.get_district_by_region = function()
 				{
-					return obj.region.id == vm.filtre_col_mar.id_region;
-				});
+					vm.filtre.id_district = null ;
+				
+					vm.allcommune = [];
+					
+
+					vm.alldistrict = vm.all_district.filter(function(obj)
+					{
+						return obj.region.id == vm.filtre.id_region;
+					});
+				}
+
+				vm.filtre_col_mar = {} ;
+				vm.get_district_by_region_filtre_col_mar = function()
+				{
+					vm.filtre_col_mar.id_district = null ;
+					
+					vm.alldistrict_col_mar = vm.all_district.filter(function(obj)
+					{
+						return obj.region.id == vm.filtre_col_mar.id_region;
+					});
 			}
+				
+			});
+			
 
 
 			apiFactory.getAll("SIP_type_espece/index").then(function(result)
@@ -488,7 +499,7 @@
 
 	        vm.get_permis = function()
 	        {
-	        	vm.all_permis = [];
+	        	
 	        	//GET COLLECTE PAR COLLECTEUR MAREYEUR
 				apiFactory.getAPIgeneraliserREST("SIP_permis/index","id_collecteurs",vm.selected_collecteur_mareyeur.id).then(function(result)
 				{
@@ -694,7 +705,7 @@
 
 			vm.get_especes_permis = function()
 			{
-				vm.all_especes_permis = [];
+				
 				apiFactory.getAPIgeneraliserREST("SIP_especes_permis/index","id_permis",vm.selected_permis.id).then(function(result)
 				{
 					vm.all_especes_permis = result.data.response;
@@ -889,7 +900,7 @@
 
 			vm.get_collecte = function()
 			{
-				vm.all_saisie_collecte_halieutique = [];
+				
 
 				apiFactory.getAPIgeneraliserREST("SIP_saisie_collecte_halieutique/index","id_permis",vm.selected_permis.id).then(function(result)
 				{
@@ -1295,7 +1306,7 @@
 
 	        vm.get_commerce_marine = function()
 			{
-				vm.all_commerce_marine = [];
+				
 
 				apiFactory.getAPIgeneraliserREST("SIP_commercialisation_marine/index","id_permis",vm.selected_permis.id).then(function(result)
 				{
@@ -1777,13 +1788,13 @@
 
 	        vm.get_commerce_eau_douce = function()
 			{
-				vm.all_commerce_eau_douce = [];
-				vm.all_arrivee_fiche_eau_douce = [];
+				
+				
 
 				apiFactory.getAPIgeneraliserREST("SIP_commercialisation_eau_douce/index","id_permis",vm.selected_permis.id).then(function(result)
 				{
 					vm.all_commerce_eau_douce = result.data.response;
-
+					//vm.all_arrivee_fiche_eau_douce = [];
 					
 				});
 
