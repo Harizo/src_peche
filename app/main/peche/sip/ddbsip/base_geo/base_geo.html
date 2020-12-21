@@ -44,7 +44,7 @@
                             </md-input-container>
                         </div>
                         <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                              ng-disabled="bs_geo.$invalid" ng-click="vm.ajout(vm.bs_geo,0)">
+                              ng-disabled="bs_geo.$invalid||vm.affiche_load" ng-click="vm.ajout(vm.bs_geo,0)">
                               Enregistrer
                         </md-button>
                         <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">

@@ -33,9 +33,9 @@
 
 
       apiFactory.getAll("SIP_conservation/index").then(function(result)
-      { vm.allsip_conservation = result.data.response;   
- 
-      vm.affiche_load           = false ; 
+      { 
+        vm.allsip_conservation = result.data.response;   
+        vm.affiche_load           = false ; 
 
       });
 

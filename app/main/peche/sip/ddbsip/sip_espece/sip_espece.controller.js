@@ -46,11 +46,13 @@
       apiFactory.getAll("SIP_type_espece/index").then(function(result)
       {
          vm.allsip_type_espece= result.data.response;
+         vm.affiche_load = false ;
       });
      
       apiFactory.getAll("SIP_famille/index").then(function(result)
       {
          vm.allfamille= result.data.response;
+         vm.affiche_load = false ;
       });
 
       function ajout(sip_espece,suppression)   
@@ -71,6 +73,7 @@
       {
            
         //add
+        vm.affiche_load = true ;
         var config = 
         {
            headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}

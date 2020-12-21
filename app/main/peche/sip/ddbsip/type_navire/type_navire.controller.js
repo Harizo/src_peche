@@ -10,6 +10,7 @@
 		var vm = this;
 		vm.ajout        = ajout ;
 		var NouvelItem  = false;
+		vm.affiche_load = true ;
 		var current_selected_item={};
 		vm.selectedItemTypenavire={};
     vm.alltype_navire = []; 
@@ -29,6 +30,7 @@
     apiFactory.getAll("SIP_type_navire/index").then(function(result)
     {
         vm.alltype_navire = result.data.response;
+        vm.affiche_load = false ;
     });
 		// DEBUT TYPE NAVIRE
 		// Clic sur un enregistrement type navire
@@ -64,9 +66,10 @@
         };
 		// Annulation modification d'un item type navire
         vm.annulerTypenavire = function() {
-			if (NouvelItem) {				
+			if (NouvelItem) 			
 				vm.alltype_navire.shift();
-			} else {
+			else 
+			{
 				vm.selectedItemTypenavire.$edit = false;
 				vm.selectedItemTypenavire.$selected = false;
 				vm.selectedItemTypenavire.libelle = current_selected_item.libelle ;
@@ -88,12 +91,11 @@
                 .parent(angular.element(document.body))
                 .ok('supprimer')
                 .cancel('annuler');
-            apiFactory.getFils("SIP_navire/index", vm.selectedItemTypenavire.id).then(function (result) {
+            apiFactory.getParamsDynamic("SIP_navire/index?id_type_navire="+ vm.selectedItemTypenavire.id).then(function (result) {
                 vm.nav_len = result.data.response.length ;
+                vm.affiche_load = false ;
               	if ( vm.nav_len>0) 
-              	{
                 	vm.dialog();
-              	} 
 
               	else 
               	{
@@ -105,8 +107,10 @@
 			}); 
         }
 		// Test existence doublon libelle
-        function test_existence (item,suppression) {    
+        function test_existence (item,suppression) { 
+
 			if(item.libelle.length > 0) {
+				vm.affiche_load = true ;
 				var doublon = 0;
 				if (suppression!=1) {
 					vm.alltype_navire.forEach(function(dispo) {   
@@ -168,6 +172,7 @@
 				}
 				typenavire.$selected=false;
 				typenavire.$edit=false;
+				vm.affiche_load = false ;
 			}).error(function (data) {
 				vm.showAlert('Erreur lors de la sauvegarde','Veuillez corriger le(s) erreur(s) !');
 			});  

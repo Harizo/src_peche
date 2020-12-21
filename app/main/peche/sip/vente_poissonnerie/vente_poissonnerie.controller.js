@@ -13,6 +13,7 @@
       var vm = this;
       var nouvel_vente_poissonnerie = false ;
       var nouvel_col_poiss = false ;
+      vm.affiche_load=true;
       vm.affichage_masque_poissonnerie = false ;    
 
       //VARIABLE CACHE MASQUE DE SAISIE
@@ -33,21 +34,25 @@
          apiFactory.getAll("SIP_presentation/index").then(function(result)
          {
             vm.all_presentation = result.data.response;
+            vm.affiche_load=false;
          });
 
           apiFactory.getAll("region/index").then(function(result)
          {  
             vm.allregion = result.data.response;
+            vm.affiche_load=false;
          });
 
          apiFactory.getAll("SIP_conservation/index").then(function(result)
          {
             vm.all_conservation = result.data.response;
+            vm.affiche_load=false;
          });
 
           apiFactory.getAll("SIP_famille/index").then(function(result)
          {
             vm.all_famille= result.data.response;
+            vm.affiche_load=false;
          });
      
       //FIN CLE ETRANGERE

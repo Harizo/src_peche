@@ -122,17 +122,23 @@
 
                                <md-input-container flex="100" flex-gt-xs="33">
                                     <label>Famille</label>
-                                    <md-select ng-model="vm.sip_espece.id_famille" name="id_famille"  ng-change="vm.set_libelle()">
+                                    <md-select ng-model="vm.sip_espece.id_famille" name="id_famille"  ng-change="vm.set_libelle()" required>
                                         <md-option  value="-">-</md-option>
                                         <md-option ng-repeat="fm in vm.allfamille" value="{{fm.id}}">
                                             {{fm.libelle}} 
                                         </md-option>
                                     </md-select>
+                                    <div ng-messages="sip_especeform.id_famille.$error"
+                                        role="alert">
+                                        <div ng-message="required">
+                                            <span>Famille obligatoire.</span>
+                                        </div>
+                                    </div>
                                 </md-input-container>
 
                             </div>
                             <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                                ng-disabled="sip_especeform.$invalid " ng-click="vm.ajout(vm.sip_espece,0)">
+                                ng-disabled="sip_especeform.$invalid||vm.affiche_load " ng-click="vm.ajout(vm.sip_espece,0)">
                                 Enregistrer
                             </md-button>
                             <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler()">

@@ -10,7 +10,7 @@
     function production_commerce_regionController(apiFactory, $scope, $mdDialog, apiUrlExportexcel)
     {
         var vm = this;
-
+        vm.filtre={} ;
         vm.affiche_load = true ;
 
 		vm.dtOptions =
@@ -35,11 +35,11 @@
 				
 			});*/
 
-			apiFactory.getAll("SIP_espece/index").then(function(result)
+			apiFactory.getAll("SIP_type_espece/index").then(function(result)
 			{
-				vm.all_espece = result.data.response;
-				
+				vm.all_type_espece = result.data.response;
 			});
+
 
 
 			//id_type_espece = 1 (halieutique)
@@ -82,6 +82,7 @@
 		vm.get_prod_com_by_region = function()
 		{
 			vm.affiche_load = true ;
+			vm.filtre.id_type_espece = null ;
 			apiFactory.getParamsDynamic("SIP_production_commercialisation_region/index?id_region="+vm.production_commercialisation_region.id_region).then(function(result)
 			{
 				vm.affiche_load = false ;
@@ -90,6 +91,26 @@
 			});
 		}
 
+		vm.get_espece = function() 
+		{
+			vm.affiche_load = true ;
+			vm.all_espece = [] ;
+			apiFactory.getParamsDynamic("SIP_espece/index?id_type_espece="+vm.filtre.id_type_espece).then(function(result)
+			{
+				vm.affiche_load = false ;
+				vm.all_espece = result.data.response;
+				
+			});	
+		}
+
+		$scope.$watch('vm.filtre.id_type_espece', function()
+        {
+			
+			if (!vm.filtre.id_type_espece) return;
+
+          	if (vm.filtre.id_type_espece) 
+            	vm.get_espece() ;
+		});
 
 		vm.selection_production_commercialisation_region = function(cm)
 		{
@@ -227,6 +248,7 @@
 		vm.ajout_production_commercialisation_region = function()
 		{
 			vm.col_mar = {};
+			vm.affiche_load = false ;
 			vm.production_commercialisation_region = {};
 			vm.affichage_masque_production_commercialisation_region = true ;
 			nouvel_production_commercialisation_region = true ;
@@ -236,7 +258,15 @@
 		{
 			nouvel_production_commercialisation_region = false ;
 			vm.affichage_masque_production_commercialisation_region = true ;
+			vm.affiche_load = false ;
 
+			apiFactory.getParamsDynamic("SIP_espece/index?id="+vm.selected_production_commercialisation_region.id_espece).then(function(result)
+			{
+				
+				vm.filtre.id_type_espece = result.data.response.typ_esp_id ;
+
+			});
+			
 			vm.production_commercialisation_region.code_activ = vm.selected_production_commercialisation_region.code_activ ;
 			vm.production_commercialisation_region.code_dom = vm.selected_production_commercialisation_region.code_dom ;
 			vm.production_commercialisation_region.code_act_dom = vm.selected_production_commercialisation_region.code_act_dom ;
@@ -284,7 +314,9 @@
 		{
 			nouvel_production_commercialisation_region = false ;
 			vm.affichage_masque_production_commercialisation_region = false ;
+			vm.affiche_load = false ;
 			vm.selected_production_commercialisation_region = {};
+			vm.filtre.id_type_espece = null ;
 		}
 
 
@@ -297,6 +329,7 @@
             };
 
             var id = 0 ;
+            vm.affiche_load = true ;
 
             if (!nouvel_production_commercialisation_region) 
             {
@@ -329,13 +362,11 @@
 				{
 					return obj.id == data_masque.id_region;
 				});
-
 				
 				var esp = vm.all_espece.filter(function(obj)
 				{
 					return obj.id == data_masque.id_espece;
 				});
-
 
     			if (!nouvel_production_commercialisation_region) 
     			{
@@ -362,6 +393,7 @@
 						vm.selected_production_commercialisation_region.quantite_en_nbre = data_masque.quantite_en_nbre ;
 						vm.selected_production_commercialisation_region.code_comm = data_masque.code_comm ;
 						vm.selected_production_commercialisation_region.quantite_comm = data_masque.quantite_comm ;
+
     				}
     				else
     				{
@@ -405,6 +437,7 @@
 
     			vm.affichage_masque_production_commercialisation_region = false ;
     			nouvel_production_commercialisation_region = false ;
+    			vm.affiche_load = false ;
     		})
     		.error(function (data) {alert("Une erreur s'est produit");});
 		}

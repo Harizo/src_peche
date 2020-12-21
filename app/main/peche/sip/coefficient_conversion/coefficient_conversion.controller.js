@@ -14,6 +14,7 @@
     	vm.affichage_masque = false ;
     	var nouvelle_coefficient_conversion = false ;
     	vm.selected_coefficient_conversion = {} ;
+    	vm.affiche_load = true ;
 
     	vm.dtOptions =
 		{
@@ -51,6 +52,7 @@
 					else
 						return "-";
 				}
+				vm.affiche_load = false ;
 
 			});
 
@@ -73,12 +75,13 @@
 					else
 						return "-";
 				}
+				vm.affiche_load = false ;
 			});
 
 			apiFactory.getAll("SIP_espece/index").then(function(result)
 			{
 				vm.all_espece = result.data.response;
-
+				vm.affiche_load = false ;
 			
 				vm.affichage_espece = function(id)
 				{
@@ -106,8 +109,8 @@
 
     	apiFactory.getAll("SIP_coefficient_conversion/index").then(function(result)
 		{
-			vm.affiche_load = false ;
 			vm.all_coefficient_conversion = result.data.response;
+			vm.affiche_load = false ;
 
 			
 		});
@@ -236,6 +239,7 @@
 
 		vm.save_in_bdd = function(data_masque, etat_suppression)
 		{
+			vm.affiche_load = true ;
 			var config = {
 	                headers : {
 	                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -301,6 +305,7 @@
         			}
         			nouvelle_coefficient_conversion = false ;
         			vm.affichage_masque = false ;
+        			vm.affiche_load = false ;
         		})
         		.error(function (data) {alert("Une erreur s'est produit");});
 		}
