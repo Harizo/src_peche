@@ -7,7 +7,7 @@
         .controller('production_commerce_regionController', production_commerce_regionController);
 
     /** @ngInject */
-    function production_commerce_regionController(apiFactory, $scope, $mdDialog, apiUrlExportexcel)
+    function production_commerce_regionController(apiFactory, $scope, $mdDialog, apiUrlExportexcel, $rootScope)
     {
         var vm = this;
         vm.filtre={} ;
@@ -29,15 +29,30 @@
 		
 			});
 
-			/*apiFactory.getAll("district/index").then(function(result)
+			apiFactory.getAll("district/index").then(function(result)
 			{
 				vm.all_district = result.data.response;
 				
-			});*/
+			});
+
+			vm.get_ditrict_by_region = function()
+			{
+				vm.all_district_by_region = vm.all_district.filter(function(obj)
+				{
+					return obj.region.id == vm.production_commercialisation_region.id_region;
+				});
+			}
 
 			apiFactory.getAll("SIP_type_espece/index").then(function(result)
 			{
 				vm.all_type_espece = result.data.response;
+			});
+
+			apiFactory.getParamsDynamic("SIP_production_commercialisation_region/index?get_annee="+true).then(function(result)
+			{
+				
+				vm.all_annee = result.data.response;
+				
 			});
 
 
@@ -74,7 +89,8 @@
 				{titre:"Quantité en nombre"},
 				{titre:"Code comm"},
 				{titre:"Quantité comm"},
-				{titre:"Région"}
+				{titre:"Région"},
+				{titre:"District"}
 	        ] ;
 
 		
@@ -83,7 +99,7 @@
 		{
 			vm.affiche_load = true ;
 			vm.filtre.id_type_espece = null ;
-			apiFactory.getParamsDynamic("SIP_production_commercialisation_region/index?id_region="+vm.production_commercialisation_region.id_region).then(function(result)
+			apiFactory.getParamsDynamic("SIP_production_commercialisation_region/index?id_region="+vm.production_commercialisation_region.id_region+"&annee="+vm.production_commercialisation_region.annee).then(function(result)
 			{
 				vm.affiche_load = false ;
 				vm.all_production_commercialisation_region = result.data.response;
@@ -99,9 +115,32 @@
 			{
 				vm.affiche_load = false ;
 				vm.all_espece = result.data.response;
+
+				$rootScope.all_espece = vm.all_espece ;
 				
 			});	
 		}
+
+
+		$scope.showTabDialog = function() 
+			{
+			    $mdDialog.show({
+			      controller: DialogController,
+			      templateUrl: 'app/main/peche/sip/production_commerce_region/dialog.html',
+			      parent: angular.element(document.body),
+			      
+			      clickOutsideToClose:true
+			    })
+		        .then(function(answer) {
+		          $scope.status = 'You said the information was "' + answer + '".';
+
+      				vm.production_commercialisation_region.id_espece = answer.id;
+		          		
+		          
+		        }, function() {
+		          $scope.status = 'You cancelled the dialog.';
+		        });
+		  	};
 
 		$scope.$watch('vm.filtre.id_type_espece', function()
         {
@@ -276,6 +315,7 @@
 			vm.production_commercialisation_region.id_espece = vm.selected_production_commercialisation_region.id_espece ;
 
 			vm.production_commercialisation_region.id_region = vm.selected_production_commercialisation_region.id_region ;
+			vm.production_commercialisation_region.id_district = vm.selected_production_commercialisation_region.id_district ;
 
 			vm.production_commercialisation_region.quantite_en_nbre = Number(vm.selected_production_commercialisation_region.quantite_en_nbre) ;
 			vm.production_commercialisation_region.quantite = Number(vm.selected_production_commercialisation_region.quantite) ;
@@ -351,7 +391,8 @@
                 quantite_en_nbre:data_masque.quantite_en_nbre,
                 code_comm:data_masque.code_comm,
                 quantite_comm:data_masque.quantite_comm,
-                id_region:data_masque.id_region
+                id_region:data_masque.id_region,
+                id_district:data_masque.id_district
                
                 
             });
@@ -361,6 +402,11 @@
     			var reg = vm.all_region.filter(function(obj)
 				{
 					return obj.id == data_masque.id_region;
+				});
+
+				var dis = vm.all_district.filter(function(obj)
+				{
+					return obj.id == data_masque.id_district;
 				});
 				
 				var esp = vm.all_espece.filter(function(obj)
@@ -388,6 +434,9 @@
 
     					vm.selected_production_commercialisation_region.id_region = data_masque.id_region ;
     					vm.selected_production_commercialisation_region.nom_region = reg[0].nom ;
+
+    					vm.selected_production_commercialisation_region.id_district = data_masque.id_district ;
+    					vm.selected_production_commercialisation_region.nom_district = dis[0].nom ;
 
     					vm.selected_production_commercialisation_region.quantite = data_masque.quantite ;
 						vm.selected_production_commercialisation_region.quantite_en_nbre = data_masque.quantite_en_nbre ;
@@ -425,6 +474,9 @@
 						id_region:data_masque.id_region,
 						nom_region:reg[0].nom,
 
+						id_district:data_masque.id_district,
+						nom_district:dis[0].nom,
+
 						quantite_en_nbre:data_masque.quantite_en_nbre,
 						quantite:data_masque.quantite,
 						code_comm:data_masque.code_comm,
@@ -456,9 +508,9 @@
 	      	vm.pivots = 
 	      	[
 		        {titre: "Quantité production par région",id:"qte_production_par_region",module:"production"},
-		        {titre: "Quantité production par région mois",id:"qte_production_par_region_mois",module:"production"},
+		        {titre: "Quantité production par mois",id:"qte_production_par_region_mois",module:"production"},
 		        {titre: "Production région nombre",id:"production_region_nombre",module:"production"},
-		        {titre: "Production par région mois nombre",id:"production_par_region_mois_nombre",module:"production"},
+		        {titre: "Production par mois nombre",id:"production_par_region_mois_nombre",module:"production"},
 		        
 		        {titre: "Quantité commercialisée",id:"quantite_commercialise",module:"commercialisation"},
 		        {titre: "Quantité commercialisée par mois",id:"quantite_commercialise_par_mois",module:"commercialisation"},
@@ -544,4 +596,57 @@
 	    // FIN REPORTING REQUETE
       
     }
+
+    function DialogController($scope, $mdDialog, $rootScope) 
+    {
+    	
+    	$scope.selected_item = {};
+		  $scope.hide = function() {
+		    $mdDialog.hide();
+		  };
+
+		  $scope.cancel = function() {
+		    $mdDialog.cancel();
+
+		  };
+
+		  $scope.answer = function(answer) {
+
+		  	
+		    $mdDialog.hide($scope.selected_item);
+		  };
+
+		$scope.selection = function (item) 
+		{        
+			
+
+			$scope.selected_item = item;
+			
+
+			$scope.all_espece.forEach(function(item) {
+		      item.$selected = false;
+		    });
+		    $scope.selected_item.$selected = true;
+
+		};
+
+	    $scope.all_espece =  $rootScope.all_espece ;
+
+	  $scope.entete_espece = 
+		[ 
+			
+			{"titre":"Code 3 Alpha"},
+			{"titre":"Espèce"},
+			{"titre":"Nom scientifique"},
+			{"titre":"Nom française"},
+			{"titre":"Nom local"}
+		];
+
+		$scope.dtOptions = {
+	       dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+			pagingType: 'simple_numbers',
+			retrieve:'true',
+			order:[] 
+	    };
+	}
 })();

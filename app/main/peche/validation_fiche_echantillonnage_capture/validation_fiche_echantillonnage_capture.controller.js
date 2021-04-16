@@ -75,7 +75,9 @@
         dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
         pagingType: 'simple',
         autoWidth: false,
-        responsive: true
+        responsive: true,
+        retrieve:true,
+        order:[]
       };
 
       vm.step = [{step:1},{step:2},{step:3}];
@@ -840,7 +842,7 @@
         {vm.echantillon.peche_avant_hier=false;}
 
         vm.echantillon.nbr_jrs_peche_dernier_sem = parseInt(vm.selectedItemEchantillon.nbr_jrs_peche_dernier_sem);          
-        vm.echantillon.duree_mare       = vm.selectedItemEchantillon.duree_mare;
+        vm.echantillon.duree_mare       = parseInt(vm.selectedItemEchantillon.duree_mare);
         
         vm.afficherboutonModifSuprEchantillon = 0;
         vm.afficherboutonModifEchantillon = 1;
@@ -875,10 +877,20 @@
       { 
         return o.id;
       }));
-      console.log(vm.echantillonfiltre.length);
+      vm.statu_ready = false;
+      vm.num_dernier_code = 0;
       if (vm.echantillonfiltre.length!=0)
       {
-          apiFactory.getAPIgeneraliserREST("espece_capture/index",'menus','count','id_echantillon',last_id_echantillon).then(function(result)
+        var nbrEchantillon = vm.allechantillon.length;
+
+        if(nbrEchantillon)
+        {
+            var code=vm.allechantillon[nbrEchantillon-1].unique_code;
+            var numcode=code.split(' ')[1];
+            vm.num_dernier_code=numcode;
+        };
+        
+        apiFactory.getAPIgeneraliserREST("espece_capture/index",'menus','count','id_echantillon',last_id_echantillon).then(function(result)
           {
               var espece_capt = result.data.response;
               if (parseInt(espece_capt['count'])>0)
@@ -913,16 +925,7 @@
                     });
                   }
                   vm.echantillon.data_collect_id=effort_p[0].id;
-
-
-                  var nbrEchantillon = vm.allechantillon.length;
-
-                  if(nbrEchantillon)
-                  {
-                      var code=vm.allechantillon[nbrEchantillon-1].unique_code;
-                      var numcode=code.split(' ')[1];
-                      vm.num_dernier_code=numcode;
-                  };
+                  vm.statu_ready = true;
               }
               else
               { 
@@ -932,8 +935,10 @@
               }
                          
           });
+
       } else 
       {
+        
         vm.selectedItemEchantillon.$selected = false; 
         vm.enableUnitepeche = false;
         //vm.prix   = false;
@@ -965,7 +970,7 @@
         }
         vm.echantillon.data_collect_id=effort_p[0].id;
 
-
+        vm.num_dernier_code = 0;
         var nbrEchantillon = vm.allechantillon.length;
 
         if(nbrEchantillon)
@@ -974,6 +979,8 @@
           var numcode=code.split(' ')[1];
           vm.num_dernier_code=numcode;
         };
+        
+      vm.statu_ready = true;
       }
       
     };
@@ -1241,8 +1248,8 @@
                   id:                               id,
                   duree_mare:                       echantillon.duree_mare 
               };
-               vm.allechantillon.push(item);
-               vm.echantillonfiltre.push(item);
+               vm.allechantillon.unshift(item);
+               vm.echantillonfiltre.unshift(item);
                vm.echantillon  ={};                  
                NouvelItemEchantillon=false;
           }          
@@ -1505,7 +1512,7 @@
         if (NouvelItemEspece_capture == false) 
         {
             getIdEspece_capture = vm.selectedItemEspece_capture.id;
-            userId              = vm.selectedItemEspece_capture.user.id;                
+            userId              = $cookieStore.get('id');                
         }
 
         var datas = $.param(
@@ -1589,7 +1596,7 @@
                   id:                String(data.response) 
                 };
                 maj_total_capture = parseFloat(vm.selectedItemEchantillon.total_capture) + parseFloat(espece_capture.capture) ;
-                vm.allespece_capture.push(item);                          
+                vm.allespece_capture.unshift(item);                          
                 vm.selectedItemEchantillon.total_capture = parseFloat(parseFloat(maj_total_capture).toFixed(3));
                 majtotal_captureEchantillon(config);
                 vm.espece_capture={};                         

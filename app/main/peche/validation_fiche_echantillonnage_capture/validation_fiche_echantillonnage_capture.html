@@ -237,7 +237,7 @@
 	<!--/FORM FICHE ECHANTILLONNAGE CAPTURE -->
 								
 								<table class="dataTable row-border hover" datatable="ng"
-									dt-options="vm.dtOptions">
+									dt-options="vm.dtOptions" ng-table ="ficheechantillonTable">
 									<thead>
 										<tr>
 											<th class="secondary-text">
@@ -364,7 +364,7 @@
 											<div layout="column" layout-gt-xs="row" flex>
 												<md-input-container flex="100" flex-gt-xs="33" ng-show="vm.checkboxPAB">
 													<input type="number" name="nbr_jrs_peche_dernier_sem" ng-model="vm.echantillon.nbr_jrs_peche_dernier_sem"
-													placeholder="nombre de jour de peche dernière semaine" ng-max="7" ng-min="1" required>
+													placeholder="nombre de jour de peche dernière semaine" ng-max="7" ng-min="0" required>
 													<div ng-messages="echantillonform.nbr_jrs_peche_dernier_sem.$error"
 														role="alert">												
 														<div ng-message="max">
@@ -474,7 +474,7 @@
 												</md-input-container>								
 											</div -->
 										<md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-											ng-disabled="echantillonform.$invalid || !vm.enableUnitepeche " ng-click="vm.ajoutEchantillon(vm.echantillon,0)">
+											ng-disabled="echantillonform.$invalid || !vm.enableUnitepeche || !vm.statu_ready" ng-click="vm.ajoutEchantillon(vm.echantillon,0)">
 											Enregistrer
 										</md-button>
 										<md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annulerEchantillon()">
@@ -486,7 +486,7 @@
 	<!--/FORM ECHANTILLON -->
 								
 								<table class="dataTable row-border hover" datatable="ng"
-								dt-options="vm.dtOptions">
+								dt-options="vm.dtOptions" ng-table ="echantillonTable">
 								<thead>
 									<tr>
 										<!--th class="secondary-text">
@@ -689,7 +689,7 @@
 		<!--/FORM FICHE ESPACE CAPTURE -->
 
 			                 <table class="dataTable row-border hover" datatable="ng"
-			                      dt-options="vm.dtOptions">
+			                      dt-options="vm.dtOptions" ng-table ="especeTable">
 			                  <thead>
 			                    <tr>
 			                      <th class="secondary-text" ng-repeat="esc in ::vm.espece_capture_column">

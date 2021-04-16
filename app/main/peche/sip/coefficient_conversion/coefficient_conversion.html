@@ -35,12 +35,28 @@
 
                     <div layout="column" layout-gt-xs="row" flex>
                        
+                            <md-input-container flex="100" flex-gt-xs="30">
+                                <label>Type espèce</label>
+                                <md-select ng-model="vm.coefficient_conservation.id_type_espece" name="id_type_espece" ng-change="vm.get_espece_by_type()" >
+                                    <!--md-option value="0">-</md-option!-->
+                                    <md-option ng-repeat="te in vm.all_type_espece" value="{{te.id}}">
+                                        {{te.libelle}}
+                                    </md-option>
+                                    
+                                </md-select>
+                                <div ng-messages="form_coefficient_conservation.id_type_espece.$error"
+                                      role="alert">
+                                      <div ng-message="required">
+                                        <span>Type espèce Obligatoire.</span>
+                                      </div>
+                                    </div>
+                            </md-input-container>
 
                             <md-input-container flex="100" flex-gt-xs="30">
                                 <label>Espèce</label>
-                                <md-select ng-model="vm.coefficient_conservation.id_espece" name="espece" required>
+                                <md-select ng-model="vm.coefficient_conservation.id_espece" name="espece" ng-disabled="!vm.coefficient_conservation.id_type_espece" required>
                                    
-                                    <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
+                                    <md-option ng-repeat="esp in vm.all_espece_by_type" value="{{esp.id}}" style="height:auto !important;">
                                         <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                         <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
                                         <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
@@ -132,9 +148,10 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="cm in vm.all_coefficient_conversion"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_coefficient_conversion(cm)">                                       
-                                <td>{{vm.affichage_espece(cm.id_espece)}}</td>
-                                <td>{{vm.affichage_presentation(cm.id_presentation)}}</td>
-                                <td>{{vm.affichage_conservation(cm.id_conservation)}}</td>
+                                <td>{{(cm.libelle_type_espece)}}</td>
+                                <td>{{(cm.nom_espece)}}</td>
+                                <td>{{(cm.libelle_presentation)}}</td>
+                                <td>{{(cm.libelle_conservation)}}</td>
                                 <td>{{vm.replace_point(cm.coefficient)}}</td>
                             </tr>
                         </tbody>

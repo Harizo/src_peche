@@ -35,9 +35,10 @@
                 <form name="form_filtre" class="md-inline-form" novalidate >
 
                   <div layout="column" layout-gt-xs="row">
+
                     <md-input-container flex="100" flex-gt-xs="30">
                       <label>Region</label>
-                      <md-select ng-model="vm.production_commercialisation_region.id_region" name="id_region"   required>
+                      <md-select ng-model="vm.production_commercialisation_region.id_region" name="id_region" ng-change="vm.get_ditrict_by_region()"  required>
                         <md-option ng-repeat="region in vm.all_region" value="{{region.id}}">
                           {{region.nom}}
                         </md-option>
@@ -49,9 +50,34 @@
                       </div>
                     </md-input-container>
 
-                    <md-input-container flex="100" flex-gt-xs="30"></md-input-container>
-                    <md-input-container flex="100" flex-gt-xs="30"></md-input-container>
-                    <md-input-container flex="100" flex-gt-xs="30"></md-input-container>
+                    <md-input-container flex="100" flex-gt-xs="30">
+                      <label>District</label>
+                      <md-select ng-model="vm.production_commercialisation_region.id_district" name="id_district" ng-disabled="!vm.production_commercialisation_region.id_region"  required>
+                        <md-option ng-repeat="district in vm.all_district_by_region" value="{{district.id}}">
+                          {{district.nom}}
+                        </md-option>
+                      </md-select>
+                      <div ng-messages="form_filtre.id_district.$error"role="alert">
+                        <div ng-message="required">
+                          <span>District obligatoire.</span>
+                        </div>
+                      </div>
+                    </md-input-container>
+                    
+
+                    <md-input-container flex="100" flex-gt-xs="30">
+                      <label>Année</label>
+                      <md-select ng-model="vm.production_commercialisation_region.annee" name="annee"   required>
+                        <md-option ng-repeat="a in vm.all_annee" value="{{a.annee}}">
+                          {{a.annee}}
+                        </md-option>
+                      </md-select>
+                      <div ng-messages="form_filtre.annee.$error"role="alert">
+                        <div ng-message="required">
+                          <span>Année obligatoire.</span>
+                        </div>
+                      </div>
+                    </md-input-container>
                     
                   </div>
 
@@ -65,7 +91,7 @@
                     
                 </form>
               </div> 
-                    <!--/FORM FORM FILTRE  -->
+            <!--/FORM FORM FILTRE  -->
             <div style="clear:both;"></div>
             <div class="form-wrapper">
 
@@ -90,7 +116,7 @@
                     
                   <div layout="column" layout-gt-xs="row" flex>
 
-                    <md-input-container flex="100" flex-gt-xs="30">
+                    <!-- <md-input-container flex="100" flex-gt-xs="30">
                       <input  type="text" name="code_activ" ng-model="vm.production_commercialisation_region.code_activ"
                         placeholder="Code activ"    ng-init="vm.production_commercialisation_region.code_activ=''"
                         required>
@@ -100,9 +126,22 @@
                             <span>Code activ obligatoire.</span>
                           </div>
                         </div>                        
-                    </md-input-container>
+                    </md-input-container> -->
 
                     <md-input-container flex="100" flex-gt-xs="30">
+                      <label>Code activ</label>
+                      <md-select name="code_activ" ng-model="vm.production_commercialisation_region.code_activ" required>
+                        <md-option value="A">A</md-option>
+                        <md-option value="P">P</md-option>
+                      </md-select>
+                      <div ng-messages="form_production_commercialisation_region.code_activ.$error"role="alert">
+                        <div ng-message="required">
+                          <span>Code activ obligatoire.</span>
+                        </div>
+                      </div>
+                    </md-input-container>
+
+                    <!-- <md-input-container flex="100" flex-gt-xs="30">
                       <input  type="text" name="code_dom" ng-model="vm.production_commercialisation_region.code_dom"
                         placeholder="Code dom"    ng-init="vm.production_commercialisation_region.code_dom=''"
                         required>
@@ -113,9 +152,23 @@
                         </div>
                         
                       </div>                        
-                    </md-input-container>
+                    </md-input-container> -->
 
                     <md-input-container flex="100" flex-gt-xs="30">
+                      <label>Code dom</label>
+                      <md-select name="code_dom" ng-model="vm.production_commercialisation_region.code_dom" required>
+                        <md-option value="ED">ED</md-option>
+                        <md-option value="M">M</md-option>
+                      </md-select>
+                      <div ng-messages="form_production_commercialisation_region.code_dom.$error"role="alert">
+                        <div ng-message="required">
+                          <span>Code dom obligatoire.</span>
+                        </div>
+                      </div>
+                    </md-input-container>
+
+
+                    <!-- <md-input-container flex="100" flex-gt-xs="30">
                       <input  type="text" name="code_act_dom" ng-model="vm.production_commercialisation_region.code_act_dom"
                         placeholder="Code act_dom"    ng-init="vm.production_commercialisation_region.code_act_dom=''"
                         required>
@@ -125,6 +178,23 @@
                           <span>Code act_dom obligatoire.</span>
                         </div>
                          
+                      </div>
+                    </md-input-container> -->
+
+                    <md-input-container flex="100" flex-gt-xs="30">
+                      <label>Code act_dom</label>
+                      <md-select name="code_act_dom" ng-model="vm.production_commercialisation_region.code_act_dom" required>
+                        <md-option value="AQED">AQED</md-option>
+                        <md-option value="AQM">AQM</md-option>
+                        <md-option value="PAM">PAM</md-option>
+                        <md-option value="PIM">PIM</md-option>
+                        <md-option value="PTC">PTC</md-option>
+                        <md-option value="PTM">PTM</md-option>
+                      </md-select>
+                      <div ng-messages="form_production_commercialisation_region.code_act_dom.$error"role="alert">
+                        <div ng-message="required">
+                          <span>Code act_dom obligatoire.</span>
+                        </div>
                       </div>
                     </md-input-container>
 
@@ -181,7 +251,7 @@
 
                     <md-input-container >
                       <label>Espèce</label>
-                      <md-select ng-model="vm.production_commercialisation_region.id_espece" name="id_espece" required>
+                      <md-select ng-model="vm.production_commercialisation_region.id_espece" name="id_espece" ng-disabled="true" ng-click="showTabDialog()" required>
                         <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
                            
                           <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
@@ -224,7 +294,7 @@
                         </div>
                     </md-input-container>
 
-                    <md-input-container flex="100" flex-gt-xs="15">
+                    <!-- <md-input-container flex="100" flex-gt-xs="15">
                       <input  type="text" name="code_comm" ng-model="vm.production_commercialisation_region.code_comm"
                         placeholder="Code comm"    ng-init="vm.production_commercialisation_region.code_comm=''" required>
                         <div ng-messages="form_production_commercialisation_region.code_comm.$error"
@@ -234,6 +304,22 @@
                           </div>
                           
                         </div>
+                    </md-input-container> -->
+
+                    <md-input-container flex="100" flex-gt-xs="30">
+                      <label>Code comm</label>
+                      <md-select name="code_comm" ng-model="vm.production_commercialisation_region.code_comm" required>
+                        <md-option value="consommation locale">consommation locale</md-option>
+                        <md-option value="collecte">collecte</md-option>
+                        <md-option value="expedition hors district">expedition hors district</md-option>
+                        <md-option value="exportation">exportation</md-option>
+                        <md-option value="vente locale">vente locale</md-option>
+                      </md-select>
+                      <div ng-messages="form_production_commercialisation_region.code_comm.$error"role="alert">
+                        <div ng-message="required">
+                          <span>Code comm obligatoire.</span>
+                        </div>
+                      </div>
                     </md-input-container>
 
                     <md-input-container flex="100" flex-gt-xs="10">
@@ -247,7 +333,7 @@
                       </div>
                     </md-input-container>
 
-                    <md-input-container flex="100" flex-gt-xs="15">
+                 <!--    <md-input-container flex="100" flex-gt-xs="15">
                       <label>Région</label>
                       <md-select ng-model="vm.production_commercialisation_region.id_region" name="id_region" required >
                         <md-option ng-repeat="reg in vm.all_region" value="{{reg.id}}">
@@ -260,13 +346,13 @@
                           <span>Région Obligatoire.</span>
                         </div>
                       </div>
-                    </md-input-container>
+                    </md-input-container> -->
                         
                   </div>
 
                   <div>
                     <md-button type="submit" class="md-raised md-accent" aria-label="Enregistrer"
-                      ng-disabled="form_production_commercialisation_region.$invalid||vm.affiche_load" ng-click="vm.save_in_bdd_production_commercialisation_region(vm.production_commercialisation_region,0)">
+                      ng-disabled="form_production_commercialisation_region.$invalid||vm.affiche_load||!vm.production_commercialisation_region.id_district" ng-click="vm.save_in_bdd_production_commercialisation_region(vm.production_commercialisation_region,0)">
                       Enregistrer
                     </md-button>
                     <md-button type="submit" class="md-raised md-primary" aria-label="Annuler" ng-click="vm.annuler_production_commercialisation_region()">
@@ -306,6 +392,7 @@
                     <td>{{cm.code_comm}}</td>
                     <td>{{vm.formatMillier(cm.quantite_comm)}} Kg</td>
                     <td>{{cm.nom_region}} </td>
+                    <td>{{cm.nom_district}} </td>
                   </tr>
                 </tbody>
               </table>

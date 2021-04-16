@@ -5,50 +5,50 @@
     angular
         .module('app.peche.ddb.espece')
         .directive('customOnChange', function() {
-      return {
-        restrict: 'A',
-        require:'ngModel',
-        link: function (scope, element, attrs,ngModel) {
-          var onChangeHandler = scope.$eval(attrs.customOnChange);
-          element.bind('change', onChangeHandler);
-          element.on("change", function(e) {
-          var files = element[0].files;
-          ngModel.$setViewValue(files);
+          return {
+            restrict: 'A',
+            require:'ngModel',
+            link: function (scope, element, attrs,ngModel) {
+              var onChangeHandler = scope.$eval(attrs.customOnChange);
+              element.bind('change', onChangeHandler);
+              element.on("change", function(e) {
+              var files = element[0].files;
+              ngModel.$setViewValue(files);
+            })
+            }
+          };
         })
-        }
-      };
-    })
         .directive('fileModel', ['$parse', function ($parse) {
-      return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-          var model = $parse(attrs.fileModel);
-          var modelSetter = model.assign;        
-          element.bind('change', function(){
-            scope.$apply(function(){
-              //modelSetter(scope, element[0].files[0]);
-               //console.log(element[0].files[0]);
+          return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+              var model = $parse(attrs.fileModel);
+              var modelSetter = model.assign;        
+              element.bind('change', function(){
+                scope.$apply(function(){
+                  //modelSetter(scope, element[0].files[0]);
+                   //console.log(element[0].files[0]);
 
+                });
+              });
+            }
+          };
+        }])
+        .service('fileUpload', ['$http', function ($http) {
+          this.uploadFileToUrl = function(file, uploadUrl){
+            var fd = new FormData();
+            var rep='test';
+            fd.append('file', file);
+            $http.post(uploadUrl, fd,{
+              transformRequest: angular.identity,
+              headers: {'Content-Type': undefined}
+            }).success(function(){
+               console.log('tafa');
+            }).error(function(){
+               console.log('Rivotra');
             });
-          });
-        }
-      };
-    }])
-    .service('fileUpload', ['$http', function ($http) {
-      this.uploadFileToUrl = function(file, uploadUrl){
-        var fd = new FormData();
-        var rep='test';
-        fd.append('file', file);
-        $http.post(uploadUrl, fd,{
-          transformRequest: angular.identity,
-          headers: {'Content-Type': undefined}
-        }).success(function(){
-           console.log('tafa');
-        }).error(function(){
-           console.log('Rivotra');
-        });
-      }
-    }])
+          }
+        }])
         .controller('EspeceController', EspeceController);
     /** @ngInject */
     function EspeceController($mdDialog, $scope, apiFactory, $state,cookieService,apiUrl,$http,apiUrlserver,$window)

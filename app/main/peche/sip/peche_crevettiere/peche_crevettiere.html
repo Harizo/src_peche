@@ -224,10 +224,10 @@
                             <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_bateau_crevette()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                               Nouveau
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_societe_crevette.id" aria-label="Modifier" ng-click="vm.modif_bateau_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_bateau.id" aria-label="Modifier" ng-click="vm.modif_bateau_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
                               Modifier
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_societe_crevette.id" aria-label="Supprimer" ng-click="vm.supprimer_bateau_crevette()" style="width:10%;">
+                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_bateau.id" aria-label="Supprimer" ng-click="vm.supprimer_bateau_crevette()" style="width:10%;">
                                 <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
                               Supprimer
                             </md-button>
@@ -423,10 +423,10 @@
                             <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_production_crevette()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                               Nouveau
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_societe_crevette.id" aria-label="Modifier" ng-click="vm.modif_production_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_production.id" aria-label="Modifier" ng-click="vm.modif_production_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
                               Modifier
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_societe_crevette.id" aria-label="Supprimer" ng-click="vm.supprimer_production_crevette()" style="width:10%;">
+                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_production.id" aria-label="Supprimer" ng-click="vm.supprimer_production_crevette()" style="width:10%;">
                                 <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
                               Supprimer
                             </md-button>
@@ -600,10 +600,10 @@
                             <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_fiche_peche_crevette()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                               Nouveau
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_societe_crevette.id" aria-label="Modifier" ng-click="vm.modif_fiche_peche_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_fiche_peche.id" aria-label="Modifier" ng-click="vm.modif_fiche_peche_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
                               Modifier
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_societe_crevette.id" aria-label="Supprimer" ng-click="vm.supprimer_fiche_peche_crevette()" style="width:10%;">
+                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_fiche_peche.id" aria-label="Supprimer" ng-click="vm.supprimer_fiche_peche_crevette()" style="width:10%;">
                                 <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
                               Supprimer
                             </md-button>
@@ -619,7 +619,7 @@
                                     <md-input-container flex="100" flex-gt-xs="20">
                                       <input type="text" name="numfp" ng-model="vm.fiche_peche_crevette.numfp"
                                         placeholder="Numero fiche " ng-init="vm.fiche_peche_crevette.numfp=''"
-                                        required readonly="true">
+                                        required >
                                         <div ng-messages="form_fiche_peche_crevette.numfp.$error"
                                           role="alert">
                                           <div ng-message="required">
@@ -766,7 +766,8 @@
                                             <span ng-if="cm.$edit">
                                                 <md-input-container style="width:100%;display: flex !important;">
                                                   <label>N° Séquence de pêche</label>
-                                                  <input name="numseqpeche" ng-pattern="/^\d+$/" ng-model="cm.numseqpeche" readonly="true">
+                                                  <!-- <input name="numseqpeche" ng-pattern="/^\d+$/" ng-model="cm.numseqpeche" > -->
+                                                  <input name="numseqpeche" type="text" ng-model="cm.numseqpeche" >
                                                 </md-input-container>   
                                                 
                                             </span>
@@ -936,6 +937,27 @@
                                             </span>
                                         </td>
 
+                                        <td>
+
+                                            <span ng-if="cm.$edit">
+                                                <md-input-container style="width:100%;display: flex !important;">
+                                                   
+
+                                                    <label>Navire</label>
+                                                    <md-select name="id_navire"  ng-model="cm.id_navire">
+                                                        <md-option ng-repeat="navire in vm.all_navire" value="{{navire.id}}">
+                                                            {{navire.nom}} ({{navire.immatricule}})
+                                                        </md-option>
+                                                        
+                                                    </md-select>
+                                                </md-input-container>   
+                                                
+                                            </span>
+                                            <span ng-if="!cm.$edit">
+                                                {{vm.affichage_navire(cm.id_navire)}}
+                                            </span>
+                                        </td>
+
 
                                       
                                
@@ -1010,12 +1032,24 @@
                                             <span ng-if="cm.$edit">
                                                 <md-input-container flex="100" flex-gt-xs="35">
                                                     <label>Espèce</label>
-                                                    <md-select ng-model="cm.id_espece" name="id_espece" required>
+                                                    <md-select ng-model="cm.id_espece" name="id_espece" ng-disabled="true" ng-click="showTabDialog('fiche_peche')" required>
                                                         <md-option ng-repeat="espece in vm.all_espece" value="{{espece.id}}">
                                                             {{espece.nom}}
                                                         </md-option>
                                                         
                                                     </md-select>
+
+                                                    <!-- <md-select ng-model="cm.id_espece" name="id_espece" ng-disabled="true" ng-click="showTabDialog('fiche_peche')" required>
+                                                        <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}">
+                                                            <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
+                                                              <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
+                                                              <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
+                                                              <small><strong><u>Nom francaise</u></strong>: {{esp.nom_francaise}}</small>
+                                                              <small><strong><u>Nom local</u></strong>: {{esp.nom_local}}</small>
+                                                              <md-divider></md-divider> 
+                                                        </md-option>
+                                                        
+                                                    </md-select> -->
                                                     
                                                 </md-input-container>   
                                                 
@@ -1278,10 +1312,10 @@
                             <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_commerce_crevette()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                               Nouveau
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_societe_crevette.id" aria-label="Modifier" ng-click="vm.modif_commerce_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_commerce.id" aria-label="Modifier" ng-click="vm.modif_commerce_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
                               Modifier
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_societe_crevette.id" aria-label="Supprimer" ng-click="vm.supprimer_commerce_crevette()" style="width:10%;">
+                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_commerce.id" aria-label="Supprimer" ng-click="vm.supprimer_commerce_crevette()" style="width:10%;">
                                 <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
                               Supprimer
                             </md-button>
@@ -1336,7 +1370,7 @@
 
                                         <md-input-container flex="100" flex-gt-xs="35">
                                             <label>Produit</label>
-                                            <md-select ng-model="vm.commerce_crevette.produit" name="produit" required>
+                                            <md-select ng-model="vm.commerce_crevette.produit" name="produit" ng-disabled="true" ng-click="showTabDialog('commercialisation')" required>
                                                 <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}">
                                                     <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                       <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
@@ -1619,10 +1653,10 @@
                             <md-button type="submit"class="md-raised custum_button_new" aria-label="Nouveau" ng-click="vm.ajout_exportation_crevette()" style="width:10%;"><md-icon md-font-icon="icon-plus" class="s16 center" style="color: white;"></md-icon>
                               Nouveau
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_societe_crevette.id" aria-label="Modifier" ng-click="vm.modif_exportation_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
+                            <md-button type="submit" class="md-raised custum_button" ng-if="vm.selected_exportation.id" aria-label="Modifier" ng-click="vm.modif_exportation_crevette()" style="width:10%;"><md-icon md-font-icon="icon-table-edit" class="s16" style="color: white;"></md-icon>
                               Modifier
                             </md-button>
-                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_societe_crevette.id" aria-label="Supprimer" ng-click="vm.supprimer_exportation_crevette()" style="width:10%;">
+                            <md-button type="submit" class="md-raised custum_button_del" ng-if="vm.selected_exportation.id" aria-label="Supprimer" ng-click="vm.supprimer_exportation_crevette()" style="width:10%;">
                                 <md-icon md-font-icon="icon-close-circle-outline" class="s16" style="color: white;"></md-icon>
                               Supprimer
                             </md-button>
@@ -1733,7 +1767,7 @@
 
                                     <md-input-container flex="100" flex-gt-xs="25">
                                             <label>Produit</label>
-                                            <md-select ng-model="vm.exportation_crevette.id_espece" name="id_espece" required>
+                                            <md-select ng-model="vm.exportation_crevette.id_espece" name="id_espece" ng-disabled="true" ng-click="showTabDialog('exportation')" required>
                                                 <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}">
                                                     <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                       <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
@@ -1901,10 +1935,10 @@
                                     <td>{{cm.libelle_presentation}}</td>
                                     <td>{{cm.libelle_conservation}}</td>
                                     <td>{{cm.destination}}</td>
-                                    <td>{{vm.replace_point(cm.quantite)}}</td>
+                                    <td>{{vm.replace_point(vm.formatMillier_float(cm.quantite))}}</td>
                                     <td>{{vm.formatMillier(cm.valeur_ar)}}</td>
-                                    <td>{{vm.replace_point(cm.valeur_euro)}}</td>
-                                    <td>{{vm.replace_point(cm.valeur_usd)}}</td>
+                                    <td>{{vm.replace_point(vm.formatMillier_float(cm.valeur_euro))}}</td>
+                                    <td>{{vm.replace_point(vm.formatMillier_float(cm.valeur_usd))}}</td>
                                   
                                    
                                 </tr>
@@ -1966,7 +2000,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="cm in vm.reporting_halieutique"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_etat(cm)">                                       
-                                    <td ng-repeat="c in ::vm.entete_etat">{{vm.replace_point(cm[c])}}</td>
+                                    <td ng-repeat="c in ::vm.entete_etat">{{vm.replace_point(vm.formatMillier_req(cm[c],c))}}</td>
                                     
                                 </tr>
                             </tbody>

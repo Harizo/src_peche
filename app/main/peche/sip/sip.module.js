@@ -16,7 +16,8 @@
             'app.peche.sip.coefficient_conversion',
             'app.peche.sip.production_commerce_region',
             'app.peche.sip.saisie_collecte_culture_algues',
-            'app.peche.sip.ddbsip'
+            'app.peche.sip.ddbsip',
+            'app.peche.sip.enquete_cadre_nationale'
 
 
         ])

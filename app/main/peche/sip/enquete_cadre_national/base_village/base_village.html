@@ -1,0 +1,107 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+       
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="space-between">
+            <div class="breadcrumb" layout="row" layout-align="start center">
+                <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent">S.I.P</span>
+                <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+                <span class="parent" href="javascript:;">Base village</span>
+            </div>
+
+            <div class="title">Base village</div>
+        </div>
+    </div>	
+    <div class="content" layout="column">
+        <div class="form-wrapper">
+            <div ng-if="vm.affiche_load" layout="row" layout-align="center center">
+                <md-progress-circular ng-if="vm.affiche_load" class=" md-accent"  aria-label="Rating" md-mode="indeterminate" md-diameter="30"></md-progress-circular> 
+                
+                <span style="color: #039be5">Chargement,veuillez patienter s'il vous plait ...</span>
+            </div>
+            <div style="clear:both;"></div>
+            <md-tabs md-dynamic-height>
+                <md-tab label="Base village">
+
+                    <!--FORM FILTRE  --> 
+              <div>
+        
+                <form name="form_filtre" class="md-inline-form" novalidate >
+
+                  <div layout="column" layout-gt-xs="row">
+
+                    <md-input-container flex="100" flex-gt-xs="30">
+                      <label>Region</label>
+                      <md-select ng-model="vm.filtre.region" name="region"  ng-change="vm.get_district_by_region()" required>
+                        <md-option ng-repeat="region in vm.all_region" value="{{region.region}}">
+                          {{region.region}}
+                        </md-option>
+                      </md-select>
+                      <div ng-messages="form_filtre.region.$error"role="alert">
+                        <div ng-message="required">
+                          <span>Region obligatoire.</span>
+                        </div>
+                      </div>
+                    </md-input-container>
+
+                    <md-input-container flex="100" flex-gt-xs="30">
+                      <label>District</label>
+                      <md-select ng-model="vm.filtre.district" name="district"   required>
+                        <md-option ng-repeat="district in vm.all_district" value="{{district.district}}">
+                          {{district.district}}
+                        </md-option>
+                      </md-select>
+                      <div ng-messages="form_filtre.district.$error"role="alert">
+                        <div ng-message="required">
+                          <span>District obligatoire.</span>
+                        </div>
+                      </div>
+                    </md-input-container>
+
+                    
+                    <md-input-container flex="100" flex-gt-xs="30"></md-input-container>
+                    
+                  </div>
+
+                  <div>
+                    <md-button  type="submit" class="md-raised md-accent" aria-label="Afficher les données"
+                        ng-disabled="form_filtre.$invalid || vm.affiche_load" ng-click="vm.get_reporting_halieutique()">
+                        Afficher les données
+                    </md-button>
+
+                  </div>
+                    
+                </form>
+              </div> 
+            <!--/FORM FORM FILTRE  -->
+                    <!--TABLE LISTES etat-->
+                    <div style="padding-top:10px;">
+
+                        <table ng-table="tableetat" class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="vm.dtOptions" ms-responsive-table>
+                            <thead>
+                                <tr>
+                                    <th class="secondary-text" ng-repeat="c in ::vm.entete_etat">
+                                        <div class="table-header">
+                                            <span class="column-title text-center">{{c}}</span>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cm in vm.reporting_halieutique"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_etat(cm)">                                       
+                                    <td ng-repeat="c in ::vm.entete_etat">{{(cm[c])}}</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+
+                   </div>
+                        <!--TABLE LISTES etat-->
+
+                </md-tab>
+            </md-tabs>
+        </div>
+    </div>
+</div>

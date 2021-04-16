@@ -404,7 +404,7 @@
 
                                     <md-input-container >
                                         <label>Espèce</label>
-                                        <md-select ng-model="vm.especes_permis.id_espece" name="id_espece" ng-disabled="!vm.especes_permis.id_type_espece" required>
+                                        <md-select ng-model="vm.especes_permis.id_espece" name="id_espece"   ng-disabled="true" ng-click="showTabDialog('espece_autorise')" required>
                                             <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
                                                 <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                   <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
@@ -492,7 +492,7 @@
                                     <div layout="column" layout-gt-xs="row" flex>
                                         <md-input-container >
                                             <label>Espèce</label>
-                                            <md-select ng-model="vm.collecte.id_espece" name="id_espece" required>
+                                            <md-select ng-model="vm.collecte.id_espece" name="id_espece" ng-disabled="true" ng-click="showTabDialog('collecte')" required>
                                                 <md-option ng-repeat="esp in vm.all_especes_permis" value="{{esp.id_espece}}" style="height:auto !important;">
                                                     <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                   <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
@@ -748,7 +748,7 @@
                                     <div layout="column" layout-gt-xs="row" flex>
                                         <md-input-container >
                                             <label>Espèce</label>
-                                            <md-select ng-model="vm.commerce_marine.id_espece" name="id_espece" required>
+                                            <md-select ng-model="vm.commerce_marine.id_espece" name="id_espece" ng-disabled="true" ng-click="showTabDialog('commerce_marine')" required>
                                                 <md-option ng-repeat="esp in vm.all_especes_permis " value="{{esp.id_espece}}" style="height:auto !important;">
                                                     <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                     <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
@@ -905,7 +905,7 @@
                                     <div layout="column" layout-gt-xs="row" flex>
                                         <md-input-container flex="100" flex-gt-xs="30">
                                           <input  type="number" name="vl_qte" ng-model="vm.commerce_marine.vl_qte"
-                                            placeholder="VL Qté(Kg)"    ng-init="vm.commerce_marine.vl_qte=''"
+                                            placeholder="VL Qté(Kg)"    ng-init="vm.commerce_marine.vl_qte=0"
                                             required>
                                             <div ng-messages="form_commerce_marine.vl_qte.$error"
                                               role="alert">
@@ -937,7 +937,7 @@
                                         <md-input-container flex="100" flex-gt-xs="30">
                                           <input  type="number" name="vl_poids_vif" ng-model="vm.commerce_marine.vl_poids_vif"
                                             placeholder="VL Poids vif(Kg)"    ng-init="vm.commerce_marine.vl_poids_vif=''"
-                                            required>
+                                            required readonly="true">
                                             <div ng-messages="form_commerce_marine.vl_poids_vif.$error"
                                               role="alert">
                                               <div ng-message="required">
@@ -986,7 +986,7 @@
                                         <md-input-container flex="100" flex-gt-xs="30">
                                           <input  type="number" name="exp_poids_vif" ng-model="vm.commerce_marine.exp_poids_vif"
                                             placeholder="EXP Poids vif(Kg)"    ng-init="vm.commerce_marine.exp_poids_vif=''"
-                                            required>
+                                            required readonly="true">
                                             <div ng-messages="form_commerce_marine.exp_poids_vif.$error"
                                               role="alert">
                                               <div ng-message="required">
@@ -1011,7 +1011,7 @@
                                         </md-datepicker>
                                         </div>
 
-                                        <md-input-container flex="100" flex-gt-xs="30">
+                                        <!-- <md-input-container flex="100" flex-gt-xs="30">
                                           <input  type="text" name="exp_destination" ng-model="vm.commerce_marine.exp_destination"
                                             placeholder="EXP Déstination"    ng-init="vm.commerce_marine.exp_destination=''"
                                             required>
@@ -1024,7 +1024,23 @@
                                             </div>
 
                                             
+                                        </md-input-container> -->
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                            <label>EXP Déstination</label>
+                                            <md-select name="exp_destination" ng-model="vm.commerce_marine.exp_destination"  required>
+                                                <md-option ng-repeat="district in vm.all_district" value="{{district.id}}">
+                                                    {{district.nom}}
+                                                </md-option>
+                                            </md-select>
+                                            <div ng-messages="form_commerce_marine.exp_destination.$error" role="alert">
+                                                <div ng-message="required">
+                                                    <span>EXP Déstination obligatoire.</span>
+                                                </div>
+                                            </div>
                                         </md-input-container>
+
+
 
                                         <md-input-container flex="100" flex-gt-xs="10">
                                           <input  type="number" name="nbr_colis" ng-model="vm.commerce_marine.nbr_colis"
@@ -1075,7 +1091,7 @@
                                         </md-input-container>
 
 
-                                        <md-input-container flex="100" flex-gt-xs="25">
+                                        <!-- <md-input-container flex="100" flex-gt-xs="25">
                                           <input  type="text" name="lieu_exped" ng-model="vm.commerce_marine.lieu_exped"
                                             placeholder="Lieu expéd."    ng-init="vm.commerce_marine.lieu_exped=''"
                                             required>
@@ -1088,6 +1104,20 @@
                                             </div>
 
                                             
+                                        </md-input-container> -->
+
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                            <label>Lieu expéd.</label>
+                                            <md-select name="lieu_exped" ng-model="vm.commerce_marine.lieu_exped"  required>
+                                                <md-option ng-repeat="district in vm.all_district" value="{{district.id}}">
+                                                    {{district.nom}}
+                                                </md-option>
+                                            </md-select>
+                                            <div ng-messages="form_commerce_marine.lieu_exped.$error"role="alert">
+                                                <div ng-message="required">
+                                                    <span>Lieu expéd. obligatoire.</span>
+                                                </div>
+                                            </div>
                                         </md-input-container>
 
                                         <md-input-container flex="100" flex-gt-xs="25">
@@ -1141,7 +1171,7 @@
                                         <md-input-container flex="100" flex-gt-xs="30">
                                           <input  type="number" name="export_poids_vif" ng-model="vm.commerce_marine.export_poids_vif"
                                             placeholder="Export Poids vif(Kg)"    ng-init="vm.commerce_marine.export_poids_vif=''"
-                                            required>
+                                            required readonly="true">
                                             <div ng-messages="form_commerce_marine.export_poids_vif.$error"
                                               role="alert">
                                               <div ng-message="required">
@@ -1154,10 +1184,10 @@
                                         </md-input-container>
 
                                         <md-input-container flex="100" flex-gt-xs="30">
-                                          <input  type="text" name="exp_destination" ng-model="vm.commerce_marine.export_destination"
-                                            placeholder="Export Déstination"    ng-init="vm.commerce_marine.exp_destination=''"
+                                          <input  type="text" name="export_destination" ng-model="vm.commerce_marine.export_destination"
+                                            placeholder="Export Déstination"    ng-init="vm.commerce_marine.export_destination=''"
                                             required>
-                                            <div ng-messages="form_commerce_marine.exp_destination.$error"
+                                            <div ng-messages="form_commerce_marine.export_destination.$error"
                                               role="alert">
                                               <div ng-message="required">
                                                 <span>Export Déstination obligatoire.</span>
@@ -1221,7 +1251,7 @@
                                         <td>{{vm.replace_point(cm.exp_qte)}} Kg</td>
                                         <td>{{vm.formatMillier(cm.exp_prix_par_kg)}} Ar/Kg</td>
                                         <td>{{vm.replace_point(cm.exp_poids_vif)}} Kg</td>
-                                        <td>{{cm.exp_destination}}</td>
+                                        <td>{{vm.affichage_district_html(cm.exp_destination)}}</td>
 
                                         
 
@@ -1230,7 +1260,7 @@
                                         <td>{{cm.nbr_colis}}</td>
                                         <td>{{cm.nom_dest}}</td>
                                         <td>{{cm.adresse_dest}}</td>
-                                        <td>{{cm.lieu_exped}}</td>
+                                        <td>{{vm.affichage_district_html(cm.lieu_exped)}}</td>
                                         <td>{{cm.moyen_transport}}</td>
 
                                         <td>{{vm.replace_point(cm.export_qte)}} Kg</td>
@@ -1315,7 +1345,7 @@
                                     <div layout="column" layout-gt-xs="row" flex>
                                         <md-input-container >
                                             <label>Espèce</label>
-                                            <md-select ng-model="vm.commerce_eau_douce.id_espece" name="id_espece" required>
+                                            <md-select ng-model="vm.commerce_eau_douce.id_espece" name="id_espece" ng-disabled="true" ng-click="showTabDialog('commerce_eau_douce')" required>
                                                 <md-option ng-repeat="esp in vm.all_especes_permis " value="{{esp.id_espece}}" style="height:auto !important;">
                                                     <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                     <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
@@ -1504,7 +1534,7 @@
                                         <md-input-container flex="100" flex-gt-xs="30">
                                           <input  type="number" name="vl_poids_vif" ng-model="vm.commerce_eau_douce.vl_poids_vif"
                                             placeholder="VL Poids vif(Kg)"    ng-init="vm.commerce_eau_douce.vl_poids_vif=''"
-                                            required>
+                                            required readonly="true">
                                             <div ng-messages="form_commerce_eau_douce.vl_poids_vif.$error"
                                               role="alert">
                                               <div ng-message="required">
@@ -1552,7 +1582,7 @@
                                         <md-input-container flex="100" flex-gt-xs="30">
                                           <input  type="number" name="exp_poids_vif" ng-model="vm.commerce_eau_douce.exp_poids_vif"
                                             placeholder="EXP Poids vif(Kg)"    ng-init="vm.commerce_eau_douce.exp_poids_vif=''"
-                                            required>
+                                            required readonly="true">
                                             <div ng-messages="form_commerce_eau_douce.exp_poids_vif.$error"
                                               role="alert">
                                               <div ng-message="required">
@@ -1577,7 +1607,7 @@
                                         </md-datepicker>
                                         </div>
 
-                                        <md-input-container flex="100" flex-gt-xs="30">
+                                        <!-- <md-input-container flex="100" flex-gt-xs="30">
                                           <input  type="text" name="exp_destination" ng-model="vm.commerce_eau_douce.exp_destination"
                                             placeholder="EXP Déstination"    ng-init="vm.commerce_eau_douce.exp_destination=''"
                                             required>
@@ -1590,6 +1620,20 @@
                                             </div>
 
                                             
+                                        </md-input-container> -->
+
+                                        <md-input-container flex="100" flex-gt-xs="30">
+                                            <label>EXP Déstination</label>
+                                            <md-select name="exp_destination" ng-model="vm.commerce_eau_douce.exp_destination"  required>
+                                                <md-option ng-repeat="district in vm.all_district" value="{{district.id}}">
+                                                    {{district.nom}}
+                                                </md-option>
+                                            </md-select>
+                                            <div ng-messages="form_commerce_eau_douce.exp_destination.$error" role="alert">
+                                                <div ng-message="required">
+                                                    <span>EXP Déstination obligatoire.</span>
+                                                </div>
+                                            </div>
                                         </md-input-container>
 
                                         <md-input-container flex="100" flex-gt-xs="10">
@@ -1641,7 +1685,7 @@
                                         </md-input-container>
 
 
-                                        <md-input-container flex="100" flex-gt-xs="25">
+                                        <!-- <md-input-container flex="100" flex-gt-xs="25">
                                           <input  type="text" name="lieu_exped" ng-model="vm.commerce_eau_douce.lieu_exped"
                                             placeholder="Lieu expéd."    ng-init="vm.commerce_eau_douce.lieu_exped=''"
                                             required>
@@ -1654,7 +1698,23 @@
                                             </div>
 
                                             
+                                        </md-input-container> -->
+
+                                        <md-input-container flex="100" flex-gt-xs="25">
+                                            <label>Lieu expéd.</label>
+                                            <md-select name="lieu_exped" ng-model="vm.commerce_eau_douce.lieu_exped"  required>
+                                                <md-option ng-repeat="district in vm.all_district" value="{{district.id}}">
+                                                    {{district.nom}}
+                                                </md-option>
+                                            </md-select>
+                                            <div ng-messages="form_commerce_eau_douce.lieu_exped.$error" role="alert">
+                                                <div ng-message="required">
+                                                    <span>Lieu expéd. obligatoire.</span>
+                                                </div>
+                                            </div>
                                         </md-input-container>
+
+
 
                                         <md-input-container flex="100" flex-gt-xs="25">
                                           <input  type="text" name="moyen_transport" ng-model="vm.commerce_eau_douce.moyen_transport"
@@ -1707,7 +1767,7 @@
                                         <md-input-container flex="100" flex-gt-xs="30">
                                           <input  type="number" name="export_poids_vif" ng-model="vm.commerce_eau_douce.export_poids_vif"
                                             placeholder="Export Poids vif(Kg)"    ng-init="vm.commerce_eau_douce.export_poids_vif=''"
-                                            required>
+                                            required readonly="true">
                                             <div ng-messages="form_commerce_eau_douce.export_poids_vif.$error"
                                               role="alert">
                                               <div ng-message="required">
@@ -1785,7 +1845,7 @@
                                         <td>{{vm.replace_point(cm.exp_qte)}} Kg</td>
                                         <td>{{vm.formatMillier(cm.exp_prix_par_kg)}} Ar/Kg</td>
                                         <td>{{vm.replace_point(cm.exp_poids_vif)}} Kg</td>
-                                        <td>{{cm.exp_destination}}</td>
+                                        <td>{{vm.affichage_district_html(cm.exp_destination)}}</td>
 
                                         
 
@@ -1794,7 +1854,7 @@
                                         <td>{{cm.nbr_colis}}</td>
                                         <td>{{cm.nom_dest}}</td>
                                         <td>{{cm.adresse_dest}}</td>
-                                        <td>{{cm.lieu_exped}}</td>
+                                        <td>{{vm.affichage_district_html(cm.lieu_exped)}}</td>
                                         <td>{{cm.moyen_transport}}</td>
 
                                         <td>{{vm.replace_point(cm.export_qte)}} Kg</td>
@@ -2022,9 +2082,25 @@
                                         <div layout="column" layout-gt-xs="row" flex>
 
                                             <md-input-container >
+                                                <label>Type Espèce</label>
+                                                <md-select ng-model="vm.donnees_cadre.id_type_espece" name="id_type_espece"  required>
+                                                    <md-option ng-repeat="tpes in vm.all_type_espece" value="{{tpes.id}}" style="height:auto !important;">
+                                                        {{tpes.libelle}}
+                                                    </md-option>
+                                                    
+                                                </md-select>
+                                                <div ng-messages="form_donnees_cadre.id_type_espece.$error"
+                                                      role="alert">
+                                                      <div ng-message="required">
+                                                        <span>Champ Obligatoire.</span>
+                                                      </div>
+                                                    </div>
+                                            </md-input-container>
+
+                                            <md-input-container >
                                                 <label>Espèce</label>
                                                 <md-select ng-model="vm.donnees_cadre.id_espece" name="id_espece" required>
-                                                  <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
+                                                  <md-option ng-repeat="esp in vm.all_espece_donnees_cadre" value="{{esp.id}}" style="height:auto !important;">
                                                       <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                       <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
                                                       <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
@@ -2122,6 +2198,7 @@
                                                 <td>{{cm.affluence_max}} </td>
                                                 <td>{{cm.nom_vendeur_spec_frais}}</td>
                                                 <td>{{cm.nom_vendeur_spec_transforme}}</td>
+                                                <td>{{cm.libelle_type_espece}}</td>
                                                 <td>
                                                     <small>- {{cm.code}}</small> <br>
                                                     <small>- {{cm.nom}}</small> <br>
@@ -2304,9 +2381,25 @@
                                                 </md-input-container>
 
                                                 <md-input-container >
+                                                    <label>Type Espèce</label>
+                                                    <md-select ng-model="vm.fiche_enquete_marche.id_type_espece" name="id_type_espece"  required>
+                                                        <md-option ng-repeat="tpes in vm.all_type_espece" value="{{tpes.id}}" style="height:auto !important;">
+                                                            {{tpes.libelle}}
+                                                        </md-option>
+                                                        
+                                                    </md-select>
+                                                    <div ng-messages="form_fiche_enquete_marche.id_type_espece.$error"
+                                                          role="alert">
+                                                          <div ng-message="required">
+                                                            <span>Champ Obligatoire.</span>
+                                                          </div>
+                                                        </div>
+                                                </md-input-container>
+
+                                                <md-input-container >
                                                     <label>Espèce</label>
                                                     <md-select ng-model="vm.fiche_enquete_marche.id_espece" name="id_espece" required>
-                                                      <md-option ng-repeat="esp in vm.all_espece" value="{{esp.id}}" style="height:auto !important;">
+                                                      <md-option ng-repeat="esp in vm.all_espece_fiche_enquete_marche" value="{{esp.id}}" style="height:auto !important;">
                                                           <small class="text-center"><strong><u>Code 3 Alpha</u></strong>: {{esp.code}}</small>
                                                           <small ><strong><u>Espèce</u></strong>: {{esp.nom}}</small>
                                                           <small><strong><u>Nom scientifique</u></strong>: {{esp.nom_scientifique}}</small>
@@ -2451,6 +2544,7 @@
                                                     <td>{{vm.affichage_mois(cm.mois)}}</td>
 
                                                     <td>{{cm.domaines}} </td>
+                                                    <td>{{cm.libelle_type_espece}} </td>
 
                                                     <td>
                                                         <small>- {{cm.code}}</small> <br>
@@ -2531,7 +2625,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="cm in vm.reporting_halieutique"  ng-class="{selected: cm.$selected}" ng-click="vm.selection_etat(cm)">                                       
-                                    <td ng-repeat="c in ::vm.entete_etat">{{vm.replace_point(cm[c])}}</td>
+                                    <td ng-repeat="c in ::vm.entete_etat">{{vm.replace_point(vm.formatMillier_req(cm[c],c))}}</td>
                                     
                                 </tr>
                             </tbody>

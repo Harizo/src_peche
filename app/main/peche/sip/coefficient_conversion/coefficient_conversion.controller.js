@@ -26,6 +26,7 @@
 
 		vm.entete_liste_coefficient_conversion = 
         [
+			{titre:"Type Espèce"},
 			{titre:"Espèce"},
 			{titre:"Présentation"},
 			{titre:"Conservation"},
@@ -82,7 +83,21 @@
 			{
 				vm.all_espece = result.data.response;
 				vm.affiche_load = false ;
-			
+
+				$scope.$watch('vm.coefficient_conservation.id_type_espece', function()
+				{
+					vm.all_espece_by_type = vm.all_espece.filter(function(obj)
+					{
+						return obj.typ_esp_id == vm.coefficient_conservation.id_type_espece ;
+					});
+
+					if (nouvelle_coefficient_conversion == false) 
+					{
+
+						vm.coefficient_conservation.id_espece = vm.selected_coefficient_conversion.id_espece ;
+					}
+				});
+		
 				vm.affichage_espece = function(id)
 				{
 					var tab = vm.all_espece ;
@@ -101,6 +116,16 @@
 				}
 				
 			});
+
+			apiFactory.getAll("SIP_type_espece/index").then(function(result)
+			{
+				vm.all_type_espece = result.data.response;
+			
+			
+			});
+
+
+			
 
 
 			
@@ -133,6 +158,8 @@
 		{
 			vm.selected_coefficient_conversion = item ;
 
+			console.log(item);
+
 		}
 
 		$scope.$watch('vm.selected_coefficient_conversion', function()
@@ -159,6 +186,7 @@
 			nouvelle_coefficient_conversion = false ;
 			vm.affichage_masque = true ;
 			vm.coefficient_conservation.id_espece = vm.selected_coefficient_conversion.id_espece ;
+			vm.coefficient_conservation.id_type_espece = vm.selected_coefficient_conversion.id_type_espece ;
 			vm.coefficient_conservation.id_presentation = vm.selected_coefficient_conversion.id_presentation ;
 			vm.coefficient_conservation.id_conservation = vm.selected_coefficient_conversion.id_conservation ;
 			vm.coefficient_conservation.coefficient = Number(vm.selected_coefficient_conversion.coefficient) ;
@@ -206,6 +234,7 @@
 							(obj.id_espece == data_masque.id_espece)
 							&&(obj.id_presentation == data_masque.id_presentation) 
 							&&(obj.id_conservation == data_masque.id_conservation)
+							//&&(obj.coefficient == data_masque.coefficient)
 						) ;
 			});
 
@@ -270,15 +299,49 @@
 
 	            apiFactory.add("SIP_coefficient_conversion/index",datas, config).success(function (data)
         		{
+        			var tpe = vm.all_type_espece.filter(function(obj)
+					{
+						return obj.id == vm.coefficient_conservation.id_type_espece ;
+					});
+
+					var esp = vm.all_espece.filter(function(obj)
+					{
+						return obj.id == vm.coefficient_conservation.id_espece ;
+					});
+
+
+					var pres = vm.all_presentation.filter(function(obj)
+					{
+						return obj.id == vm.coefficient_conservation.id_presentation ;
+					});
+
+					var cons = vm.all_conservation.filter(function(obj)
+					{
+						return obj.id == vm.coefficient_conservation.id_conservation ;
+					});					
+
+
         			if (!nouvelle_coefficient_conversion) 
         			{
         				if (etat_suppression == 0) 
         				{
         					
 
+        					vm.selected_coefficient_conversion.id_type_espece = data_masque.id_type_espece ;
+        					vm.selected_coefficient_conversion.libelle_type_espece = tpe[0].libelle ;
+
         					vm.selected_coefficient_conversion.id_espece = data_masque.id_espece ;
+        					vm.selected_coefficient_conversion.nom_espece = esp[0].nom ;
+
+        					vm.selected_coefficient_conversion.id_espece = data_masque.id_espece ;
+        					vm.selected_coefficient_conversion.libelle_type_espece = tpe[0].libelle ;
+
         					vm.selected_coefficient_conversion.id_presentation = data_masque.id_presentation ;
+        					vm.selected_coefficient_conversion.libelle_presentation = pres[0].libelle ;
+
         					vm.selected_coefficient_conversion.id_conservation = data_masque.id_conservation ;
+        					vm.selected_coefficient_conversion.libelle_conservation = cons[0].libelle ;
+
         					vm.selected_coefficient_conversion.coefficient = data_masque.coefficient ;
         				}
         				else
@@ -294,9 +357,19 @@
         			{
         				var item = {
         					id:String(data.response) ,
+
         					id_espece:data_masque.id_espece,
+        					nom_espece:esp[0].nom,
+
+        					id_type_espece : data_masque.id_type_espece,
+        					libelle_type_espece:tpe[0].libelle,
+
 			                id_presentation:data_masque.id_presentation,
+			                libelle_presentation:pres[0].libelle,
+
 			                id_conservation:data_masque.id_conservation,
+			                libelle_conservation:cons[0].libelle,
+
 			                coefficient:data_masque.coefficient,
 			                $selected:true
         				}

@@ -7,7 +7,7 @@
         .controller('produit_halieutiquesController', produit_halieutiquesController);
 
     /** @ngInject */
-    function produit_halieutiquesController(apiFactory, $scope, $mdDialog, apiUrlExportexcel)
+    function produit_halieutiquesController(apiFactory, $scope, $mdDialog, apiUrlExportexcel, $rootScope)
     {
         var vm = this;
 
@@ -42,18 +42,29 @@
 		
 			});
 
+
+			vm.affichage_district_html = function(id_district)
+			{
+				var d = vm.all_district.filter(function(obj)
+				{
+					return obj.id == id_district;
+				});
+
+				return d[0].nom ;
+			}
+
 			apiFactory.getAll("district/index").then(function(result)
 			{
 				vm.all_district = result.data.response;
 				vm.affiche_load = false ;
 				
 
-				vm.alldistrict = vm.all_district.filter(function(obj)
+				/*vm.alldistrict = vm.all_district.filter(function(obj)
 					{
 						
 
 						if (!obj.region.id) {console.log(obj);}
-					});
+					});*/
 
 				vm.get_district_by_region = function()
 				{
@@ -110,6 +121,8 @@
 				{
 					vm.affiche_load = false ;
 					vm.all_espece = result.data.response;
+
+					$rootScope.all_espece = vm.all_espece ;
 					
 				});
 			}
@@ -177,6 +190,56 @@
 			else 
 			{
 			return "";
+			}
+		}
+
+		vm.formatMillier_float = function (nombre) 
+		{   
+			var nbr=parseFloat(nombre).toFixed(2);
+			if (typeof nbr != 'undefined' && parseInt(nbr) >= 0) 
+			{
+				nbr += '';
+				var sep = ' ';
+				var reg = /(\d+)(\d{3})/;
+				while (reg.test(nbr)) 
+				{
+					nbr = nbr.replace(reg, '$1' + sep + '$2');
+				}
+				return nbr;
+			} 
+			else 
+			{
+			return "";
+			}
+		}
+
+		vm.formatMillier_req = function (nbr,champ) {
+
+			if (nbr) 
+			{
+				var tab = nbr.split(" ");
+				//console.log(typeof tab[0]);
+				var teste = Number(tab[0]);
+				if (isNaN(teste)) 
+				{
+					return nbr;
+				}
+				else
+				{
+					if (champ != 'Année') 
+					{
+						var res = vm.formatMillier_float(teste);
+						if (tab.length > 1) 
+						{
+							res = res + " " + tab[1] ;
+						}
+						return res;
+					}
+					else
+						return nbr;
+				}
+				
+
 			}
 		}
 
@@ -711,9 +774,66 @@
 					vm.all_especes_permis = result.data.response;
 
 					
+
+					
 				});
 
 			}
+
+
+			$scope.showTabDialog = function(nom_onglet) 
+			{
+			    $mdDialog.show({
+			      controller: DialogController,
+			      templateUrl: 'app/main/peche/sip/produit_halieutiques/dialog.html',
+			      parent: angular.element(document.body),
+			      
+			      clickOutsideToClose:true
+			    })
+		        .then(function(answer) {
+		          $scope.status = 'You said the information was "' + answer + '".';
+   	
+		          		
+
+		          		switch (nom_onglet) {
+		          			case 'espece_autorise':
+		          			{
+		          				vm.especes_permis.id_espece = answer.id;
+		          				break;
+		          			}
+
+		          			case 'collecte':
+		          			{
+		          				
+		          				vm.collecte.id_espece = answer.id_espece;
+		          				break;
+		          			}
+
+		          			case 'commerce_marine':
+		          			{
+		          				
+		          				vm.commerce_marine.id_espece = answer.id_espece;
+		          				break;
+		          			}
+
+		          			case 'commerce_eau_douce':
+		          			{
+		          				vm.commerce_eau_douce.id_espece = answer.id_espece;
+		          				break;
+		          			}
+
+		          			
+		          				
+		          			default:
+		          				
+		          				break;
+		          		}
+
+		          
+		        }, function() {
+		          $scope.status = 'You cancelled the dialog.';
+		        });
+		  	};
 
 
 			var nouvel_especes_permis = false ;
@@ -827,10 +947,14 @@
 
 	            apiFactory.add("SIP_especes_permis/index",datas, config).success(function (data)
         		{
-        			var esp = vm.all_espece.filter(function(obj)
-					{
-						return obj.id == especes_permis.id_espece;
-					});
+        			if (etat_suppression == 0) 
+        			{
+
+	        			var esp = vm.all_espece.filter(function(obj)
+						{
+							return obj.id == especes_permis.id_espece;
+						});
+        			}
 
 					
 					if (!nouvel_especes_permis) 
@@ -900,7 +1024,7 @@
 
 			vm.get_collecte = function()
 			{
-				
+				$rootScope.all_espece = vm.all_especes_permis ;
 
 				apiFactory.getAPIgeneraliserREST("SIP_saisie_collecte_halieutique/index","id_permis",vm.selected_permis.id).then(function(result)
 				{
@@ -1306,6 +1430,7 @@
 
 	        vm.get_commerce_marine = function()
 			{
+				$rootScope.all_espece = vm.all_especes_permis ;
 				
 
 				apiFactory.getAPIgeneraliserREST("SIP_commercialisation_marine/index","id_permis",vm.selected_permis.id).then(function(result)
@@ -1443,12 +1568,125 @@
 
 			});
 
+			//poids vif
+
+				//vente local
+
+					$scope.$watch('vm.commerce_marine.coefficiant_conservation', function()
+					{
+						if (!vm.commerce_marine.coefficiant_conservation) return;
+
+						if (vm.commerce_marine.coefficiant_conservation && vm.commerce_marine.vl_qte) 
+						{
+							vm.commerce_marine.vl_poids_vif = vm.commerce_marine.coefficiant_conservation * vm.commerce_marine.vl_qte ;
+						}
+					});
+
+					$scope.$watch('vm.commerce_marine.vl_qte', function()
+					{
+						if (!vm.commerce_marine.vl_qte) vm.commerce_marine.vl_poids_vif = 0;
+
+						if (vm.commerce_marine.coefficiant_conservation && vm.commerce_marine.vl_qte) 
+						{
+							vm.commerce_marine.vl_poids_vif = vm.commerce_marine.coefficiant_conservation * vm.commerce_marine.vl_qte ;
+						}
+						
+						
+					});
+
+				//fin vente local
+
+				//exped
+
+					$scope.$watch('vm.commerce_marine.coefficiant_conservation', function()
+					{
+						if (!vm.commerce_marine.coefficiant_conservation) return;
+
+						if (vm.commerce_marine.coefficiant_conservation && vm.commerce_marine.exp_qte) 
+						{
+							vm.commerce_marine.exp_poids_vif = vm.commerce_marine.coefficiant_conservation * vm.commerce_marine.exp_qte ;
+						}
+					});
+
+					$scope.$watch('vm.commerce_marine.exp_qte', function()
+					{
+						if (!vm.commerce_marine.exp_qte) vm.commerce_marine.exp_poids_vif = 0;
+
+						if (vm.commerce_marine.coefficiant_conservation && vm.commerce_marine.exp_qte) 
+						{
+							vm.commerce_marine.exp_poids_vif = vm.commerce_marine.coefficiant_conservation * vm.commerce_marine.exp_qte ;
+						}
+					});
+
+				//fin exped
+
+				//exportation
+
+					$scope.$watch('vm.commerce_marine.coefficiant_conservation', function()
+					{
+						if (!vm.commerce_marine.coefficiant_conservation) return;
+
+						if (vm.commerce_marine.coefficiant_conservation && vm.commerce_marine.export_qte) 
+						{
+							vm.commerce_marine.export_poids_vif = vm.commerce_marine.coefficiant_conservation * vm.commerce_marine.export_qte ;
+						}
+					});
+
+					$scope.$watch('vm.commerce_marine.export_qte', function()
+					{
+						if (!vm.commerce_marine.export_qte) vm.commerce_marine.export_poids_vif = 0;
+
+						if (vm.commerce_marine.coefficiant_conservation && vm.commerce_marine.export_qte) 
+						{
+							vm.commerce_marine.export_poids_vif = vm.commerce_marine.coefficiant_conservation * vm.commerce_marine.export_qte ;
+						}
+					});
+
+				//fin exportation
+
+
+
+				//fin poids vif
+
 			vm.ajout_commerce_marine = function()
 			{
 				nouvel_commerce_marine = true ;
 				vm.affichage_masque_commerce_marine = true ;
 
-				vm.commerce_marine = {} ;
+				vm.commerce_marine = 
+				{
+					numero_visa:null,
+	                numero_cos:null,
+	                annee:null,
+	                mois:null,
+
+	                id_espece:null,
+	                id_presentation:null,
+	                id_conservation:null,
+	                
+
+	                vl_qte:0,
+	                vl_prix_par_kg:0,
+	                vl_poids_vif:0,
+
+	                exp_qte:0,
+	                exp_prix_par_kg:0,
+	                exp_poids_vif:0,
+	                exp_destination:null,
+
+	                export_qte:0,
+					export_prix_par_kg:0,
+					export_poids_vif:0,
+					export_destination:'',
+
+	                date_expedition:null,
+	                nbr_colis:0,
+
+	                nom_dest:null,
+	                adresse_dest:null,
+	                lieu_exped:null,
+	                moyen_transport:null
+				} ;
 				vm.selected_commerce_marine = {} ;
 			}
 
@@ -1789,7 +2027,7 @@
 	        vm.get_commerce_eau_douce = function()
 			{
 				
-				
+				$rootScope.all_espece = vm.all_especes_permis ;
 
 				apiFactory.getAPIgeneraliserREST("SIP_commercialisation_eau_douce/index","id_permis",vm.selected_permis.id).then(function(result)
 				{
@@ -1923,12 +2161,120 @@
 
 			});
 
+			//fin vente local
+
+					$scope.$watch('vm.commerce_eau_douce.coefficiant_conservation', function()
+					{
+						if (!vm.commerce_eau_douce.coefficiant_conservation) return;
+
+						if (vm.commerce_eau_douce.coefficiant_conservation && vm.commerce_eau_douce.vl_qte) 
+						{
+							vm.commerce_eau_douce.vl_poids_vif = vm.commerce_eau_douce.coefficiant_conservation * vm.commerce_eau_douce.vl_qte ;
+						}
+					});
+
+					$scope.$watch('vm.commerce_eau_douce.vl_qte', function()
+					{
+						if (!vm.commerce_eau_douce.vl_qte) vm.commerce_eau_douce.vl_poids_vif = 0;
+
+						if (vm.commerce_eau_douce.coefficiant_conservation && vm.commerce_eau_douce.vl_qte) 
+						{
+							vm.commerce_eau_douce.vl_poids_vif = vm.commerce_eau_douce.coefficiant_conservation * vm.commerce_eau_douce.vl_qte ;
+						}
+					});
+
+				//fin vente local
+
+					//exped
+
+					$scope.$watch('vm.commerce_eau_douce.coefficiant_conservation', function()
+					{
+						if (!vm.commerce_eau_douce.coefficiant_conservation) return;
+
+						if (vm.commerce_eau_douce.coefficiant_conservation && vm.commerce_eau_douce.exp_qte) 
+						{
+							vm.commerce_eau_douce.exp_poids_vif = vm.commerce_eau_douce.coefficiant_conservation * vm.commerce_eau_douce.exp_qte ;
+						}
+					});
+
+					$scope.$watch('vm.commerce_eau_douce.exp_qte', function()
+					{
+						if (!vm.commerce_eau_douce.exp_qte) vm.commerce_eau_douce.exp_poids_vif = 0;
+
+						if (vm.commerce_eau_douce.coefficiant_conservation && vm.commerce_eau_douce.exp_qte) 
+						{
+							vm.commerce_eau_douce.exp_poids_vif = vm.commerce_eau_douce.coefficiant_conservation * vm.commerce_eau_douce.exp_qte ;
+						}
+						});
+
+					//fin exped
+
+					//exportation
+
+						$scope.$watch('vm.commerce_eau_douce.coefficiant_conservation', function()
+						{
+							if (!vm.commerce_eau_douce.coefficiant_conservation) return;
+
+							if (vm.commerce_eau_douce.coefficiant_conservation && vm.commerce_eau_douce.export_qte) 
+							{
+								vm.commerce_eau_douce.export_poids_vif = vm.commerce_eau_douce.coefficiant_conservation * vm.commerce_eau_douce.export_qte ;
+							}
+						});
+
+						$scope.$watch('vm.commerce_eau_douce.export_qte', function()
+						{
+							if (!vm.commerce_eau_douce.export_qte) vm.commerce_eau_douce.export_poids_vif = 0;
+
+							if (vm.commerce_eau_douce.coefficiant_conservation && vm.commerce_eau_douce.export_qte) 
+							{
+								vm.commerce_eau_douce.export_poids_vif = vm.commerce_eau_douce.coefficiant_conservation * vm.commerce_eau_douce.export_qte ;
+							}
+						});
+
+					//fin exportation
+
+
+
+			//fin poids vif
+
 			vm.ajout_commerce_eau_douce = function()
 			{
 				nouvel_commerce_eau_douce = true ;
 				vm.affichage_masque_commerce_eau_douce = true ;
 
-				vm.commerce_eau_douce = {} ;
+				vm.commerce_eau_douce = 
+				{
+					numero_visa:null,
+	                numero_cos:null,
+	                annee:null,
+	                mois:null,
+
+	                id_espece:null,
+	                id_presentation:null,
+	                id_conservation:null,
+
+	                vl_qte:0,
+	                vl_prix_par_kg:0,
+	                vl_poids_vif:0,
+
+					exp_qte:0,
+					exp_prix_par_kg:0,
+					exp_poids_vif:0,
+					exp_destination:null,
+
+					export_qte:0,
+					export_prix_par_kg:0,
+					export_poids_vif:0,
+					export_destination:null,
+
+					date_expedition:null,
+					nbr_colis:null,
+
+					nom_dest:null,
+					adresse_dest:null,
+					lieu_exped:null,
+					moyen_transport:null
+				} ;
 				vm.selected_commerce_eau_douce = {} ;
 			}
 
@@ -2232,6 +2578,32 @@
 		//ENQUETE DE MARCHE
 			//DONNES CADRE
 				vm.donnees_cadre = {} ;
+
+				vm.get_espece_donnees_cadre = function()
+				{	
+
+					vm.affiche_load = true ;
+					apiFactory.getAPIgeneraliserREST("SIP_espece/index",
+													"id_type_espece",vm.donnees_cadre.id_type_espece).then(function(result)
+					{
+						vm.affiche_load = false ;
+						vm.all_espece_donnees_cadre = result.data.response;
+
+						if (!nouvel_donnees_cadre && vm.selected_donnees_cadre.id_espece) 
+						{
+							vm.donnees_cadre.id_espece = vm.selected_donnees_cadre.id_espece ;
+							
+						}
+						
+					});
+				}
+
+				$scope.$watch('vm.donnees_cadre.id_type_espece', function()
+				{
+					
+					vm.get_espece_donnees_cadre();
+				});
+
 				vm.get_commune_district = function()
 				{
 					vm.donnees_cadre.id_commune = null ;
@@ -2267,6 +2639,7 @@
 					{titre:"Affluence Max"},
 					{titre:"Nom vendeur spec frais"},
 					{titre:"Nom vendeur spec transformé"},
+					{titre:"Type Espèce"},
 					{titre:"Espèce"},
 					{titre:"Nbr etal pdt frais"},
 					{titre:"Nbr etal pdt transformé"},
@@ -2326,6 +2699,7 @@
 					nouvel_donnees_cadre = false ;
 
 	               
+	                vm.donnees_cadre.id_type_espece = vm.selected_donnees_cadre.id_type_espece ;
 	                vm.donnees_cadre.id_commune = vm.selected_donnees_cadre.id_commune ;
 	                vm.donnees_cadre.nom_marche = vm.selected_donnees_cadre.nom_marche ;
 	                vm.donnees_cadre.nom_ville = vm.selected_donnees_cadre.nom_ville ;
@@ -2415,13 +2789,16 @@
 							return obj.id == data_masque.id_commune;
 						});
 
-						var esp = vm.all_espece.filter(function(obj)
+						var esp = vm.all_espece_donnees_cadre.filter(function(obj)
 						{
 							return obj.id == data_masque.id_espece;
 						});
 
+						var tp_esp = vm.all_type_espece.filter(function(obj)
+						{
+							return obj.id == data_masque.id_type_espece;
+						});
 
-						
 
 	        			if (!nouvel_donnees_cadre) 
 	        			{
@@ -2444,6 +2821,9 @@
 		    					vm.selected_donnees_cadre.nom_francaise = esp[0].nom_francaise ;
 		    					vm.selected_donnees_cadre.nom_local = esp[0].nom_local ;
 		    					vm.selected_donnees_cadre.code = esp[0].code ;
+
+		    					vm.selected_donnees_cadre.id_type_espece = tp_esp[0].id ;
+		    					vm.selected_donnees_cadre.libelle_type_espece = tp_esp[0].libelle ;
 
 				                vm.selected_donnees_cadre.nbr_tot_etal = data_masque.nbr_tot_etal  ;
 				                vm.selected_donnees_cadre.nbr_etal_pdt_frais = data_masque.nbr_etal_pdt_frais  ;
@@ -2483,6 +2863,9 @@
 		    					nom_local : esp[0].nom_local ,
 		    					code : esp[0].code ,
 
+		    					id_type_espece : tp_esp[0].id ,
+		    					libelle_type_espece : tp_esp[0].libelle,
+
 				                nbr_tot_etal : data_masque.nbr_tot_etal ,
 				                nbr_etal_pdt_frais : data_masque.nbr_etal_pdt_frais ,
 				                nbr_etal_pdt_transforme : data_masque.nbr_etal_pdt_transforme               
@@ -2502,6 +2885,31 @@
 
 		    //FICHE ENQUETE MARCHE
 				vm.fiche_enquete_marche = {} ;
+
+				vm.get_espece_fiche_enquete_marche = function()
+				{	
+
+					vm.affiche_load = true ;
+					apiFactory.getAPIgeneraliserREST("SIP_espece/index",
+													"id_type_espece",vm.fiche_enquete_marche.id_type_espece).then(function(result)
+					{
+						vm.affiche_load = false ;
+						vm.all_espece_fiche_enquete_marche = result.data.response;
+
+						if (!nouvel_fiche_enquete_marche && vm.selected_donnees_cadre.id_espece) 
+						{
+							vm.fiche_enquete_marche.id_espece = vm.selected_fiche_enquete_marche.id_espece ;
+							
+						}
+						
+					});
+				}
+
+				$scope.$watch('vm.fiche_enquete_marche.id_type_espece', function()
+				{
+					
+					vm.get_espece_fiche_enquete_marche();
+				});
 				
 				vm.get_fiche_enquete_marche_by_district = function()
 				{
@@ -2526,6 +2934,7 @@
 					{titre:"Année"},
 					{titre:"Mois"},
 					{titre:"Domaines"},
+					{titre:"Type Espèce"},
 					{titre:"Espèce"},
 					{titre:"Présentation"},
 					{titre:"Conservation"},
@@ -2587,6 +2996,7 @@
 					nouvel_fiche_enquete_marche = false ;
 
 	               
+	                vm.fiche_enquete_marche.id_type_espece = vm.selected_fiche_enquete_marche.id_type_espece ;
 	                vm.fiche_enquete_marche.id_district = vm.selected_fiche_enquete_marche.id_district ;
 	                vm.fiche_enquete_marche.nom_marche = vm.selected_fiche_enquete_marche.nom_marche ;
 	                vm.fiche_enquete_marche.nom_ville = vm.selected_fiche_enquete_marche.nom_ville ;
@@ -2689,7 +3099,7 @@
 							return obj.id == vm.filtre.id_district;
 						});
 
-						var esp = vm.all_espece.filter(function(obj)
+						var esp = vm.all_espece_fiche_enquete_marche.filter(function(obj)
 						{
 							return obj.id == data_masque.id_espece;
 						});
@@ -2703,6 +3113,11 @@
 						var cons = vm.all_conservation.filter(function(obj)
 						{
 							return obj.id == data_masque.id_conservation;
+						});
+
+						var tp_esp = vm.all_type_espece.filter(function(obj)
+						{
+							return obj.id == data_masque.id_type_espece;
 						});
 
 
@@ -2734,6 +3149,9 @@
 		    					vm.selected_fiche_enquete_marche.nom_francaise = esp[0].nom_francaise ;
 		    					vm.selected_fiche_enquete_marche.nom_local = esp[0].nom_local ;
 		    					vm.selected_fiche_enquete_marche.code = esp[0].code ;
+
+		    					vm.selected_fiche_enquete_marche.id_type_espece = tp_esp[0].id ;
+		    					vm.selected_fiche_enquete_marche.libelle_type_espece = tp_esp[0].libelle ;
 
 				                vm.selected_fiche_enquete_marche.id_presentation = data_masque.id_presentation ;
 				                vm.selected_fiche_enquete_marche.libelle_presentation = pres[0].libelle ;
@@ -2781,7 +3199,10 @@
 		    					nom_scientifique : esp[0].nom_scientifique ,
 		    					nom_francaise : esp[0].nom_francaise ,
 		    					nom_local : esp[0].nom_local ,
-		    					code : esp[0].code ,      
+		    					code : esp[0].code , 
+
+		    					id_type_espece : tp_esp[0].id ,      
+		    					libelle_type_espece : tp_esp[0].libelle ,      
 
 				                id_presentation : data_masque.id_presentation ,
 				                libelle_presentation : pres[0].libelle,
@@ -3185,4 +3606,57 @@
 		//FIN ETAT
       
     }
+
+    function DialogController($scope, $mdDialog, $rootScope) 
+    {
+    	
+    	$scope.selected_item = {};
+		  $scope.hide = function() {
+		    $mdDialog.hide();
+		  };
+
+		  $scope.cancel = function() {
+		    $mdDialog.cancel();
+
+		  };
+
+		  $scope.answer = function(answer) {
+
+		  	
+		    $mdDialog.hide($scope.selected_item);
+		  };
+
+		$scope.selection = function (item) 
+		{        
+			
+
+			$scope.selected_item = item;
+			
+
+			$scope.all_espece.forEach(function(item) {
+		      item.$selected = false;
+		    });
+		    $scope.selected_item.$selected = true;
+
+		};
+
+	    $scope.all_espece =  $rootScope.all_espece ;
+
+	  $scope.entete_espece = 
+		[ 
+			
+			{"titre":"Code 3 Alpha"},
+			{"titre":"Espèce"},
+			{"titre":"Nom scientifique"},
+			{"titre":"Nom française"},
+			{"titre":"Nom local"}
+		];
+
+		$scope.dtOptions = {
+	       dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+			pagingType: 'simple_numbers',
+			retrieve:'true',
+			order:[] 
+	    };
+	}
 })();

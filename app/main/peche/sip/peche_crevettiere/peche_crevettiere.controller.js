@@ -7,7 +7,7 @@
         .controller('peche_crevettiereController', peche_crevettiereController);
 
     /** @ngInject */
-    function peche_crevettiereController(apiFactory, $scope, $mdDialog, apiUrlExportexcel)
+    function peche_crevettiereController(apiFactory, $scope, $mdDialog, apiUrlExportexcel, $rootScope)
     {
     	var vm = this ;
 
@@ -86,6 +86,57 @@
 			}
 		}
 
+		vm.formatMillier_float = function (nombre) 
+		{   
+			var nbr=parseFloat(nombre).toFixed(2);
+			if (typeof nbr != 'undefined' && parseInt(nbr) >= 0) 
+			{
+				nbr += '';
+				var sep = ' ';
+				var reg = /(\d+)(\d{3})/;
+				while (reg.test(nbr)) 
+				{
+					nbr = nbr.replace(reg, '$1' + sep + '$2');
+				}
+				return nbr;
+			} 
+			else 
+			{
+			return "";
+			}
+		}
+
+		vm.formatMillier_req = function (nbr,champ) 
+		{
+
+
+			if (nbr) 
+			{
+				var tab = nbr.split(" ");
+				var teste = Number(tab[0]);
+				if (isNaN(teste)) 
+				{
+					return nbr;
+				}
+				else
+				{
+					if (champ != "Année") 
+					{
+						var res = vm.formatMillier_float(teste);
+						if (tab.length > 1) 
+						{
+							res = res + " " + tab[1] ;
+						}
+						return res;
+					}
+					else
+						return nbr;
+				}
+				
+
+			}
+		}
+
 
 		vm.replace_point = function(nbr)
 		{
@@ -140,6 +191,7 @@
 			apiFactory.getParamsDynamic("SIP_espece/index?id_type_espece=2").then(function(result)
 			{
 				vm.all_espece = result.data.response;
+				$rootScope.all_espece = vm.all_espece;
 			});
 
 			apiFactory.getAll("SIP_presentation/index").then(function(result)
@@ -408,6 +460,50 @@
 
 			});
 
+			$scope.showTabDialog = function(nom_onglet) 
+			{
+			    $mdDialog.show({
+			      controller: DialogController,
+			      templateUrl: 'app/main/peche/sip/peche_crevettiere/dialog.html',
+			      parent: angular.element(document.body),
+			      
+			      clickOutsideToClose:true
+			    })
+		        .then(function(answer) {
+		          $scope.status = 'You said the information was "' + answer + '".';
+   	
+		          		
+
+		          		switch (nom_onglet) {
+		          			case 'commercialisation':
+		          			{
+		          				vm.commerce_crevette.produit = answer.id;
+		          				break;
+		          			}
+
+		          			case 'exportation':
+		          			{
+		          				vm.exportation_crevette.id_espece = answer.id;
+		          				break;
+		          			}
+
+		          			case 'fiche_peche':
+		          			{
+		          				vm.selected_sequence_capture.id_espece = answer.id;
+		          				break;
+		          			}
+		          				
+		          			default:
+		          				
+		          				break;
+		          		}
+
+		          
+		        }, function() {
+		          $scope.status = 'You cancelled the dialog.';
+		        });
+		  	};
+
 
 
 
@@ -640,7 +736,7 @@
 				{titre:"Présentation"},
 				{titre:"Conservation"},
 				{titre:"Déstination Export"},
-				{titre:"Qté"},
+				{titre:"Qté (Kg)"},
 				{titre:"Valeur en Ar"},
 				{titre:"Valeur en Euro"},
 				{titre:"Valeur en USD"}
@@ -1472,8 +1568,27 @@
 
 		        vm.ajouter_sequence_peche = function()
 		        {
-		        	vm.generer_numero_sequence_peche();
+		        	//vm.generer_numero_sequence_peche();
 		          	nouvelle_sequence_peche = true ;
+
+		          	var item = 
+			            {
+			              
+							$edit: true,
+							$selected: true,
+							id:'0',
+							numseqpeche:''
+			            } ;
+
+		          		vm.all_sequence_peche.unshift(item);
+		                vm.all_sequence_peche.forEach(function(af)
+		                {
+							if(af.$selected == true)
+							{
+								vm.selected_sequence_peche = af;
+
+							}
+		                });
 		          
 		        }
 
@@ -1595,8 +1710,26 @@
 					{titre:"HeureT"},
 					{titre:"MinuteT"},
 					{titre:"Post latitude"},
-					{titre:"Post longitude"}
+					{titre:"Post longitude"},
+					{titre:"Navire"}
 		        ] ;
+
+		        apiFactory.getAll("SIP_navire/index").then(function(result)
+				{
+					vm.all_navire = result.data.response;
+					
+				});
+
+				vm.affichage_navire = function(id_navire)
+				{
+					var n = vm.all_navire.filter(function(obj){
+						return obj.id == id_navire ;
+					});
+
+					return n[0].nom+" ("+n[0].immatricule+")";
+				}
+
+
 	    		vm.selected_sequence_transbordement = {} ;
 	    		var current_selected_sequence_transbordement = {} ;
 	    		var nouvelle_sequence_transbordement = false ;
@@ -1656,7 +1789,8 @@
 		              		heuret:'0',
 		              		minutet:'0',
 		              		postlatitude:'',
-		              		postlongitude:''
+		              		postlongitude:'',
+		              		id_navire:null
 						} ;
 
 					vm.all_sequence_transbordement.unshift(item);
@@ -1718,6 +1852,7 @@
 						vm.selected_sequence_transbordement.minutet = current_selected_sequence_transbordement.minutet ;
 						vm.selected_sequence_transbordement.postlatitude = current_selected_sequence_transbordement.postlatitude ;
 						vm.selected_sequence_transbordement.postlongitude = current_selected_sequence_transbordement.postlongitude ;
+						vm.selected_sequence_transbordement.id_navire = current_selected_sequence_transbordement.id_navire ;
 						vm.selected_sequence_transbordement = {};
 
 
@@ -1749,7 +1884,9 @@
 		                minutet:vm.selected_sequence_transbordement.minutet,
 
 		                postlatitude:vm.selected_sequence_transbordement.postlatitude,
-		                postlongitude:vm.selected_sequence_transbordement.postlongitude
+		                postlongitude:vm.selected_sequence_transbordement.postlongitude,
+
+		                id_navire:vm.selected_sequence_transbordement.id_navire
 		                
 		                
 		            });
@@ -2223,7 +2360,7 @@
 				vm.fiche_peche_crevette = {} ;
 				vm.selected_fiche_peche = {} ;
 
-				vm.generer_numero_fiche();
+				//vm.generer_numero_fiche();
 			}
 
 			vm.modif_fiche_peche_crevette = function()
@@ -2427,4 +2564,57 @@
 
     	
     }
+
+    function DialogController($scope, $mdDialog, $rootScope) 
+    {
+    	
+    	$scope.selected_item = {};
+		  $scope.hide = function() {
+		    $mdDialog.hide();
+		  };
+
+		  $scope.cancel = function() {
+		    $mdDialog.cancel();
+
+		  };
+
+		  $scope.answer = function(answer) {
+
+		  	
+		    $mdDialog.hide($scope.selected_item);
+		  };
+
+		$scope.selection = function (item) 
+		{        
+			
+
+			$scope.selected_item = item;
+			
+
+			$scope.all_espece.forEach(function(item) {
+		      item.$selected = false;
+		    });
+		    $scope.selected_item.$selected = true;
+
+		};
+
+	    $scope.all_espece =  $rootScope.all_espece ;
+
+	  $scope.entete_espece = 
+		[ 
+			
+			{"titre":"Code 3 Alpha"},
+			{"titre":"Espèce"},
+			{"titre":"Nom scientifique"},
+			{"titre":"Nom française"},
+			{"titre":"Nom local"}
+		];
+
+		$scope.dtOptions = {
+	       dom: '<"top"f>rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
+			pagingType: 'simple_numbers',
+			retrieve:'true',
+			order:[] 
+	    };
+	}
 })();

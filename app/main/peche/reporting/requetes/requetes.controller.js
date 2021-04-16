@@ -21,6 +21,7 @@
       vm.listes_mois = [] ;
       vm.datas = [] ;
       vm.affiche_load = false ;
+      vm.entete_etat = ['ete'];
 
       vm.isADMIN = false;
       
@@ -85,26 +86,23 @@
       };
 
       vm.pivots = [
-        //{titre:"Req 1 : CPUE journalière / Unité de pêche",id:"req_1"},
-        {titre:"Req 1 : CPUE journalière / Unité de pêche",id:"req_1_site_date_unite_capturet_cpues"},
-        {titre:"Req 2 : CPUEmoy par strate mineure/mois/année",id:"req_2_moi_unite_cpuemoy_stdevcpue_nbrechantillon_sqr_degre"},
-        {titre:"Req 3 : Erreur relative CPUEmoy par strate mineure/mois/année",id:"req_3_moi_unite_cpuemoy_stdevcpue_nbrechantillon_sqr_fractil90_clcpue_erelative_maxcpue"},
-        {titre:"Req 4.1 : Nombre unité de pêche par strate majeure/strate mineure /site",id:"req_4_1_annee_site_unite_nbrunite"},
-        {titre:"Req 4.2 : Nombre unité de pêche par strate majeure/strate mineure /site",id:"req_4_2_annee_unite_nbrunite"},
-        {titre:"Req 5.1 : PAB ou Probabilité d’Activité de Bateau (Echantillonnage horizontal)",id:"req_5_1_codeteteuniq_site_unite_date_phier_pavanthier_nbrjrssemdern_pabs"},
-        {titre:"Req 5.2 : PABmoy par l’unité de pêche /strate majeure/strate mineure/Mois/Année",id:"req_5_2_unite_pabmoy_stdevpab_nbrechantilonpab_nbrjrpeche_sqr_degre"},
-        {titre:"Req 5.3 : Erreur relative PABmoy par unité de pêche par strate mineure/Mois/Année",id:"req_5_3_unite_pabmoy_maxpab_stdevpab_sqr_fractil90_erelative_clpab"},
-        {titre:"Req 5.4 : Nombre de jour de pêche PAB par l’unité de pêche/Strate majeur/Strate mineure /Mois /Année",id:"req_5_4_moi_jrmensuel_unite_pabmoy_jrpechemenspab_moymaxxpab_moynmaxxpabcor_maxjrpechemensupab"},
-        {titre:"Req 6.1 : Total jour de pêche  annuelle par l’unité de pêche avec PAB",id:"req_6_1_annee_unite_totalannuel"},
-        {titre:"Req 6.2 : Prix PAB par espèces par l’unité de pêche /Strate majeure/Strate mineure/Année/Mois",
-        id:"req_6_2_moi_jrmensuel_site_unite_nbrunite_jrpechemenspab_jrtotalmensuel_cpuemoy_capturtotal_erelative_nbrechantillon_moymaxxpab_maxcpue_maxcapttot_clcapt_erelcapttot"},
-        {titre:"Req 7.1 : Capture par espèces par l’unité de pêche par strate majeure/strate mineure/Année / Mois",id:"req_7_1_moi_unite_code3Al_caapture_prixunitmoy"},
-        {titre:"Req 7.2 : Total capture par espèces par l’unité de pêche /strate majeure/strate mineure/Année/Mois",id:"req_7_2_moi_unite_caapture"},
-        {titre:"Req 7.3 : Composition d’espèce par l’unité de pêche",id:"req_7_3_moi_unite_code3Al_captureespece_captureunite_composi_prixmoy"},
-        {titre:"Req 8 : Prix PAB par espèces par l’unité de pêche/Strate majeure/Strate mineure/Année/Mois",
-        id:"req_8_moi_site_unite_jrpechemenspab_jrtotalmensuel_code3Al_erelative_erelcapttot_nbrechantillon_capturtotal_composi_captureespece_prixmoy_pprix"},
-        {titre:"Req 9 : Unité de pêche par site",id:"req_9_annee_site_unite_nbrunite"},
-        {titre:"Req 10 : Targeted Unité de pêche par strate mineure par Année / Mois",id:"req_10_annee_region_unite_nbrunite"},
+        {titre:"Req 1 : CPUE journalière / Unité de pêche",id:"req_1"},
+        {titre:"Req 2 : CPUEmoy par strate mineure/mois/année",id:"req_2"},
+        {titre:"Req 3 : Erreur relative CPUEmoy par strate mineure/mois/année",id:"req_3"},
+        {titre:"Req 4.1 : Nombre unité de pêche par strate majeure/strate mineure /site",id:"req_4_1"},
+        {titre:"Req 4.2 : Nombre unité de pêche par strate majeure/strate mineure /site",id:"req_4_2"},
+        {titre:"Req 5.1 : PAB ou Probabilité d’Activité de Bateau (Echantillonnage horizontal)",id:"req_5_1"},
+        {titre:"Req 5.2 : PABmoy par l’unité de pêche /strate majeure/strate mineure/Mois/Année",id:"req_5_2"},
+        {titre:"Req 5.6 : PABRelErrormoy par l’unité de pêche /strate majeure/strate mineure/Mois/Année",id:"req_5_6"},
+        {titre:"Req 5.7 : Nombre unité de pêche/trate majeure/strate mineure/Mois/Année",id:"req_5_7"},
+        {titre:"Req 6.2.A : Total jour de pêche  annuelle par l’unité de pêche avec PAB",id:"req_6_2_a"},
+        {titre:"Req 6.2 : Prix PAB par espèces par l’unité de pêche /Strate majeure/Strate mineure/Année/Mois",id:"req_6_2"},
+        {titre:"Req 7.1 : Capture par espèces par l’unité de pêche par strate majeure/strate mineure/Année / Mois",id:"req_7_1"},
+        {titre:"Req 7.2 : Total capture par espèces par l’unité de pêche /strate majeure/strate mineure/Année/Mois",id:"req_7_2"},
+        {titre:"Req 7.3 : Composition d’espèce par l’unité de pêche",id:"req_7_3"},
+        {titre:"Req 8 : Prix PAB par espèces par l’unité de pêche/Strate majeure/Strate mineure/Année/Mois",id:"req_8"},
+        {titre:"Req 9.2 : Unité de pêche par site",id:"req_9"},
+        {titre:"Req 9.3 : Targeted Unité de pêche par strate mineure par Année / Mois",id:"req_9_3"},
         
       ];
 
@@ -352,15 +350,21 @@
           });
 
         }*/
-        
-          apiFactory.getAPIgeneraliserREST("requetes/index","menu",vm.filtre.pivot,"annee",annee,"mois",mois,"date",date,
+        console.log(filtres);
+          apiFactory.getAPIgeneraliserREST("requetes/index","menu","actualisation","pivot",filtres.pivot,"annee",annee,"mois",mois,"date",date,
             "id_unite_peche",filtres.id_unite_peche,"id_espece",filtres.id_espece,"id_region",filtres.id_region,"id_district",filtres.id_district,
             "id_site_embarquement",filtres.id_site_embarquement).then(function(result)
           {
             console.log(result.data.response);
             vm.datas = result.data.response;
             vm.affiche_load = false ;
+            if (vm.datas.length!=0) {
+              vm.entete_etat = Object.keys(vm.datas[0]).map(function(cle) {
+                return (cle);
+            });
+            }
             
+          console.log(vm.entete_etat);
           });
 
           /*apiFactory.getAPIgeneraliserREST("requetes_6/index","menu",vm.filtre.pivot,"annee",annee,"mois",mois,"date",date,
@@ -383,7 +387,7 @@
         var date = formatDateBDD(filtres.date_debut) ;
         var repertoire = 'requetes';
 
-          apiFactory.getAPIgeneraliserREST("requetes/index","menu",vm.filtre.pivot,"menu_excel","excel_requetes","annee",annee,"mois",mois,"date",date,
+          apiFactory.getAPIgeneraliserREST("requetes/index","menu","export_excel","pivot",filtres.pivot,"annee",annee,"mois",mois,"date",date,
             "id_unite_peche",filtres.id_unite_peche,"id_espece",filtres.id_espece,"id_region",filtres.id_region,"id_district",filtres.id_district,
             "id_site_embarquement",filtres.id_site_embarquement,"repertoire",repertoire).then(function(result)
           {

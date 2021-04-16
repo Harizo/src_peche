@@ -1,0 +1,51 @@
+<md-dialog aria-label="Mango (Fruit)"  ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Liste des Espèces</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="assets/angular-material-assets/img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <table class="dataTable row-border cell-border text-center"  datatable="ng" dt-options="dtOptions" ms-responsive-table>
+            <thead>
+                <tr>
+                    <th class="secondary-text" ng-repeat="sc in ::entete_espece">
+                        <div class="table-header">
+                            <span class="column-title text-center">{{sc.titre}}</span>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in all_espece" ng-class="{selected: user.$selected}"
+                    ng-click="selection(user)">
+                   
+                    <td>{{user.code}}</td>
+                    <td>{{user.nom}}</td>
+                    <td>{{user.nom_scientifique}}</td>
+                    <td>{{user.nom_francaise}}</td>
+                    <td>{{user.nom_local}}</td>
+                   
+                   
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      
+      <span flex></span>
+      <md-button class="md-raised custum_buttons" ng-disabled="!selected_item.id" ng-click="answer('not useful')">
+       Valider choix
+      </md-button>
+     
+    </md-dialog-actions>
+  </form>
+</md-dialog>

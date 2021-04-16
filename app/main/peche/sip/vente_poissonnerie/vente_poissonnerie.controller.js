@@ -54,6 +54,37 @@
             vm.all_famille= result.data.response;
             vm.affiche_load=false;
          });
+
+          apiFactory.getAll("SIP_espece/index").then(function(result)
+          {
+            vm.all_espece= result.data.response;
+
+            $scope.$watch('vm.vente_poissonnerie.id_type_espece', function()
+            {
+              vm.all_espece_by_type = vm.all_espece.filter(function(obj)
+              {
+                return obj.typ_esp_id == vm.vente_poissonnerie.id_type_espece;
+              });
+
+              if (nouvel_vente_poissonnerie == false) 
+              {
+
+                vm.vente_poissonnerie.designation_article = vm.selected_vente_poissonnerie.designation_article ;
+              }
+            });
+        
+          });
+
+          vm.get_espece_by_type = function()
+          {
+            
+          }
+
+          apiFactory.getAll("SIP_type_espece/index").then(function(result)
+          {
+            vm.all_type_espece = result.data.response;
+         
+          });
      
       //FIN CLE ETRANGERE
 
@@ -600,7 +631,7 @@
           {titre:"Conservation"},
           {titre:"Qté vendue"},
           {titre:"Prix"},
-          {titre:"Chiffre d'affaire"},
+          {titre:"Valeur"},
           {titre:"Observations"}
         ] ;
 
@@ -687,7 +718,10 @@
 
           vm.vente_poissonnerie.observations          = vm.selected_vente_poissonnerie.observations ;
           vm.vente_poissonnerie.origine_produits      = vm.selected_vente_poissonnerie.origine_produits ;
+
+          vm.vente_poissonnerie.id_type_espece   = vm.selected_vente_poissonnerie.id_type_espece ;
           vm.vente_poissonnerie.designation_article   = vm.selected_vente_poissonnerie.designation_article ;
+          
           vm.vente_poissonnerie.reference_fournisseur = vm.selected_vente_poissonnerie.reference_fournisseur ;
           vm.vente_poissonnerie.mois                  = vm.selected_vente_poissonnerie.mois ;
           vm.vente_poissonnerie.annee                 = vm.selected_vente_poissonnerie.annee ;
@@ -784,12 +818,20 @@
             return obj.id == data_masque.famille_rh;
           });
 
+          var esp = vm.all_espece.filter(function(obj)
+          {
+            return obj.id == data_masque.designation_article;
+          });
+
           if (!nouvel_vente_poissonnerie) 
           {
             if (etat_suppression == 0) 
             {
               vm.selected_vente_poissonnerie.reference_fournisseur  = data_masque.reference_fournisseur ;
+
               vm.selected_vente_poissonnerie.designation_article    = data_masque.designation_article ;
+              vm.selected_vente_poissonnerie.nom_espece    = esp[0].nom ;
+
               vm.selected_vente_poissonnerie.origine_produits       = data_masque.origine_produits ;
               vm.selected_vente_poissonnerie.observations           = data_masque.observations ;
               vm.selected_vente_poissonnerie.type_famille           = data_masque.type_famille ;
@@ -838,6 +880,8 @@
               libelle_famille:        family[0].libelle,
 
               designation_article:    data_masque.designation_article,
+              nom_espece    : esp[0].nom ,
+
               origine_produits:       data_masque.origine_produits,
               reference_fournisseur:  data_masque.reference_fournisseur,
               observations:           data_masque.observations,
@@ -943,7 +987,7 @@
         {titre:"Prix moyenne produits par poissonneries",id:"req_3_vente_poissonneries"},
         {titre:"Quantité vendues par famille",id:"req_4_vente_poissonneries"},
         {titre:"Prix moyenne par famille",id:"req_5_vente_poissonneries"},
-        {titre:"Chiffre d'affaire par produits poissonneries",id:"req_6_vente_poissonneries"},
+        {titre:"Valeur par produits poissonneries",id:"req_6_vente_poissonneries"},
         {titre:"Quantité vendues produits par poissonneries",id:"req_7_vente_poissonneries"}
       ];
 

@@ -395,11 +395,39 @@
                             </div>
                           </md-input-container>
                         
-                          <md-input-container flex="100" flex-gt-xs="30">
+                          <!-- <md-input-container flex="100" flex-gt-xs="30">
                             <input  type="text" name="designation_article" ng-model="vm.vente_poissonnerie.designation_article" placeholder="Désignation article." required>
                             <div ng-messages="form_vente_poissonnerie.designation_article.$error" role="alert">
                               <div ng-message="required">
                                 <span>Désign article obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container> -->
+
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <label>Type article</label>
+                            <md-select ng-model="vm.vente_poissonnerie.id_type_espece" name="id_type_espece" required>
+                              <md-option ng-repeat="tpe in vm.all_type_espece" value="{{tpe.id}}">
+                                {{tpe.libelle}}
+                              </md-option>
+                            </md-select>
+                            <div ng-messages="form_vente_poissonnerie.id_type_espece.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Type article Obligatoire.</span>
+                              </div>
+                            </div>
+                          </md-input-container>
+
+                          <md-input-container flex="100" flex-gt-xs="30">
+                            <label>Désign article</label>
+                            <md-select ng-model="vm.vente_poissonnerie.designation_article" name="designation_article" required>
+                              <md-option ng-repeat="esp in vm.all_espece_by_type" value="{{esp.id}}">
+                                {{esp.nom}}
+                              </md-option>     
+                            </md-select>
+                            <div ng-messages="form_vente_poissonnerie.designation_article.$error" role="alert">
+                              <div ng-message="required">
+                                <span>Désign article Obligatoire.</span>
                               </div>
                             </div>
                           </md-input-container>
@@ -456,10 +484,10 @@
 
                           <md-input-container flex="100" flex-gt-xs="30">
                             <input ng-readonly="true"  type="number" name="chiffre_affaire" ng-model="vm.vente_poissonnerie.chiffre_affaire"
-                              placeholder="chiffre d'affaire(Ar)"    ng-init="vm.vente_poissonnerie.chiffre_affaire=0" required>
+                              placeholder="Valeur(Ar)"    ng-init="vm.vente_poissonnerie.chiffre_affaire=0" required>
                             <div ng-messages="form_vente_poissonnerie.chiffre_affaire.$error" role="alert">
                               <div ng-message="required">
-                                <span>chiffre d'affaire obligatoire.</span>
+                                <span>Valeur obligatoire.</span>
                               </div>
                             </div>
                           </md-input-container>
@@ -506,7 +534,7 @@
                           <td>{{svp.origine_produits}}</td>
                           <td>{{svp.libelle_famille}}</td>
                           <td>{{svp.type_famille}}</td>
-                          <td>{{svp.designation_article}}</td>
+                          <td>{{svp.nom_espece}}</td>
                           <td>{{svp.libelle_presentation}}</td>
                           <td>{{svp.libelle_conservation}}</td>
                           <td>{{vm.formatMillier(svp.quantite_vendu)}} Kg</td>
