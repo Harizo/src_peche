@@ -44,23 +44,23 @@
                 </div>
                 
                 <div layout="column" layout-gt-xs="row">
-                  <md-input-container flex="100" flex-gt-xs="10" >
+                  <md-input-container flex="100" flex-gt-xs="10" required>
                     <label>Année</label>
                     <md-select ng-model="vm.filtre.annee" >
-                      <md-option  value="*">*</md-option>
+                      <!--md-option  value="*">*</md-option-->
                       <md-option ng-repeat="a in vm.annees" value="{{a}}" >{{a}}
                       </md-option>
                     </md-select>
                   </md-input-container>
 
-                  <md-input-container flex="100" flex-gt-xs="10" ng-show="vm.filtre.pivot != 'req_4_1_annee_site_unite_nbrunite'">
+                  <!--md-input-container flex="100" flex-gt-xs="10" ng-show="vm.filtre.pivot != 'req_4_1_annee_site_unite_nbrunite'">
                     <label>Mois</label>
                     <md-select ng-model="vm.filtre.mois" >
                       <md-option  value="*">*</md-option>
                       <md-option ng-repeat="m in vm.listes_mois" value="{{m}}" >{{vm.affiche_mois(m)}}
                       </md-option>
                     </md-select>
-                  </md-input-container>
+                  </md-input-container-->
                                 
                                 <!--div flex="100" flex-gt-xs="10" ng-if="vm.filtre.pivot == 'req_1'">
                                     <u>  Date du:</u>
@@ -86,7 +86,7 @@
                   <md-input-container flex="100" flex-gt-xs="90">
                     <label>Région(= Strate Mineur)</label>
                     <md-select ng-model="vm.filtre.id_region" name="region" ng-change="vm.filtre_district()" required ng-disabled="!vm.isADMIN">
-                      <md-option  value="*">*</md-option>
+                      <!--md-option  value="*">*</md-option-->
                       <md-option ng-repeat="region in vm.allregion" value="{{region.id}}" > {{region.nom}}</md-option>
                     </md-select>
                     <div ng-messages="filtrepardateform.region.$error" role="alert">
@@ -111,7 +111,7 @@
                     </md-select>
                   </md-input-container>
                   
-                  <md-input-container flex="100" flex-gt-xs="90">
+                  <!--md-input-container flex="100" flex-gt-xs="90">
                     <label>Unité de pêche</label>
                     <md-select ng-model="vm.filtre.id_unite_peche" >
                       <md-option  value="*">*</md-option>
@@ -126,7 +126,7 @@
                         <md-option ng-repeat="espece in vm.allespece" value="{{espece.id}}" style="height: 200px; min-height: 2px;max-height: 500px; padding: 0; margin: 0;"flex>
                           <img src="{{vm.apiUrlimage}}{{espece.url_image}}" height="30" width="30" > ({{espece.code}}){{espece.nom_local}}
                          </md-option>                                   
-                  </md-input-container>
+                  </md-input-container-->
                 </div>
                 
                 <div>

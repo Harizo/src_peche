@@ -144,7 +144,11 @@
           if(utilisateur.roles.indexOf("ADMIN")!= -1)
           {
             vm.isADMIN = true;          
-          }           
+          } 
+          vm.districts = vm.alldistrict.filter(function(obj)
+          {
+            return obj.region.id == vm.filtre.id_region;
+          });          
           
       });
 
@@ -162,7 +166,8 @@
           }
           else
           {
-            vm.districts = vm.alldistrict ;
+            //vm.districts = vm.alldistrict ;
+            vm.districts =[];
           }
           
       }
@@ -170,6 +175,7 @@
       vm.filtre_site = function()
       {
           var s = vm.allsite ;
+          vm.filtre.id_site_embarquement = null;
           if (vm.filtre.id_district != "*") 
           {
             vm.sites = s.filter(function(obj)
