@@ -58,7 +58,7 @@
           vm.sites   = result.data.response;
       });
 
-      apiFactory.getAll("unite_peche/index").then(function(result)
+      apiFactory.getParamsDynamic("unite_peche/index?filtrer_echantillon=true").then(function(result)
       {
           vm.allunite_peche = result.data.response;
           vm.unite_peches   = result.data.response;
@@ -96,6 +96,7 @@
 
       vm.filtre_site = function()
       {
+          vm.filtre.id_site_embarquement = "*" ;
           var s = vm.allsite ;
           if (vm.filtre.id_district != "*") 
           {
@@ -188,9 +189,10 @@
        
         
 
-          apiFactory.getAPIgeneraliserREST("reporting/index","menu","nombre_echantillon","annee",filtres.annee,
-            "id_unite_peche",filtres.id_unite_peche,"id_espece",filtres.id_espece,"id_region",filtres.id_region,"id_district",filtres.id_district,
-            "id_site_embarquement",filtres.id_site_embarquement).then(function(result)
+          apiFactory.getParamsDynamic("reporting/index?menu="+'nombre_echantillon'+"&annee="
+            +filtres.annee+"&id_unite_peche="+filtres.id_unite_peche+"&id_espece="+filtres.id_espece+
+            "&id_region="+filtres.id_region+"&id_district="+filtres.id_district+
+            "&id_site_embarquement="+filtres.id_site_embarquement).then(function(result)
           {
             vm.datas = result.data.response;
             vm.affiche_load = false ;
@@ -204,25 +206,31 @@
       {
           vm.affiche_load = true ;
           var repertoire = "nombre_echantillon/"
-          apiFactory.getAPIgeneraliserREST("reporting/index","menu","export_excel","annee",filtres.annee,
-            "id_unite_peche",filtres.id_unite_peche,"id_espece",filtres.id_espece,"id_region",filtres.id_region,"id_district",filtres.id_district,
-            "id_site_embarquement",filtres.id_site_embarquement,"repertoire",repertoire).then(function(result)
+          apiFactory.getParamsDynamic("reporting/index?menu="+'export_excel'+"&annee="+filtres.annee+
+            "&id_unite_peche="+filtres.id_unite_peche+"&id_espece="+filtres.id_espece+"&id_region="+filtres.id_region+
+            "&id_district="+filtres.id_district+"&id_site_embarquement="+filtres.id_site_embarquement+"&repertoire="+repertoire).then(function(result)
           {
+            var nom_fiche = result.data.nom_file;  
+            vm.affiche_load = false ;
+            window.location = apiUrlexcel+"nombre_echantillon/"+nom_fiche ;
+            /*console.log(result.data);
             var status = result.data.status;
             if(status)
             {
               var nom_fiche = result.data.nom_file;              
               try
-                { 
-                  window.location = apiUrlexcel+"nombre_echantillon/"+nom_fiche ;
-                }catch(error)
-                {
+              { 
+                //window.location = apiUrlexcel+"nombre_echantillon/"+nom_fiche ;
+              }
+              catch(error)
+              {
+                console.log(error);
 
-                }finally
-                {
-                  vm.affiche_load = false ;
-                }
-            }
+              }finally
+              {
+                vm.affiche_load = false ;
+              }
+            }*/
           });
       }
      
