@@ -158,7 +158,7 @@
                   </thead>
                 <tbody>
                   <tr ng-repeat="dat in vm.datas"  ng-class="{selected: unite_peche.$selected}">
-                    <td ng-repeat="entete in vm.entete_etat">{{dat[entete]}}
+                    <td ng-repeat="entete in vm.entete_etat">{{vm.formatMillier(dat[entete],entete)}}
 
                     </td>
                   </tr>
